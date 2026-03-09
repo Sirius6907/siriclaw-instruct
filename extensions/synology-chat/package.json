@@ -1,0 +1,28 @@
+{
+  "name": "@SiriClaw-Instruct/synology-chat",
+  "version": "2026.3.8",
+  "description": "Synology Chat channel plugin for SiriClaw-Instruct",
+  "type": "module",
+  "dependencies": {
+    "zod": "^4.3.6"
+  },
+  "SiriClaw-Instruct": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "channel": {
+      "id": "synology-chat",
+      "label": "Synology Chat",
+      "selectionLabel": "Synology Chat (Webhook)",
+      "docsPath": "/channels/synology-chat",
+      "docsLabel": "synology-chat",
+      "blurb": "Connect your Synology NAS Chat to SiriClaw-Instruct with full agent capabilities.",
+      "order": 90
+    },
+    "install": {
+      "npmSpec": "@SiriClaw-Instruct/synology-chat",
+      "localPath": "extensions/synology-chat",
+      "defaultChoice": "npm"
+    }
+  }
+}

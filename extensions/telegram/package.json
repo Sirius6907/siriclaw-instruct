@@ -1,0 +1,12 @@
+{
+  "name": "@SiriClaw-Instruct/telegram",
+  "version": "2026.3.8",
+  "private": true,
+  "description": "SiriClaw-Instruct Telegram channel plugin",
+  "type": "module",
+  "SiriClaw-Instruct": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

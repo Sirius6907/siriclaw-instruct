@@ -1,0 +1,14 @@
+{
+  "name": "@SiriClaw-Instruct/acpx",
+  "version": "2026.3.8",
+  "description": "SiriClaw-Instruct ACP runtime backend via acpx",
+  "type": "module",
+  "dependencies": {
+    "acpx": "0.1.15"
+  },
+  "SiriClaw-Instruct": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

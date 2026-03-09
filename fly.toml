@@ -1,0 +1,37 @@
+# SiriClaw-Instruct Fly.io deployment configuration
+# Free tier: shared-cpu-1x, 512MB RAM (always-on, no spin-down)
+# See https://fly.io/docs/reference/configuration/
+
+app = "siriclaw-instruct"
+primary_region = "iad" # change to your closest region
+
+[build]
+dockerfile = "Dockerfile"
+
+[env]
+NODE_ENV = "production"
+SIRICLAW_PREFER_PNPM = "1"
+SIRICLAW_STATE_DIR = "/data"
+SIRICLAW_WORKSPACE_DIR = "/data/workspace"
+SIRICLAW_GATEWAY_PORT = "3000"
+SIRICLAW_GATEWAY_BIND = "lan"
+NODE_OPTIONS = "--max-old-space-size=768"
+
+[processes]
+app = "node siriclaw-instruct.mjs gateway --allow-unconfigured --port 3000 --bind lan"
+
+[http_service]
+internal_port = 3000
+force_https = true
+auto_stop_machines = false
+auto_start_machines = true
+min_machines_running = 1
+processes = ["app"]
+
+[[vm]]
+size = "shared-cpu-1x"
+memory = "512mb"
+
+[mounts]
+source = "siriclaw_instruct_data"
+destination = "/data"

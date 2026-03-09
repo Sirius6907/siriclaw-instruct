@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: SiriClaw-Instruct
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: SETUP_PASSWORD
+        sync: false
+      - key: SiriClaw-Instruct_STATE_DIR
+        value: /data/.SiriClaw-Instruct
+      - key: SiriClaw-Instruct_WORKSPACE_DIR
+        value: /data/workspace
+      - key: SiriClaw-Instruct_GATEWAY_TOKEN
+        generateValue: true
+    disk:
+      name: SiriClaw-Instruct-data
+      mountPath: /data
+      sizeGB: 1

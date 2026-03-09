@@ -1,0 +1,18 @@
+# SiriClaw-Instruct — Netlify build configuration
+# Tells Netlify how to build the control-panel UI and where to find the output.
+# SIRICLAW_GATEWAY_URL is baked into the JS bundle so the static UI connects
+# to the Fly.io cloud gateway without any user configuration.
+
+[build]
+  command   = "cd ui && npm install && npm run build"
+  publish   = "dist/control-ui"
+
+[build.environment]
+  SIRICLAW_GATEWAY_URL = "wss://siriclaw-instruct.fly.dev"
+  NODE_VERSION         = "22"
+
+# SPA fallback — redirect all 404s to index.html so client-side routing works
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
