@@ -222,7 +222,7 @@ export function renderOverview(props: OverviewProps) {
                       const v = (e.target as HTMLInputElement).value;
                       props.onSettingsChange({ ...props.settings, token: v });
                     }}
-                    placeholder="SiriClaw-Instruct_GATEWAY_TOKEN"
+                    placeholder="SiriClawInstruct_GATEWAY_TOKEN"
                   />
                 </label>
                 <label class="field">

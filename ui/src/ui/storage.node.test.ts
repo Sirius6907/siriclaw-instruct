@@ -42,15 +42,15 @@ function setControlUiBasePath(value: string | undefined) {
       "window",
       value == null
         ? ({} as Window & typeof globalThis)
-        : ({ __SiriClaw-Instruct_CONTROL_UI_BASE_PATH__: value } as Window & typeof globalThis),
+        : ({ __SIRICLAW_INSTRUCT_CONTROL_UI_BASE_PATH__: value } as Window & typeof globalThis),
     );
     return;
   }
   if (value == null) {
-    delete window.__SiriClaw-Instruct_CONTROL_UI_BASE_PATH__;
+    delete window.__SIRICLAW_INSTRUCT_CONTROL_UI_BASE_PATH__;
     return;
   }
-  Object.defineProperty(window, "__SiriClaw-Instruct_CONTROL_UI_BASE_PATH__", {
+  Object.defineProperty(window, "__SIRICLAW_INSTRUCT_CONTROL_UI_BASE_PATH__", {
     value,
     writable: true,
     configurable: true,

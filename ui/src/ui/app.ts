@@ -88,7 +88,7 @@ import type { NostrProfileFormState } from "./views/channels.nostr-profile-form.
 
 declare global {
   interface Window {
-    __SiriClaw-Instruct_CONTROL_UI_BASE_PATH__?: string;
+    __SIRICLAW_INSTRUCT_CONTROL_UI_BASE_PATH__?: string;
   }
 }
 
@@ -108,7 +108,7 @@ function resolveOnboardingMode(): boolean {
 }
 
 @customElement("SiriClaw-Instruct-app")
-export class SiriClaw-InstructApp extends LitElement {
+export class SiriClawInstructApp extends LitElement {
   private i18nController = new I18nController(this);
   clientInstanceId = generateUUID();
   connectGeneration = 0;

@@ -147,7 +147,7 @@ function resolveAssistantAvatarUrl(state: AppViewState): string | undefined {
 }
 
 export function renderApp(state: AppViewState) {
-  const SiriClaw-InstructVersion =
+  const SiriClawInstructVersion =
     (typeof state.hello?.server?.version === "string" && state.hello.server.version.trim()) ||
     state.updateAvailable?.currentVersion ||
     t("common.na");
@@ -263,7 +263,7 @@ export function renderApp(state: AppViewState) {
           <div class="pill">
             <span class="statusDot ${versionStatusClass}"></span>
             <span>${t("common.version")}</span>
-            <span class="mono">${SiriClaw-InstructVersion}</span>
+            <span class="mono">${SiriClawInstructVersion}</span>
           </div>
           <div class="pill">
             <span class="statusDot ${state.connected ? "ok" : ""}"></span>

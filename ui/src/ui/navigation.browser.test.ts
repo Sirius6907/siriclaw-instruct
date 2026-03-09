@@ -42,7 +42,7 @@ describe("control UI routing", () => {
   });
 
   it("honors explicit base path overrides", async () => {
-    window.__SiriClaw-Instruct_CONTROL_UI_BASE_PATH__ = "/SiriClaw-Instruct";
+    window.__SIRICLAW_INSTRUCT_CONTROL_UI_BASE_PATH__ = "/SiriClaw-Instruct";
     const app = mountApp("/SiriClaw-Instruct/sessions");
     await app.updateComplete;
 

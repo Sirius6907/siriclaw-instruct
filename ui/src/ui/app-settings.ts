@@ -6,7 +6,7 @@ import {
   stopDebugPolling,
 } from "./app-polling.ts";
 import { scheduleChatScroll, scheduleLogsScroll } from "./app-scroll.ts";
-import type { SiriClaw-InstructApp } from "./app.ts";
+import type { SiriClawInstructApp } from "./app.ts";
 import { loadAgentIdentities, loadAgentIdentity } from "./controllers/agent-identity.ts";
 import { loadAgentSkills } from "./controllers/agent-skills.ts";
 import { loadAgents, loadToolsCatalog } from "./controllers/agents.ts";
@@ -174,34 +174,34 @@ export async function refreshActiveTab(host: SettingsHost) {
     await loadChannelsTab(host);
   }
   if (host.tab === "instances") {
-    await loadPresence(host as unknown as SiriClaw-InstructApp);
+    await loadPresence(host as unknown as SiriClawInstructApp);
   }
   if (host.tab === "sessions") {
-    await loadSessions(host as unknown as SiriClaw-InstructApp);
+    await loadSessions(host as unknown as SiriClawInstructApp);
   }
   if (host.tab === "cron") {
     await loadCron(host);
   }
   if (host.tab === "skills") {
-    await loadSkills(host as unknown as SiriClaw-InstructApp);
+    await loadSkills(host as unknown as SiriClawInstructApp);
   }
   if (host.tab === "agents") {
-    await loadAgents(host as unknown as SiriClaw-InstructApp);
-    await loadToolsCatalog(host as unknown as SiriClaw-InstructApp);
-    await loadConfig(host as unknown as SiriClaw-InstructApp);
+    await loadAgents(host as unknown as SiriClawInstructApp);
+    await loadToolsCatalog(host as unknown as SiriClawInstructApp);
+    await loadConfig(host as unknown as SiriClawInstructApp);
     const agentIds = host.agentsList?.agents?.map((entry) => entry.id) ?? [];
     if (agentIds.length > 0) {
-      void loadAgentIdentities(host as unknown as SiriClaw-InstructApp, agentIds);
+      void loadAgentIdentities(host as unknown as SiriClawInstructApp, agentIds);
     }
     const agentId =
       host.agentsSelectedId ?? host.agentsList?.defaultId ?? host.agentsList?.agents?.[0]?.id;
     if (agentId) {
-      void loadAgentIdentity(host as unknown as SiriClaw-InstructApp, agentId);
+      void loadAgentIdentity(host as unknown as SiriClawInstructApp, agentId);
       if (host.agentsPanel === "skills") {
-        void loadAgentSkills(host as unknown as SiriClaw-InstructApp, agentId);
+        void loadAgentSkills(host as unknown as SiriClawInstructApp, agentId);
       }
       if (host.agentsPanel === "channels") {
-        void loadChannels(host as unknown as SiriClaw-InstructApp, false);
+        void loadChannels(host as unknown as SiriClawInstructApp, false);
       }
       if (host.agentsPanel === "cron") {
         void loadCron(host);
@@ -209,10 +209,10 @@ export async function refreshActiveTab(host: SettingsHost) {
     }
   }
   if (host.tab === "nodes") {
-    await loadNodes(host as unknown as SiriClaw-InstructApp);
-    await loadDevices(host as unknown as SiriClaw-InstructApp);
-    await loadConfig(host as unknown as SiriClaw-InstructApp);
-    await loadExecApprovals(host as unknown as SiriClaw-InstructApp);
+    await loadNodes(host as unknown as SiriClawInstructApp);
+    await loadDevices(host as unknown as SiriClawInstructApp);
+    await loadConfig(host as unknown as SiriClawInstructApp);
+    await loadExecApprovals(host as unknown as SiriClawInstructApp);
   }
   if (host.tab === "chat") {
     await refreshChat(host as unknown as Parameters<typeof refreshChat>[0]);
@@ -222,16 +222,16 @@ export async function refreshActiveTab(host: SettingsHost) {
     );
   }
   if (host.tab === "config") {
-    await loadConfigSchema(host as unknown as SiriClaw-InstructApp);
-    await loadConfig(host as unknown as SiriClaw-InstructApp);
+    await loadConfigSchema(host as unknown as SiriClawInstructApp);
+    await loadConfig(host as unknown as SiriClawInstructApp);
   }
   if (host.tab === "debug") {
-    await loadDebug(host as unknown as SiriClaw-InstructApp);
+    await loadDebug(host as unknown as SiriClawInstructApp);
     host.eventLog = host.eventLogBuffer;
   }
   if (host.tab === "logs") {
     host.logsAtBottom = true;
-    await loadLogs(host as unknown as SiriClaw-InstructApp, { reset: true });
+    await loadLogs(host as unknown as SiriClawInstructApp, { reset: true });
     scheduleLogsScroll(host as unknown as Parameters<typeof scheduleLogsScroll>[0], true);
   }
 }
@@ -240,7 +240,7 @@ export function inferBasePath() {
   if (typeof window === "undefined") {
     return "";
   }
-  const configured = window.__SiriClaw-Instruct_CONTROL_UI_BASE_PATH__;
+  const configured = window.__SIRICLAW_INSTRUCT_CONTROL_UI_BASE_PATH__;
   if (typeof configured === "string" && configured.trim()) {
     return normalizeBasePath(configured);
   }
@@ -406,26 +406,26 @@ export function syncUrlWithSessionKey(host: SettingsHost, sessionKey: string, re
 
 export async function loadOverview(host: SettingsHost) {
   await Promise.all([
-    loadChannels(host as unknown as SiriClaw-InstructApp, false),
-    loadPresence(host as unknown as SiriClaw-InstructApp),
-    loadSessions(host as unknown as SiriClaw-InstructApp),
-    loadCronStatus(host as unknown as SiriClaw-InstructApp),
-    loadDebug(host as unknown as SiriClaw-InstructApp),
+    loadChannels(host as unknown as SiriClawInstructApp, false),
+    loadPresence(host as unknown as SiriClawInstructApp),
+    loadSessions(host as unknown as SiriClawInstructApp),
+    loadCronStatus(host as unknown as SiriClawInstructApp),
+    loadDebug(host as unknown as SiriClawInstructApp),
   ]);
 }
 
 export async function loadChannelsTab(host: SettingsHost) {
   await Promise.all([
-    loadChannels(host as unknown as SiriClaw-InstructApp, true),
-    loadConfigSchema(host as unknown as SiriClaw-InstructApp),
-    loadConfig(host as unknown as SiriClaw-InstructApp),
+    loadChannels(host as unknown as SiriClawInstructApp, true),
+    loadConfigSchema(host as unknown as SiriClawInstructApp),
+    loadConfig(host as unknown as SiriClawInstructApp),
   ]);
 }
 
 export async function loadCron(host: SettingsHost) {
-  const cronHost = host as unknown as SiriClaw-InstructApp;
+  const cronHost = host as unknown as SiriClawInstructApp;
   await Promise.all([
-    loadChannels(host as unknown as SiriClaw-InstructApp, false),
+    loadChannels(host as unknown as SiriClawInstructApp, false),
     loadCronStatus(cronHost),
     loadCronJobs(cronHost),
     loadCronModelSuggestions(cronHost),

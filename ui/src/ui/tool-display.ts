@@ -1,4 +1,4 @@
-import SHARED_TOOL_DISPLAY_JSON from "../../../apps/shared/siriclaw-instruct-kit/Sources/siriclaw-instruct-kit/Resources/tool-display.json" with { type: "json" };
+import SHARED_TOOL_DISPLAY_JSON from "../../../apps/shared/siriclaw-instruct-kit/Sources/OpenClawKit/Resources/tool-display.json" with { type: "json" };
 import {
   defaultTitle,
   formatToolDetailText,
@@ -157,4 +157,3 @@ export function formatToolSummary(display: ToolDisplay): string {
   const detail = formatToolDetail(display);
   return detail ? `${display.label}: ${detail}` : display.label;
 }
-
