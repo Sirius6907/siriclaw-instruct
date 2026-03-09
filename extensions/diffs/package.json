@@ -1,8 +1,8 @@
 {
-  "name": "@SiriClaw-Instruct/diffs",
+  "name": "@siriclaw-instruct/diffs",
   "version": "2026.3.8",
   "private": true,
-  "description": "SiriClaw-Instruct diff viewer plugin",
+  "description": "siriclaw-instruct diff viewer plugin",
   "type": "module",
   "scripts": {
     "build:viewer": "bun build src/viewer-client.ts --target browser --format esm --minify --outfile assets/viewer-runtime.js"
@@ -12,9 +12,13 @@
     "@sinclair/typebox": "0.34.48",
     "playwright-core": "1.58.2"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

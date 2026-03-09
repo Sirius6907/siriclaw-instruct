@@ -6,7 +6,7 @@
 # It's designed for quick one-tap checking from phone home screen.
 
 # Server hostname (via Tailscale or SSH config)
-SERVER="${SiriClaw-Instruct_SERVER:-${SIRICLAW_SERVER:-l36}}"
+SERVER="${SIRICLAW_SERVER:-${SIRICLAW_SERVER:-l36}}"
 
 # Check auth status
 termux-toast "Checking SiriClaw-Instruct auth..."
@@ -24,7 +24,7 @@ case "$STATUS" in
         termux-toast "Auth OK (${HOURS}h left)"
         ;;
 
-    CLAUDE_EXPIRING|SiriClaw-Instruct_EXPIRING|SIRICLAW_EXPIRING)
+    CLAUDE_EXPIRING|SIRICLAW_EXPIRING|SIRICLAW_EXPIRING)
         termux-vibrate -d 100
 
         # Ask if user wants to re-auth now
@@ -51,7 +51,7 @@ case "$STATUS" in
         esac
         ;;
 
-    CLAUDE_EXPIRED|SiriClaw-Instruct_EXPIRED|SIRICLAW_EXPIRED)
+    CLAUDE_EXPIRED|SIRICLAW_EXPIRED|SIRICLAW_EXPIRED)
         termux-vibrate -d 300
 
         CHOICE=$(termux-dialog radio -t "Auth Expired!" -v "Re-auth now,Dismiss")

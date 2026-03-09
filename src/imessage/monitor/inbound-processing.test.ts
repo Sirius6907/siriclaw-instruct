@@ -1,12 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   describeIMessageEchoDropLog,
   resolveIMessageInboundDecision,
 } from "./inbound-processing.js";
 
 describe("resolveIMessageInboundDecision echo detection", () => {
-  const cfg = {} as SiriClaw-InstructConfig;
+  const cfg = {} as SiriClawInstructConfig;
 
   it("drops inbound messages when outbound message id matches echo cache", () => {
     const echoHas = vi.fn((_scope: string, lookup: { text?: string; messageId?: string }) => {
@@ -60,7 +60,7 @@ describe("describeIMessageEchoDropLog", () => {
 });
 
 describe("resolveIMessageInboundDecision command auth", () => {
-  const cfg = {} as SiriClaw-InstructConfig;
+  const cfg = {} as SiriClawInstructConfig;
   const resolveDmCommandDecision = (params: { messageId: number; storeAllowFrom: string[] }) =>
     resolveIMessageInboundDecision({
       cfg,
@@ -112,3 +112,4 @@ describe("resolveIMessageInboundDecision command auth", () => {
     expect(decision.commandAuthorized).toBe(true);
   });
 });
+

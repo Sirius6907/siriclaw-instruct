@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import { configureChannelAccessWithAllowlist } from "./channel-access-configure.js";
 import type { ChannelAccessPolicy } from "./channel-access.js";
 
@@ -13,13 +13,13 @@ function createPrompter(params: { confirm: boolean; policy?: ChannelAccessPolicy
 }
 
 async function runConfigureChannelAccess<TResolved>(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: ReturnType<typeof createPrompter>;
   label?: string;
   placeholder?: string;
-  setPolicy: (cfg: SiriClaw-InstructConfig, policy: ChannelAccessPolicy) => SiriClaw-InstructConfig;
-  resolveAllowlist: (params: { cfg: SiriClaw-InstructConfig; entries: string[] }) => Promise<TResolved>;
-  applyAllowlist: (params: { cfg: SiriClaw-InstructConfig; resolved: TResolved }) => SiriClaw-InstructConfig;
+  setPolicy: (cfg: SiriClawInstructConfig, policy: ChannelAccessPolicy) => SiriClawInstructConfig;
+  resolveAllowlist: (params: { cfg: SiriClawInstructConfig; entries: string[] }) => Promise<TResolved>;
+  applyAllowlist: (params: { cfg: SiriClawInstructConfig; resolved: TResolved }) => SiriClawInstructConfig;
 }) {
   return await configureChannelAccessWithAllowlist({
     cfg: params.cfg,
@@ -38,11 +38,11 @@ async function runConfigureChannelAccess<TResolved>(params: {
 
 describe("configureChannelAccessWithAllowlist", () => {
   it("returns input config when user skips access configuration", async () => {
-    const cfg: SiriClaw-InstructConfig = {};
+    const cfg: SiriClawInstructConfig = {};
     const prompter = createPrompter({ confirm: false });
-    const setPolicy = vi.fn((next: SiriClaw-InstructConfig) => next);
+    const setPolicy = vi.fn((next: SiriClawInstructConfig) => next);
     const resolveAllowlist = vi.fn(async () => [] as string[]);
-    const applyAllowlist = vi.fn((params: { cfg: SiriClaw-InstructConfig }) => params.cfg);
+    const applyAllowlist = vi.fn((params: { cfg: SiriClawInstructConfig }) => params.cfg);
 
     const next = await runConfigureChannelAccess({
       cfg,
@@ -59,19 +59,19 @@ describe("configureChannelAccessWithAllowlist", () => {
   });
 
   it("applies non-allowlist policy directly", async () => {
-    const cfg: SiriClaw-InstructConfig = {};
+    const cfg: SiriClawInstructConfig = {};
     const prompter = createPrompter({
       confirm: true,
       policy: "open",
     });
     const setPolicy = vi.fn(
-      (next: SiriClaw-InstructConfig, policy: ChannelAccessPolicy): SiriClaw-InstructConfig => ({
+      (next: SiriClawInstructConfig, policy: ChannelAccessPolicy): SiriClawInstructConfig => ({
         ...next,
         channels: { discord: { groupPolicy: policy } },
       }),
     );
     const resolveAllowlist = vi.fn(async () => ["ignored"]);
-    const applyAllowlist = vi.fn((params: { cfg: SiriClaw-InstructConfig }) => params.cfg);
+    const applyAllowlist = vi.fn((params: { cfg: SiriClawInstructConfig }) => params.cfg);
 
     const next = await runConfigureChannelAccess({
       cfg,
@@ -90,27 +90,27 @@ describe("configureChannelAccessWithAllowlist", () => {
   });
 
   it("resolves allowlist entries and applies them after forcing allowlist policy", async () => {
-    const cfg: SiriClaw-InstructConfig = {};
+    const cfg: SiriClawInstructConfig = {};
     const prompter = createPrompter({
       confirm: true,
       policy: "allowlist",
       text: "#general, #support",
     });
     const calls: string[] = [];
-    const setPolicy = vi.fn((next: SiriClaw-InstructConfig, policy: ChannelAccessPolicy): SiriClaw-InstructConfig => {
+    const setPolicy = vi.fn((next: SiriClawInstructConfig, policy: ChannelAccessPolicy): SiriClawInstructConfig => {
       calls.push("setPolicy");
       return {
         ...next,
         channels: { slack: { groupPolicy: policy } },
       };
     });
-    const resolveAllowlist = vi.fn(async (params: { cfg: SiriClaw-InstructConfig; entries: string[] }) => {
+    const resolveAllowlist = vi.fn(async (params: { cfg: SiriClawInstructConfig; entries: string[] }) => {
       calls.push("resolve");
       expect(params.cfg).toBe(cfg);
       expect(params.entries).toEqual(["#general", "#support"]);
       return ["C1", "C2"];
     });
-    const applyAllowlist = vi.fn((params: { cfg: SiriClaw-InstructConfig; resolved: string[] }) => {
+    const applyAllowlist = vi.fn((params: { cfg: SiriClawInstructConfig; resolved: string[] }) => {
       calls.push("apply");
       expect(params.cfg.channels?.slack?.groupPolicy).toBe("allowlist");
       return {
@@ -140,3 +140,4 @@ describe("configureChannelAccessWithAllowlist", () => {
     });
   });
 });
+

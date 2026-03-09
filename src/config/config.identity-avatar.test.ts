@@ -6,10 +6,10 @@ import { withTempHome } from "./test-helpers.js";
 describe("identity avatar validation", () => {
   it("accepts workspace-relative avatar paths", async () => {
     await withTempHome(async (home) => {
-      const workspace = path.join(home, "SiriClaw-Instruct");
+      const workspace = path.join(home, "SiriClawInstruct");
       const res = validateConfigObject({
         agents: {
-          list: [{ id: "main", workspace, identity: { avatar: "avatars/SiriClaw-Instruct.png" } }],
+          list: [{ id: "main", workspace, identity: { avatar: "avatars/SiriClawInstruct.png" } }],
         },
       });
       expect(res.ok).toBe(true);
@@ -18,7 +18,7 @@ describe("identity avatar validation", () => {
 
   it("accepts http(s) and data avatars", async () => {
     await withTempHome(async (home) => {
-      const workspace = path.join(home, "SiriClaw-Instruct");
+      const workspace = path.join(home, "SiriClawInstruct");
       const httpRes = validateConfigObject({
         agents: {
           list: [{ id: "main", workspace, identity: { avatar: "https://example.com/avatar.png" } }],
@@ -37,7 +37,7 @@ describe("identity avatar validation", () => {
 
   it("rejects avatar paths outside workspace", async () => {
     await withTempHome(async (home) => {
-      const workspace = path.join(home, "SiriClaw-Instruct");
+      const workspace = path.join(home, "SiriClawInstruct");
       const res = validateConfigObject({
         agents: {
           list: [{ id: "main", workspace, identity: { avatar: "../oops.png" } }],
@@ -50,3 +50,4 @@ describe("identity avatar validation", () => {
     });
   });
 });
+

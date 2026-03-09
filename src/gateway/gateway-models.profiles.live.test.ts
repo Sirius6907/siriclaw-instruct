@@ -5,7 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import type { Api, Model } from "@mariozechner/pi-ai";
 import { describe, it } from "vitest";
-import { resolveSiriClaw-InstructAgentDir } from "../agents/agent-paths.js";
+import { resolveSiriClawInstructAgentDir } from "../agents/agent-paths.js";
 import { resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
 import {
   type AuthProfileStore,
@@ -20,11 +20,11 @@ import {
 } from "../agents/live-auth-keys.js";
 import { isModernModelRef } from "../agents/live-model-filter.js";
 import { getApiKeyForModel } from "../agents/model-auth.js";
-import { ensureSiriClaw-InstructModelsJson } from "../agents/models-config.js";
+import { ensureSiriClawInstructModelsJson } from "../agents/models-config.js";
 import { isRateLimitErrorMessage } from "../agents/pi-embedded-helpers/errors.js";
 import { discoverAuthStorage, discoverModels } from "../agents/pi-model-discovery.js";
 import { loadConfig } from "../config/config.js";
-import type { ModelsConfig, SiriClaw-InstructConfig, ModelProviderConfig } from "../config/types.js";
+import type { ModelsConfig, SiriClawInstructConfig, ModelProviderConfig } from "../config/types.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import { DEFAULT_AGENT_ID } from "../routing/session-key.js";
 import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.js";
@@ -39,10 +39,10 @@ import {
 import { startGatewayServer } from "./server.js";
 import { extractPayloadText } from "./test-helpers.agent-results.js";
 
-const LIVE = isTruthyEnvValue(process.env.LIVE) || isTruthyEnvValue(process.env.SiriClaw-Instruct_LIVE_TEST);
-const GATEWAY_LIVE = isTruthyEnvValue(process.env.SiriClaw-Instruct_LIVE_GATEWAY);
-const ZAI_FALLBACK = isTruthyEnvValue(process.env.SiriClaw-Instruct_LIVE_GATEWAY_ZAI_FALLBACK);
-const PROVIDERS = parseFilter(process.env.SiriClaw-Instruct_LIVE_GATEWAY_PROVIDERS);
+const LIVE = isTruthyEnvValue(process.env.LIVE) || isTruthyEnvValue(process.env.SiriClawInstruct_LIVE_TEST);
+const GATEWAY_LIVE = isTruthyEnvValue(process.env.SiriClawInstruct_LIVE_GATEWAY);
+const ZAI_FALLBACK = isTruthyEnvValue(process.env.SiriClawInstruct_LIVE_GATEWAY_ZAI_FALLBACK);
+const PROVIDERS = parseFilter(process.env.SiriClawInstruct_LIVE_GATEWAY_PROVIDERS);
 const THINKING_LEVEL = "high";
 const THINKING_TAG_RE = /<\s*\/?\s*(?:think(?:ing)?|thought|antthinking)\s*>/i;
 const FINAL_TAG_RE = /<\s*\/?\s*final\s*>/i;
@@ -52,7 +52,7 @@ const GATEWAY_LIVE_UNBOUNDED_TIMEOUT_MS = 60 * 60 * 1000;
 const GATEWAY_LIVE_MAX_TIMEOUT_MS = 2 * 60 * 60 * 1000;
 const GATEWAY_LIVE_PROBE_TIMEOUT_MS = Math.max(
   30_000,
-  toInt(process.env.SiriClaw-Instruct_LIVE_GATEWAY_STEP_TIMEOUT_MS, 90_000),
+  toInt(process.env.SiriClawInstruct_LIVE_GATEWAY_STEP_TIMEOUT_MS, 90_000),
 );
 const GATEWAY_LIVE_MAX_MODELS = resolveGatewayLiveMaxModels();
 const GATEWAY_LIVE_SUITE_TIMEOUT_MS = resolveGatewayLiveSuiteTimeoutMs(GATEWAY_LIVE_MAX_MODELS);
@@ -81,12 +81,12 @@ function toInt(value: string | undefined, fallback: number): number {
 }
 
 function resolveGatewayLiveMaxModels(): number {
-  const gatewayMax = toInt(process.env.SiriClaw-Instruct_LIVE_GATEWAY_MAX_MODELS, -1);
+  const gatewayMax = toInt(process.env.SiriClawInstruct_LIVE_GATEWAY_MAX_MODELS, -1);
   if (gatewayMax >= 0) {
     return gatewayMax;
   }
   // Reuse shared live-model cap when gateway-specific cap is not provided.
-  return Math.max(0, toInt(process.env.SiriClaw-Instruct_LIVE_MAX_MODELS, 0));
+  return Math.max(0, toInt(process.env.SiriClawInstruct_LIVE_MAX_MODELS, 0));
 }
 
 function resolveGatewayLiveSuiteTimeoutMs(maxModels: number): number {
@@ -514,7 +514,7 @@ async function connectClient(params: { url: string; token: string }) {
 
 type GatewayModelSuiteParams = {
   label: string;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   candidates: Array<Model<Api>>;
   extraToolProbes: boolean;
   extraImageProbes: boolean;
@@ -523,10 +523,10 @@ type GatewayModelSuiteParams = {
 };
 
 function buildLiveGatewayConfig(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   candidates: Array<Model<Api>>;
   providerOverrides?: Record<string, ModelProviderConfig>;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const providerOverrides = params.providerOverrides ?? {};
   const lmstudioProvider = params.cfg.models?.providers?.lmstudio;
   const baseProviders = params.cfg.models?.providers ?? {};
@@ -568,9 +568,9 @@ function buildLiveGatewayConfig(params: {
 }
 
 function sanitizeAuthConfig(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentDir: string;
-}): SiriClaw-InstructConfig["auth"] | undefined {
+}): SiriClawInstructConfig["auth"] | undefined {
   const auth = params.cfg.auth;
   if (!auth) {
     return auth;
@@ -579,7 +579,7 @@ function sanitizeAuthConfig(params: {
     allowKeychainPrompt: false,
   });
 
-  let profiles: NonNullable<SiriClaw-InstructConfig["auth"]>["profiles"] | undefined;
+  let profiles: NonNullable<SiriClawInstructConfig["auth"]>["profiles"] | undefined;
   if (auth.profiles) {
     profiles = {};
     for (const [profileId, profile] of Object.entries(auth.profiles)) {
@@ -619,7 +619,7 @@ function sanitizeAuthConfig(params: {
 }
 
 function buildMinimaxProviderOverride(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   api: "openai-completions" | "anthropic-messages";
   baseUrl: string;
 }): ModelProviderConfig | null {
@@ -636,29 +636,29 @@ function buildMinimaxProviderOverride(params: {
 
 async function runGatewayModelSuite(params: GatewayModelSuiteParams) {
   const previous = {
-    configPath: process.env.SiriClaw-Instruct_CONFIG_PATH,
-    token: process.env.SiriClaw-Instruct_GATEWAY_TOKEN,
-    skipChannels: process.env.SiriClaw-Instruct_SKIP_CHANNELS,
-    skipGmail: process.env.SiriClaw-Instruct_SKIP_GMAIL_WATCHER,
-    skipCron: process.env.SiriClaw-Instruct_SKIP_CRON,
-    skipCanvas: process.env.SiriClaw-Instruct_SKIP_CANVAS_HOST,
-    agentDir: process.env.SiriClaw-Instruct_AGENT_DIR,
+    configPath: process.env.SiriClawInstruct_CONFIG_PATH,
+    token: process.env.SiriClawInstruct_GATEWAY_TOKEN,
+    skipChannels: process.env.SiriClawInstruct_SKIP_CHANNELS,
+    skipGmail: process.env.SiriClawInstruct_SKIP_GMAIL_WATCHER,
+    skipCron: process.env.SiriClawInstruct_SKIP_CRON,
+    skipCanvas: process.env.SiriClawInstruct_SKIP_CANVAS_HOST,
+    agentDir: process.env.SiriClawInstruct_AGENT_DIR,
     piAgentDir: process.env.PI_CODING_AGENT_DIR,
-    stateDir: process.env.SiriClaw-Instruct_STATE_DIR,
+    stateDir: process.env.SiriClawInstruct_STATE_DIR,
   };
   let tempAgentDir: string | undefined;
   let tempStateDir: string | undefined;
 
-  process.env.SiriClaw-Instruct_SKIP_CHANNELS = "1";
-  process.env.SiriClaw-Instruct_SKIP_GMAIL_WATCHER = "1";
-  process.env.SiriClaw-Instruct_SKIP_CRON = "1";
-  process.env.SiriClaw-Instruct_SKIP_CANVAS_HOST = "1";
+  process.env.SiriClawInstruct_SKIP_CHANNELS = "1";
+  process.env.SiriClawInstruct_SKIP_GMAIL_WATCHER = "1";
+  process.env.SiriClawInstruct_SKIP_CRON = "1";
+  process.env.SiriClawInstruct_SKIP_CANVAS_HOST = "1";
 
   const token = `test-${randomUUID()}`;
-  process.env.SiriClaw-Instruct_GATEWAY_TOKEN = token;
+  process.env.SiriClawInstruct_GATEWAY_TOKEN = token;
   const agentId = "dev";
 
-  const hostAgentDir = resolveSiriClaw-InstructAgentDir();
+  const hostAgentDir = resolveSiriClawInstructAgentDir();
   const hostStore = ensureAuthProfileStore(hostAgentDir, {
     allowKeychainPrompt: false,
   });
@@ -671,26 +671,26 @@ async function runGatewayModelSuite(params: GatewayModelSuiteParams) {
     lastGood: hostStore.lastGood ? { ...hostStore.lastGood } : undefined,
     usageStats: hostStore.usageStats ? { ...hostStore.usageStats } : undefined,
   };
-  tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-live-state-"));
-  process.env.SiriClaw-Instruct_STATE_DIR = tempStateDir;
+  tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-live-state-"));
+  process.env.SiriClawInstruct_STATE_DIR = tempStateDir;
   tempAgentDir = path.join(tempStateDir, "agents", DEFAULT_AGENT_ID, "agent");
   saveAuthProfileStore(sanitizedStore, tempAgentDir);
   const tempSessionAgentDir = path.join(tempStateDir, "agents", agentId, "agent");
   if (tempSessionAgentDir !== tempAgentDir) {
     saveAuthProfileStore(sanitizedStore, tempSessionAgentDir);
   }
-  process.env.SiriClaw-Instruct_AGENT_DIR = tempAgentDir;
+  process.env.SiriClawInstruct_AGENT_DIR = tempAgentDir;
   process.env.PI_CODING_AGENT_DIR = tempAgentDir;
 
   const workspaceDir = resolveAgentWorkspaceDir(params.cfg, agentId);
   await fs.mkdir(workspaceDir, { recursive: true });
   const nonceA = randomUUID();
   const nonceB = randomUUID();
-  const toolProbePath = path.join(workspaceDir, `.SiriClaw-Instruct-live-tool-probe.${nonceA}.txt`);
+  const toolProbePath = path.join(workspaceDir, `.SiriClawInstruct-live-tool-probe.${nonceA}.txt`);
   await fs.writeFile(toolProbePath, `nonceA=${nonceA}\nnonceB=${nonceB}\n`);
 
-  const agentDir = resolveSiriClaw-InstructAgentDir();
-  const sanitizedCfg: SiriClaw-InstructConfig = {
+  const agentDir = resolveSiriClawInstructAgentDir();
+  const sanitizedCfg: SiriClawInstructConfig = {
     ...params.cfg,
     auth: sanitizeAuthConfig({ cfg: params.cfg, agentDir }),
   };
@@ -699,10 +699,10 @@ async function runGatewayModelSuite(params: GatewayModelSuiteParams) {
     candidates: params.candidates,
     providerOverrides: params.providerOverrides,
   });
-  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-live-"));
-  const tempConfigPath = path.join(tempDir, "SiriClaw-Instruct.json");
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-live-"));
+  const tempConfigPath = path.join(tempDir, "SiriClawInstruct.json");
   await fs.writeFile(tempConfigPath, `${JSON.stringify(nextCfg, null, 2)}\n`);
-  process.env.SiriClaw-Instruct_CONFIG_PATH = tempConfigPath;
+  process.env.SiriClawInstruct_CONFIG_PATH = tempConfigPath;
 
   const liveProviders = nextCfg.models?.providers;
   if (liveProviders && Object.keys(liveProviders).length > 0) {
@@ -887,10 +887,10 @@ async function runGatewayModelSuite(params: GatewayModelSuiteParams) {
                   sessionKey,
                   idempotencyKey: `idem-${runIdTool}-tool-${toolReadAttempt + 1}`,
                   message: strictReply
-                    ? "SiriClaw-Instruct live tool probe (local, safe): " +
+                    ? "SiriClawInstruct live tool probe (local, safe): " +
                       `use the tool named \`read\` (or \`Read\`) with JSON arguments {"path":"${toolProbePath}"}. ` +
                       `Then reply with exactly: ${nonceA} ${nonceB}. No extra text.`
-                    : "SiriClaw-Instruct live tool probe (local, safe): " +
+                    : "SiriClawInstruct live tool probe (local, safe): " +
                       `use the tool named \`read\` (or \`Read\`) with JSON arguments {"path":"${toolProbePath}"}. ` +
                       "Then reply with the two nonce values you read (include both).",
                   thinking: params.thinkingLevel,
@@ -966,12 +966,12 @@ async function runGatewayModelSuite(params: GatewayModelSuiteParams) {
                     sessionKey,
                     idempotencyKey: `idem-${runIdTool}-exec-read-${execReadAttempt + 1}`,
                     message: strictReply
-                      ? "SiriClaw-Instruct live tool probe (local, safe): " +
+                      ? "SiriClawInstruct live tool probe (local, safe): " +
                         "use the tool named `exec` (or `Exec`) to run this command: " +
                         `mkdir -p "${tempDir}" && printf '%s' '${nonceC}' > "${toolWritePath}". ` +
                         `Then use the tool named \`read\` (or \`Read\`) with JSON arguments {"path":"${toolWritePath}"}. ` +
                         `Then reply with exactly: ${nonceC}. No extra text.`
-                      : "SiriClaw-Instruct live tool probe (local, safe): " +
+                      : "SiriClawInstruct live tool probe (local, safe): " +
                         "use the tool named `exec` (or `Exec`) to run this command: " +
                         `mkdir -p "${tempDir}" && printf '%s' '${nonceC}' > "${toolWritePath}". ` +
                         `Then use the tool named \`read\` (or \`Read\`) with JSON arguments {"path":"${toolWritePath}"}. ` +
@@ -1300,15 +1300,15 @@ async function runGatewayModelSuite(params: GatewayModelSuiteParams) {
       await fs.rm(tempStateDir, { recursive: true, force: true });
     }
 
-    process.env.SiriClaw-Instruct_CONFIG_PATH = previous.configPath;
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = previous.token;
-    process.env.SiriClaw-Instruct_SKIP_CHANNELS = previous.skipChannels;
-    process.env.SiriClaw-Instruct_SKIP_GMAIL_WATCHER = previous.skipGmail;
-    process.env.SiriClaw-Instruct_SKIP_CRON = previous.skipCron;
-    process.env.SiriClaw-Instruct_SKIP_CANVAS_HOST = previous.skipCanvas;
-    process.env.SiriClaw-Instruct_AGENT_DIR = previous.agentDir;
+    process.env.SiriClawInstruct_CONFIG_PATH = previous.configPath;
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = previous.token;
+    process.env.SiriClawInstruct_SKIP_CHANNELS = previous.skipChannels;
+    process.env.SiriClawInstruct_SKIP_GMAIL_WATCHER = previous.skipGmail;
+    process.env.SiriClawInstruct_SKIP_CRON = previous.skipCron;
+    process.env.SiriClawInstruct_SKIP_CANVAS_HOST = previous.skipCanvas;
+    process.env.SiriClawInstruct_AGENT_DIR = previous.agentDir;
     process.env.PI_CODING_AGENT_DIR = previous.piAgentDir;
-    process.env.SiriClaw-Instruct_STATE_DIR = previous.stateDir;
+    process.env.SiriClawInstruct_STATE_DIR = previous.stateDir;
   }
 }
 
@@ -1317,9 +1317,9 @@ describeLive("gateway live (dev agent, profile keys)", () => {
     "runs meaningful prompts across models with available keys",
     async () => {
       const cfg = loadConfig();
-      await ensureSiriClaw-InstructModelsJson(cfg);
+      await ensureSiriClawInstructModelsJson(cfg);
 
-      const agentDir = resolveSiriClaw-InstructAgentDir();
+      const agentDir = resolveSiriClawInstructAgentDir();
       const authStore = ensureAuthProfileStore(agentDir, {
         allowKeychainPrompt: false,
       });
@@ -1327,7 +1327,7 @@ describeLive("gateway live (dev agent, profile keys)", () => {
       const modelRegistry = discoverModels(authStorage, agentDir);
       const all = modelRegistry.getAll();
 
-      const rawModels = process.env.SiriClaw-Instruct_LIVE_GATEWAY_MODELS?.trim();
+      const rawModels = process.env.SiriClawInstruct_LIVE_GATEWAY_MODELS?.trim();
       const useModern = !rawModels || rawModels === "modern" || rawModels === "all";
       const useExplicit = Boolean(rawModels) && !useModern;
       const filter = useExplicit ? parseFilter(rawModels) : null;
@@ -1370,7 +1370,7 @@ describeLive("gateway live (dev agent, profile keys)", () => {
       logProgress(`[all-models] selection=${useExplicit ? "explicit" : "modern"}`);
       if (selectedCandidates.length < candidates.length) {
         logProgress(
-          `[all-models] capped to ${selectedCandidates.length}/${candidates.length} via SiriClaw-Instruct_LIVE_GATEWAY_MAX_MODELS=${maxModels}`,
+          `[all-models] capped to ${selectedCandidates.length}/${candidates.length} via SiriClawInstruct_LIVE_GATEWAY_MAX_MODELS=${maxModels}`,
         );
       }
       const imageCandidates = selectedCandidates.filter((m) => m.input?.includes("image"));
@@ -1419,26 +1419,26 @@ describeLive("gateway live (dev agent, profile keys)", () => {
       return;
     }
     const previous = {
-      configPath: process.env.SiriClaw-Instruct_CONFIG_PATH,
-      token: process.env.SiriClaw-Instruct_GATEWAY_TOKEN,
-      skipChannels: process.env.SiriClaw-Instruct_SKIP_CHANNELS,
-      skipGmail: process.env.SiriClaw-Instruct_SKIP_GMAIL_WATCHER,
-      skipCron: process.env.SiriClaw-Instruct_SKIP_CRON,
-      skipCanvas: process.env.SiriClaw-Instruct_SKIP_CANVAS_HOST,
+      configPath: process.env.SiriClawInstruct_CONFIG_PATH,
+      token: process.env.SiriClawInstruct_GATEWAY_TOKEN,
+      skipChannels: process.env.SiriClawInstruct_SKIP_CHANNELS,
+      skipGmail: process.env.SiriClawInstruct_SKIP_GMAIL_WATCHER,
+      skipCron: process.env.SiriClawInstruct_SKIP_CRON,
+      skipCanvas: process.env.SiriClawInstruct_SKIP_CANVAS_HOST,
     };
 
-    process.env.SiriClaw-Instruct_SKIP_CHANNELS = "1";
-    process.env.SiriClaw-Instruct_SKIP_GMAIL_WATCHER = "1";
-    process.env.SiriClaw-Instruct_SKIP_CRON = "1";
-    process.env.SiriClaw-Instruct_SKIP_CANVAS_HOST = "1";
+    process.env.SiriClawInstruct_SKIP_CHANNELS = "1";
+    process.env.SiriClawInstruct_SKIP_GMAIL_WATCHER = "1";
+    process.env.SiriClawInstruct_SKIP_CRON = "1";
+    process.env.SiriClawInstruct_SKIP_CANVAS_HOST = "1";
 
     const token = `test-${randomUUID()}`;
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = token;
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = token;
 
     const cfg = loadConfig();
-    await ensureSiriClaw-InstructModelsJson(cfg);
+    await ensureSiriClawInstructModelsJson(cfg);
 
-    const agentDir = resolveSiriClaw-InstructAgentDir();
+    const agentDir = resolveSiriClawInstructAgentDir();
     const authStorage = discoverAuthStorage(agentDir);
     const modelRegistry = discoverModels(authStorage, agentDir);
     const anthropic = modelRegistry.find("anthropic", "claude-opus-4-5") as Model<Api> | null;
@@ -1459,7 +1459,7 @@ describeLive("gateway live (dev agent, profile keys)", () => {
     await fs.mkdir(workspaceDir, { recursive: true });
     const nonceA = randomUUID();
     const nonceB = randomUUID();
-    const toolProbePath = path.join(workspaceDir, `.SiriClaw-Instruct-live-zai-fallback.${nonceA}.txt`);
+    const toolProbePath = path.join(workspaceDir, `.SiriClawInstruct-live-zai-fallback.${nonceA}.txt`);
     await fs.writeFile(toolProbePath, `nonceA=${nonceA}\nnonceB=${nonceB}\n`);
 
     let server: Awaited<ReturnType<typeof startGatewayServer>> | undefined;
@@ -1590,12 +1590,13 @@ describeLive("gateway live (dev agent, profile keys)", () => {
       await server.close({ reason: "live test complete" });
       await fs.rm(toolProbePath, { force: true });
 
-      process.env.SiriClaw-Instruct_CONFIG_PATH = previous.configPath;
-      process.env.SiriClaw-Instruct_GATEWAY_TOKEN = previous.token;
-      process.env.SiriClaw-Instruct_SKIP_CHANNELS = previous.skipChannels;
-      process.env.SiriClaw-Instruct_SKIP_GMAIL_WATCHER = previous.skipGmail;
-      process.env.SiriClaw-Instruct_SKIP_CRON = previous.skipCron;
-      process.env.SiriClaw-Instruct_SKIP_CANVAS_HOST = previous.skipCanvas;
+      process.env.SiriClawInstruct_CONFIG_PATH = previous.configPath;
+      process.env.SiriClawInstruct_GATEWAY_TOKEN = previous.token;
+      process.env.SiriClawInstruct_SKIP_CHANNELS = previous.skipChannels;
+      process.env.SiriClawInstruct_SKIP_GMAIL_WATCHER = previous.skipGmail;
+      process.env.SiriClawInstruct_SKIP_CRON = previous.skipCron;
+      process.env.SiriClawInstruct_SKIP_CANVAS_HOST = previous.skipCanvas;
     }
   }, 180_000);
 });
+

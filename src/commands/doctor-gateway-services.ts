@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
-import { writeConfigFile, type SiriClaw-InstructConfig } from "../config/config.js";
+import { writeConfigFile, type SiriClawInstructConfig } from "../config/config.js";
 import { resolveGatewayPort, resolveIsNixMode } from "../config/paths.js";
 import { resolveSecretInputRef } from "../config/types.secrets.js";
 import {
@@ -186,7 +186,7 @@ async function cleanupLegacyLinuxUserServices(
 }
 
 export async function maybeRepairGatewayServiceConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   mode: "local" | "remote",
   runtime: RuntimeEnv,
   prompter: DoctorPrompter,
@@ -236,7 +236,7 @@ export async function maybeRepairGatewayServiceConfig(
     audit.issues.push({
       code: SERVICE_AUDIT_CODES.gatewayTokenMismatch,
       message:
-        "Gateway service SiriClaw-Instruct_GATEWAY_TOKEN should be unset when gateway.auth.token is SecretRef-managed",
+        "Gateway service SiriClawInstruct_GATEWAY_TOKEN should be unset when gateway.auth.token is SecretRef-managed",
       detail: "service token is stale",
       level: "recommended",
     });
@@ -325,7 +325,7 @@ export async function maybeRepairGatewayServiceConfig(
       : undefined;
   let cfgForServiceInstall = cfg;
   if (!tokenRefConfigured && !configuredGatewayToken && gatewayTokenForRepair) {
-    const nextCfg: SiriClaw-InstructConfig = {
+    const nextCfg: SiriClawInstructConfig = {
       ...cfg,
       gateway: {
         ...cfg.gateway,
@@ -420,7 +420,7 @@ export async function maybeScanExtraGatewayServices(
         note(failed.map((line) => `- ${line}`).join("\n"), "Legacy gateway cleanup skipped");
       }
       if (removed.length > 0) {
-        runtime.log("Legacy gateway services removed. Installing SiriClaw-Instruct gateway next.");
+        runtime.log("Legacy gateway services removed. Installing SiriClawInstruct gateway next.");
       }
     }
   }
@@ -439,3 +439,4 @@ export async function maybeScanExtraGatewayServices(
     "Gateway recommendation",
   );
 }
+

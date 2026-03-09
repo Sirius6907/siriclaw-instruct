@@ -2,13 +2,13 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { captureFullEnv } from "../test-utils/env.js";
 import { resolveSandboxContext } from "./sandbox/context.js";
 import { writeSkill } from "./skills.e2e-test-helpers.js";
 
 vi.mock("./sandbox/docker.js", () => ({
-  ensureSandboxContainer: vi.fn(async () => "SiriClaw-Instruct-sbx-test"),
+  ensureSandboxContainer: vi.fn(async () => "SiriClawInstruct-sbx-test"),
 }));
 
 vi.mock("./sandbox/browser.js", () => ({
@@ -31,19 +31,19 @@ describe("sandbox skill mirroring", () => {
   });
 
   const runContext = async (workspaceAccess: "none" | "ro") => {
-    const bundledDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-bundled-skills-"));
+    const bundledDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-bundled-skills-"));
     await fs.mkdir(bundledDir, { recursive: true });
 
-    process.env.SiriClaw-Instruct_BUNDLED_SKILLS_DIR = bundledDir;
+    process.env.SiriClawInstruct_BUNDLED_SKILLS_DIR = bundledDir;
 
-    const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-workspace-"));
+    const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-workspace-"));
     await writeSkill({
       dir: path.join(workspaceDir, "skills", "demo-skill"),
       name: "demo-skill",
       description: "Demo skill",
     });
 
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         defaults: {
           sandbox: {
@@ -77,3 +77,4 @@ describe("sandbox skill mirroring", () => {
     20_000,
   );
 });
+

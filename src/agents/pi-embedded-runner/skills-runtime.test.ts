@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { SkillSnapshot } from "../skills.js";
 
 const hoisted = vi.hoisted(() => ({
   loadWorkspaceSkillEntries: vi.fn(
-    (_workspaceDir: string, _options?: { config?: SiriClaw-InstructConfig }) => [],
+    (_workspaceDir: string, _options?: { config?: SiriClawInstructConfig }) => [],
   ),
 }));
 
@@ -12,7 +12,7 @@ vi.mock("../skills.js", async (importOriginal) => {
   const actual = await importOriginal<typeof import("../skills.js")>();
   return {
     ...actual,
-    loadWorkspaceSkillEntries: (workspaceDir: string, options?: { config?: SiriClaw-InstructConfig }) =>
+    loadWorkspaceSkillEntries: (workspaceDir: string, options?: { config?: SiriClawInstructConfig }) =>
       hoisted.loadWorkspaceSkillEntries(workspaceDir, options),
   };
 });
@@ -26,7 +26,7 @@ describe("resolveEmbeddedRunSkillEntries", () => {
   });
 
   it("loads skill entries with config when no resolved snapshot skills exist", () => {
-    const config: SiriClaw-InstructConfig = {
+    const config: SiriClawInstructConfig = {
       plugins: {
         entries: {
           diffs: { enabled: true },
@@ -68,3 +68,4 @@ describe("resolveEmbeddedRunSkillEntries", () => {
     expect(hoisted.loadWorkspaceSkillEntries).not.toHaveBeenCalled();
   });
 });
+

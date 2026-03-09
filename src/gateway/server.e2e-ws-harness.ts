@@ -20,8 +20,8 @@ export type GatewayServerHarness = {
 };
 
 export async function startGatewayServerHarness(): Promise<GatewayServerHarness> {
-  const envSnapshot = captureEnv(["SiriClaw-Instruct_GATEWAY_TOKEN"]);
-  delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+  const envSnapshot = captureEnv(["SiriClawInstruct_GATEWAY_TOKEN"]);
+  delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
   const port = await getFreePort();
   const server = await startGatewayServer(port);
 
@@ -40,3 +40,4 @@ export async function startGatewayServerHarness(): Promise<GatewayServerHarness>
 
   return { port, server, openClient, close };
 }
+

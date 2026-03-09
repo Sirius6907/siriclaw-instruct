@@ -44,15 +44,15 @@ async function runHuggingfaceApply(
 
 describe("applyAuthChoiceHuggingface", () => {
   const lifecycle = createAuthTestLifecycle([
-    "SiriClaw-Instruct_STATE_DIR",
-    "SiriClaw-Instruct_AGENT_DIR",
+    "SiriClawInstruct_STATE_DIR",
+    "SiriClawInstruct_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
     "HF_TOKEN",
     "HUGGINGFACE_HUB_TOKEN",
   ]);
 
   async function setupTempState() {
-    const env = await setupAuthTestEnv("SiriClaw-Instruct-hf-");
+    const env = await setupAuthTestEnv("SiriClawInstruct-hf-");
     lifecycle.setStateDir(env.stateDir);
     return env.agentDir;
   }
@@ -192,3 +192,4 @@ describe("applyAuthChoiceHuggingface", () => {
     );
   });
 });
+

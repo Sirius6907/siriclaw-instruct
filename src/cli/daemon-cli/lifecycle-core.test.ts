@@ -62,13 +62,13 @@ describe("runServiceRestart token drift", () => {
     service.restart.mockClear();
     service.isLoaded.mockResolvedValue(true);
     service.readCommand.mockResolvedValue({
-      environment: { SiriClaw-Instruct_GATEWAY_TOKEN: "service-token" },
+      environment: { SiriClawInstruct_GATEWAY_TOKEN: "service-token" },
     });
     service.restart.mockResolvedValue(undefined);
     vi.unstubAllEnvs();
-    vi.stubEnv("SiriClaw-Instruct_GATEWAY_TOKEN", "");
+    vi.stubEnv("SiriClawInstruct_GATEWAY_TOKEN", "");
     vi.stubEnv("SIRICLAW_GATEWAY_TOKEN", "");
-    vi.stubEnv("SiriClaw-Instruct_GATEWAY_URL", "");
+    vi.stubEnv("SiriClawInstruct_GATEWAY_URL", "");
     vi.stubEnv("SIRICLAW_GATEWAY_URL", "");
   });
 
@@ -98,9 +98,9 @@ describe("runServiceRestart token drift", () => {
       },
     });
     service.readCommand.mockResolvedValue({
-      environment: { SiriClaw-Instruct_GATEWAY_TOKEN: "env-token" },
+      environment: { SiriClawInstruct_GATEWAY_TOKEN: "env-token" },
     });
-    vi.stubEnv("SiriClaw-Instruct_GATEWAY_TOKEN", "env-token");
+    vi.stubEnv("SiriClawInstruct_GATEWAY_TOKEN", "env-token");
 
     await runServiceRestart({
       serviceNoun: "Gateway",
@@ -177,3 +177,4 @@ describe("runServiceRestart token drift", () => {
     expect(payload.message).toContain("unmanaged process");
   });
 });
+

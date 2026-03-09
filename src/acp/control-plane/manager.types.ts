@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type {
   SessionAcpIdentity,
   AcpSessionRuntimeOptions,
@@ -39,7 +39,7 @@ export type AcpSessionResolution =
     };
 
 export type AcpInitializeSessionInput = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   sessionKey: string;
   agent: string;
   mode: AcpRuntimeSessionMode;
@@ -48,7 +48,7 @@ export type AcpInitializeSessionInput = {
 };
 
 export type AcpRunTurnInput = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   sessionKey: string;
   text: string;
   mode: AcpRuntimePromptMode;
@@ -58,7 +58,7 @@ export type AcpRunTurnInput = {
 };
 
 export type AcpCloseSessionInput = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   sessionKey: string;
   reason: string;
   clearMeta?: boolean;
@@ -139,3 +139,4 @@ export const DEFAULT_DEPS: AcpSessionManagerDeps = {
 };
 
 export type { AcpSessionRuntimeOptions, SessionAcpMeta, SessionEntry };
+

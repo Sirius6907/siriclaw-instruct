@@ -106,7 +106,7 @@ function mockSuccessfulWakeConfig(nodeId: string) {
   mocks.loadApnsRegistration.mockResolvedValue({
     nodeId,
     token: "abcd1234abcd1234abcd1234abcd1234",
-    topic: "ai.SiriClaw-Instruct.ios",
+    topic: "ai.SiriClawInstruct.ios",
     environment: "sandbox",
     updatedAtMs: 1,
   });
@@ -122,7 +122,7 @@ function mockSuccessfulWakeConfig(nodeId: string) {
     ok: true,
     status: 200,
     tokenSuffix: "1234abcd",
-    topic: "ai.SiriClaw-Instruct.ios",
+    topic: "ai.SiriClawInstruct.ios",
     environment: "sandbox",
   });
 }
@@ -230,3 +230,4 @@ describe("node.invoke APNs wake path", () => {
     expect(nodeRegistry.invoke).not.toHaveBeenCalled();
   });
 });
+

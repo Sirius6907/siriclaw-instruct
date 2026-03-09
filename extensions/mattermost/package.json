@@ -1,13 +1,13 @@
 {
-  "name": "@SiriClaw-Instruct/mattermost",
+  "name": "@siriclaw-instruct/mattermost",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct Mattermost channel plugin",
+  "description": "siriclaw-instruct Mattermost channel plugin",
   "type": "module",
   "dependencies": {
     "ws": "^8.19.0",
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ],
@@ -21,9 +21,13 @@
       "order": 65
     },
     "install": {
-      "npmSpec": "@SiriClaw-Instruct/mattermost",
+      "npmSpec": "@siriclaw-instruct/mattermost",
       "localPath": "extensions/mattermost",
       "defaultChoice": "npm"
     }
   }
 }
+
+
+
+

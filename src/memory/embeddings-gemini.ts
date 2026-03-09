@@ -193,3 +193,4 @@ export async function resolveGeminiEmbeddingClient(
   });
   return { baseUrl, headers, ssrfPolicy, model, modelPath, apiKeys };
 }
+

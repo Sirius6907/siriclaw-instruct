@@ -4,12 +4,12 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { withEnvAsync } from "../test-utils/env.js";
-import { clearPluginDiscoveryCache, discoverSiriClaw-InstructPlugins } from "./discovery.js";
+import { clearPluginDiscoveryCache, discoverSiriClawInstructPlugins } from "./discovery.js";
 
 const tempDirs: string[] = [];
 
 function makeTempDir() {
-  const dir = path.join(os.tmpdir(), `SiriClaw-Instruct-plugins-${randomUUID()}`);
+  const dir = path.join(os.tmpdir(), `SiriClawInstruct-plugins-${randomUUID()}`);
   fs.mkdirSync(dir, { recursive: true });
   tempDirs.push(dir);
   return dir;
@@ -18,9 +18,9 @@ function makeTempDir() {
 async function withStateDir<T>(stateDir: string, fn: () => Promise<T>) {
   return await withEnvAsync(
     {
-      SiriClaw-Instruct_STATE_DIR: stateDir,
+      SiriClawInstruct_STATE_DIR: stateDir,
       SIRICLAW_STATE_DIR: undefined,
-      SiriClaw-Instruct_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+      SiriClawInstruct_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
     },
     fn,
   );
@@ -28,10 +28,10 @@ async function withStateDir<T>(stateDir: string, fn: () => Promise<T>) {
 
 async function discoverWithStateDir(
   stateDir: string,
-  params: Parameters<typeof discoverSiriClaw-InstructPlugins>[0],
+  params: Parameters<typeof discoverSiriClawInstructPlugins>[0],
 ) {
   return await withStateDir(stateDir, async () => {
-    return discoverSiriClaw-InstructPlugins(params);
+    return discoverSiriClawInstructPlugins(params);
   });
 }
 
@@ -44,7 +44,7 @@ function writePluginPackageManifest(params: {
     path.join(params.packageDir, "package.json"),
     JSON.stringify({
       name: params.packageName,
-      SiriClaw-Instruct: { extensions: params.extensions },
+      SiriClawInstruct: { extensions: params.extensions },
     }),
     "utf-8",
   );
@@ -67,7 +67,7 @@ afterEach(() => {
   }
 });
 
-describe("discoverSiriClaw-InstructPlugins", () => {
+describe("discoverSiriClawInstructPlugins", () => {
   it("discovers global and workspace extensions", async () => {
     const stateDir = makeTempDir();
     const workspaceDir = path.join(stateDir, "workspace");
@@ -76,12 +76,12 @@ describe("discoverSiriClaw-InstructPlugins", () => {
     fs.mkdirSync(globalExt, { recursive: true });
     fs.writeFileSync(path.join(globalExt, "alpha.ts"), "export default function () {}", "utf-8");
 
-    const workspaceExt = path.join(workspaceDir, ".SiriClaw-Instruct", "extensions");
+    const workspaceExt = path.join(workspaceDir, ".SiriClawInstruct", "extensions");
     fs.mkdirSync(workspaceExt, { recursive: true });
     fs.writeFileSync(path.join(workspaceExt, "beta.ts"), "export default function () {}", "utf-8");
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverSiriClaw-InstructPlugins({ workspaceDir });
+      return discoverSiriClawInstructPlugins({ workspaceDir });
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -111,7 +111,7 @@ describe("discoverSiriClaw-InstructPlugins", () => {
     fs.writeFileSync(path.join(liveDir, "index.ts"), "export default function () {}", "utf-8");
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverSiriClaw-InstructPlugins({});
+      return discoverSiriClawInstructPlugins({});
     });
 
     const ids = candidates.map((candidate) => candidate.idHint);
@@ -143,7 +143,7 @@ describe("discoverSiriClaw-InstructPlugins", () => {
     );
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverSiriClaw-InstructPlugins({});
+      return discoverSiriClawInstructPlugins({});
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -158,7 +158,7 @@ describe("discoverSiriClaw-InstructPlugins", () => {
 
     writePluginPackageManifest({
       packageDir: globalExt,
-      packageName: "@SiriClaw-Instruct/voice-call",
+      packageName: "@SiriClawInstruct/voice-call",
       extensions: ["./src/index.ts"],
     });
     fs.writeFileSync(
@@ -168,7 +168,7 @@ describe("discoverSiriClaw-InstructPlugins", () => {
     );
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverSiriClaw-InstructPlugins({});
+      return discoverSiriClawInstructPlugins({});
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -182,13 +182,13 @@ describe("discoverSiriClaw-InstructPlugins", () => {
 
     writePluginPackageManifest({
       packageDir: packDir,
-      packageName: "@SiriClaw-Instruct/demo-plugin-dir",
+      packageName: "@SiriClawInstruct/demo-plugin-dir",
       extensions: ["./index.js"],
     });
     fs.writeFileSync(path.join(packDir, "index.js"), "module.exports = {}", "utf-8");
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverSiriClaw-InstructPlugins({ extraPaths: [packDir] });
+      return discoverSiriClawInstructPlugins({ extraPaths: [packDir] });
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -202,7 +202,7 @@ describe("discoverSiriClaw-InstructPlugins", () => {
 
     writePluginPackageManifest({
       packageDir: globalExt,
-      packageName: "@SiriClaw-Instruct/escape-pack",
+      packageName: "@SiriClawInstruct/escape-pack",
       extensions: ["../../outside.js"],
     });
     fs.writeFileSync(outside, "export default function () {}", "utf-8");
@@ -229,7 +229,7 @@ describe("discoverSiriClaw-InstructPlugins", () => {
 
     writePluginPackageManifest({
       packageDir: globalExt,
-      packageName: "@SiriClaw-Instruct/pack",
+      packageName: "@SiriClawInstruct/pack",
       extensions: ["./linked/escape.ts"],
     });
 
@@ -262,12 +262,12 @@ describe("discoverSiriClaw-InstructPlugins", () => {
 
     writePluginPackageManifest({
       packageDir: globalExt,
-      packageName: "@SiriClaw-Instruct/pack",
+      packageName: "@SiriClawInstruct/pack",
       extensions: ["./escape.ts"],
     });
 
     const { candidates, diagnostics } = await withStateDir(stateDir, async () => {
-      return discoverSiriClaw-InstructPlugins({});
+      return discoverSiriClawInstructPlugins({});
     });
 
     expect(candidates.some((candidate) => candidate.idHint === "pack")).toBe(false);
@@ -289,8 +289,8 @@ describe("discoverSiriClaw-InstructPlugins", () => {
     fs.writeFileSync(
       outsideManifest,
       JSON.stringify({
-        name: "@SiriClaw-Instruct/pack",
-        SiriClaw-Instruct: { extensions: ["./entry.ts"] },
+        name: "@SiriClawInstruct/pack",
+        SiriClawInstruct: { extensions: ["./entry.ts"] },
       }),
       "utf-8",
     );
@@ -304,7 +304,7 @@ describe("discoverSiriClaw-InstructPlugins", () => {
     }
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      return discoverSiriClaw-InstructPlugins({});
+      return discoverSiriClawInstructPlugins({});
     });
 
     expect(candidates.some((candidate) => candidate.idHint === "pack")).toBe(false);
@@ -319,7 +319,7 @@ describe("discoverSiriClaw-InstructPlugins", () => {
     fs.chmodSync(pluginPath, 0o777);
 
     const result = await withStateDir(stateDir, async () => {
-      return discoverSiriClaw-InstructPlugins({});
+      return discoverSiriClawInstructPlugins({});
     });
 
     expect(result.candidates).toHaveLength(0);
@@ -342,7 +342,7 @@ describe("discoverSiriClaw-InstructPlugins", () => {
 
       const actualUid = (process as NodeJS.Process & { getuid: () => number }).getuid();
       const result = await withStateDir(stateDir, async () => {
-        return discoverSiriClaw-InstructPlugins({ ownershipUid: actualUid + 1 });
+        return discoverSiriClawInstructPlugins({ ownershipUid: actualUid + 1 });
       });
       const shouldBlockForMismatch = actualUid !== 0;
       expect(result.candidates).toHaveLength(shouldBlockForMismatch ? 0 : 1);
@@ -361,9 +361,9 @@ describe("discoverSiriClaw-InstructPlugins", () => {
 
     const first = await withEnvAsync(
       {
-        SiriClaw-Instruct_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        SiriClawInstruct_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
-      async () => withStateDir(stateDir, async () => discoverSiriClaw-InstructPlugins({})),
+      async () => withStateDir(stateDir, async () => discoverSiriClawInstructPlugins({})),
     );
     expect(first.candidates.some((candidate) => candidate.idHint === "cached")).toBe(true);
 
@@ -371,9 +371,9 @@ describe("discoverSiriClaw-InstructPlugins", () => {
 
     const second = await withEnvAsync(
       {
-        SiriClaw-Instruct_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        SiriClawInstruct_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
-      async () => withStateDir(stateDir, async () => discoverSiriClaw-InstructPlugins({})),
+      async () => withStateDir(stateDir, async () => discoverSiriClawInstructPlugins({})),
     );
     expect(second.candidates.some((candidate) => candidate.idHint === "cached")).toBe(true);
 
@@ -381,10 +381,11 @@ describe("discoverSiriClaw-InstructPlugins", () => {
 
     const third = await withEnvAsync(
       {
-        SiriClaw-Instruct_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        SiriClawInstruct_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
-      async () => withStateDir(stateDir, async () => discoverSiriClaw-InstructPlugins({})),
+      async () => withStateDir(stateDir, async () => discoverSiriClawInstructPlugins({})),
     );
     expect(third.candidates.some((candidate) => candidate.idHint === "cached")).toBe(false);
   });
 });
+

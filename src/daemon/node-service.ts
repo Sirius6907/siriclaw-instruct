@@ -14,13 +14,13 @@ function withNodeServiceEnv(
 ): Record<string, string | undefined> {
   return {
     ...env,
-    SiriClaw-Instruct_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
-    SiriClaw-Instruct_SYSTEMD_UNIT: resolveNodeSystemdServiceName(),
-    SiriClaw-Instruct_WINDOWS_TASK_NAME: resolveNodeWindowsTaskName(),
-    SiriClaw-Instruct_TASK_SCRIPT_NAME: NODE_WINDOWS_TASK_SCRIPT_NAME,
-    SiriClaw-Instruct_LOG_PREFIX: "node",
-    SiriClaw-Instruct_SERVICE_MARKER: NODE_SERVICE_MARKER,
-    SiriClaw-Instruct_SERVICE_KIND: NODE_SERVICE_KIND,
+    SiriClawInstruct_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
+    SiriClawInstruct_SYSTEMD_UNIT: resolveNodeSystemdServiceName(),
+    SiriClawInstruct_WINDOWS_TASK_NAME: resolveNodeWindowsTaskName(),
+    SiriClawInstruct_TASK_SCRIPT_NAME: NODE_WINDOWS_TASK_SCRIPT_NAME,
+    SiriClawInstruct_LOG_PREFIX: "node",
+    SiriClawInstruct_SERVICE_MARKER: NODE_SERVICE_MARKER,
+    SiriClawInstruct_SERVICE_KIND: NODE_SERVICE_KIND,
   };
 }
 
@@ -30,13 +30,13 @@ function withNodeInstallEnv(args: GatewayServiceInstallArgs): GatewayServiceInst
     env: withNodeServiceEnv(args.env),
     environment: {
       ...args.environment,
-      SiriClaw-Instruct_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
-      SiriClaw-Instruct_SYSTEMD_UNIT: resolveNodeSystemdServiceName(),
-      SiriClaw-Instruct_WINDOWS_TASK_NAME: resolveNodeWindowsTaskName(),
-      SiriClaw-Instruct_TASK_SCRIPT_NAME: NODE_WINDOWS_TASK_SCRIPT_NAME,
-      SiriClaw-Instruct_LOG_PREFIX: "node",
-      SiriClaw-Instruct_SERVICE_MARKER: NODE_SERVICE_MARKER,
-      SiriClaw-Instruct_SERVICE_KIND: NODE_SERVICE_KIND,
+      SiriClawInstruct_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
+      SiriClawInstruct_SYSTEMD_UNIT: resolveNodeSystemdServiceName(),
+      SiriClawInstruct_WINDOWS_TASK_NAME: resolveNodeWindowsTaskName(),
+      SiriClawInstruct_TASK_SCRIPT_NAME: NODE_WINDOWS_TASK_SCRIPT_NAME,
+      SiriClawInstruct_LOG_PREFIX: "node",
+      SiriClawInstruct_SERVICE_MARKER: NODE_SERVICE_MARKER,
+      SiriClawInstruct_SERVICE_KIND: NODE_SERVICE_KIND,
     },
   };
 }
@@ -64,3 +64,4 @@ export function resolveNodeService(): GatewayService {
     readRuntime: (env) => base.readRuntime(withNodeServiceEnv(env)),
   };
 }
+

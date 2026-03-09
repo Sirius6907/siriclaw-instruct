@@ -18,10 +18,10 @@ vi.mock("../config/config.js", async (importOriginal) => {
 });
 
 import "./test-helpers/fast-core-tools.js";
-import { createSiriClaw-InstructTools } from "./SiriClaw-Instruct-tools.js";
+import { createSiriClawInstructTools } from "./siriclaw-instruct-tools.js";
 
 function getSessionsHistoryTool(options?: { sandboxed?: boolean }) {
-  const tool = createSiriClaw-InstructTools({
+  const tool = createSiriClawInstructTools({
     agentSessionKey: "main",
     sandboxed: options?.sandboxed,
   }).find((candidate) => candidate.name === "sessions_history");
@@ -116,3 +116,4 @@ describe("sessions tools visibility", () => {
     expect(denied.details).toMatchObject({ status: "forbidden" });
   });
 });
+

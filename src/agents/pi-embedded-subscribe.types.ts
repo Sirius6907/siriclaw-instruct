@@ -1,6 +1,6 @@
 import type { AgentSession } from "@mariozechner/pi-coding-agent";
 import type { ReasoningLevel, VerboseLevel } from "../auto-reply/thinking.js";
-import type { SiriClaw-InstructConfig } from "../config/types.SiriClaw-Instruct.js";
+import type { SiriClawInstructConfig } from "../config/types.siriclaw-instruct.js";
 import type { HookRunner } from "../plugins/hooks.js";
 import type { BlockReplyChunking } from "./pi-embedded-block-chunker.js";
 import type { BlockReplyPayload } from "./pi-embedded-payloads.js";
@@ -29,7 +29,7 @@ export type SubscribeEmbeddedPiSessionParams = {
   onAssistantMessageStart?: () => void | Promise<void>;
   onAgentEvent?: (evt: { stream: string; data: Record<string, unknown> }) => void | Promise<void>;
   enforceFinalTag?: boolean;
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   sessionKey?: string;
   /** Ephemeral session UUID — regenerated on /new and /reset. */
   sessionId?: string;
@@ -38,3 +38,4 @@ export type SubscribeEmbeddedPiSessionParams = {
 };
 
 export type { BlockReplyChunking } from "./pi-embedded-block-chunker.js";
+

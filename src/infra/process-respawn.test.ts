@@ -3,13 +3,13 @@ import { captureFullEnv } from "../test-utils/env.js";
 import { SUPERVISOR_HINT_ENV_VARS } from "./supervisor-markers.js";
 
 const spawnMock = vi.hoisted(() => vi.fn());
-const triggerSiriClaw-InstructRestartMock = vi.hoisted(() => vi.fn());
+const triggerSiriClawInstructRestartMock = vi.hoisted(() => vi.fn());
 
 vi.mock("node:child_process", () => ({
   spawn: (...args: unknown[]) => spawnMock(...args),
 }));
 vi.mock("./restart.js", () => ({
-  triggerSiriClaw-InstructRestart: (...args: unknown[]) => triggerSiriClaw-InstructRestartMock(...args),
+  triggerSiriClawInstructRestart: (...args: unknown[]) => triggerSiriClawInstructRestartMock(...args),
 }));
 
 import { restartGatewayProcessWithFreshPid } from "./process-respawn.js";
@@ -34,7 +34,7 @@ afterEach(() => {
   process.argv = [...originalArgv];
   process.execArgv = [...originalExecArgv];
   spawnMock.mockClear();
-  triggerSiriClaw-InstructRestartMock.mockClear();
+  triggerSiriClawInstructRestartMock.mockClear();
   if (originalPlatformDescriptor) {
     Object.defineProperty(process, "platform", originalPlatformDescriptor);
   }
@@ -51,16 +51,16 @@ function expectLaunchdSupervisedWithoutKickstart(params?: { launchJobLabel?: str
   if (params?.launchJobLabel) {
     process.env.LAUNCH_JOB_LABEL = params.launchJobLabel;
   }
-  process.env.SiriClaw-Instruct_LAUNCHD_LABEL = "ai.SiriClaw-Instruct.gateway";
+  process.env.SiriClawInstruct_LAUNCHD_LABEL = "ai.SiriClawInstruct.gateway";
   const result = restartGatewayProcessWithFreshPid();
   expect(result.mode).toBe("supervised");
-  expect(triggerSiriClaw-InstructRestartMock).not.toHaveBeenCalled();
+  expect(triggerSiriClawInstructRestartMock).not.toHaveBeenCalled();
   expect(spawnMock).not.toHaveBeenCalled();
 }
 
 describe("restartGatewayProcessWithFreshPid", () => {
-  it("returns disabled when SiriClaw-Instruct_NO_RESPAWN is set", () => {
-    process.env.SiriClaw-Instruct_NO_RESPAWN = "1";
+  it("returns disabled when SiriClawInstruct_NO_RESPAWN is set", () => {
+    process.env.SiriClawInstruct_NO_RESPAWN = "1";
     const result = restartGatewayProcessWithFreshPid();
     expect(result.mode).toBe("disabled");
     expect(spawnMock).not.toHaveBeenCalled();
@@ -69,23 +69,23 @@ describe("restartGatewayProcessWithFreshPid", () => {
   it("returns supervised when launchd hints are present on macOS (no kickstart)", () => {
     clearSupervisorHints();
     setPlatform("darwin");
-    process.env.LAUNCH_JOB_LABEL = "ai.SiriClaw-Instruct.gateway";
+    process.env.LAUNCH_JOB_LABEL = "ai.SiriClawInstruct.gateway";
     const result = restartGatewayProcessWithFreshPid();
     expect(result.mode).toBe("supervised");
-    expect(triggerSiriClaw-InstructRestartMock).not.toHaveBeenCalled();
+    expect(triggerSiriClawInstructRestartMock).not.toHaveBeenCalled();
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
   it("returns supervised on macOS when launchd label is set (no kickstart)", () => {
-    expectLaunchdSupervisedWithoutKickstart({ launchJobLabel: "ai.SiriClaw-Instruct.gateway" });
+    expectLaunchdSupervisedWithoutKickstart({ launchJobLabel: "ai.SiriClawInstruct.gateway" });
   });
 
-  it("launchd supervisor never returns failed regardless of triggerSiriClaw-InstructRestart outcome", () => {
+  it("launchd supervisor never returns failed regardless of triggerSiriClawInstructRestart outcome", () => {
     clearSupervisorHints();
     setPlatform("darwin");
-    process.env.SiriClaw-Instruct_LAUNCHD_LABEL = "ai.SiriClaw-Instruct.gateway";
-    // Even if triggerSiriClaw-InstructRestart *would* fail, launchd path must not call it.
-    triggerSiriClaw-InstructRestartMock.mockReturnValue({
+    process.env.SiriClawInstruct_LAUNCHD_LABEL = "ai.SiriClawInstruct.gateway";
+    // Even if triggerSiriClawInstructRestart *would* fail, launchd path must not call it.
+    triggerSiriClawInstructRestartMock.mockReturnValue({
       ok: false,
       method: "launchctl",
       detail: "Bootstrap failed: 5: Input/output error",
@@ -93,23 +93,23 @@ describe("restartGatewayProcessWithFreshPid", () => {
     const result = restartGatewayProcessWithFreshPid();
     expect(result.mode).toBe("supervised");
     expect(result.mode).not.toBe("failed");
-    expect(triggerSiriClaw-InstructRestartMock).not.toHaveBeenCalled();
+    expect(triggerSiriClawInstructRestartMock).not.toHaveBeenCalled();
   });
 
   it("does not schedule kickstart on non-darwin platforms", () => {
     setPlatform("linux");
     process.env.INVOCATION_ID = "abc123";
-    process.env.SiriClaw-Instruct_LAUNCHD_LABEL = "ai.SiriClaw-Instruct.gateway";
+    process.env.SiriClawInstruct_LAUNCHD_LABEL = "ai.SiriClawInstruct.gateway";
 
     const result = restartGatewayProcessWithFreshPid();
 
     expect(result.mode).toBe("supervised");
-    expect(triggerSiriClaw-InstructRestartMock).not.toHaveBeenCalled();
+    expect(triggerSiriClawInstructRestartMock).not.toHaveBeenCalled();
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
   it("spawns detached child with current exec argv", () => {
-    delete process.env.SiriClaw-Instruct_NO_RESPAWN;
+    delete process.env.SiriClawInstruct_NO_RESPAWN;
     clearSupervisorHints();
     setPlatform("linux");
     process.execArgv = ["--import", "tsx"];
@@ -129,43 +129,43 @@ describe("restartGatewayProcessWithFreshPid", () => {
     );
   });
 
-  it("returns supervised when SiriClaw-Instruct_LAUNCHD_LABEL is set (stock launchd plist)", () => {
+  it("returns supervised when SiriClawInstruct_LAUNCHD_LABEL is set (stock launchd plist)", () => {
     clearSupervisorHints();
     expectLaunchdSupervisedWithoutKickstart();
   });
 
-  it("returns supervised when SiriClaw-Instruct_SYSTEMD_UNIT is set", () => {
+  it("returns supervised when SiriClawInstruct_SYSTEMD_UNIT is set", () => {
     clearSupervisorHints();
     setPlatform("linux");
-    process.env.SiriClaw-Instruct_SYSTEMD_UNIT = "SiriClaw-Instruct-gateway.service";
+    process.env.SiriClawInstruct_SYSTEMD_UNIT = "SiriClawInstruct-gateway.service";
     const result = restartGatewayProcessWithFreshPid();
     expect(result.mode).toBe("supervised");
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
-  it("returns supervised when SiriClaw-Instruct gateway task markers are set on Windows", () => {
+  it("returns supervised when SiriClawInstruct gateway task markers are set on Windows", () => {
     clearSupervisorHints();
     setPlatform("win32");
-    process.env.SiriClaw-Instruct_SERVICE_MARKER = "SiriClaw-Instruct";
-    process.env.SiriClaw-Instruct_SERVICE_KIND = "gateway";
-    triggerSiriClaw-InstructRestartMock.mockReturnValue({ ok: true, method: "schtasks" });
+    process.env.SiriClawInstruct_SERVICE_MARKER = "SiriClawInstruct";
+    process.env.SiriClawInstruct_SERVICE_KIND = "gateway";
+    triggerSiriClawInstructRestartMock.mockReturnValue({ ok: true, method: "schtasks" });
     const result = restartGatewayProcessWithFreshPid();
     expect(result.mode).toBe("supervised");
-    expect(triggerSiriClaw-InstructRestartMock).toHaveBeenCalledOnce();
+    expect(triggerSiriClawInstructRestartMock).toHaveBeenCalledOnce();
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
   it("keeps generic service markers out of non-Windows supervisor detection", () => {
     clearSupervisorHints();
     setPlatform("linux");
-    process.env.SiriClaw-Instruct_SERVICE_MARKER = "SiriClaw-Instruct";
-    process.env.SiriClaw-Instruct_SERVICE_KIND = "gateway";
+    process.env.SiriClawInstruct_SERVICE_MARKER = "SiriClawInstruct";
+    process.env.SiriClawInstruct_SERVICE_KIND = "gateway";
     spawnMock.mockReturnValue({ pid: 4242, unref: vi.fn() });
 
     const result = restartGatewayProcessWithFreshPid();
 
     expect(result).toEqual({ mode: "spawned", pid: 4242 });
-    expect(triggerSiriClaw-InstructRestartMock).not.toHaveBeenCalled();
+    expect(triggerSiriClawInstructRestartMock).not.toHaveBeenCalled();
   });
 
   it("returns disabled on Windows without Scheduled Task markers", () => {
@@ -182,20 +182,20 @@ describe("restartGatewayProcessWithFreshPid", () => {
   it("ignores node task script hints for gateway restart detection on Windows", () => {
     clearSupervisorHints();
     setPlatform("win32");
-    process.env.SiriClaw-Instruct_TASK_SCRIPT = "C:\\SiriClaw-Instruct\\node.cmd";
-    process.env.SiriClaw-Instruct_TASK_SCRIPT_NAME = "node.cmd";
-    process.env.SiriClaw-Instruct_SERVICE_MARKER = "SiriClaw-Instruct";
-    process.env.SiriClaw-Instruct_SERVICE_KIND = "node";
+    process.env.SiriClawInstruct_TASK_SCRIPT = "C:\\SiriClawInstruct\\node.cmd";
+    process.env.SiriClawInstruct_TASK_SCRIPT_NAME = "node.cmd";
+    process.env.SiriClawInstruct_SERVICE_MARKER = "SiriClawInstruct";
+    process.env.SiriClawInstruct_SERVICE_KIND = "node";
 
     const result = restartGatewayProcessWithFreshPid();
 
     expect(result.mode).toBe("disabled");
-    expect(triggerSiriClaw-InstructRestartMock).not.toHaveBeenCalled();
+    expect(triggerSiriClawInstructRestartMock).not.toHaveBeenCalled();
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
   it("returns failed when spawn throws", () => {
-    delete process.env.SiriClaw-Instruct_NO_RESPAWN;
+    delete process.env.SiriClawInstruct_NO_RESPAWN;
     clearSupervisorHints();
     setPlatform("linux");
 
@@ -207,3 +207,4 @@ describe("restartGatewayProcessWithFreshPid", () => {
     expect(result.detail).toContain("spawn failed");
   });
 });
+

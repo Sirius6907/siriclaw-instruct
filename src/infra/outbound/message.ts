@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { loadConfig } from "../../config/config.js";
 import { callGatewayLeastPrivilege, randomIdempotencyKey } from "../../gateway/call.js";
 import type { PollInput } from "../../polls.js";
@@ -44,7 +44,7 @@ type MessageSendParams = {
   dryRun?: boolean;
   bestEffort?: boolean;
   deps?: OutboundSendDeps;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   gateway?: MessageGatewayOptions;
   idempotencyKey?: string;
   mirror?: {
@@ -80,7 +80,7 @@ type MessagePollParams = {
   silent?: boolean;
   isAnonymous?: boolean;
   dryRun?: boolean;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   gateway?: MessageGatewayOptions;
   idempotencyKey?: string;
 };
@@ -105,7 +105,7 @@ export type MessagePollResult = {
 };
 
 async function resolveRequiredChannel(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel?: string;
 }): Promise<string> {
   return (
@@ -116,7 +116,7 @@ async function resolveRequiredChannel(params: {
   ).channel;
 }
 
-function resolveRequiredPlugin(channel: string, cfg: SiriClaw-InstructConfig) {
+function resolveRequiredPlugin(channel: string, cfg: SiriClawInstructConfig) {
   const plugin = resolveOutboundChannelPlugin({ channel, cfg });
   if (!plugin) {
     throw new Error(`Unknown channel: ${channel}`);
@@ -344,3 +344,4 @@ export async function sendPoll(params: MessagePollParams): Promise<MessagePollRe
     result,
   };
 }
+

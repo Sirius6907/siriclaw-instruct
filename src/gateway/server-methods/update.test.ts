@@ -32,8 +32,8 @@ vi.mock("../../config/sessions.js", () => ({
   },
 }));
 
-vi.mock("../../infra/SiriClaw-Instruct-root.js", () => ({
-  resolveSiriClaw-InstructPackageRoot: async () => "/tmp/SiriClaw-Instruct",
+vi.mock("../../infra/SiriClawInstruct-root.js", () => ({
+  resolveSiriClawInstructPackageRoot: async () => "/tmp/SiriClawInstruct",
 }));
 
 vi.mock("../../infra/restart-sentinel.js", async (importOriginal) => {
@@ -190,3 +190,4 @@ describe("update.run restart scheduling", () => {
     expect(payload?.restart).toBeNull();
   });
 });
+

@@ -1,7 +1,7 @@
 {
-  "name": "@SiriClaw-Instruct/tlon",
+  "name": "@siriclaw-instruct/tlon",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct Tlon/Urbit channel plugin",
+  "description": "siriclaw-instruct Tlon/Urbit channel plugin",
   "type": "module",
   "dependencies": {
     "@tloncorp/api": "github:tloncorp/api-beta#7eede1c1a756977b09f96aa14a92e2b06318ae87",
@@ -9,7 +9,7 @@
     "@urbit/aura": "^3.0.0",
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ],
@@ -24,9 +24,13 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@SiriClaw-Instruct/tlon",
+      "npmSpec": "@siriclaw-instruct/tlon",
       "localPath": "extensions/tlon",
       "defaultChoice": "npm"
     }
   }
 }
+
+
+
+

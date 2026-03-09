@@ -5,7 +5,7 @@
 set -euo pipefail
 
 CLAUDE_CREDS="$HOME/.claude/.credentials.json"
-SiriClaw-Instruct_AUTH="$HOME/.SiriClaw-Instruct/agents/main/agent/auth-profiles.json"
+SIRICLAW_AUTH="$HOME/.SiriClaw-Instruct/agents/main/agent/auth-profiles.json"
 
 # Colors for terminal output
 RED='\033[0;31m'
@@ -103,7 +103,7 @@ check_claude_code_auth() {
     calc_status_from_expires "$expires_at"
 }
 
-check_SiriClaw-Instruct_auth() {
+check_SIRICLAW_auth() {
     if [ "$USE_JSON" -eq 1 ]; then
         local api_keys
         api_keys=$(json_anthropic_api_key_count)
@@ -122,7 +122,7 @@ check_SiriClaw-Instruct_auth() {
         return $?
     fi
 
-    if [ ! -f "$SiriClaw-Instruct_AUTH" ]; then
+    if [ ! -f "$SIRICLAW_AUTH" ]; then
         echo "MISSING"
         return 1
     fi
@@ -131,7 +131,7 @@ check_SiriClaw-Instruct_auth() {
     expires=$(jq -r '
         [.profiles | to_entries[] | select(.value.provider == "anthropic") | .value.expires]
         | max // 0
-    ' "$SiriClaw-Instruct_AUTH" 2>/dev/null || echo "0")
+    ' "$SIRICLAW_AUTH" 2>/dev/null || echo "0")
 
     calc_status_from_expires "$expires"
 }
@@ -139,23 +139,23 @@ check_SiriClaw-Instruct_auth() {
 # JSON output mode
 if [ "$OUTPUT_MODE" = "json" ]; then
     claude_status=$(check_claude_code_auth 2>/dev/null || true)
-    SiriClaw-Instruct_status=$(check_SiriClaw-Instruct_auth 2>/dev/null || true)
+    SIRICLAW_status=$(check_SIRICLAW_auth 2>/dev/null || true)
 
     claude_expires=0
-    SiriClaw-Instruct_expires=0
+    SIRICLAW_expires=0
     if [ "$USE_JSON" -eq 1 ]; then
         claude_expires=$(json_expires_for_claude_cli)
-        SiriClaw-Instruct_expires=$(json_expires_for_anthropic_any)
+        SIRICLAW_expires=$(json_expires_for_anthropic_any)
     else
         claude_expires=$(jq -r '.claudeAiOauth.expiresAt // 0' "$CLAUDE_CREDS" 2>/dev/null || echo "0")
-        SiriClaw-Instruct_expires=$(jq -r '.profiles["anthropic:default"].expires // 0' "$SiriClaw-Instruct_AUTH" 2>/dev/null || echo "0")
+        SIRICLAW_expires=$(jq -r '.profiles["anthropic:default"].expires // 0' "$SIRICLAW_AUTH" 2>/dev/null || echo "0")
     fi
 
     jq -n \
         --arg cs "$claude_status" \
         --arg ce "$claude_expires" \
-        --arg bs "$SiriClaw-Instruct_status" \
-        --arg be "$SiriClaw-Instruct_expires" \
+        --arg bs "$SIRICLAW_status" \
+        --arg be "$SIRICLAW_expires" \
         '{
             claude_code: {status: $cs, expires_at_ms: ($ce | tonumber)},
             SiriClaw-Instruct: {status: $bs, expires_at_ms: ($be | tonumber)},
@@ -167,19 +167,19 @@ fi
 # Simple output mode (for scripts/widgets)
 if [ "$OUTPUT_MODE" = "simple" ]; then
     claude_status=$(check_claude_code_auth 2>/dev/null || true)
-    SiriClaw-Instruct_status=$(check_SiriClaw-Instruct_auth 2>/dev/null || true)
+    SIRICLAW_status=$(check_SIRICLAW_auth 2>/dev/null || true)
 
     if [[ "$claude_status" == EXPIRED* ]] || [[ "$claude_status" == MISSING* ]]; then
         echo "CLAUDE_EXPIRED"
         exit 1
-    elif [[ "$SiriClaw-Instruct_status" == EXPIRED* ]] || [[ "$SiriClaw-Instruct_status" == MISSING* ]]; then
-        echo "SiriClaw-Instruct_EXPIRED"
+    elif [[ "$SIRICLAW_status" == EXPIRED* ]] || [[ "$SIRICLAW_status" == MISSING* ]]; then
+        echo "SIRICLAW_EXPIRED"
         exit 1
     elif [[ "$claude_status" == EXPIRING* ]]; then
         echo "CLAUDE_EXPIRING"
         exit 2
-    elif [[ "$SiriClaw-Instruct_status" == EXPIRING* ]]; then
-        echo "SiriClaw-Instruct_EXPIRING"
+    elif [[ "$SIRICLAW_status" == EXPIRING* ]]; then
+        echo "SIRICLAW_EXPIRING"
         exit 2
     else
         echo "OK"
@@ -239,11 +239,11 @@ else
         | map(select(.value.provider == "anthropic"))
         | sort_by(.value.expires) | reverse
         | .[0].key // "none"
-    ' "$SiriClaw-Instruct_AUTH" 2>/dev/null || echo "none")
+    ' "$SIRICLAW_AUTH" 2>/dev/null || echo "none")
     expires=$(jq -r '
         [.profiles | to_entries[] | select(.value.provider == "anthropic") | .value.expires]
         | max // 0
-    ' "$SiriClaw-Instruct_AUTH" 2>/dev/null || echo "0")
+    ' "$SIRICLAW_AUTH" 2>/dev/null || echo "0")
     api_keys=0
 fi
 

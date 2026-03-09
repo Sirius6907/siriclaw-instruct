@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/types.js";
+import type { SiriClawInstructConfig } from "../config/types.js";
 import {
   type CommandNormalizeOptions,
   listChatCommands,
@@ -9,7 +9,7 @@ import { isAbortTrigger } from "./reply/abort.js";
 
 export function hasControlCommand(
   text?: string,
-  cfg?: SiriClaw-InstructConfig,
+  cfg?: SiriClawInstructConfig,
   options?: CommandNormalizeOptions,
 ): boolean {
   if (!text) {
@@ -47,7 +47,7 @@ export function hasControlCommand(
 
 export function isControlCommandMessage(
   text?: string,
-  cfg?: SiriClaw-InstructConfig,
+  cfg?: SiriClawInstructConfig,
   options?: CommandNormalizeOptions,
 ): boolean {
   if (!text) {
@@ -81,8 +81,9 @@ export function hasInlineCommandTokens(text?: string): boolean {
 
 export function shouldComputeCommandAuthorized(
   text?: string,
-  cfg?: SiriClaw-InstructConfig,
+  cfg?: SiriClawInstructConfig,
   options?: CommandNormalizeOptions,
 ): boolean {
   return isControlCommandMessage(text, cfg, options) || hasInlineCommandTokens(text);
 }
+

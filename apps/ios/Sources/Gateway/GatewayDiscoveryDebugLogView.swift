@@ -66,3 +66,4 @@ struct GatewayDiscoveryDebugLogView: View {
         self.isoFormatter.string(from: date)
     }
 }
+

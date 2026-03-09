@@ -1,5 +1,5 @@
 import { resolveUserTimezone } from "../../agents/date-time.js";
-import type { SiriClaw-InstructConfig } from "../../config/types.js";
+import type { SiriClawInstructConfig } from "../../config/types.js";
 import { formatZonedTimestamp } from "../../infra/format-time/format-datetime.ts";
 
 /**
@@ -71,10 +71,11 @@ export function injectTimestamp(message: string, opts?: TimestampInjectionOption
 }
 
 /**
- * Build TimestampInjectionOptions from an SiriClaw-InstructConfig.
+ * Build TimestampInjectionOptions from an SiriClawInstructConfig.
  */
-export function timestampOptsFromConfig(cfg: SiriClaw-InstructConfig): TimestampInjectionOptions {
+export function timestampOptsFromConfig(cfg: SiriClawInstructConfig): TimestampInjectionOptions {
   return {
     timezone: resolveUserTimezone(cfg.agents?.defaults?.userTimezone),
   };
 }
+

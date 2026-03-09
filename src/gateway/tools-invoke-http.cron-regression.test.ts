@@ -34,7 +34,7 @@ vi.mock("../plugins/tools.js", () => ({
   getPluginToolMeta: noPluginToolMeta,
 }));
 
-vi.mock("../agents/SiriClaw-Instruct-tools.js", () => {
+vi.mock("../agents/SiriClawInstruct-tools.js", () => {
   const tools = [
     {
       name: "cron",
@@ -48,7 +48,7 @@ vi.mock("../agents/SiriClaw-Instruct-tools.js", () => {
     },
   ];
   return {
-    createSiriClaw-InstructTools: () => tools,
+    createSiriClawInstructTools: () => tools,
   };
 });
 
@@ -144,3 +144,4 @@ describe("tools invoke HTTP denylist", () => {
     expect(gatewayRes.status).toBe(404);
   });
 });
+

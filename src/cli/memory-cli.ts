@@ -581,16 +581,16 @@ export function registerMemoryCli(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["SiriClaw-Instruct memory status", "Show index and provider status."],
-          ["SiriClaw-Instruct memory status --deep", "Probe embedding provider readiness."],
-          ["SiriClaw-Instruct memory index --force", "Force a full reindex."],
-          ['SiriClaw-Instruct memory search "meeting notes"', "Quick search using positional query."],
+          ["SiriClawInstruct memory status", "Show index and provider status."],
+          ["SiriClawInstruct memory status --deep", "Probe embedding provider readiness."],
+          ["SiriClawInstruct memory index --force", "Force a full reindex."],
+          ['SiriClawInstruct memory search "meeting notes"', "Quick search using positional query."],
           [
-            'SiriClaw-Instruct memory search --query "deployment" --max-results 20',
+            'SiriClawInstruct memory search --query "deployment" --max-results 20',
             "Limit results for focused troubleshooting.",
           ],
-          ["SiriClaw-Instruct memory status --json", "Output machine-readable JSON (good for scripts)."],
-        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/memory", "docs.SiriClaw-Instruct.ai/cli/memory")}\n`,
+          ["SiriClawInstruct memory status --json", "Output machine-readable JSON (good for scripts)."],
+        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/memory", "docs.SiriClawInstruct.ai/cli/memory")}\n`,
     );
 
   memory
@@ -815,3 +815,4 @@ export function registerMemoryCli(program: Command) {
       },
     );
 }
+

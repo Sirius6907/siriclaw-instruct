@@ -56,3 +56,4 @@ describe("isMinimaxVlmModel", () => {
     expect(isMinimaxVlmModel("openai", "MiniMax-VL-01")).toBe(false);
   });
 });
+

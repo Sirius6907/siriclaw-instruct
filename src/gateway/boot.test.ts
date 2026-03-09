@@ -54,7 +54,7 @@ describe("runBootOnce", () => {
     options: BootWorkspaceOptions,
     run: (workspaceDir: string) => Promise<void>,
   ) => {
-    const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-boot-"));
+    const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-boot-"));
     try {
       const bootPath = path.join(workspaceDir, "BOOT.md");
       if (options.bootAsDirectory) {
@@ -261,3 +261,4 @@ describe("runBootOnce", () => {
     });
   });
 });
+

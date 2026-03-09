@@ -1,7 +1,7 @@
 import { formatCliCommand } from "../../../cli/command-format.js";
 import { detectBinary } from "../../../commands/onboard-helpers.js";
 import { installSignalCli } from "../../../commands/signal-install.js";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import {
   listSignalAccountIds,
   resolveDefaultSignalAccountId,
@@ -61,10 +61,10 @@ export function parseSignalAllowFromEntries(raw: string): { entries: string[]; e
 }
 
 async function promptSignalAllowFrom(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<SiriClaw-InstructConfig> {
+}): Promise<SiriClawInstructConfig> {
   return onboardingHelpers.promptParsedAllowFromForScopedChannel({
     cfg: params.cfg,
     channel: "signal",
@@ -229,9 +229,9 @@ export const signalOnboardingAdapter: ChannelOnboardingAdapter = {
 
     await prompter.note(
       [
-        'Link device with: signal-cli link -n "SiriClaw-Instruct"',
+        'Link device with: signal-cli link -n "SiriClawInstruct"',
         "Scan QR in Signal → Linked Devices",
-        `Then run: ${formatCliCommand("SiriClaw-Instruct gateway call channels.status --params '{\"probe\":true}'")}`,
+        `Then run: ${formatCliCommand("SiriClawInstruct gateway call channels.status --params '{\"probe\":true}'")}`,
         `Docs: ${formatDocsLink("/signal", "signal")}`,
       ].join("\n"),
       "Signal next steps",
@@ -242,3 +242,4 @@ export const signalOnboardingAdapter: ChannelOnboardingAdapter = {
   dmPolicy,
   disable: (cfg) => onboardingHelpers.setOnboardingChannelEnabled(cfg, channel, false),
 };
+

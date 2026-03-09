@@ -7,18 +7,18 @@ import {
 
 describe("npm registry spec validation", () => {
   it("accepts bare package names, exact versions, and dist-tags", () => {
-    expect(validateRegistryNpmSpec("@SiriClaw-Instruct/voice-call")).toBeNull();
-    expect(validateRegistryNpmSpec("@SiriClaw-Instruct/voice-call@1.2.3")).toBeNull();
-    expect(validateRegistryNpmSpec("@SiriClaw-Instruct/voice-call@1.2.3-beta.4")).toBeNull();
-    expect(validateRegistryNpmSpec("@SiriClaw-Instruct/voice-call@latest")).toBeNull();
-    expect(validateRegistryNpmSpec("@SiriClaw-Instruct/voice-call@beta")).toBeNull();
+    expect(validateRegistryNpmSpec("@SiriClawInstruct/voice-call")).toBeNull();
+    expect(validateRegistryNpmSpec("@SiriClawInstruct/voice-call@1.2.3")).toBeNull();
+    expect(validateRegistryNpmSpec("@SiriClawInstruct/voice-call@1.2.3-beta.4")).toBeNull();
+    expect(validateRegistryNpmSpec("@SiriClawInstruct/voice-call@latest")).toBeNull();
+    expect(validateRegistryNpmSpec("@SiriClawInstruct/voice-call@beta")).toBeNull();
   });
 
   it("rejects semver ranges", () => {
-    expect(validateRegistryNpmSpec("@SiriClaw-Instruct/voice-call@^1.2.3")).toContain(
+    expect(validateRegistryNpmSpec("@SiriClawInstruct/voice-call@^1.2.3")).toContain(
       "exact version or dist-tag",
     );
-    expect(validateRegistryNpmSpec("@SiriClaw-Instruct/voice-call@~1.2.3")).toContain(
+    expect(validateRegistryNpmSpec("@SiriClawInstruct/voice-call@~1.2.3")).toContain(
       "exact version or dist-tag",
     );
   });
@@ -26,7 +26,7 @@ describe("npm registry spec validation", () => {
 
 describe("npm prerelease resolution policy", () => {
   it("blocks prerelease resolutions for bare specs", () => {
-    const spec = parseRegistryNpmSpec("@SiriClaw-Instruct/voice-call");
+    const spec = parseRegistryNpmSpec("@SiriClawInstruct/voice-call");
     expect(spec).not.toBeNull();
     expect(
       isPrereleaseResolutionAllowed({
@@ -37,7 +37,7 @@ describe("npm prerelease resolution policy", () => {
   });
 
   it("blocks prerelease resolutions for latest", () => {
-    const spec = parseRegistryNpmSpec("@SiriClaw-Instruct/voice-call@latest");
+    const spec = parseRegistryNpmSpec("@SiriClawInstruct/voice-call@latest");
     expect(spec).not.toBeNull();
     expect(
       isPrereleaseResolutionAllowed({
@@ -48,8 +48,8 @@ describe("npm prerelease resolution policy", () => {
   });
 
   it("allows prerelease resolutions when the user explicitly opted in", () => {
-    const tagSpec = parseRegistryNpmSpec("@SiriClaw-Instruct/voice-call@beta");
-    const versionSpec = parseRegistryNpmSpec("@SiriClaw-Instruct/voice-call@1.2.3-beta.1");
+    const tagSpec = parseRegistryNpmSpec("@SiriClawInstruct/voice-call@beta");
+    const versionSpec = parseRegistryNpmSpec("@SiriClawInstruct/voice-call@1.2.3-beta.1");
 
     expect(tagSpec).not.toBeNull();
     expect(versionSpec).not.toBeNull();
@@ -67,3 +67,4 @@ describe("npm prerelease resolution policy", () => {
     ).toBe(true);
   });
 });
+

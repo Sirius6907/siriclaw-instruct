@@ -414,7 +414,7 @@ const ENUM_EXPECTATIONS: Record<string, string[]> = {
   "gateway.bind": ['"auto"', '"lan"', '"loopback"', '"custom"', '"tailnet"'],
   "gateway.auth.mode": ['"none"', '"token"', '"password"', '"trusted-proxy"'],
   "gateway.tailscale.mode": ['"off"', '"serve"', '"funnel"'],
-  "browser.profiles.*.driver": ['"SiriClaw-Instruct"', '"clawd"', '"extension"'],
+  "browser.profiles.*.driver": ['"SiriClawInstruct"', '"clawd"', '"extension"'],
   "discovery.mdns.mode": ['"off"', '"minimal"', '"full"'],
   "wizard.lastRunMode": ['"local"', '"remote"'],
   "diagnostics.otel.protocol": ['"http/protobuf"', '"grpc"'],
@@ -637,7 +637,7 @@ describe("config help copy quality", () => {
     expect(FIELD_HELP["memory.qmd.update.interval"].includes("5m")).toBe(true);
     expect(FIELD_HELP["memory.qmd.update.embedInterval"].includes("60m")).toBe(true);
     expect(FIELD_HELP["agents.defaults.memorySearch.store.path"]).toContain(
-      "~/.SiriClaw-Instruct/memory/{agentId}.sqlite",
+      "~/.SiriClawInstruct/memory/{agentId}.sqlite",
     );
   });
 
@@ -814,3 +814,4 @@ describe("config help copy quality", () => {
     expect(/pre-compaction|memory flush|token/i.test(flush)).toBe(true);
   });
 });
+

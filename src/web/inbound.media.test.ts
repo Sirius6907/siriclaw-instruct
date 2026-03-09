@@ -48,7 +48,7 @@ vi.mock("../media/store.js", async (importOriginal) => {
   };
 });
 
-const HOME = path.join(os.tmpdir(), `SiriClaw-Instruct-inbound-media-${crypto.randomUUID()}`);
+const HOME = path.join(os.tmpdir(), `SiriClawInstruct-inbound-media-${crypto.randomUUID()}`);
 process.env.HOME = HOME;
 
 vi.mock("@whiskeysockets/baileys", async () => {
@@ -234,3 +234,4 @@ describe("web inbound media saves with extension", () => {
     await listener.close();
   });
 });
+

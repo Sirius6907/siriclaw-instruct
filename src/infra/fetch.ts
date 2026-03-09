@@ -6,7 +6,7 @@ type FetchWithPreconnect = typeof fetch & {
 
 type RequestInitWithDuplex = RequestInit & { duplex?: "half" };
 
-const wrapFetchWithAbortSignalMarker = Symbol.for("SiriClaw-Instruct.fetch.abort-signal-wrapped");
+const wrapFetchWithAbortSignalMarker = Symbol.for("SiriClawInstruct.fetch.abort-signal-wrapped");
 
 type FetchWithAbortSignalMarker = typeof fetch & {
   [wrapFetchWithAbortSignalMarker]?: true;
@@ -107,3 +107,4 @@ export function resolveFetch(fetchImpl?: typeof fetch): typeof fetch | undefined
   }
   return wrapFetchWithAbortSignal(resolved);
 }
+

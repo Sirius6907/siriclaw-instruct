@@ -1,5 +1,5 @@
 import { resolveConfiguredAcpBindingRecord } from "../../acp/persistent-bindings.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
 import { DEFAULT_ACCOUNT_ID, isAcpSessionKey } from "../../routing/session-key.js";
 
@@ -8,7 +8,7 @@ function normalizeText(value: string | undefined | null): string {
 }
 
 export function resolveEffectiveResetTargetSessionKey(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel?: string | null;
   accountId?: string | null;
   conversationId?: string | null;
@@ -73,3 +73,4 @@ export function resolveEffectiveResetTargetSessionKey(params: {
   }
   return activeAcpSessionKey;
 }
+

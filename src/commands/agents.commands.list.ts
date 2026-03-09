@@ -129,7 +129,8 @@ export async function agentsListCommand(
   const lines = ["Agents:", ...summaries.map(formatSummary)];
   lines.push("Routing rules map channel/account/peer to an agent. Use --bindings for full rules.");
   lines.push(
-    `Channel status reflects local config/creds. For live health: ${formatCliCommand("SiriClaw-Instruct channels status --probe")}.`,
+    `Channel status reflects local config/creds. For live health: ${formatCliCommand("SiriClawInstruct channels status --probe")}.`,
   );
   runtime.log(lines.join("\n"));
 }
+

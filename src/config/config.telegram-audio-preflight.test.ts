@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { SiriClaw-InstructSchema } from "./zod-schema.js";
+import { SiriClawInstructSchema } from "./zod-schema.js";
 
 describe("telegram disableAudioPreflight schema", () => {
   it("accepts disableAudioPreflight for groups and topics", () => {
-    const res = SiriClaw-InstructSchema.safeParse({
+    const res = SiriClawInstructSchema.safeParse({
       channels: {
         telegram: {
           groups: {
@@ -32,7 +32,7 @@ describe("telegram disableAudioPreflight schema", () => {
   });
 
   it("rejects non-boolean disableAudioPreflight values", () => {
-    const res = SiriClaw-InstructSchema.safeParse({
+    const res = SiriClawInstructSchema.safeParse({
       channels: {
         telegram: {
           groups: {
@@ -47,3 +47,4 @@ describe("telegram disableAudioPreflight schema", () => {
     expect(res.success).toBe(false);
   });
 });
+

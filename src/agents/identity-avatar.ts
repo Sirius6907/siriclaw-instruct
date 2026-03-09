@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   AVATAR_MAX_BYTES,
   isAvatarDataUrl,
@@ -24,7 +24,7 @@ function normalizeAvatarValue(value: string | undefined | null): string | null {
   return trimmed ? trimmed : null;
 }
 
-function resolveAvatarSource(cfg: SiriClaw-InstructConfig, agentId: string): string | null {
+function resolveAvatarSource(cfg: SiriClawInstructConfig, agentId: string): string | null {
   const fromConfig = normalizeAvatarValue(resolveAgentIdentity(cfg, agentId)?.avatar);
   if (fromConfig) {
     return fromConfig;
@@ -73,7 +73,7 @@ function resolveLocalAvatarPath(params: {
   return { ok: true, filePath: realPath };
 }
 
-export function resolveAgentAvatar(cfg: SiriClaw-InstructConfig, agentId: string): AgentAvatarResolution {
+export function resolveAgentAvatar(cfg: SiriClawInstructConfig, agentId: string): AgentAvatarResolution {
   const source = resolveAvatarSource(cfg, agentId);
   if (!source) {
     return { kind: "none", reason: "missing" };
@@ -91,3 +91,4 @@ export function resolveAgentAvatar(cfg: SiriClaw-InstructConfig, agentId: string
   }
   return { kind: "local", filePath: resolved.filePath };
 }
+

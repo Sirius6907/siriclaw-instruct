@@ -25,8 +25,8 @@ function isBun(): boolean {
 
 function prefersSips(): boolean {
   return (
-    process.env.SiriClaw-Instruct_IMAGE_BACKEND === "sips" ||
-    (process.env.SiriClaw-Instruct_IMAGE_BACKEND !== "sharp" && isBun() && process.platform === "darwin")
+    process.env.SiriClawInstruct_IMAGE_BACKEND === "sips" ||
+    (process.env.SiriClawInstruct_IMAGE_BACKEND !== "sharp" && isBun() && process.platform === "darwin")
   );
 }
 
@@ -134,7 +134,7 @@ function readJpegExifOrientation(buffer: Buffer): number | null {
 }
 
 async function withTempDir<T>(fn: (dir: string) => Promise<T>): Promise<T> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-img-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-img-"));
   try {
     return await fn(dir);
   } finally {
@@ -480,3 +480,4 @@ async function normalizeExifOrientationSips(buffer: Buffer): Promise<Buffer> {
     return buffer;
   }
 }
+

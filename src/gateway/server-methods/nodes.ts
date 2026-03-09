@@ -214,8 +214,8 @@ async function maybeSendNodeWakeNudge(nodeId: string): Promise<NodeWakeNudgeAtte
       auth: auth.value,
       registration,
       nodeId,
-      title: "SiriClaw-Instruct needs a quick reopen",
-      body: "Tap to reopen SiriClaw-Instruct and restore the node connection.",
+      title: "SiriClawInstruct needs a quick reopen",
+      body: "Tap to reopen SiriClawInstruct and restore the node connection.",
     });
     if (!result.ok) {
       return withDuration({
@@ -842,3 +842,4 @@ function buildNodeCommandRejectionHint(
   }
   return `node command not allowed: ${reason}`;
 }
+

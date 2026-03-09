@@ -1,19 +1,19 @@
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import type { WizardPrompter } from "../../../wizard/prompts.js";
 import { promptChannelAccessConfig, type ChannelAccessPolicy } from "./channel-access.js";
 
 export async function configureChannelAccessWithAllowlist<TResolved>(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: WizardPrompter;
   label: string;
   currentPolicy: ChannelAccessPolicy;
   currentEntries: string[];
   placeholder: string;
   updatePrompt: boolean;
-  setPolicy: (cfg: SiriClaw-InstructConfig, policy: ChannelAccessPolicy) => SiriClaw-InstructConfig;
-  resolveAllowlist: (params: { cfg: SiriClaw-InstructConfig; entries: string[] }) => Promise<TResolved>;
-  applyAllowlist: (params: { cfg: SiriClaw-InstructConfig; resolved: TResolved }) => SiriClaw-InstructConfig;
-}): Promise<SiriClaw-InstructConfig> {
+  setPolicy: (cfg: SiriClawInstructConfig, policy: ChannelAccessPolicy) => SiriClawInstructConfig;
+  resolveAllowlist: (params: { cfg: SiriClawInstructConfig; entries: string[] }) => Promise<TResolved>;
+  applyAllowlist: (params: { cfg: SiriClawInstructConfig; resolved: TResolved }) => SiriClawInstructConfig;
+}): Promise<SiriClawInstructConfig> {
   let next = params.cfg;
   const accessConfig = await promptChannelAccessConfig({
     prompter: params.prompter,
@@ -39,3 +39,4 @@ export async function configureChannelAccessWithAllowlist<TResolved>(params: {
     resolved,
   });
 }
+

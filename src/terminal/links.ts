@@ -1,6 +1,6 @@
 import { formatTerminalLink } from "../utils.js";
 
-export const DOCS_ROOT = "https://docs.SiriClaw-Instruct.ai";
+export const DOCS_ROOT = "https://docs.SiriClawInstruct.ai";
 
 export function formatDocsLink(
   path: string,
@@ -22,3 +22,4 @@ export function formatDocsRootLink(label?: string): string {
     fallback: DOCS_ROOT,
   });
 }
+

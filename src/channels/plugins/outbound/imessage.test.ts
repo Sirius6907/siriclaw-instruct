@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import { imessageOutbound } from "./imessage.js";
 
 describe("imessageOutbound", () => {
-  const cfg: SiriClaw-InstructConfig = {
+  const cfg: SiriClawInstructConfig = {
     channels: {
       imessage: {
         mediaMaxMb: 2,
@@ -67,3 +67,4 @@ describe("imessageOutbound", () => {
     expect(result).toEqual({ channel: "imessage", messageId: "media-1" });
   });
 });
+

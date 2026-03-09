@@ -2,7 +2,7 @@ import { ChannelType } from "discord-api-types/v10";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { NativeCommandSpec } from "../../auto-reply/commands-registry.js";
 import * as dispatcherModule from "../../auto-reply/reply/provider-dispatcher.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import * as pluginCommandsModule from "../../plugins/commands.js";
 import { createDiscordNativeCommand } from "./native-command.js";
 import {
@@ -51,17 +51,17 @@ function createInteraction(params?: {
   });
 }
 
-function createConfig(): SiriClaw-InstructConfig {
+function createConfig(): SiriClawInstructConfig {
   return {
     channels: {
       discord: {
         dm: { enabled: true, policy: "open" },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
-function createStatusCommand(cfg: SiriClaw-InstructConfig) {
+function createStatusCommand(cfg: SiriClawInstructConfig) {
   const commandSpec: NativeCommandSpec = {
     name: "status",
     description: "Status",
@@ -211,7 +211,7 @@ describe("Discord native plugin command dispatch", () => {
           },
         },
       ],
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const command = createStatusCommand(cfg);
     const interaction = createInteraction({
       channelType: ChannelType.GuildText,
@@ -259,7 +259,7 @@ describe("Discord native plugin command dispatch", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const command = createStatusCommand(cfg);
     const interaction = createInteraction({
       channelType: ChannelType.GuildText,
@@ -311,7 +311,7 @@ describe("Discord native plugin command dispatch", () => {
           dm: { enabled: true, policy: "open" },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const command = createStatusCommand(cfg);
     const interaction = createInteraction({
       channelType: ChannelType.DM,
@@ -328,3 +328,4 @@ describe("Discord native plugin command dispatch", () => {
     expectBoundSessionDispatch(dispatchSpy, boundSessionKey);
   });
 });
+

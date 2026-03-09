@@ -1,6 +1,6 @@
 import { Separator, TextDisplay, type TopLevelComponents } from "@buape/carbon";
 import type { ChannelId } from "../../channels/plugins/types.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { DiscordUiContainer } from "../../discord/ui.js";
 
 export type CrossContextComponentsBuilder = (message: string) => TopLevelComponents[];
@@ -8,7 +8,7 @@ export type CrossContextComponentsBuilder = (message: string) => TopLevelCompone
 export type CrossContextComponentsFactory = (params: {
   originLabel: string;
   message: string;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
 }) => TopLevelComponents[];
 
@@ -20,7 +20,7 @@ export type ChannelMessageAdapter = {
 type CrossContextContainerParams = {
   originLabel: string;
   message: string;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
 };
 
@@ -54,3 +54,4 @@ export function getChannelMessageAdapter(channel: ChannelId): ChannelMessageAdap
   }
   return DEFAULT_ADAPTER;
 }
+

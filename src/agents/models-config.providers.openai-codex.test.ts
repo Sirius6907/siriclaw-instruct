@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { resolveSiriClaw-InstructAgentDir } from "./agent-paths.js";
+import { resolveSiriClawInstructAgentDir } from "./agent-paths.js";
 import {
   installModelsConfigTestHooks,
   MODELS_CONFIG_IMPLICIT_ENV_VARS,
@@ -9,7 +9,7 @@ import {
   withModelsTempHome,
   withTempEnv,
 } from "./models-config.e2e-harness.js";
-import { ensureSiriClaw-InstructModelsJson } from "./models-config.js";
+import { ensureSiriClawInstructModelsJson } from "./models-config.js";
 import { resolveImplicitProviders } from "./models-config.providers.js";
 import { readGeneratedModelsJson } from "./models-config.test-utils.js";
 
@@ -47,7 +47,7 @@ describe("openai-codex implicit provider", () => {
     await withModelsTempHome(async () => {
       await withTempEnv(MODELS_CONFIG_IMPLICIT_ENV_VARS, async () => {
         unsetEnv(MODELS_CONFIG_IMPLICIT_ENV_VARS);
-        const agentDir = resolveSiriClaw-InstructAgentDir();
+        const agentDir = resolveSiriClawInstructAgentDir();
         await writeCodexOauthProfile(agentDir);
 
         const providers = await resolveImplicitProviders({ agentDir });
@@ -65,7 +65,7 @@ describe("openai-codex implicit provider", () => {
     await withModelsTempHome(async () => {
       await withTempEnv(MODELS_CONFIG_IMPLICIT_ENV_VARS, async () => {
         unsetEnv(MODELS_CONFIG_IMPLICIT_ENV_VARS);
-        const agentDir = resolveSiriClaw-InstructAgentDir();
+        const agentDir = resolveSiriClawInstructAgentDir();
         await writeCodexOauthProfile(agentDir);
         await fs.writeFile(
           path.join(agentDir, "models.json"),
@@ -93,7 +93,7 @@ describe("openai-codex implicit provider", () => {
           "utf8",
         );
 
-        await ensureSiriClaw-InstructModelsJson({});
+        await ensureSiriClawInstructModelsJson({});
 
         const parsed = await readGeneratedModelsJson<{
           providers: Record<string, { baseUrl?: string; api?: string }>;
@@ -110,7 +110,7 @@ describe("openai-codex implicit provider", () => {
     await withModelsTempHome(async () => {
       await withTempEnv(MODELS_CONFIG_IMPLICIT_ENV_VARS, async () => {
         unsetEnv(MODELS_CONFIG_IMPLICIT_ENV_VARS);
-        const agentDir = resolveSiriClaw-InstructAgentDir();
+        const agentDir = resolveSiriClawInstructAgentDir();
         await fs.mkdir(agentDir, { recursive: true });
         await fs.writeFile(
           path.join(agentDir, "models.json"),
@@ -130,7 +130,7 @@ describe("openai-codex implicit provider", () => {
           "utf8",
         );
 
-        await ensureSiriClaw-InstructModelsJson({
+        await ensureSiriClawInstructModelsJson({
           models: {
             mode: "merge",
             providers: {
@@ -154,3 +154,4 @@ describe("openai-codex implicit provider", () => {
     });
   });
 });
+

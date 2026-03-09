@@ -10,14 +10,14 @@ const readConfigFileSnapshotForWrite = vi.fn().mockResolvedValue({
   writeOptions: {},
 });
 const setRuntimeConfigSnapshot = vi.fn();
-const ensureSiriClaw-InstructModelsJson = vi.fn().mockResolvedValue(undefined);
-const resolveSiriClaw-InstructAgentDir = vi.fn().mockReturnValue("/tmp/SiriClaw-Instruct-agent");
+const ensureSiriClawInstructModelsJson = vi.fn().mockResolvedValue(undefined);
+const resolveSiriClawInstructAgentDir = vi.fn().mockReturnValue("/tmp/SiriClawInstruct-agent");
 const ensureAuthProfileStore = vi.fn().mockReturnValue({ version: 1, profiles: {} });
 const listProfilesForProvider = vi.fn().mockReturnValue([]);
 const resolveAuthProfileDisplayLabel = vi.fn(({ profileId }: { profileId: string }) => profileId);
 const resolveAuthStorePathForDisplay = vi
   .fn()
-  .mockReturnValue("/tmp/SiriClaw-Instruct-agent/auth-profiles.json");
+  .mockReturnValue("/tmp/SiriClawInstruct-agent/auth-profiles.json");
 const resolveProfileUnusableUntilForDisplay = vi.fn().mockReturnValue(null);
 const resolveEnvApiKey = vi.fn().mockReturnValue(undefined);
 const resolveAwsSdkEnvVarName = vi.fn().mockReturnValue(undefined);
@@ -31,19 +31,19 @@ const modelRegistryState = {
 let previousExitCode: typeof process.exitCode;
 
 vi.mock("../config/config.js", () => ({
-  CONFIG_PATH: "/tmp/SiriClaw-Instruct.json",
-  STATE_DIR: "/tmp/SiriClaw-Instruct-state",
+  CONFIG_PATH: "/tmp/SiriClawInstruct.json",
+  STATE_DIR: "/tmp/SiriClawInstruct-state",
   loadConfig,
   readConfigFileSnapshotForWrite,
   setRuntimeConfigSnapshot,
 }));
 
 vi.mock("../agents/models-config.js", () => ({
-  ensureSiriClaw-InstructModelsJson,
+  ensureSiriClawInstructModelsJson,
 }));
 
 vi.mock("../agents/agent-paths.js", () => ({
-  resolveSiriClaw-InstructAgentDir,
+  resolveSiriClawInstructAgentDir,
 }));
 
 vi.mock("../agents/auth-profiles.js", () => ({
@@ -129,7 +129,7 @@ beforeEach(() => {
   modelRegistryState.getAllError = undefined;
   modelRegistryState.getAvailableError = undefined;
   listProfilesForProvider.mockReturnValue([]);
-  ensureSiriClaw-InstructModelsJson.mockClear();
+  ensureSiriClawInstructModelsJson.mockClear();
   readConfigFileSnapshotForWrite.mockClear();
   readConfigFileSnapshotForWrite.mockResolvedValue({
     snapshot: { valid: false, resolved: {} },
@@ -336,8 +336,8 @@ describe("models list/status", () => {
 
     await loadModelRegistry(resolvedConfig as never, { sourceConfig: sourceConfig as never });
 
-    expect(ensureSiriClaw-InstructModelsJson).toHaveBeenCalledTimes(1);
-    expect(ensureSiriClaw-InstructModelsJson).toHaveBeenCalledWith(sourceConfig);
+    expect(ensureSiriClawInstructModelsJson).toHaveBeenCalledTimes(1);
+    expect(ensureSiriClawInstructModelsJson).toHaveBeenCalledWith(sourceConfig);
   });
 
   it("loadModelRegistry uses resolved config when no source snapshot is provided", async () => {
@@ -349,8 +349,8 @@ describe("models list/status", () => {
 
     await loadModelRegistry(resolvedConfig as never);
 
-    expect(ensureSiriClaw-InstructModelsJson).toHaveBeenCalledTimes(1);
-    expect(ensureSiriClaw-InstructModelsJson).toHaveBeenCalledWith(resolvedConfig);
+    expect(ensureSiriClawInstructModelsJson).toHaveBeenCalledTimes(1);
+    expect(ensureSiriClawInstructModelsJson).toHaveBeenCalledWith(resolvedConfig);
   });
 
   it("toModelRow does not crash without cfg/authStore when availability is undefined", async () => {
@@ -368,3 +368,4 @@ describe("models list/status", () => {
     expect(row.available).toBe(false);
   });
 });
+

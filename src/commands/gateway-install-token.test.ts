@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 const readConfigFileSnapshotMock = vi.hoisted(() => vi.fn());
 const writeConfigFileMock = vi.hoisted(() => vi.fn());
@@ -24,7 +24,7 @@ const resolveGatewayAuthMock = vi.hoisted(() =>
 );
 const shouldRequireGatewayTokenForInstallMock = vi.hoisted(() => vi.fn(() => true));
 const resolveSecretRefValuesMock = vi.hoisted(() => vi.fn());
-const secretRefKeyMock = vi.hoisted(() => vi.fn(() => "env:default:SiriClaw-Instruct_GATEWAY_TOKEN"));
+const secretRefKeyMock = vi.hoisted(() => vi.fn(() => "env:default:SiriClawInstruct_GATEWAY_TOKEN"));
 const randomTokenMock = vi.hoisted(() => vi.fn(() => "generated-token"));
 
 vi.mock("../config/config.js", () => ({
@@ -85,7 +85,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { token: "config-token" } },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {} as NodeJS.ProcessEnv,
     });
 
@@ -98,17 +98,17 @@ describe("resolveGatewayInstallToken", () => {
   });
 
   it("validates SecretRef token but does not persist resolved plaintext", async () => {
-    const tokenRef = { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_TOKEN" };
+    const tokenRef = { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_TOKEN" };
     resolveSecretInputRefMock.mockReturnValue({ ref: tokenRef });
     resolveSecretRefValuesMock.mockResolvedValue(
-      new Map([["env:default:SiriClaw-Instruct_GATEWAY_TOKEN", "resolved-token"]]),
+      new Map([["env:default:SiriClawInstruct_GATEWAY_TOKEN", "resolved-token"]]),
     );
 
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { mode: "token", token: tokenRef } },
-      } as SiriClaw-InstructConfig,
-      env: { SiriClaw-Instruct_GATEWAY_TOKEN: "resolved-token" } as NodeJS.ProcessEnv,
+      } as SiriClawInstructConfig,
+      env: { SiriClawInstruct_GATEWAY_TOKEN: "resolved-token" } as NodeJS.ProcessEnv,
     });
 
     expect(result.token).toBeUndefined();
@@ -126,7 +126,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { mode: "token", token: "${MISSING_GATEWAY_TOKEN}" } },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {} as NodeJS.ProcessEnv,
     });
 
@@ -143,7 +143,7 @@ describe("resolveGatewayInstallToken", () => {
             password: "password-value", // pragma: allowlist secret
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {} as NodeJS.ProcessEnv,
       autoGenerateWhenMissing: true,
       persistGeneratedToken: true,
@@ -151,8 +151,8 @@ describe("resolveGatewayInstallToken", () => {
 
     expect(result.token).toBeUndefined();
     expect(result.unavailableReason).toContain("gateway.auth.mode is unset");
-    expect(result.unavailableReason).toContain("SiriClaw-Instruct config set gateway.auth.mode token");
-    expect(result.unavailableReason).toContain("SiriClaw-Instruct config set gateway.auth.mode password");
+    expect(result.unavailableReason).toContain("SiriClawInstruct config set gateway.auth.mode token");
+    expect(result.unavailableReason).toContain("SiriClawInstruct config set gateway.auth.mode password");
     expect(writeConfigFileMock).not.toHaveBeenCalled();
     expect(resolveSecretRefValuesMock).not.toHaveBeenCalled();
   });
@@ -161,7 +161,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { mode: "token" } },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {} as NodeJS.ProcessEnv,
       autoGenerateWhenMissing: true,
     });
@@ -178,7 +178,7 @@ describe("resolveGatewayInstallToken", () => {
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { mode: "token" } },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {} as NodeJS.ProcessEnv,
       autoGenerateWhenMissing: true,
       persistGeneratedToken: true,
@@ -204,20 +204,20 @@ describe("resolveGatewayInstallToken", () => {
       config: {
         gateway: {
           auth: {
-            token: "${SiriClaw-Instruct_GATEWAY_TOKEN}",
+            token: "${SiriClawInstruct_GATEWAY_TOKEN}",
           },
         },
       },
       issues: [],
     });
     resolveSecretInputRefMock.mockReturnValueOnce({ ref: undefined }).mockReturnValueOnce({
-      ref: { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_TOKEN" },
+      ref: { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_TOKEN" },
     });
 
     const result = await resolveGatewayInstallToken({
       config: {
         gateway: { auth: { mode: "token" } },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {} as NodeJS.ProcessEnv,
       autoGenerateWhenMissing: true,
       persistGeneratedToken: true,
@@ -245,7 +245,7 @@ describe("resolveGatewayInstallToken", () => {
             default: { source: "env" },
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {} as NodeJS.ProcessEnv,
       autoGenerateWhenMissing: true,
       persistGeneratedToken: true,
@@ -258,7 +258,7 @@ describe("resolveGatewayInstallToken", () => {
   });
 
   it("skips token SecretRef resolution when token auth is not required", async () => {
-    const tokenRef = { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_TOKEN" };
+    const tokenRef = { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_TOKEN" };
     resolveSecretInputRefMock.mockReturnValue({ ref: tokenRef });
     shouldRequireGatewayTokenForInstallMock.mockReturnValue(false);
 
@@ -270,7 +270,7 @@ describe("resolveGatewayInstallToken", () => {
             token: tokenRef,
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {} as NodeJS.ProcessEnv,
     });
 
@@ -281,3 +281,4 @@ describe("resolveGatewayInstallToken", () => {
     expect(result.tokenRefConfigured).toBe(true);
   });
 });
+

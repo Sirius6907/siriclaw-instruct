@@ -370,3 +370,4 @@ describe("DiscordVoiceManager", () => {
     expect(client.fetchMember).toHaveBeenCalledTimes(1);
   });
 });
+

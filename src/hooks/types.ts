@@ -7,7 +7,7 @@ export type HookInstallSpec = {
   bins?: string[];
 };
 
-export type SiriClaw-InstructHookMetadata = {
+export type SiriClawInstructHookMetadata = {
   always?: boolean;
   hookKey?: string;
   emoji?: string;
@@ -35,7 +35,7 @@ export type ParsedHookFrontmatter = Record<string, string>;
 export type Hook = {
   name: string;
   description: string;
-  source: "SiriClaw-Instruct-bundled" | "SiriClaw-Instruct-managed" | "SiriClaw-Instruct-workspace" | "SiriClaw-Instruct-plugin";
+  source: "SiriClawInstruct-bundled" | "SiriClawInstruct-managed" | "SiriClawInstruct-workspace" | "SiriClawInstruct-plugin";
   pluginId?: string;
   filePath: string; // Path to HOOK.md
   baseDir: string; // Directory containing hook
@@ -47,7 +47,7 @@ export type HookSource = Hook["source"];
 export type HookEntry = {
   hook: Hook;
   frontmatter: ParsedHookFrontmatter;
-  metadata?: SiriClaw-InstructHookMetadata;
+  metadata?: SiriClawInstructHookMetadata;
   invocation?: HookInvocationPolicy;
 };
 
@@ -65,3 +65,4 @@ export type HookSnapshot = {
   resolvedHooks?: Hook[];
   version?: number;
 };
+

@@ -1,11 +1,11 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { coerceSecretRef, hasConfiguredSecretInput } from "../config/types.secrets.js";
 import type { SecretDefaults } from "./runtime-shared.js";
 import { isRecord } from "./shared.js";
 
-const GATEWAY_TOKEN_ENV_KEYS = ["SiriClaw-Instruct_GATEWAY_TOKEN", "SIRICLAW_GATEWAY_TOKEN"] as const;
+const GATEWAY_TOKEN_ENV_KEYS = ["SiriClawInstruct_GATEWAY_TOKEN", "SIRICLAW_GATEWAY_TOKEN"] as const;
 const GATEWAY_PASSWORD_ENV_KEYS = [
-  "SiriClaw-Instruct_GATEWAY_PASSWORD",
+  "SiriClawInstruct_GATEWAY_PASSWORD",
   "SIRICLAW_GATEWAY_PASSWORD",
 ] as const;
 
@@ -78,7 +78,7 @@ function createState(params: {
 }
 
 export function evaluateGatewayAuthSurfaceStates(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   env: NodeJS.ProcessEnv;
   defaults?: SecretDefaults;
 }): GatewayAuthSurfaceStateMap {
@@ -286,3 +286,4 @@ export function evaluateGatewayAuthSurfaceStates(params: {
     }),
   };
 }
+

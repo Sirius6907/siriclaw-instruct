@@ -1,5 +1,5 @@
 import type { NormalizedUsage } from "../agents/usage.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 export type ModelCostConfig = {
   input: number;
@@ -51,7 +51,7 @@ export function formatUsd(value?: number): string | undefined {
 export function resolveModelCostConfig(params: {
   provider?: string;
   model?: string;
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
 }): ModelCostConfig | undefined {
   const provider = params.provider?.trim();
   const model = params.model?.trim();
@@ -89,3 +89,4 @@ export function estimateUsageCost(params: {
   }
   return total / 1_000_000;
 }
+

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   deletePathStrict,
   getPath,
@@ -7,11 +7,11 @@ import {
   setPathExistingStrict,
 } from "./path-utils.js";
 
-function asConfig(value: unknown): SiriClaw-InstructConfig {
-  return value as SiriClaw-InstructConfig;
+function asConfig(value: unknown): SiriClawInstructConfig {
+  return value as SiriClawInstructConfig;
 }
 
-function createAgentListConfig(): SiriClaw-InstructConfig {
+function createAgentListConfig(): SiriClawInstructConfig {
   return asConfig({
     agents: {
       list: [{ id: "a" }],
@@ -77,3 +77,4 @@ describe("secrets path utils", () => {
     expect(getPath(config, ["talk", "apiKey"])).toBe("same");
   });
 });
+

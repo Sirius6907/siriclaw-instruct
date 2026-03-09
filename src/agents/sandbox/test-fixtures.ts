@@ -7,8 +7,8 @@ export function createSandboxTestContext(params?: {
   const overrides = params?.overrides ?? {};
   const { docker: _unusedDockerOverrides, ...sandboxOverrides } = overrides;
   const docker = {
-    image: "SiriClaw-Instruct-sandbox:bookworm-slim",
-    containerPrefix: "SiriClaw-Instruct-sbx-",
+    image: "SiriClawInstruct-sandbox:bookworm-slim",
+    containerPrefix: "SiriClawInstruct-sbx-",
     network: "none",
     user: "1000:1000",
     workdir: "/workspace",
@@ -32,7 +32,7 @@ export function createSandboxTestContext(params?: {
     workspaceDir: "/tmp/workspace",
     agentWorkspaceDir: "/tmp/workspace",
     workspaceAccess: "rw",
-    containerName: "SiriClaw-Instruct-sbx-test",
+    containerName: "SiriClawInstruct-sbx-test",
     containerWorkdir: "/workspace",
     tools: { allow: ["*"], deny: [] },
     browserAllowHostControl: false,
@@ -40,3 +40,4 @@ export function createSandboxTestContext(params?: {
     docker,
   };
 }
+

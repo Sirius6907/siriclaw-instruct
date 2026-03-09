@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { loadModelCatalog } from "../agents/model-catalog.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { withTempHome as withTempHomeHarness } from "../config/home-env.test-harness.js";
 import { getReplyFromConfig } from "./reply.js";
 
@@ -47,12 +47,12 @@ function createTelegramMessage(messageSid: string) {
   } as const;
 }
 
-function createReplyConfig(home: string, streamMode?: "block"): SiriClaw-InstructConfig {
+function createReplyConfig(home: string, streamMode?: "block"): SiriClawInstructConfig {
   return {
     agents: {
       defaults: {
         model: { primary: "anthropic/claude-opus-4-5" },
-        workspace: path.join(home, "SiriClaw-Instruct"),
+        workspace: path.join(home, "SiriClawInstruct"),
       },
     },
     channels: { telegram: { allowFrom: ["*"], streamMode } },
@@ -80,15 +80,15 @@ async function runTelegramReply(params: {
 }
 
 async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
-  return withTempHomeHarness("SiriClaw-Instruct-stream-", async (home) => {
-    await fs.mkdir(path.join(home, ".SiriClaw-Instruct", "agents", "main", "sessions"), { recursive: true });
+  return withTempHomeHarness("SiriClawInstruct-stream-", async (home) => {
+    await fs.mkdir(path.join(home, ".SiriClawInstruct", "agents", "main", "sessions"), { recursive: true });
     return fn(home);
   });
 }
 
 describe("block streaming", () => {
   beforeEach(() => {
-    vi.stubEnv("SiriClaw-Instruct_TEST_FAST", "1");
+    vi.stubEnv("SiriClawInstruct_TEST_FAST", "1");
     piEmbeddedMock.abortEmbeddedPiRun.mockClear().mockReturnValue(false);
     piEmbeddedMock.queueEmbeddedPiMessage.mockClear().mockReturnValue(false);
     piEmbeddedMock.isEmbeddedPiRunActive.mockClear().mockReturnValue(false);
@@ -211,8 +211,9 @@ describe("block streaming", () => {
       expect(onBlockReply).toHaveBeenCalledTimes(1);
       expect(onBlockReply.mock.calls[0][0]).toMatchObject({
         text: "Result",
-        mediaUrls: [path.join(home, "SiriClaw-Instruct", "image.png")],
+        mediaUrls: [path.join(home, "SiriClawInstruct", "image.png")],
       });
     });
   });
 });
+

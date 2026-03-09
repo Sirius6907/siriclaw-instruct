@@ -1,8 +1,8 @@
 import fs from "node:fs";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveUserPath } from "../utils.js";
 import { normalizePluginsConfig, type NormalizedPluginsConfig } from "./config-state.js";
-import { discoverSiriClaw-InstructPlugins, type PluginCandidate } from "./discovery.js";
+import { discoverSiriClawInstructPlugins, type PluginCandidate } from "./discovery.js";
 import { loadPluginManifest, type PluginManifest } from "./manifest.js";
 import { safeRealpathSync } from "./path-safety.js";
 import type { PluginConfigUiHint, PluginDiagnostic, PluginKind, PluginOrigin } from "./types.js";
@@ -54,7 +54,7 @@ export function clearPluginManifestRegistryCache(): void {
 }
 
 function resolveManifestCacheMs(env: NodeJS.ProcessEnv): number {
-  const raw = env.SiriClaw-Instruct_PLUGIN_MANIFEST_CACHE_MS?.trim();
+  const raw = env.SiriClawInstruct_PLUGIN_MANIFEST_CACHE_MS?.trim();
   if (raw === "" || raw === "0") {
     return 0;
   }
@@ -69,7 +69,7 @@ function resolveManifestCacheMs(env: NodeJS.ProcessEnv): number {
 }
 
 function shouldUseManifestCache(env: NodeJS.ProcessEnv): boolean {
-  const disabled = env.SiriClaw-Instruct_DISABLE_PLUGIN_MANIFEST_CACHE?.trim();
+  const disabled = env.SiriClawInstruct_DISABLE_PLUGIN_MANIFEST_CACHE?.trim();
   if (disabled) {
     return false;
   }
@@ -133,7 +133,7 @@ function buildRecord(params: {
 }
 
 export function loadPluginManifestRegistry(params: {
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   workspaceDir?: string;
   cache?: boolean;
   env?: NodeJS.ProcessEnv;
@@ -157,7 +157,7 @@ export function loadPluginManifestRegistry(params: {
         candidates: params.candidates,
         diagnostics: params.diagnostics ?? [],
       }
-    : discoverSiriClaw-InstructPlugins({
+    : discoverSiriClawInstructPlugins({
         workspaceDir: params.workspaceDir,
         extraPaths: normalized.loadPaths,
       });
@@ -259,3 +259,4 @@ export function loadPluginManifestRegistry(params: {
   }
   return registry;
 }
+

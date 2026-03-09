@@ -41,3 +41,4 @@ export function readSecretFromFile(filePath: string, label: string): string {
   }
   return secret;
 }
+

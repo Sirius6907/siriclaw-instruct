@@ -9,16 +9,16 @@ describe("normalizeConfigPaths", () => {
       const cfg = normalizeConfigPaths({
         tools: { exec: { pathPrepend: ["~/bin"] } },
         plugins: { load: { paths: ["~/plugins/a"] } },
-        logging: { file: "~/.SiriClaw-Instruct/logs/SiriClaw-Instruct.log" },
+        logging: { file: "~/.SiriClawInstruct/logs/SiriClawInstruct.log" },
         hooks: {
-          path: "~/.SiriClaw-Instruct/hooks.json5",
+          path: "~/.SiriClawInstruct/hooks.json5",
           transformsDir: "~/hooks-xform",
         },
         channels: {
           telegram: {
             accounts: {
               personal: {
-                tokenFile: "~/.SiriClaw-Instruct/telegram.token",
+                tokenFile: "~/.SiriClawInstruct/telegram.token",
               },
             },
           },
@@ -32,7 +32,7 @@ describe("normalizeConfigPaths", () => {
             {
               id: "main",
               workspace: "~/ws-agent",
-              agentDir: "~/.SiriClaw-Instruct/agents/main",
+              agentDir: "~/.SiriClawInstruct/agents/main",
               identity: {
                 name: "~not-a-path",
               },
@@ -43,19 +43,19 @@ describe("normalizeConfigPaths", () => {
       });
 
       expect(cfg.plugins?.load?.paths?.[0]).toBe(path.join(home, "plugins", "a"));
-      expect(cfg.logging?.file).toBe(path.join(home, ".SiriClaw-Instruct", "logs", "SiriClaw-Instruct.log"));
-      expect(cfg.hooks?.path).toBe(path.join(home, ".SiriClaw-Instruct", "hooks.json5"));
+      expect(cfg.logging?.file).toBe(path.join(home, ".SiriClawInstruct", "logs", "SiriClawInstruct.log"));
+      expect(cfg.hooks?.path).toBe(path.join(home, ".SiriClawInstruct", "hooks.json5"));
       expect(cfg.hooks?.transformsDir).toBe(path.join(home, "hooks-xform"));
       expect(cfg.tools?.exec?.pathPrepend?.[0]).toBe(path.join(home, "bin"));
       expect(cfg.channels?.telegram?.accounts?.personal?.tokenFile).toBe(
-        path.join(home, ".SiriClaw-Instruct", "telegram.token"),
+        path.join(home, ".SiriClawInstruct", "telegram.token"),
       );
       expect(cfg.channels?.imessage?.accounts?.personal?.dbPath).toBe(
         path.join(home, "Library", "Messages", "chat.db"),
       );
       expect(cfg.agents?.defaults?.workspace).toBe(path.join(home, "ws-default"));
       expect(cfg.agents?.list?.[0]?.workspace).toBe(path.join(home, "ws-agent"));
-      expect(cfg.agents?.list?.[0]?.agentDir).toBe(path.join(home, ".SiriClaw-Instruct", "agents", "main"));
+      expect(cfg.agents?.list?.[0]?.agentDir).toBe(path.join(home, ".SiriClawInstruct", "agents", "main"));
       expect(cfg.agents?.list?.[0]?.sandbox?.workspaceRoot).toBe(path.join(home, "sandbox-root"));
 
       // Non-path key => do not treat "~" as home expansion.
@@ -63,3 +63,4 @@ describe("normalizeConfigPaths", () => {
     });
   });
 });
+

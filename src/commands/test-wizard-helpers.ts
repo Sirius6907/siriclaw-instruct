@@ -37,7 +37,7 @@ export function createWizardPrompter(
 }
 
 export async function setupAuthTestEnv(
-  prefix = "SiriClaw-Instruct-auth-",
+  prefix = "SiriClawInstruct-auth-",
   options?: { agentSubdir?: string },
 ): Promise<{
   stateDir: string;
@@ -45,8 +45,8 @@ export async function setupAuthTestEnv(
 }> {
   const stateDir = await makeTempWorkspace(prefix);
   const agentDir = path.join(stateDir, options?.agentSubdir ?? "agent");
-  process.env.SiriClaw-Instruct_STATE_DIR = stateDir;
-  process.env.SiriClaw-Instruct_AGENT_DIR = agentDir;
+  process.env.SiriClawInstruct_STATE_DIR = stateDir;
+  process.env.SiriClawInstruct_AGENT_DIR = agentDir;
   process.env.PI_CODING_AGENT_DIR = agentDir;
   await fs.mkdir(agentDir, { recursive: true });
   return { stateDir, agentDir };
@@ -74,10 +74,10 @@ export function createAuthTestLifecycle(envKeys: string[]): AuthTestLifecycle {
   };
 }
 
-export function requireSiriClaw-InstructAgentDir(): string {
-  const agentDir = process.env.SiriClaw-Instruct_AGENT_DIR;
+export function requireSiriClawInstructAgentDir(): string {
+  const agentDir = process.env.SiriClawInstruct_AGENT_DIR;
   if (!agentDir) {
-    throw new Error("SiriClaw-Instruct_AGENT_DIR not set");
+    throw new Error("SiriClawInstruct_AGENT_DIR not set");
   }
   return agentDir;
 }
@@ -90,3 +90,4 @@ export async function readAuthProfilesForAgent<T>(agentDir: string): Promise<T> 
   const raw = await fs.readFile(authProfilePathForAgent(agentDir), "utf8");
   return JSON.parse(raw) as T;
 }
+

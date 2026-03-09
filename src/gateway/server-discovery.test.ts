@@ -10,21 +10,21 @@ describe("resolveTailnetDnsHint", () => {
   const prevTailnetDns = { value: undefined as string | undefined };
 
   beforeEach(() => {
-    prevTailnetDns.value = process.env.SiriClaw-Instruct_TAILNET_DNS;
-    delete process.env.SiriClaw-Instruct_TAILNET_DNS;
+    prevTailnetDns.value = process.env.SiriClawInstruct_TAILNET_DNS;
+    delete process.env.SiriClawInstruct_TAILNET_DNS;
     getTailnetHostname.mockClear();
   });
 
   afterEach(() => {
     if (prevTailnetDns.value === undefined) {
-      delete process.env.SiriClaw-Instruct_TAILNET_DNS;
+      delete process.env.SiriClawInstruct_TAILNET_DNS;
     } else {
-      process.env.SiriClaw-Instruct_TAILNET_DNS = prevTailnetDns.value;
+      process.env.SiriClawInstruct_TAILNET_DNS = prevTailnetDns.value;
     }
   });
 
   test("returns env hint when disabled", async () => {
-    process.env.SiriClaw-Instruct_TAILNET_DNS = "studio.tailnet.ts.net.";
+    process.env.SiriClawInstruct_TAILNET_DNS = "studio.tailnet.ts.net.";
     const value = await resolveTailnetDnsHint({ enabled: false });
     expect(value).toBe("studio.tailnet.ts.net");
     expect(getTailnetHostname).not.toHaveBeenCalled();
@@ -43,3 +43,4 @@ describe("resolveTailnetDnsHint", () => {
     expect(getTailnetHostname).toHaveBeenCalledTimes(1);
   });
 });
+

@@ -1,7 +1,7 @@
 import { createRequire } from "node:module";
 
-declare const __SiriClaw-Instruct_VERSION__: string | undefined;
-const CORE_PACKAGE_NAME = "SiriClaw-Instruct";
+declare const __SiriClawInstruct_VERSION__: string | undefined;
+const CORE_PACKAGE_NAME = "SiriClawInstruct";
 
 const PACKAGE_JSON_CANDIDATES = [
   "../package.json",
@@ -110,19 +110,20 @@ export function resolveRuntimeServiceVersion(
 
   return (
     firstNonEmpty(
-      env["SiriClaw-Instruct_VERSION"],
+      env["SiriClawInstruct_VERSION"],
       runtimeVersion,
-      env["SiriClaw-Instruct_SERVICE_VERSION"],
+      env["SiriClawInstruct_SERVICE_VERSION"],
       env["npm_package_version"],
     ) ?? fallback
   );
 }
 
-// Single source of truth for the current SiriClaw-Instruct version.
+// Single source of truth for the current SiriClawInstruct version.
 // - Embedded/bundled builds: injected define or env var.
 // - Dev/npm builds: package.json.
 export const VERSION = resolveBinaryVersion({
   moduleUrl: import.meta.url,
-  injectedVersion: typeof __SiriClaw-Instruct_VERSION__ === "string" ? __SiriClaw-Instruct_VERSION__ : undefined,
-  bundledVersion: process.env.SiriClaw-Instruct_BUNDLED_VERSION,
+  injectedVersion: typeof __SiriClawInstruct_VERSION__ === "string" ? __SiriClawInstruct_VERSION__ : undefined,
+  bundledVersion: process.env.SiriClawInstruct_BUNDLED_VERSION,
 });
+

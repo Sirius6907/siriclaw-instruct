@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
 
 type ChannelSection = {
@@ -14,12 +14,12 @@ function isConfiguredSecretValue(value: unknown): boolean {
 }
 
 export function setAccountEnabledInConfigSection(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   sectionKey: string;
   accountId: string;
   enabled: boolean;
   allowTopLevel?: boolean;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const accountKey = params.accountId || DEFAULT_ACCOUNT_ID;
   const channels = params.cfg.channels as Record<string, unknown> | undefined;
   const base = channels?.[params.sectionKey] as ChannelSection | undefined;
@@ -34,7 +34,7 @@ export function setAccountEnabledInConfigSection(params: {
           enabled: params.enabled,
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
   }
 
   const baseAccounts = base?.accounts ?? {};
@@ -54,15 +54,15 @@ export function setAccountEnabledInConfigSection(params: {
         },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 export function deleteAccountFromConfigSection(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   sectionKey: string;
   accountId: string;
   clearBaseFields?: string[];
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const accountKey = params.accountId || DEFAULT_ACCOUNT_ID;
   const channels = params.cfg.channels as Record<string, unknown> | undefined;
   const base = channels?.[params.sectionKey] as ChannelSection | undefined;
@@ -85,7 +85,7 @@ export function deleteAccountFromConfigSection(params: {
           accounts: Object.keys(accounts).length ? accounts : undefined,
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
   }
 
   if (baseAccounts && Object.keys(baseAccounts).length > 0) {
@@ -105,14 +105,14 @@ export function deleteAccountFromConfigSection(params: {
           accounts: Object.keys(baseAccounts).length ? baseAccounts : undefined,
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
   }
 
   const nextChannels = { ...params.cfg.channels } as Record<string, unknown>;
   delete nextChannels[params.sectionKey];
-  const nextCfg = { ...params.cfg } as SiriClaw-InstructConfig;
+  const nextCfg = { ...params.cfg } as SiriClawInstructConfig;
   if (Object.keys(nextChannels).length > 0) {
-    nextCfg.channels = nextChannels as SiriClaw-InstructConfig["channels"];
+    nextCfg.channels = nextChannels as SiriClawInstructConfig["channels"];
   } else {
     delete nextCfg.channels;
   }
@@ -173,3 +173,4 @@ export function clearAccountEntryFields<TAccountEntry extends object>(params: {
     cleared,
   };
 }
+

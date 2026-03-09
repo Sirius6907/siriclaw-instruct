@@ -6,7 +6,7 @@ import {
   getSessionsSpawnTool,
   resetSessionsSpawnConfigOverride,
   setSessionsSpawnConfigOverride,
-} from "./SiriClaw-Instruct-tools.subagents.sessions-spawn.test-harness.js";
+} from "./siriclaw-instruct-tools.subagents.sessions-spawn.test-harness.js";
 import { resetSubagentRegistryForTests } from "./subagent-registry.js";
 import { SUBAGENT_SPAWN_ACCEPTED_NOTE } from "./subagent-spawn.js";
 
@@ -96,7 +96,7 @@ async function expectSpawnUsesConfiguredModel(params: {
   });
 }
 
-describe("SiriClaw-Instruct-tools: subagents (sessions_spawn model + thinking)", () => {
+describe("SiriClawInstruct-tools: subagents (sessions_spawn model + thinking)", () => {
   beforeEach(() => {
     resetSessionsSpawnConfigOverride();
     resetSubagentRegistryForTests();
@@ -305,3 +305,4 @@ describe("SiriClaw-Instruct-tools: subagents (sessions_spawn model + thinking)",
     expect(spawnedTimeout).toBe(2);
   });
 });
+

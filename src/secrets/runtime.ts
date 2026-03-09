@@ -1,4 +1,4 @@
-import { resolveSiriClaw-InstructAgentDir } from "../agents/agent-paths.js";
+import { resolveSiriClawInstructAgentDir } from "../agents/agent-paths.js";
 import { listAgentIds, resolveAgentDir } from "../agents/agent-scope.js";
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
 import {
@@ -9,7 +9,7 @@ import {
 import {
   clearRuntimeConfigSnapshot,
   setRuntimeConfigSnapshot,
-  type SiriClaw-InstructConfig,
+  type SiriClawInstructConfig,
 } from "../config/config.js";
 import { resolveUserPath } from "../utils.js";
 import {
@@ -28,8 +28,8 @@ import {
 export type { SecretResolverWarning } from "./runtime-shared.js";
 
 export type PreparedSecretsRuntimeSnapshot = {
-  sourceConfig: SiriClaw-InstructConfig;
-  config: SiriClaw-InstructConfig;
+  sourceConfig: SiriClawInstructConfig;
+  config: SiriClawInstructConfig;
   authStores: Array<{ agentDir: string; store: AuthProfileStore }>;
   warnings: SecretResolverWarning[];
 };
@@ -48,9 +48,9 @@ function cloneSnapshot(snapshot: PreparedSecretsRuntimeSnapshot): PreparedSecret
   };
 }
 
-function collectCandidateAgentDirs(config: SiriClaw-InstructConfig): string[] {
+function collectCandidateAgentDirs(config: SiriClawInstructConfig): string[] {
   const dirs = new Set<string>();
-  dirs.add(resolveUserPath(resolveSiriClaw-InstructAgentDir()));
+  dirs.add(resolveUserPath(resolveSiriClawInstructAgentDir()));
   for (const agentId of listAgentIds(config)) {
     dirs.add(resolveUserPath(resolveAgentDir(config, agentId)));
   }
@@ -58,7 +58,7 @@ function collectCandidateAgentDirs(config: SiriClaw-InstructConfig): string[] {
 }
 
 export async function prepareSecretsRuntimeSnapshot(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   env?: NodeJS.ProcessEnv;
   agentDirs?: string[];
   loadAuthStore?: (agentDir?: string) => AuthProfileStore;
@@ -159,3 +159,4 @@ export function clearSecretsRuntimeSnapshot(): void {
   clearRuntimeConfigSnapshot();
   clearRuntimeAuthProfileStoreSnapshots();
 }
+

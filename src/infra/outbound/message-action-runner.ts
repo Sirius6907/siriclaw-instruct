@@ -12,7 +12,7 @@ import type {
   ChannelMessageActionName,
   ChannelThreadingToolContext,
 } from "../../channels/plugins/types.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { getAgentScopedMediaLocalRoots } from "../../media/local-roots.js";
 import { hasPollCreationParams, resolveTelegramPollVisibility } from "../../poll-params.js";
 import { resolvePollMaxSelections } from "../../polls.js";
@@ -88,7 +88,7 @@ function resolveAndApplyOutboundThreadId(
 }
 
 export type RunMessageActionParams = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   action: ChannelMessageActionName;
   params: Record<string, unknown>;
   defaultAccountId?: string;
@@ -182,7 +182,7 @@ function applyCrossContextMessageDecoration({
 }
 
 async function maybeApplyCrossContextMarker(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: ChannelId;
   action: ChannelMessageActionName;
   target: string;
@@ -214,7 +214,7 @@ async function maybeApplyCrossContextMarker(params: {
 }
 
 async function resolveChannel(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   params: Record<string, unknown>,
   toolContext?: { currentChannelProvider?: string },
 ) {
@@ -230,7 +230,7 @@ async function resolveChannel(
 }
 
 async function resolveActionTarget(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: ChannelId;
   action: ChannelMessageActionName;
   args: Record<string, unknown>;
@@ -275,7 +275,7 @@ async function resolveActionTarget(params: {
 }
 
 type ResolvedActionContext = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   params: Record<string, unknown>;
   channel: ChannelId;
   accountId?: string | null;
@@ -812,3 +812,4 @@ export async function runMessageAction(
     abortSignal: input.abortSignal,
   });
 }
+

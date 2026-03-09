@@ -339,3 +339,4 @@ export type AgentCompactionMemoryFlushConfig = {
   /** System prompt appended for the memory flush turn. */
   systemPrompt?: string;
 };
+

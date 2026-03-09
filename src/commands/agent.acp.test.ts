@@ -5,7 +5,7 @@ import { withTempHome as withTempHomeBase } from "../../test/helpers/temp-home.j
 import * as acpManagerModule from "../acp/control-plane/manager.js";
 import { AcpRuntimeError } from "../acp/runtime/errors.js";
 import * as embeddedModule from "../agents/pi-embedded.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import * as configModule from "../config/config.js";
 import { onAgentEvent } from "../infra/agent-events.js";
 import type { RuntimeEnv } from "../runtime.js";
@@ -24,10 +24,10 @@ const runtime: RuntimeEnv = {
 };
 
 async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
-  return withTempHomeBase(fn, { prefix: "SiriClaw-Instruct-agent-acp-" });
+  return withTempHomeBase(fn, { prefix: "SiriClawInstruct-agent-acp-" });
 }
 
-function createAcpEnabledConfig(home: string, storePath: string): SiriClaw-InstructConfig {
+function createAcpEnabledConfig(home: string, storePath: string): SiriClawInstructConfig {
   return {
     acp: {
       enabled: true,
@@ -39,7 +39,7 @@ function createAcpEnabledConfig(home: string, storePath: string): SiriClaw-Instr
       defaults: {
         model: { primary: "openai/gpt-5.3-codex" },
         models: { "openai/gpt-5.3-codex": {} },
-        workspace: path.join(home, "SiriClaw-Instruct"),
+        workspace: path.join(home, "SiriClawInstruct"),
       },
     },
     session: { store: storePath, mainKey: "main" },
@@ -53,7 +53,7 @@ function mockConfig(home: string, storePath: string) {
 function mockConfigWithAcpOverrides(
   home: string,
   storePath: string,
-  acpOverrides: Partial<NonNullable<SiriClaw-InstructConfig["acp"]>>,
+  acpOverrides: Partial<NonNullable<SiriClawInstructConfig["acp"]>>,
 ) {
   const cfg = createAcpEnabledConfig(home, storePath);
   cfg.acp = {
@@ -110,7 +110,7 @@ function resolveReadySession(
 function mockAcpManager(params: {
   runTurn: (params: unknown) => Promise<void>;
   resolveSession?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     sessionKey: string;
   }) => ReturnType<ReturnType<typeof acpManagerModule.getAcpSessionManager>["resolveSession"]>;
 }) {
@@ -160,7 +160,7 @@ function subscribeAssistantEvents() {
 }
 
 async function runAcpSessionWithPolicyOverrides(params: {
-  acpOverrides: Partial<NonNullable<SiriClaw-InstructConfig["acp"]>>;
+  acpOverrides: Partial<NonNullable<SiriClawInstructConfig["acp"]>>;
   resolveSession?: Parameters<typeof mockAcpManager>[0]["resolveSession"];
 }) {
   await withTempHome(async (home) => {
@@ -378,13 +378,13 @@ describe("agentCommand ACP runtime routing", () => {
   it.each([
     {
       name: "blocks ACP turns when ACP is disabled by policy",
-      acpOverrides: { enabled: false } satisfies Partial<NonNullable<SiriClaw-InstructConfig["acp"]>>,
+      acpOverrides: { enabled: false } satisfies Partial<NonNullable<SiriClawInstructConfig["acp"]>>,
     },
     {
       name: "blocks ACP turns when ACP dispatch is disabled by policy",
       acpOverrides: {
         dispatch: { enabled: false },
-      } satisfies Partial<NonNullable<SiriClaw-InstructConfig["acp"]>>,
+      } satisfies Partial<NonNullable<SiriClawInstructConfig["acp"]>>,
     },
   ])("$name", async ({ acpOverrides }) => {
     await runAcpSessionWithPolicyOverrides({ acpOverrides });
@@ -441,3 +441,4 @@ describe("agentCommand ACP runtime routing", () => {
     });
   });
 });
+

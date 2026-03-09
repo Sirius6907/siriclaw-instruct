@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Foundation
 import Testing
 import UIKit
@@ -490,3 +490,4 @@ private final class MockWatchMessagingService: @preconcurrency WatchMessagingSer
         #expect(appModel.screen.urlString.isEmpty)
     }
 }
+

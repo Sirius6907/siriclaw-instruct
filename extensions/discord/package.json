@@ -1,11 +1,15 @@
 {
-  "name": "@SiriClaw-Instruct/discord",
+  "name": "@siriclaw-instruct/discord",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct Discord channel plugin",
+  "description": "siriclaw-instruct Discord channel plugin",
   "type": "module",
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

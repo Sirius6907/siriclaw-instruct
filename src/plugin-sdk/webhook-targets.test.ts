@@ -357,3 +357,4 @@ describe("resolveWebhookTargetWithAuthOrRejectSync", () => {
     expect(target).toEqual({ id: "a" });
   });
 });
+

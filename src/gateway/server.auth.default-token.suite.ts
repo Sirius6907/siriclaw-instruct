@@ -77,8 +77,8 @@ export function registerDefaultAuthTokenSuite(): void {
 
     test("closes silent handshakes after timeout", async () => {
       vi.useRealTimers();
-      const prevHandshakeTimeout = process.env.SiriClaw-Instruct_TEST_HANDSHAKE_TIMEOUT_MS;
-      process.env.SiriClaw-Instruct_TEST_HANDSHAKE_TIMEOUT_MS = "20";
+      const prevHandshakeTimeout = process.env.SiriClawInstruct_TEST_HANDSHAKE_TIMEOUT_MS;
+      process.env.SiriClawInstruct_TEST_HANDSHAKE_TIMEOUT_MS = "20";
       try {
         const ws = await openWs(port);
         const handshakeTimeoutMs = getHandshakeTimeoutMs();
@@ -86,9 +86,9 @@ export function registerDefaultAuthTokenSuite(): void {
         expect(closed).toBe(true);
       } finally {
         if (prevHandshakeTimeout === undefined) {
-          delete process.env.SiriClaw-Instruct_TEST_HANDSHAKE_TIMEOUT_MS;
+          delete process.env.SiriClawInstruct_TEST_HANDSHAKE_TIMEOUT_MS;
         } else {
-          process.env.SiriClaw-Instruct_TEST_HANDSHAKE_TIMEOUT_MS = prevHandshakeTimeout;
+          process.env.SiriClawInstruct_TEST_HANDSHAKE_TIMEOUT_MS = prevHandshakeTimeout;
         }
       }
     });
@@ -117,24 +117,24 @@ export function registerDefaultAuthTokenSuite(): void {
       for (const testCase of [
         {
           env: {
-            SiriClaw-Instruct_VERSION: " ",
-            SiriClaw-Instruct_SERVICE_VERSION: "2.4.6-service",
+            SiriClawInstruct_VERSION: " ",
+            SiriClawInstruct_SERVICE_VERSION: "2.4.6-service",
             npm_package_version: "1.0.0-package",
           },
           expectedVersion: VERSION,
         },
         {
           env: {
-            SiriClaw-Instruct_VERSION: "9.9.9-cli",
-            SiriClaw-Instruct_SERVICE_VERSION: "2.4.6-service",
+            SiriClawInstruct_VERSION: "9.9.9-cli",
+            SiriClawInstruct_SERVICE_VERSION: "2.4.6-service",
             npm_package_version: "1.0.0-package",
           },
           expectedVersion: "9.9.9-cli",
         },
         {
           env: {
-            SiriClaw-Instruct_VERSION: " ",
-            SiriClaw-Instruct_SERVICE_VERSION: "\t",
+            SiriClawInstruct_VERSION: " ",
+            SiriClawInstruct_SERVICE_VERSION: "\t",
             npm_package_version: "1.0.0-package",
           },
           expectedVersion: VERSION,
@@ -227,7 +227,7 @@ export function registerDefaultAuthTokenSuite(): void {
         scopes: [],
         clientId: GATEWAY_CLIENT_NAMES.TEST,
         clientMode: GATEWAY_CLIENT_MODES.TEST,
-        identityPath: path.join(os.tmpdir(), `SiriClaw-Instruct-test-device-${randomUUID()}.json`),
+        identityPath: path.join(os.tmpdir(), `SiriClawInstruct-test-device-${randomUUID()}.json`),
         nonce,
       });
 
@@ -412,3 +412,4 @@ export function registerDefaultAuthTokenSuite(): void {
     });
   });
 }
+

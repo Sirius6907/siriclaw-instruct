@@ -4,9 +4,9 @@ import { normalizeSecretInputString, resolveSecretInputRef } from "../config/typ
 import { secretRefKey } from "../secrets/ref-contract.js";
 import { resolveSecretRefValues } from "../secrets/resolve.js";
 
-const RELAY_TOKEN_CONTEXT = "SiriClaw-Instruct-extension-relay-v1";
+const RELAY_TOKEN_CONTEXT = "SiriClawInstruct-extension-relay-v1";
 const DEFAULT_RELAY_PROBE_TIMEOUT_MS = 500;
-const SiriClaw-Instruct_RELAY_BROWSER = "SiriClaw-Instruct/extension-relay";
+const SiriClawInstruct_RELAY_BROWSER = "SiriClawInstruct/extension-relay";
 
 class SecretRefUnavailableError extends Error {
   readonly isSecretRefUnavailable = true;
@@ -22,7 +22,7 @@ function trimToUndefined(value: unknown): string | undefined {
 
 async function resolveGatewayAuthToken(): Promise<string | null> {
   const envToken =
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN?.trim() || process.env.SIRICLAW_GATEWAY_TOKEN?.trim();
+    process.env.SiriClawInstruct_GATEWAY_TOKEN?.trim() || process.env.SIRICLAW_GATEWAY_TOKEN?.trim();
   if (envToken) {
     return envToken;
   }
@@ -47,7 +47,7 @@ async function resolveGatewayAuthToken(): Promise<string | null> {
         // handled below
       }
       throw new SecretRefUnavailableError(
-        `extension relay requires a resolved gateway token, but gateway.auth.token SecretRef is unavailable (${refLabel}). Set SiriClaw-Instruct_GATEWAY_TOKEN or resolve your secret provider.`,
+        `extension relay requires a resolved gateway token, but gateway.auth.token SecretRef is unavailable (${refLabel}). Set SiriClawInstruct_GATEWAY_TOKEN or resolve your secret provider.`,
       );
     }
     const configToken = normalizeSecretInputString(cfg.gateway?.auth?.token);
@@ -71,7 +71,7 @@ export async function resolveRelayAcceptedTokensForPort(port: number): Promise<s
   const gatewayToken = await resolveGatewayAuthToken();
   if (!gatewayToken) {
     throw new Error(
-      "extension relay requires gateway auth token (set gateway.auth.token or SiriClaw-Instruct_GATEWAY_TOKEN)",
+      "extension relay requires gateway auth token (set gateway.auth.token or SiriClawInstruct_GATEWAY_TOKEN)",
     );
   }
   const relayToken = deriveRelayAuthToken(gatewayToken, port);
@@ -85,7 +85,7 @@ export async function resolveRelayAuthTokenForPort(port: number): Promise<string
   return (await resolveRelayAcceptedTokensForPort(port))[0];
 }
 
-export async function probeAuthenticatedSiriClaw-InstructRelay(params: {
+export async function probeAuthenticatedSiriClawInstructRelay(params: {
   baseUrl: string;
   relayAuthHeader: string;
   relayAuthToken: string;
@@ -104,10 +104,11 @@ export async function probeAuthenticatedSiriClaw-InstructRelay(params: {
     }
     const body = (await res.json()) as { Browser?: unknown };
     const browserName = typeof body?.Browser === "string" ? body.Browser.trim() : "";
-    return browserName === SiriClaw-Instruct_RELAY_BROWSER;
+    return browserName === SiriClawInstruct_RELAY_BROWSER;
   } catch {
     return false;
   } finally {
     clearTimeout(timer);
   }
 }
+

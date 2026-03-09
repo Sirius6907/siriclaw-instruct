@@ -27,7 +27,7 @@ describe("discord audit", () => {
           },
         },
       },
-    } as unknown as import("../config/config.js").SiriClaw-InstructConfig;
+    } as unknown as import("../config/config.js").SiriClawInstructConfig;
 
     const collected = collectDiscordAuditChannelIds({
       cfg,
@@ -73,7 +73,7 @@ describe("discord audit", () => {
           },
         },
       },
-    } as unknown as import("../config/config.js").SiriClaw-InstructConfig;
+    } as unknown as import("../config/config.js").SiriClawInstructConfig;
 
     const collected = collectDiscordAuditChannelIds({ cfg, accountId: "default" });
     expect(collected.channelIds).toEqual(["111"]);
@@ -98,7 +98,7 @@ describe("discord audit", () => {
           },
         },
       },
-    } as unknown as import("../config/config.js").SiriClaw-InstructConfig;
+    } as unknown as import("../config/config.js").SiriClawInstructConfig;
 
     const collected = collectDiscordAuditChannelIds({ cfg, accountId: "default" });
     expect(collected.channelIds).toEqual([]);
@@ -127,10 +127,11 @@ describe("discord audit", () => {
           },
         },
       },
-    } as unknown as import("../config/config.js").SiriClaw-InstructConfig;
+    } as unknown as import("../config/config.js").SiriClawInstructConfig;
 
     const collected = collectDiscordAuditChannelIds({ cfg, accountId: "default" });
     expect(collected.channelIds).toEqual(["111"]);
     expect(collected.unresolvedChannels).toBe(1);
   });
 });
+

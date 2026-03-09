@@ -1,5 +1,5 @@
 import type { Command } from "commander";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { isTruthyEnvValue } from "../../infra/env.js";
 import { getPrimaryCommand, hasHelpOrVersion } from "../argv.js";
 import { reparseProgramFromActionArgs } from "./action-reparse.js";
@@ -15,7 +15,7 @@ type SubCliEntry = {
 };
 
 const shouldRegisterPrimaryOnly = (argv: string[]) => {
-  if (isTruthyEnvValue(process.env.SiriClaw-Instruct_DISABLE_LAZY_SUBCOMMANDS)) {
+  if (isTruthyEnvValue(process.env.SiriClawInstruct_DISABLE_LAZY_SUBCOMMANDS)) {
     return false;
   }
   if (hasHelpOrVersion(argv)) {
@@ -25,11 +25,11 @@ const shouldRegisterPrimaryOnly = (argv: string[]) => {
 };
 
 const shouldEagerRegisterSubcommands = (_argv: string[]) => {
-  return isTruthyEnvValue(process.env.SiriClaw-Instruct_DISABLE_LAZY_SUBCOMMANDS);
+  return isTruthyEnvValue(process.env.SiriClawInstruct_DISABLE_LAZY_SUBCOMMANDS);
 };
 
 export const loadValidatedConfigForPluginRegistration =
-  async (): Promise<SiriClaw-InstructConfig | null> => {
+  async (): Promise<SiriClawInstructConfig | null> => {
     const mod = await import("../../config/config.js");
     const snapshot = await mod.readConfigFileSnapshot();
     if (!snapshot.valid) {
@@ -170,7 +170,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "docs",
-    description: "Search the live SiriClaw-Instruct docs",
+    description: "Search the live SiriClawInstruct docs",
     hasSubcommands: false,
     register: async (program) => {
       const mod = await import("../docs-cli.js");
@@ -232,7 +232,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "plugins",
-    description: "Manage SiriClaw-Instruct plugins and extensions",
+    description: "Manage SiriClawInstruct plugins and extensions",
     hasSubcommands: true,
     register: async (program) => {
       const mod = await import("../plugins-cli.js");
@@ -291,7 +291,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "update",
-    description: "Update SiriClaw-Instruct and inspect update channel status",
+    description: "Update SiriClawInstruct and inspect update channel status",
     hasSubcommands: true,
     register: async (program) => {
       const mod = await import("../update-cli.js");
@@ -357,3 +357,4 @@ export function registerSubCliCommands(program: Command, argv: string[] = proces
     registerLazyCommand(program, candidate);
   }
 }
+

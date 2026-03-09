@@ -87,3 +87,4 @@ if (await tryImport("./dist/entry.js")) {
 } else {
   throw new Error("sirius: missing dist/entry.(m)js (build output).");
 }
+

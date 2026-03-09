@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { ChannelGroupPolicy } from "../config/group-policy.js";
 import type { TelegramAccountConfig } from "../config/types.js";
 import type { RuntimeEnv } from "../runtime.js";
@@ -24,7 +24,7 @@ vi.mock("../pairing/pairing-store.js", () => ({
 
 describe("native command auth in groups", () => {
   function setup(params: {
-    cfg?: SiriClaw-InstructConfig;
+    cfg?: SiriClawInstructConfig;
     telegramCfg?: TelegramAccountConfig;
     allowFrom?: string[];
     groupAllowFrom?: string[];
@@ -46,7 +46,7 @@ describe("native command auth in groups", () => {
 
     registerTelegramNativeCommands({
       bot: bot as unknown as Parameters<typeof registerTelegramNativeCommands>[0]["bot"],
-      cfg: params.cfg ?? ({} as SiriClaw-InstructConfig),
+      cfg: params.cfg ?? ({} as SiriClawInstructConfig),
       runtime: {} as unknown as RuntimeEnv,
       accountId: "default",
       telegramCfg: params.telegramCfg ?? ({} as TelegramAccountConfig),
@@ -111,7 +111,7 @@ describe("native command auth in groups", () => {
             telegram: ["12345"],
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       allowFrom: ["99999"],
       groupAllowFrom: ["99999"],
       useAccessGroups: true,
@@ -144,7 +144,7 @@ describe("native command auth in groups", () => {
             telegram: ["99999"],
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       groupAllowFrom: ["12345"],
       useAccessGroups: true,
     });
@@ -177,7 +177,7 @@ describe("native command auth in groups", () => {
             telegram: ["12345"],
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       telegramCfg: {
         groupPolicy: "disabled",
       } as TelegramAccountConfig,
@@ -217,7 +217,7 @@ describe("native command auth in groups", () => {
             telegram: ["12345"],
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       useAccessGroups: true,
       resolveGroupPolicy: () =>
         ({
@@ -299,3 +299,4 @@ describe("native command auth in groups", () => {
     );
   });
 });
+

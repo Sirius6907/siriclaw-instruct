@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { AgentModelEntryConfig } from "../config/types.agent-defaults.js";
 import type { ModelDefinitionConfig } from "../config/types.models.js";
 import {
@@ -26,7 +26,7 @@ describe("onboard auth provider config merges", () => {
   };
 
   it("appends missing default models to existing provider models", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       models: {
         providers: {
           custom: {
@@ -57,7 +57,7 @@ describe("onboard auth provider config merges", () => {
   });
 
   it("merges model catalogs without duplicating existing model ids", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       models: {
         providers: {
           custom: {
@@ -98,3 +98,4 @@ describe("onboard auth provider config merges", () => {
     expect(next.models?.providers?.custom?.models?.map((m) => m.id)).toEqual(["model-z"]);
   });
 });
+

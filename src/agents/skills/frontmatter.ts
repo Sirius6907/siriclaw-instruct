@@ -2,18 +2,18 @@ import type { Skill } from "@mariozechner/pi-coding-agent";
 import { validateRegistryNpmSpec } from "../../infra/npm-registry-spec.js";
 import { parseFrontmatterBlock } from "../../markdown/frontmatter.js";
 import {
-  applySiriClaw-InstructManifestInstallCommonFields,
+  applySiriClawInstructManifestInstallCommonFields,
   getFrontmatterString,
   normalizeStringList,
-  parseSiriClaw-InstructManifestInstallBase,
+  parseSiriClawInstructManifestInstallBase,
   parseFrontmatterBool,
-  resolveSiriClaw-InstructManifestBlock,
-  resolveSiriClaw-InstructManifestInstall,
-  resolveSiriClaw-InstructManifestOs,
-  resolveSiriClaw-InstructManifestRequires,
+  resolveSiriClawInstructManifestBlock,
+  resolveSiriClawInstructManifestInstall,
+  resolveSiriClawInstructManifestOs,
+  resolveSiriClawInstructManifestRequires,
 } from "../../shared/frontmatter.js";
 import type {
-  SiriClaw-InstructSkillMetadata,
+  SiriClawInstructSkillMetadata,
   ParsedSkillFrontmatter,
   SkillEntry,
   SkillInstallSpec,
@@ -109,12 +109,12 @@ function normalizeSafeDownloadUrl(raw: unknown): string | undefined {
 }
 
 function parseInstallSpec(input: unknown): SkillInstallSpec | undefined {
-  const parsed = parseSiriClaw-InstructManifestInstallBase(input, ["brew", "node", "go", "uv", "download"]);
+  const parsed = parseSiriClawInstructManifestInstallBase(input, ["brew", "node", "go", "uv", "download"]);
   if (!parsed) {
     return undefined;
   }
   const { raw } = parsed;
-  const spec = applySiriClaw-InstructManifestInstallCommonFields<SkillInstallSpec>(
+  const spec = applySiriClawInstructManifestInstallCommonFields<SkillInstallSpec>(
     {
       kind: parsed.kind as SkillInstallSpec["kind"],
     },
@@ -183,16 +183,16 @@ function parseInstallSpec(input: unknown): SkillInstallSpec | undefined {
   return spec;
 }
 
-export function resolveSiriClaw-InstructMetadata(
+export function resolveSiriClawInstructMetadata(
   frontmatter: ParsedSkillFrontmatter,
-): SiriClaw-InstructSkillMetadata | undefined {
-  const metadataObj = resolveSiriClaw-InstructManifestBlock({ frontmatter });
+): SiriClawInstructSkillMetadata | undefined {
+  const metadataObj = resolveSiriClawInstructManifestBlock({ frontmatter });
   if (!metadataObj) {
     return undefined;
   }
-  const requires = resolveSiriClaw-InstructManifestRequires(metadataObj);
-  const install = resolveSiriClaw-InstructManifestInstall(metadataObj, parseInstallSpec);
-  const osRaw = resolveSiriClaw-InstructManifestOs(metadataObj);
+  const requires = resolveSiriClawInstructManifestRequires(metadataObj);
+  const install = resolveSiriClawInstructManifestInstall(metadataObj, parseInstallSpec);
+  const osRaw = resolveSiriClawInstructManifestOs(metadataObj);
   return {
     always: typeof metadataObj.always === "boolean" ? metadataObj.always : undefined,
     emoji: typeof metadataObj.emoji === "string" ? metadataObj.emoji : undefined,
@@ -220,3 +220,4 @@ export function resolveSkillInvocationPolicy(
 export function resolveSkillKey(skill: Skill, entry?: SkillEntry): string {
   return entry?.metadata?.skillKey ?? skill.name;
 }
+

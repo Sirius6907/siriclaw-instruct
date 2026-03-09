@@ -1,15 +1,15 @@
 import { normalizeChatChannelId } from "../channels/registry.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { ensurePluginAllowlisted } from "../config/plugins-allowlist.js";
 import { setPluginEnabledInConfig } from "./toggle-config.js";
 
 export type PluginEnableResult = {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   enabled: boolean;
   reason?: string;
 };
 
-export function enablePluginInConfig(cfg: SiriClaw-InstructConfig, pluginId: string): PluginEnableResult {
+export function enablePluginInConfig(cfg: SiriClawInstructConfig, pluginId: string): PluginEnableResult {
   const builtInChannelId = normalizeChatChannelId(pluginId);
   const resolvedId = builtInChannelId ?? pluginId;
   if (cfg.plugins?.enabled === false) {
@@ -22,3 +22,4 @@ export function enablePluginInConfig(cfg: SiriClaw-InstructConfig, pluginId: str
   next = ensurePluginAllowlisted(next, resolvedId);
   return { config: next, enabled: true };
 }
+

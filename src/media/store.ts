@@ -375,3 +375,4 @@ export async function saveMediaBuffer(
   await retryAfterRecreatingDir(dir, () => fs.writeFile(dest, buffer, { mode: MEDIA_FILE_MODE }));
   return { id, path: dest, size: buffer.byteLength, contentType: mime };
 }
+

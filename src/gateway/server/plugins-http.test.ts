@@ -274,3 +274,4 @@ describe("plugin HTTP route auth checks", () => {
     expect(shouldEnforceGatewayAuthForPluginPath(registry, "/plugin/secure/report")).toBe(true);
   });
 });
+

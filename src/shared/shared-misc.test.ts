@@ -4,7 +4,7 @@ import {
   getFrontmatterString,
   normalizeStringList,
   parseFrontmatterBool,
-  resolveSiriClaw-InstructManifestBlock,
+  resolveSiriClawInstructManifestBlock,
 } from "./frontmatter.js";
 import { resolveNodeIdFromCandidates } from "./node-match.js";
 
@@ -66,20 +66,20 @@ describe("shared/frontmatter", () => {
     expect(parseFrontmatterBool(undefined, true)).toBe(true);
   });
 
-  test("resolveSiriClaw-InstructManifestBlock parses JSON5 metadata and picks SiriClaw-Instruct block", () => {
+  test("resolveSiriClawInstructManifestBlock parses JSON5 metadata and picks SiriClawInstruct block", () => {
     const frontmatter = {
-      metadata: "{ SiriClaw-Instruct: { foo: 1, bar: 'baz' } }",
+      metadata: "{ SiriClawInstruct: { foo: 1, bar: 'baz' } }",
     };
-    expect(resolveSiriClaw-InstructManifestBlock({ frontmatter })).toEqual({ foo: 1, bar: "baz" });
+    expect(resolveSiriClawInstructManifestBlock({ frontmatter })).toEqual({ foo: 1, bar: "baz" });
   });
 
-  test("resolveSiriClaw-InstructManifestBlock returns undefined for invalid input", () => {
-    expect(resolveSiriClaw-InstructManifestBlock({ frontmatter: {} })).toBeUndefined();
+  test("resolveSiriClawInstructManifestBlock returns undefined for invalid input", () => {
+    expect(resolveSiriClawInstructManifestBlock({ frontmatter: {} })).toBeUndefined();
     expect(
-      resolveSiriClaw-InstructManifestBlock({ frontmatter: { metadata: "not-json5" } }),
+      resolveSiriClawInstructManifestBlock({ frontmatter: { metadata: "not-json5" } }),
     ).toBeUndefined();
     expect(
-      resolveSiriClaw-InstructManifestBlock({ frontmatter: { metadata: "{ nope: { a: 1 } }" } }),
+      resolveSiriClawInstructManifestBlock({ frontmatter: { metadata: "{ nope: { a: 1 } }" } }),
     ).toBeUndefined();
   });
 });
@@ -149,3 +149,4 @@ describe("resolveNodeIdFromCandidates", () => {
     ).toThrow(/ambiguous node: iphone.*matches:/);
   });
 });
+

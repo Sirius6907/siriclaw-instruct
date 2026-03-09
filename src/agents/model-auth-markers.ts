@@ -78,3 +78,4 @@ export function isNonSecretApiKeyMarker(
   // known env-var markers we intentionally persist for compatibility.
   return KNOWN_ENV_API_KEY_MARKERS.has(trimmed);
 }
+

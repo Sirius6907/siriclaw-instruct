@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
 import { applyDefaultModelChoice } from "./auth-choice.default-model.js";
 import {
@@ -34,7 +34,7 @@ function makePrompter(): WizardPrompter {
 }
 
 function expectPrimaryModelChanged(
-  applied: { changed: boolean; next: SiriClaw-InstructConfig },
+  applied: { changed: boolean; next: SiriClawInstructConfig },
   primary: string,
 ) {
   expect(applied.changed).toBe(true);
@@ -42,18 +42,18 @@ function expectPrimaryModelChanged(
 }
 
 function expectConfigUnchanged(
-  applied: { changed: boolean; next: SiriClaw-InstructConfig },
-  cfg: SiriClaw-InstructConfig,
+  applied: { changed: boolean; next: SiriClawInstructConfig },
+  cfg: SiriClawInstructConfig,
 ) {
   expect(applied.changed).toBe(false);
   expect(applied.next).toEqual(cfg);
 }
 
 type SharedDefaultModelCase = {
-  apply: (cfg: SiriClaw-InstructConfig) => { changed: boolean; next: SiriClaw-InstructConfig };
+  apply: (cfg: SiriClawInstructConfig) => { changed: boolean; next: SiriClawInstructConfig };
   defaultModel: string;
-  overrideConfig: SiriClaw-InstructConfig;
-  alreadyDefaultConfig: SiriClaw-InstructConfig;
+  overrideConfig: SiriClawInstructConfig;
+  alreadyDefaultConfig: SiriClawInstructConfig;
 };
 
 const SHARED_DEFAULT_MODEL_CASES: SharedDefaultModelCase[] = [
@@ -62,20 +62,20 @@ const SHARED_DEFAULT_MODEL_CASES: SharedDefaultModelCase[] = [
     defaultModel: GOOGLE_GEMINI_DEFAULT_MODEL,
     overrideConfig: {
       agents: { defaults: { model: { primary: "anthropic/claude-opus-4-5" } } },
-    } as SiriClaw-InstructConfig,
+    } as SiriClawInstructConfig,
     alreadyDefaultConfig: {
       agents: { defaults: { model: { primary: GOOGLE_GEMINI_DEFAULT_MODEL } } },
-    } as SiriClaw-InstructConfig,
+    } as SiriClawInstructConfig,
   },
   {
     apply: applyOpencodeZenModelDefault,
     defaultModel: OPENCODE_ZEN_DEFAULT_MODEL,
     overrideConfig: {
       agents: { defaults: { model: "anthropic/claude-opus-4-5" } },
-    } as SiriClaw-InstructConfig,
+    } as SiriClawInstructConfig,
     alreadyDefaultConfig: {
       agents: { defaults: { model: OPENCODE_ZEN_DEFAULT_MODEL } },
-    } as SiriClaw-InstructConfig,
+    } as SiriClawInstructConfig,
   },
 ];
 
@@ -88,8 +88,8 @@ describe("applyDefaultModelChoice", () => {
       setDefaultModel: false,
       defaultModel,
       // Simulate a provider function that does not explicitly add the entry.
-      applyProviderConfig: (config: SiriClaw-InstructConfig) => config,
-      applyDefaultConfig: (config: SiriClaw-InstructConfig) => config,
+      applyProviderConfig: (config: SiriClawInstructConfig) => config,
+      applyDefaultConfig: (config: SiriClawInstructConfig) => config,
       noteAgentModel,
       prompter: makePrompter(),
     });
@@ -105,8 +105,8 @@ describe("applyDefaultModelChoice", () => {
       config: {},
       setDefaultModel: false,
       defaultModel,
-      applyProviderConfig: (config: SiriClaw-InstructConfig) => config,
-      applyDefaultConfig: (config: SiriClaw-InstructConfig) => config,
+      applyProviderConfig: (config: SiriClawInstructConfig) => config,
+      applyDefaultConfig: (config: SiriClawInstructConfig) => config,
       noteAgentModel: async () => {},
       prompter: makePrompter(),
     });
@@ -121,7 +121,7 @@ describe("applyDefaultModelChoice", () => {
       config: {},
       setDefaultModel: true,
       defaultModel,
-      applyProviderConfig: (config: SiriClaw-InstructConfig) => config,
+      applyProviderConfig: (config: SiriClawInstructConfig) => config,
       applyDefaultConfig: () => ({
         agents: {
           defaults: {
@@ -142,7 +142,7 @@ describe("applyDefaultModelChoice", () => {
 describe("shared default model behavior", () => {
   it("sets defaults when model is unset", () => {
     for (const testCase of SHARED_DEFAULT_MODEL_CASES) {
-      const cfg: SiriClaw-InstructConfig = { agents: { defaults: {} } };
+      const cfg: SiriClawInstructConfig = { agents: { defaults: {} } };
       const applied = testCase.apply(cfg);
       expectPrimaryModelChanged(applied, testCase.defaultModel);
     }
@@ -199,13 +199,13 @@ describe("applyOpenAIConfig", () => {
 
 describe("applyOpenAICodexModelDefault", () => {
   it("sets openai-codex default when model is unset", () => {
-    const cfg: SiriClaw-InstructConfig = { agents: { defaults: {} } };
+    const cfg: SiriClawInstructConfig = { agents: { defaults: {} } };
     const applied = applyOpenAICodexModelDefault(cfg);
     expectPrimaryModelChanged(applied, OPENAI_CODEX_DEFAULT_MODEL);
   });
 
   it("sets openai-codex default when model is openai/*", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: { defaults: { model: { primary: OPENAI_DEFAULT_MODEL } } },
     };
     const applied = applyOpenAICodexModelDefault(cfg);
@@ -213,7 +213,7 @@ describe("applyOpenAICodexModelDefault", () => {
   });
 
   it("does not override openai-codex/*", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: { defaults: { model: { primary: OPENAI_CODEX_DEFAULT_MODEL } } },
     };
     const applied = applyOpenAICodexModelDefault(cfg);
@@ -221,7 +221,7 @@ describe("applyOpenAICodexModelDefault", () => {
   });
 
   it("does not override non-openai models", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: { defaults: { model: { primary: "anthropic/claude-opus-4-5" } } },
     };
     const applied = applyOpenAICodexModelDefault(cfg);
@@ -233,13 +233,13 @@ describe("applyOpencodeZenModelDefault", () => {
   it("no-ops when already legacy opencode-zen default", () => {
     const cfg = {
       agents: { defaults: { model: "opencode-zen/claude-opus-4-5" } },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const applied = applyOpencodeZenModelDefault(cfg);
     expectConfigUnchanged(applied, cfg);
   });
 
   it("preserves fallbacks when setting primary", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         defaults: {
           model: {
@@ -257,3 +257,4 @@ describe("applyOpencodeZenModelDefault", () => {
     });
   });
 });
+

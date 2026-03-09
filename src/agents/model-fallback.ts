@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
@@ -210,7 +210,7 @@ function throwFallbackFailureSummary(params: {
 }
 
 function resolveImageFallbackCandidates(params: {
-  cfg: SiriClaw-InstructConfig | undefined;
+  cfg: SiriClawInstructConfig | undefined;
   defaultProvider: string;
   modelOverride?: string;
 }): ModelCandidate[] {
@@ -262,7 +262,7 @@ function resolveImageFallbackCandidates(params: {
 }
 
 function resolveFallbackCandidates(params: {
-  cfg: SiriClaw-InstructConfig | undefined;
+  cfg: SiriClawInstructConfig | undefined;
   provider: string;
   model: string;
   /** Optional explicit fallbacks list; when provided (even empty), replaces agents.defaults.model.fallbacks. */
@@ -465,7 +465,7 @@ function resolveCooldownDecision(params: {
 }
 
 export async function runWithModelFallback<T>(params: {
-  cfg: SiriClaw-InstructConfig | undefined;
+  cfg: SiriClawInstructConfig | undefined;
   provider: string;
   model: string;
   agentDir?: string;
@@ -613,7 +613,7 @@ export async function runWithModelFallback<T>(params: {
 }
 
 export async function runWithImageModelFallback<T>(params: {
-  cfg: SiriClaw-InstructConfig | undefined;
+  cfg: SiriClawInstructConfig | undefined;
   modelOverride?: string;
   run: (provider: string, model: string) => Promise<T>;
   onError?: ModelFallbackErrorHandler;
@@ -664,3 +664,4 @@ export async function runWithImageModelFallback<T>(params: {
     formatAttempt: (attempt) => `${attempt.provider}/${attempt.model}: ${attempt.error}`,
   });
 }
+

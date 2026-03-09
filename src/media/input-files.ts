@@ -186,7 +186,7 @@ export async function fetchWithGuard(params: {
     timeoutMs: params.timeoutMs,
     policy: params.policy,
     auditContext: params.auditContext,
-    init: { headers: { "User-Agent": "SiriClaw-Instruct-Gateway/1.0" } },
+    init: { headers: { "User-Agent": "SiriClawInstruct-Gateway/1.0" } },
   });
 
   try {
@@ -393,3 +393,4 @@ export async function extractFileContentFromSource(params: {
   const text = clampText(decodeTextContent(buffer, charset), limits.maxChars);
   return { filename, text };
 }
+

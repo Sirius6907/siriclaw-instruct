@@ -1,5 +1,5 @@
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 
 enum KeychainStore {
     static func loadString(service: String, account: String) -> String? {
@@ -14,3 +14,4 @@ enum KeychainStore {
         GenericPasswordKeychainStore.delete(service: service, account: account)
     }
 }
+

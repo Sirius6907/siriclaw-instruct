@@ -132,3 +132,4 @@ describe("createNodesTool screen_record duration guardrails", () => {
     expect(prepareCall?.params).not.toHaveProperty("rawCommand");
   });
 });
+

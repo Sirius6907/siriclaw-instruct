@@ -226,3 +226,4 @@ Common failure quick-fixes:
 
 This Android app is currently being rebuilt.
 Maintainer: @obviyus. For issues/questions/contributions, please open an issue or reach out on Discord.
+

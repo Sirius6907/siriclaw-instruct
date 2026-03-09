@@ -6,7 +6,7 @@ import {
 } from "./bot-message-context.js";
 
 export const baseTelegramMessageContextConfig = {
-  agents: { defaults: { model: "anthropic/claude-opus-4-5", workspace: "/tmp/SiriClaw-Instruct" } },
+  agents: { defaults: { model: "anthropic/claude-opus-4-5", workspace: "/tmp/SiriClawInstruct" } },
   channels: { telegram: {} },
   messages: { groupChat: { mentionPatterns: [] } },
 } as never;
@@ -65,3 +65,4 @@ export async function buildTelegramMessageContextForTest(
     sendChatActionHandler: { sendChatAction: vi.fn() } as never,
   });
 }
+

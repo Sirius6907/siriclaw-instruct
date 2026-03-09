@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import type { TalkConfig, TalkProviderConfig } from "./types.gateway.js";
-import type { SiriClaw-InstructConfig } from "./types.js";
+import type { SiriClawInstructConfig } from "./types.js";
 import { coerceSecretRef } from "./types.secrets.js";
 
 type TalkApiKeyDeps = {
@@ -233,7 +233,7 @@ export function normalizeTalkSection(value: TalkConfig | undefined): TalkConfig 
   return Object.keys(normalized).length > 0 ? normalized : undefined;
 }
 
-export function normalizeTalkConfig(config: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function normalizeTalkConfig(config: SiriClawInstructConfig): SiriClawInstructConfig {
   if (!config.talk) {
     return config;
   }
@@ -339,3 +339,4 @@ export function resolveTalkApiKey(
   }
   return readTalkApiKeyFromProfile(deps);
 }
+

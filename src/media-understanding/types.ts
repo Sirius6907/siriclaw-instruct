@@ -98,7 +98,7 @@ export type ImageDescriptionRequest = {
   profile?: string;
   preferredProfile?: string;
   agentDir: string;
-  cfg: import("../config/config.js").SiriClaw-InstructConfig;
+  cfg: import("../config/config.js").SiriClawInstructConfig;
 };
 
 export type ImageDescriptionResult = {
@@ -113,3 +113,4 @@ export type MediaUnderstandingProvider = {
   describeVideo?: (req: VideoDescriptionRequest) => Promise<VideoDescriptionResult>;
   describeImage?: (req: ImageDescriptionRequest) => Promise<ImageDescriptionResult>;
 };
+

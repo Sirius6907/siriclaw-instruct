@@ -101,10 +101,10 @@ describe("runCronIsolatedAgentTurn sandbox config preserved", () => {
     resolveAgentConfigMock.mockReturnValue({
       sandbox: {
         docker: {
-          image: "ghcr.io/SiriClaw-Instruct/sandbox:custom",
+          image: "ghcr.io/SiriClawInstruct/sandbox:custom",
         },
         browser: {
-          image: "ghcr.io/SiriClaw-Instruct/browser:custom",
+          image: "ghcr.io/SiriClawInstruct/browser:custom",
         },
         prune: {
           idleHours: 1,
@@ -137,14 +137,14 @@ describe("runCronIsolatedAgentTurn sandbox config preserved", () => {
     expect(resolvedSandbox.mode).toBe("all");
     expect(resolvedSandbox.workspaceAccess).toBe("rw");
     expect(resolvedSandbox.docker).toMatchObject({
-      image: "ghcr.io/SiriClaw-Instruct/sandbox:custom",
+      image: "ghcr.io/SiriClawInstruct/sandbox:custom",
       network: "none",
       dangerouslyAllowContainerNamespaceJoin: true,
       dangerouslyAllowExternalBindSources: true,
     });
     expect(resolvedSandbox.browser).toMatchObject({
       enabled: true,
-      image: "ghcr.io/SiriClaw-Instruct/browser:custom",
+      image: "ghcr.io/SiriClawInstruct/browser:custom",
       autoStart: false,
     });
     expect(resolvedSandbox.prune).toMatchObject({
@@ -153,3 +153,4 @@ describe("runCronIsolatedAgentTurn sandbox config preserved", () => {
     });
   });
 });
+

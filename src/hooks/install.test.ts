@@ -12,7 +12,7 @@ import {
 } from "../test-utils/npm-spec-install-test-helpers.js";
 import { isAddressInUseError } from "./gmail-watcher.js";
 
-const fixtureRoot = path.join(os.tmpdir(), `SiriClaw-Instruct-hook-install-${randomUUID()}`);
+const fixtureRoot = path.join(os.tmpdir(), `SiriClawInstruct-hook-install-${randomUUID()}`);
 const sharedArchiveDir = path.join(fixtureRoot, "_archives");
 let tempDirIndex = 0;
 const sharedArchivePathByName = new Map<string, string>();
@@ -95,9 +95,9 @@ function writeHookPackManifest(params: {
   fs.writeFileSync(
     path.join(params.pkgDir, "package.json"),
     JSON.stringify({
-      name: "@SiriClaw-Instruct/test-hooks",
+      name: "@SiriClawInstruct/test-hooks",
       version: "0.0.1",
-      SiriClaw-Instruct: { hooks: params.hooks },
+      SiriClawInstruct: { hooks: params.hooks },
       ...(params.dependencies ? { dependencies: params.dependencies } : {}),
     }),
     "utf-8",
@@ -214,7 +214,7 @@ describe("installHooksFromPath", () => {
         "---",
         "name: one-hook",
         "description: One hook",
-        'metadata: {"SiriClaw-Instruct":{"events":["command:new"]}}',
+        'metadata: {"SiriClawInstruct":{"events":["command:new"]}}',
         "---",
         "",
         "# One Hook",
@@ -249,7 +249,7 @@ describe("installHooksFromPath", () => {
         "---",
         "name: my-hook",
         "description: My hook",
-        'metadata: {"SiriClaw-Instruct":{"events":["command:new"]}}',
+        'metadata: {"SiriClawInstruct":{"events":["command:new"]}}',
         "---",
         "",
         "# My Hook",
@@ -290,7 +290,7 @@ describe("installHooksFromPath", () => {
       hooksDir: path.join(stateDir, "hooks"),
     });
 
-    expectPathInstallFailureContains(result, "SiriClaw-Instruct.hooks entry escapes package directory");
+    expectPathInstallFailureContains(result, "SiriClawInstruct.hooks entry escapes package directory");
   });
 
   it("rejects hook pack entries that escape via symlink", async () => {
@@ -320,7 +320,7 @@ describe("installHooksFromPath", () => {
 
     expectPathInstallFailureContains(
       result,
-      "SiriClaw-Instruct.hooks entry resolves outside package directory",
+      "SiriClawInstruct.hooks entry resolves outside package directory",
     );
   });
 });
@@ -340,8 +340,8 @@ describe("installHooksFromNpmSpec", () => {
           code: 0,
           stdout: JSON.stringify([
             {
-              id: "@SiriClaw-Instruct/test-hooks@0.0.1",
-              name: "@SiriClaw-Instruct/test-hooks",
+              id: "@SiriClawInstruct/test-hooks@0.0.1",
+              name: "@SiriClawInstruct/test-hooks",
               version: "0.0.1",
               filename: packedName,
               integrity: "sha512-hook-test",
@@ -359,7 +359,7 @@ describe("installHooksFromNpmSpec", () => {
 
     const hooksDir = path.join(stateDir, "hooks");
     const result = await installHooksFromNpmSpec({
-      spec: "@SiriClaw-Instruct/test-hooks@0.0.1",
+      spec: "@SiriClawInstruct/test-hooks@0.0.1",
       hooksDir,
       logger: { info: () => {}, warn: () => {} },
     });
@@ -368,13 +368,13 @@ describe("installHooksFromNpmSpec", () => {
       return;
     }
     expect(result.hookPackId).toBe("test-hooks");
-    expect(result.npmResolution?.resolvedSpec).toBe("@SiriClaw-Instruct/test-hooks@0.0.1");
+    expect(result.npmResolution?.resolvedSpec).toBe("@SiriClawInstruct/test-hooks@0.0.1");
     expect(result.npmResolution?.integrity).toBe("sha512-hook-test");
     expect(fs.existsSync(path.join(result.targetDir, "hooks", "one-hook", "HOOK.md"))).toBe(true);
 
     expectSingleNpmPackIgnoreScriptsCall({
       calls: run.mock.calls,
-      expectedSpec: "@SiriClaw-Instruct/test-hooks@0.0.1",
+      expectedSpec: "@SiriClawInstruct/test-hooks@0.0.1",
     });
 
     expect(packTmpDir).not.toBe("");
@@ -388,8 +388,8 @@ describe("installHooksFromNpmSpec", () => {
   it("aborts when integrity drift callback rejects the fetched artifact", async () => {
     const run = vi.mocked(runCommandWithTimeout);
     mockNpmPackMetadataResult(run, {
-      id: "@SiriClaw-Instruct/test-hooks@0.0.1",
-      name: "@SiriClaw-Instruct/test-hooks",
+      id: "@SiriClawInstruct/test-hooks@0.0.1",
+      name: "@SiriClawInstruct/test-hooks",
       version: "0.0.1",
       filename: "test-hooks-0.0.1.tgz",
       integrity: "sha512-new",
@@ -398,7 +398,7 @@ describe("installHooksFromNpmSpec", () => {
 
     const onIntegrityDrift = vi.fn(async () => false);
     const result = await installHooksFromNpmSpec({
-      spec: "@SiriClaw-Instruct/test-hooks@0.0.1",
+      spec: "@SiriClawInstruct/test-hooks@0.0.1",
       expectedIntegrity: "sha512-old",
       onIntegrityDrift,
     });
@@ -413,8 +413,8 @@ describe("installHooksFromNpmSpec", () => {
   it("rejects bare npm specs that resolve to prerelease versions", async () => {
     const run = vi.mocked(runCommandWithTimeout);
     mockNpmPackMetadataResult(run, {
-      id: "@SiriClaw-Instruct/test-hooks@0.0.2-beta.1",
-      name: "@SiriClaw-Instruct/test-hooks",
+      id: "@SiriClawInstruct/test-hooks@0.0.2-beta.1",
+      name: "@SiriClawInstruct/test-hooks",
       version: "0.0.2-beta.1",
       filename: "test-hooks-0.0.2-beta.1.tgz",
       integrity: "sha512-beta",
@@ -422,13 +422,13 @@ describe("installHooksFromNpmSpec", () => {
     });
 
     const result = await installHooksFromNpmSpec({
-      spec: "@SiriClaw-Instruct/test-hooks",
+      spec: "@SiriClawInstruct/test-hooks",
       logger: { info: () => {}, warn: () => {} },
     });
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.error).toContain("prerelease version 0.0.2-beta.1");
-      expect(result.error).toContain('"@SiriClaw-Instruct/test-hooks@beta"');
+      expect(result.error).toContain('"@SiriClawInstruct/test-hooks@beta"');
     }
   });
 });
@@ -442,3 +442,4 @@ describe("gmail watcher", () => {
     expect(isAddressInUseError("some other error")).toBe(false);
   });
 });
+

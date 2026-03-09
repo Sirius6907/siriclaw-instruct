@@ -206,3 +206,4 @@ export function evaluateSenderGroupAccess(params: {
     isSenderAllowed: params.isSenderAllowed,
   });
 }
+

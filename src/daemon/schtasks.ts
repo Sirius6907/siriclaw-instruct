@@ -19,19 +19,19 @@ import type {
 } from "./service-types.js";
 
 function resolveTaskName(env: GatewayServiceEnv): string {
-  const override = env.SiriClaw-Instruct_WINDOWS_TASK_NAME?.trim();
+  const override = env.SiriClawInstruct_WINDOWS_TASK_NAME?.trim();
   if (override) {
     return override;
   }
-  return resolveGatewayWindowsTaskName(env.SiriClaw-Instruct_PROFILE);
+  return resolveGatewayWindowsTaskName(env.SiriClawInstruct_PROFILE);
 }
 
 export function resolveTaskScriptPath(env: GatewayServiceEnv): string {
-  const override = env.SiriClaw-Instruct_TASK_SCRIPT?.trim();
+  const override = env.SiriClawInstruct_TASK_SCRIPT?.trim();
   if (override) {
     return override;
   }
-  const scriptName = env.SiriClaw-Instruct_TASK_SCRIPT_NAME?.trim() || "gateway.cmd";
+  const scriptName = env.SiriClawInstruct_TASK_SCRIPT_NAME?.trim() || "gateway.cmd";
   const stateDir = resolveGatewayStateDir(env);
   return path.join(stateDir, scriptName);
 }
@@ -366,3 +366,4 @@ export async function readScheduledTaskRuntime(
     ...(derived.detail ? { detail: derived.detail } : {}),
   };
 }
+

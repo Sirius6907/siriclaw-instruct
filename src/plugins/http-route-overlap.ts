@@ -1,9 +1,9 @@
 import { canonicalizePathVariant } from "../gateway/security-path.js";
-import type { SiriClaw-InstructPluginHttpRouteMatch } from "./types.js";
+import type { SiriClawInstructPluginHttpRouteMatch } from "./types.js";
 
 type PluginHttpRouteLike = {
   path: string;
-  match: SiriClaw-InstructPluginHttpRouteMatch;
+  match: SiriClawInstructPluginHttpRouteMatch;
 };
 
 function prefixMatchPath(pathname: string, prefix: string): boolean {
@@ -37,8 +37,9 @@ export function doPluginHttpRoutesOverlap(
 export function findOverlappingPluginHttpRoute<
   T extends {
     path: string;
-    match: SiriClaw-InstructPluginHttpRouteMatch;
+    match: SiriClawInstructPluginHttpRouteMatch;
   },
 >(routes: readonly T[], candidate: PluginHttpRouteLike): T | undefined {
   return routes.find((route) => doPluginHttpRoutesOverlap(route, candidate));
 }
+

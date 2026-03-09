@@ -2,7 +2,7 @@ import { ChannelType } from "discord-api-types/v10";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { NativeCommandSpec } from "../../auto-reply/commands-registry.js";
 import * as dispatcherModule from "../../auto-reply/reply/provider-dispatcher.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import * as pluginCommandsModule from "../../plugins/commands.js";
 import { createDiscordNativeCommand } from "./native-command.js";
 import {
@@ -24,7 +24,7 @@ function createInteraction(params?: { userId?: string }): MockCommandInteraction
   });
 }
 
-function createConfig(): SiriClaw-InstructConfig {
+function createConfig(): SiriClawInstructConfig {
   return {
     commands: {
       allowFrom: {
@@ -46,10 +46,10 @@ function createConfig(): SiriClaw-InstructConfig {
         },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
-function createCommand(cfg: SiriClaw-InstructConfig) {
+function createCommand(cfg: SiriClawInstructConfig) {
   const commandSpec: NativeCommandSpec = {
     name: "status",
     description: "Status",
@@ -78,7 +78,7 @@ function createDispatchSpy() {
 
 async function runGuildSlashCommand(params?: {
   userId?: string;
-  mutateConfig?: (cfg: SiriClaw-InstructConfig) => void;
+  mutateConfig?: (cfg: SiriClawInstructConfig) => void;
 }) {
   const cfg = createConfig();
   params?.mutateConfig?.(cfg);
@@ -165,3 +165,4 @@ describe("Discord native slash commands with commands.allowFrom", () => {
     expectUnauthorizedReply(interaction);
   });
 });
+

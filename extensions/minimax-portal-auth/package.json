@@ -1,12 +1,16 @@
 {
-  "name": "@SiriClaw-Instruct/minimax-portal-auth",
+  "name": "@siriclaw-instruct/minimax-portal-auth",
   "version": "2026.3.8",
   "private": true,
-  "description": "SiriClaw-Instruct MiniMax Portal OAuth provider plugin",
+  "description": "siriclaw-instruct MiniMax Portal OAuth provider plugin",
   "type": "module",
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

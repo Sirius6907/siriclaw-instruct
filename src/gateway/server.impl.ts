@@ -11,7 +11,7 @@ import { createDefaultDeps } from "../cli/deps.js";
 import { isRestartEnabled } from "../config/commands.js";
 import {
   CONFIG_PATH,
-  type SiriClaw-InstructConfig,
+  type SiriClawInstructConfig,
   isNixMode,
   loadConfig,
   migrateLegacyConfig,
@@ -33,7 +33,7 @@ import { createExecApprovalForwarder } from "../infra/exec-approval-forwarder.js
 import { onHeartbeatEvent } from "../infra/heartbeat-events.js";
 import { startHeartbeatRunner, type HeartbeatRunner } from "../infra/heartbeat-runner.js";
 import { getMachineDisplayName } from "../infra/machine-name.js";
-import { ensureSiriClaw-InstructCliOnPath } from "../infra/path-env.js";
+import { ensureSiriClawInstructCliOnPath } from "../infra/path-env.js";
 import { setGatewaySigusr1RestartPolicy, setPreRestartDeferralCheck } from "../infra/restart.js";
 import {
   primeRemoteSkillsCache,
@@ -117,7 +117,7 @@ import { maybeSeedControlUiAllowedOriginsAtStartup } from "./startup-control-ui-
 
 export { __resetModelCatalogCacheForTest } from "./server-model-catalog.js";
 
-ensureSiriClaw-InstructCliOnPath();
+ensureSiriClawInstructCliOnPath();
 
 const MAX_MEDIA_TTL_HOURS = 24 * 7;
 
@@ -162,7 +162,7 @@ function createGatewayAuthRateLimiters(rateLimitConfig: AuthRateLimitConfig | un
 }
 
 function logGatewayAuthSurfaceDiagnostics(prepared: {
-  sourceConfig: SiriClaw-InstructConfig;
+  sourceConfig: SiriClawInstructConfig;
   warnings: Array<{ code: string; path: string; message: string }>;
 }): void {
   const states = evaluateGatewayAuthSurfaceStates({
@@ -191,9 +191,9 @@ function logGatewayAuthSurfaceDiagnostics(prepared: {
 }
 
 function applyGatewayAuthOverridesForStartupPreflight(
-  config: SiriClaw-InstructConfig,
+  config: SiriClawInstructConfig,
   overrides: Pick<GatewayServerOptions, "auth" | "tailscale">,
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   if (!overrides.auth && !overrides.tailscale) {
     return config;
   }
@@ -267,16 +267,16 @@ export async function startGatewayServer(
   opts: GatewayServerOptions = {},
 ): Promise<GatewayServer> {
   const minimalTestGateway =
-    process.env.VITEST === "1" && process.env.SiriClaw-Instruct_TEST_MINIMAL_GATEWAY === "1";
+    process.env.VITEST === "1" && process.env.SiriClawInstruct_TEST_MINIMAL_GATEWAY === "1";
 
   // Ensure all default port derivations (browser/canvas) see the actual runtime port.
-  process.env.SiriClaw-Instruct_GATEWAY_PORT = String(port);
+  process.env.SiriClawInstruct_GATEWAY_PORT = String(port);
   logAcceptedEnvOption({
-    key: "SiriClaw-Instruct_RAW_STREAM",
+    key: "SiriClawInstruct_RAW_STREAM",
     description: "raw stream logging enabled",
   });
   logAcceptedEnvOption({
-    key: "SiriClaw-Instruct_RAW_STREAM_PATH",
+    key: "SiriClawInstruct_RAW_STREAM_PATH",
     description: "raw stream log path override",
   });
 
@@ -311,7 +311,7 @@ export async function startGatewayServer(
         ? formatConfigIssueLines(configSnapshot.issues, "", { normalizeRoot: true }).join("\n")
         : "Unknown validation issue.";
     throw new Error(
-      `Invalid config at ${configSnapshot.path}.\n${issues}\nRun "${formatCliCommand("SiriClaw-Instruct doctor")}" to repair, then retry.`,
+      `Invalid config at ${configSnapshot.path}.\n${issues}\nRun "${formatCliCommand("SiriClawInstruct doctor")}" to repair, then retry.`,
     );
   }
 
@@ -333,7 +333,7 @@ export async function startGatewayServer(
   const emitSecretsStateEvent = (
     code: "SECRETS_RELOADER_DEGRADED" | "SECRETS_RELOADER_RECOVERED",
     message: string,
-    cfg: SiriClaw-InstructConfig,
+    cfg: SiriClawInstructConfig,
   ) => {
     enqueueSystemEvent(`[${code}] ${message}`, {
       sessionKey: resolveMainSessionKey(cfg),
@@ -350,7 +350,7 @@ export async function startGatewayServer(
     return await run;
   };
   const activateRuntimeSecrets = async (
-    config: SiriClaw-InstructConfig,
+    config: SiriClawInstructConfig,
     params: { reason: "startup" | "reload" | "restart-check"; activate: boolean },
   ) =>
     await runWithSecretsActivationLock(async () => {
@@ -396,7 +396,7 @@ export async function startGatewayServer(
     });
 
   // Fail fast before startup if required refs are unresolved.
-  let cfgAtStart: SiriClaw-InstructConfig;
+  let cfgAtStart: SiriClawInstructConfig;
   {
     const freshSnapshot = await readConfigFileSnapshot();
     if (!freshSnapshot.valid) {
@@ -435,7 +435,7 @@ export async function startGatewayServer(
       );
     } else {
       log.warn(
-        "Gateway auth token was missing. Generated a runtime token for this startup without changing config; restart will generate a different token. Persist one with `SiriClaw-Instruct config set gateway.auth.mode token` and `SiriClaw-Instruct config set gateway.auth.token <token>`.",
+        "Gateway auth token was missing. Generated a runtime token for this startup without changing config; restart will generate a different token. Persist one with `SiriClawInstruct config set gateway.auth.mode token` and `SiriClawInstruct config set gateway.auth.token <token>`.",
       );
     }
   }
@@ -1053,3 +1053,4 @@ export async function startGatewayServer(
     },
   };
 }
+

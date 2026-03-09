@@ -87,3 +87,4 @@ export function hasPollCreationParams(params: Record<string, unknown>): boolean 
   }
   return false;
 }
+

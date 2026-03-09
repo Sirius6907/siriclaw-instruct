@@ -40,3 +40,4 @@ export function resolveInlineCommandMatch(
   }
   return { command: null, valueTokenIndex: null };
 }
+

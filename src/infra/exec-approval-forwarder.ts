@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { loadConfig } from "../config/config.js";
 import { loadSessionStore, resolveStorePath } from "../config/sessions.js";
 import type {
@@ -39,11 +39,11 @@ export type ExecApprovalForwarder = {
 };
 
 export type ExecApprovalForwarderDeps = {
-  getConfig?: () => SiriClaw-InstructConfig;
+  getConfig?: () => SiriClawInstructConfig;
   deliver?: typeof deliverOutboundPayloads;
   nowMs?: () => number;
   resolveSessionTarget?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     request: ExecApprovalRequest;
   }) => ExecApprovalForwardTarget | null;
 };
@@ -124,7 +124,7 @@ function resolveChannelAccountConfig<T>(
 // Discord-specific handler is enabled for the same target account.
 function shouldSkipDiscordForwarding(
   target: ExecApprovalForwardTarget,
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
 ): boolean {
   const channel = normalizeMessageChannel(target.channel) ?? target.channel;
   if (channel !== "discord") {
@@ -221,7 +221,7 @@ function normalizeTurnSourceChannel(value?: string | null): DeliverableMessageCh
 }
 
 function defaultResolveSessionTarget(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   request: ExecApprovalRequest;
 }): ExecApprovalForwardTarget | null {
   const sessionKey = params.request.request.sessionKey?.trim();
@@ -259,7 +259,7 @@ function defaultResolveSessionTarget(params: {
 }
 
 async function deliverToTargets(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   targets: ForwardTarget[];
   text: string;
   deliver: typeof deliverOutboundPayloads;
@@ -290,11 +290,11 @@ async function deliverToTargets(params: {
 }
 
 function resolveForwardTargets(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   config?: ExecApprovalForwardingConfig;
   request: ExecApprovalRequest;
   resolveSessionTarget: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     request: ExecApprovalRequest;
   }) => ExecApprovalForwardTarget | null;
 }): ForwardTarget[] {
@@ -444,3 +444,4 @@ export function shouldForwardExecApproval(params: {
 }): boolean {
   return shouldForward(params);
 }
+

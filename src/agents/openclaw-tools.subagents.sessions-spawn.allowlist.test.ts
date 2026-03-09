@@ -5,12 +5,12 @@ import {
   getSessionsSpawnTool,
   resetSessionsSpawnConfigOverride,
   setSessionsSpawnConfigOverride,
-} from "./SiriClaw-Instruct-tools.subagents.sessions-spawn.test-harness.js";
+} from "./siriclaw-instruct-tools.subagents.sessions-spawn.test-harness.js";
 import { resetSubagentRegistryForTests } from "./subagent-registry.js";
 
 const callGatewayMock = getCallGatewayMock();
 
-describe("SiriClaw-Instruct-tools: subagents (sessions_spawn allowlist)", () => {
+describe("SiriClawInstruct-tools: subagents (sessions_spawn allowlist)", () => {
   function setAllowAgents(allowAgents: string[]) {
     setSessionsSpawnConfigOverride({
       session: {
@@ -292,3 +292,4 @@ describe("SiriClaw-Instruct-tools: subagents (sessions_spawn allowlist)", () => 
     expect(details.status).toBe("accepted");
   });
 });
+

@@ -302,8 +302,8 @@ describe("uploadStickerDiscord", () => {
     await uploadStickerDiscord(
       {
         guildId: "g1",
-        name: "SiriClaw-Instruct_wave",
-        description: "SiriClaw-Instruct waving",
+        name: "SiriClawInstruct_wave",
+        description: "SiriClawInstruct waving",
         tags: "👋",
         mediaUrl: "file:///tmp/wave.png",
       },
@@ -313,8 +313,8 @@ describe("uploadStickerDiscord", () => {
       Routes.guildStickers("g1"),
       expect.objectContaining({
         body: {
-          name: "SiriClaw-Instruct_wave",
-          description: "SiriClaw-Instruct waving",
+          name: "SiriClawInstruct_wave",
+          description: "SiriClawInstruct waving",
           tags: "👋",
           files: [
             expect.objectContaining({
@@ -518,3 +518,4 @@ describe("retry rate limits", () => {
     expect(postMock).toHaveBeenCalledTimes(3);
   });
 });
+

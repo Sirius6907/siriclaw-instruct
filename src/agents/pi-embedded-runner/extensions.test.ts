@@ -1,7 +1,7 @@
 import type { Api, Model } from "@mariozechner/pi-ai";
 import type { SessionManager } from "@mariozechner/pi-coding-agent";
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { getCompactionSafeguardRuntime } from "../pi-extensions/compaction-safeguard-runtime.js";
 import compactionSafeguardExtension from "../pi-extensions/compaction-safeguard.js";
 import { buildEmbeddedExtensionFactories } from "./extensions.js";
@@ -21,7 +21,7 @@ describe("buildEmbeddedExtensionFactories", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const factories = buildEmbeddedExtensionFactories({
       cfg,
@@ -55,7 +55,7 @@ describe("buildEmbeddedExtensionFactories", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const factories = buildEmbeddedExtensionFactories({
       cfg,
@@ -72,3 +72,4 @@ describe("buildEmbeddedExtensionFactories", () => {
     });
   });
 });
+

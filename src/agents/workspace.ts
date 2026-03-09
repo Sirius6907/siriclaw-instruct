@@ -14,11 +14,11 @@ export function resolveDefaultAgentWorkspaceDir(
   homedir: () => string = os.homedir,
 ): string {
   const home = resolveRequiredHomeDir(env, homedir);
-  const profile = env.SiriClaw-Instruct_PROFILE?.trim();
+  const profile = env.SiriClawInstruct_PROFILE?.trim();
   if (profile && profile.toLowerCase() !== "default") {
-    return path.join(home, ".SiriClaw-Instruct", `workspace-${profile}`);
+    return path.join(home, ".SiriClawInstruct", `workspace-${profile}`);
   }
-  return path.join(home, ".SiriClaw-Instruct", "workspace");
+  return path.join(home, ".SiriClawInstruct", "workspace");
 }
 
 export const DEFAULT_AGENT_WORKSPACE_DIR = resolveDefaultAgentWorkspaceDir();
@@ -31,7 +31,7 @@ export const DEFAULT_HEARTBEAT_FILENAME = "HEARTBEAT.md";
 export const DEFAULT_BOOTSTRAP_FILENAME = "BOOTSTRAP.md";
 export const DEFAULT_MEMORY_FILENAME = "MEMORY.md";
 export const DEFAULT_MEMORY_ALT_FILENAME = "memory.md";
-const WORKSPACE_STATE_DIRNAME = ".SiriClaw-Instruct";
+const WORKSPACE_STATE_DIRNAME = ".SiriClawInstruct";
 const WORKSPACE_STATE_FILENAME = "workspace-state.json";
 const WORKSPACE_STATE_VERSION = 1;
 
@@ -653,3 +653,4 @@ export async function loadExtraBootstrapFilesWithDiagnostics(
   }
   return { files, diagnostics };
 }
+

@@ -335,3 +335,4 @@ describe("Initialization guard", () => {
     expect(ids).toContain("legacy");
   });
 });
+

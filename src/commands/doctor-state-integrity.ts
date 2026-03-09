@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveOAuthDir, resolveStateDir } from "../config/paths.js";
 import {
   formatSessionArchiveTimestamp,
@@ -123,7 +123,7 @@ function findOtherStateDirs(stateDir: string): string[] {
       if (entry.name.startsWith(".")) {
         continue;
       }
-      const candidates = [".SiriClaw-Instruct"].map((dir) => path.resolve(root, entry.name, dir));
+      const candidates = [".SiriClawInstruct"].map((dir) => path.resolve(root, entry.name, dir));
       for (const candidate of candidates) {
         if (candidate === resolvedState) {
           continue;
@@ -356,7 +356,7 @@ export function formatLinuxSdBackedStateDirWarning(
   return [
     `- State directory appears to be on SD/eMMC storage (${displayStateDir}; device ${safeSource}, fs ${safeFsType}, mount ${safeMountPoint}).`,
     "- SD/eMMC media can be slower for random I/O and wear faster under session/log churn.",
-    "- For better startup and state durability, prefer SSD/NVMe (or USB SSD on Raspberry Pi) for SiriClaw-Instruct_STATE_DIR.",
+    "- For better startup and state durability, prefer SSD/NVMe (or USB SSD on Raspberry Pi) for SiriClawInstruct_STATE_DIR.",
   ].join("\n");
 }
 
@@ -377,7 +377,7 @@ export function detectMacCloudSyncedStateDir(
   }
 
   // Cloud-sync roots should always be anchored to the OS account home on macOS.
-  // SiriClaw-Instruct_HOME can relocate app data defaults, but iCloud/CloudStorage remain under the OS home.
+  // SiriClawInstruct_HOME can relocate app data defaults, but iCloud/CloudStorage remain under the OS home.
   const homedir = deps?.homedir ?? os.homedir();
   const roots = [
     {
@@ -443,8 +443,8 @@ function isSlashRoutingSessionKey(sessionKey: string): boolean {
   return /^[^:]+:slash:[^:]+(?:$|:)/.test(scoped);
 }
 
-function shouldRequireOAuthDir(cfg: SiriClaw-InstructConfig, env: NodeJS.ProcessEnv): boolean {
-  if (env.SiriClaw-Instruct_OAUTH_DIR?.trim()) {
+function shouldRequireOAuthDir(cfg: SiriClawInstructConfig, env: NodeJS.ProcessEnv): boolean {
+  if (env.SiriClawInstruct_OAUTH_DIR?.trim()) {
     return true;
   }
   const channels = cfg.channels;
@@ -468,7 +468,7 @@ function shouldRequireOAuthDir(cfg: SiriClaw-InstructConfig, env: NodeJS.Process
 }
 
 export async function noteStateIntegrity(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   prompter: DoctorPrompterLike,
   configPath?: string,
 ) {
@@ -477,7 +477,7 @@ export async function noteStateIntegrity(
   const env = process.env;
   const homedir = () => resolveRequiredHomeDir(env, os.homedir);
   const stateDir = resolveStateDir(env, homedir);
-  const defaultStateDir = path.join(homedir(), ".SiriClaw-Instruct");
+  const defaultStateDir = path.join(homedir(), ".SiriClawInstruct");
   const oauthDir = resolveOAuthDir(env, stateDir);
   const agentId = resolveDefaultAgentId(cfg);
   const sessionsDir = resolveSessionTranscriptsDirForAgent(agentId, env, homedir);
@@ -498,8 +498,8 @@ export async function noteStateIntegrity(
       [
         `- State directory is under macOS cloud-synced storage (${displayStateDir}; ${cloudSyncedStateDir.storage}).`,
         "- This can cause slow I/O and sync/lock races for sessions and credentials.",
-        "- Prefer a local non-synced state dir (for example: ~/.SiriClaw-Instruct).",
-        `  Set locally: SiriClaw-Instruct_STATE_DIR=~/.SiriClaw-Instruct ${formatCliCommand("SiriClaw-Instruct doctor")}`,
+        "- Prefer a local non-synced state dir (for example: ~/.SiriClawInstruct).",
+        `  Set locally: SiriClawInstruct_STATE_DIR=~/.SiriClawInstruct ${formatCliCommand("SiriClawInstruct doctor")}`,
       ].join("\n"),
     );
   }
@@ -720,9 +720,9 @@ export async function noteStateIntegrity(
       warnings.push(
         [
           `- ${missing.length}/${recentTranscriptCandidates.length} recent sessions are missing transcripts.`,
-          `  Verify sessions in store: ${formatCliCommand(`SiriClaw-Instruct sessions --store "${absoluteStorePath}"`)}`,
-          `  Preview cleanup impact: ${formatCliCommand(`SiriClaw-Instruct sessions cleanup --store "${absoluteStorePath}" --dry-run`)}`,
-          `  Prune missing entries: ${formatCliCommand(`SiriClaw-Instruct sessions cleanup --store "${absoluteStorePath}" --enforce --fix-missing`)}`,
+          `  Verify sessions in store: ${formatCliCommand(`SiriClawInstruct sessions --store "${absoluteStorePath}"`)}`,
+          `  Preview cleanup impact: ${formatCliCommand(`SiriClawInstruct sessions cleanup --store "${absoluteStorePath}" --dry-run`)}`,
+          `  Prune missing entries: ${formatCliCommand(`SiriClawInstruct sessions cleanup --store "${absoluteStorePath}" --enforce --fix-missing`)}`,
         ].join("\n"),
       );
     }
@@ -817,9 +817,10 @@ export function noteWorkspaceBackupTip(workspaceDir: string) {
   note(
     [
       "- Tip: back up the workspace in a private git repo (GitHub or GitLab).",
-      "- Keep ~/.SiriClaw-Instruct out of git; it contains credentials and session history.",
+      "- Keep ~/.SiriClawInstruct out of git; it contains credentials and session history.",
       "- Details: /concepts/agent-workspace#git-backup-recommended",
     ].join("\n"),
     "Workspace",
   );
 }
+

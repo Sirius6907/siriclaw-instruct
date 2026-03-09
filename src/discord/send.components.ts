@@ -5,7 +5,7 @@ import {
   type RequestClient,
 } from "@buape/carbon";
 import { ChannelType, Routes } from "discord-api-types/v10";
-import { loadConfig, type SiriClaw-InstructConfig } from "../config/config.js";
+import { loadConfig, type SiriClawInstructConfig } from "../config/config.js";
 import { recordChannelActivity } from "../infra/channel-activity.js";
 import { loadWebMedia } from "../web/media.js";
 import { resolveDiscordAccount } from "./accounts.js";
@@ -41,7 +41,7 @@ function extractComponentAttachmentNames(spec: DiscordComponentMessageSpec): str
 }
 
 type DiscordComponentSendOpts = {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   accountId?: string;
   token?: string;
   rest?: RequestClient;
@@ -156,3 +156,4 @@ export async function sendDiscordComponentMessage(
     channelId: result.channel_id ?? channelId,
   };
 }
+

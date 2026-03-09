@@ -271,3 +271,4 @@ describe("after_tool_call fires exactly once in embedded runs", () => {
     expect(hookMocks.runner.runAfterToolCall).toHaveBeenCalledTimes(3);
   });
 });
+

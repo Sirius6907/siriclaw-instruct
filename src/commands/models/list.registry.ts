@@ -1,6 +1,6 @@
 import type { Api, Model } from "@mariozechner/pi-ai";
 import type { ModelRegistry } from "@mariozechner/pi-coding-agent";
-import { resolveSiriClaw-InstructAgentDir } from "../../agents/agent-paths.js";
+import { resolveSiriClawInstructAgentDir } from "../../agents/agent-paths.js";
 import type { AuthProfileStore } from "../../agents/auth-profiles.js";
 import { listProfilesForProvider } from "../../agents/auth-profiles.js";
 import {
@@ -8,9 +8,9 @@ import {
   resolveAwsSdkEnvVarName,
   resolveEnvApiKey,
 } from "../../agents/model-auth.js";
-import { ensureSiriClaw-InstructModelsJson } from "../../agents/models-config.js";
+import { ensureSiriClawInstructModelsJson } from "../../agents/models-config.js";
 import { discoverAuthStorage, discoverModels } from "../../agents/pi-model-discovery.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   formatErrorWithStack,
   MODEL_AVAILABILITY_UNAVAILABLE_CODE,
@@ -21,7 +21,7 @@ import { isLocalBaseUrl, modelKey } from "./shared.js";
 
 const hasAuthForProvider = (
   provider: string,
-  cfg?: SiriClaw-InstructConfig,
+  cfg?: SiriClawInstructConfig,
   authStore?: AuthProfileStore,
 ) => {
   if (!cfg || !authStore) {
@@ -95,13 +95,13 @@ function loadAvailableModels(registry: ModelRegistry): Model<Api>[] {
 }
 
 export async function loadModelRegistry(
-  cfg: SiriClaw-InstructConfig,
-  opts?: { sourceConfig?: SiriClaw-InstructConfig },
+  cfg: SiriClawInstructConfig,
+  opts?: { sourceConfig?: SiriClawInstructConfig },
 ) {
   // Persistence must be based on source config (pre-resolution) so SecretRef-managed
   // credentials remain markers in models.json for command paths too.
-  await ensureSiriClaw-InstructModelsJson(opts?.sourceConfig ?? cfg);
-  const agentDir = resolveSiriClaw-InstructAgentDir();
+  await ensureSiriClawInstructModelsJson(opts?.sourceConfig ?? cfg);
+  const agentDir = resolveSiriClawInstructAgentDir();
   const authStorage = discoverAuthStorage(agentDir);
   const registry = discoverModels(authStorage, agentDir);
   const models = registry.getAll();
@@ -132,7 +132,7 @@ export function toModelRow(params: {
   tags: string[];
   aliases?: string[];
   availableKeys?: Set<string>;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   authStore?: AuthProfileStore;
   allowProviderAvailabilityFallback?: boolean;
 }): ModelRow {
@@ -194,3 +194,4 @@ export function toModelRow(params: {
     missing: false,
   };
 }
+

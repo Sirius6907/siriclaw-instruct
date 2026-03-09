@@ -65,25 +65,25 @@ export function extractGatewayMiskeys(parsed: unknown): {
 }
 
 export function renderGatewayServiceStopHints(env: NodeJS.ProcessEnv = process.env): string[] {
-  const profile = env.SiriClaw-Instruct_PROFILE;
+  const profile = env.SiriClawInstruct_PROFILE;
   switch (process.platform) {
     case "darwin":
       return [
-        `Tip: ${formatCliCommand("SiriClaw-Instruct gateway stop")}`,
+        `Tip: ${formatCliCommand("SiriClawInstruct gateway stop")}`,
         `Or: launchctl bootout gui/$UID/${resolveGatewayLaunchAgentLabel(profile)}`,
       ];
     case "linux":
       return [
-        `Tip: ${formatCliCommand("SiriClaw-Instruct gateway stop")}`,
+        `Tip: ${formatCliCommand("SiriClawInstruct gateway stop")}`,
         `Or: systemctl --user stop ${resolveGatewaySystemdServiceName(profile)}.service`,
       ];
     case "win32":
       return [
-        `Tip: ${formatCliCommand("SiriClaw-Instruct gateway stop")}`,
+        `Tip: ${formatCliCommand("SiriClawInstruct gateway stop")}`,
         `Or: schtasks /End /TN "${resolveGatewayWindowsTaskName(profile)}"`,
       ];
     default:
-      return [`Tip: ${formatCliCommand("SiriClaw-Instruct gateway stop")}`];
+      return [`Tip: ${formatCliCommand("SiriClawInstruct gateway stop")}`];
   }
 }
 
@@ -107,3 +107,4 @@ export async function maybeExplainGatewayServiceStop() {
     defaultRuntime.error(hint);
   }
 }
+

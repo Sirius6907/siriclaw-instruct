@@ -10,12 +10,13 @@ describe("pickTagline", () => {
     expect(pickTagline({ mode: "default" })).toBe(DEFAULT_TAGLINE);
   });
 
-  it("keeps SiriClaw-Instruct_TAGLINE_INDEX behavior in random mode", () => {
+  it("keeps SiriClawInstruct_TAGLINE_INDEX behavior in random mode", () => {
     const value = pickTagline({
       mode: "random",
-      env: { SiriClaw-Instruct_TAGLINE_INDEX: "0" } as NodeJS.ProcessEnv,
+      env: { SiriClawInstruct_TAGLINE_INDEX: "0" } as NodeJS.ProcessEnv,
     });
     expect(value.length).toBeGreaterThan(0);
     expect(value).not.toBe(DEFAULT_TAGLINE);
   });
 });
+

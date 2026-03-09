@@ -5,7 +5,7 @@
 # One-tap: shows status toast
 # If expired: directly opens auth URL
 
-SERVER="${SiriClaw-Instruct_SERVER:-${SIRICLAW_SERVER:-l36}}"
+SERVER="${SIRICLAW_SERVER:-${SIRICLAW_SERVER:-l36}}"
 
 STATUS=$(ssh -o ConnectTimeout=5 "$SERVER" '$HOME/SiriClaw-Instruct/scripts/claude-auth-status.sh simple' 2>&1)
 

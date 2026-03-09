@@ -7,7 +7,7 @@ import { AUTH_STORE_VERSION, log } from "./auth-profiles/constants.js";
 
 describe("ensureAuthProfileStore", () => {
   it("migrates legacy auth.json and deletes it (PR #368)", () => {
-    const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-auth-profiles-"));
+    const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-auth-profiles-"));
     try {
       const legacyPath = path.join(agentDir, "auth.json");
       fs.writeFileSync(
@@ -48,8 +48,8 @@ describe("ensureAuthProfileStore", () => {
   });
 
   it("merges main auth profiles into agent store and keeps agent overrides", () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-auth-merge-"));
-    const previousAgentDir = process.env.SiriClaw-Instruct_AGENT_DIR;
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-auth-merge-"));
+    const previousAgentDir = process.env.SiriClawInstruct_AGENT_DIR;
     const previousPiAgentDir = process.env.PI_CODING_AGENT_DIR;
     try {
       const mainDir = path.join(root, "main-agent");
@@ -57,7 +57,7 @@ describe("ensureAuthProfileStore", () => {
       fs.mkdirSync(mainDir, { recursive: true });
       fs.mkdirSync(agentDir, { recursive: true });
 
-      process.env.SiriClaw-Instruct_AGENT_DIR = mainDir;
+      process.env.SiriClawInstruct_AGENT_DIR = mainDir;
       process.env.PI_CODING_AGENT_DIR = mainDir;
 
       const mainStore = {
@@ -110,9 +110,9 @@ describe("ensureAuthProfileStore", () => {
       });
     } finally {
       if (previousAgentDir === undefined) {
-        delete process.env.SiriClaw-Instruct_AGENT_DIR;
+        delete process.env.SiriClawInstruct_AGENT_DIR;
       } else {
-        process.env.SiriClaw-Instruct_AGENT_DIR = previousAgentDir;
+        process.env.SiriClawInstruct_AGENT_DIR = previousAgentDir;
       }
       if (previousPiAgentDir === undefined) {
         delete process.env.PI_CODING_AGENT_DIR;
@@ -178,7 +178,7 @@ describe("ensureAuthProfileStore", () => {
     ] as const;
 
     for (const testCase of cases) {
-      const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-auth-alias-"));
+      const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-auth-alias-"));
       try {
         const storeData = {
           version: AUTH_STORE_VERSION,
@@ -201,7 +201,7 @@ describe("ensureAuthProfileStore", () => {
   });
 
   it("normalizes mode/apiKey aliases while migrating legacy auth.json", () => {
-    const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-auth-legacy-alias-"));
+    const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-auth-legacy-alias-"));
     try {
       fs.writeFileSync(
         path.join(agentDir, "auth.json"),
@@ -231,7 +231,7 @@ describe("ensureAuthProfileStore", () => {
   });
 
   it("logs one warning with aggregated reasons for rejected auth-profiles entries", () => {
-    const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-auth-invalid-"));
+    const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-auth-invalid-"));
     const warnSpy = vi.spyOn(log, "warn").mockImplementation(() => undefined);
     try {
       const invalidStore = {
@@ -275,3 +275,4 @@ describe("ensureAuthProfileStore", () => {
     }
   });
 });
+

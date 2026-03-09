@@ -1,7 +1,7 @@
 import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
 import { resolveConfiguredModelRef } from "../agents/model-selection.js";
 import type { SessionEntry } from "../config/sessions.js";
-import type { SiriClaw-InstructConfig } from "../config/types.SiriClaw-Instruct.js";
+import type { SiriClawInstructConfig } from "../config/types.siriclaw-instruct.js";
 import { resolveSessionModelRef } from "../gateway/session-utils.js";
 import { formatTimeAgo } from "../infra/format-time/format-relative.ts";
 import { parseAgentSessionKey } from "../routing/session-key.js";
@@ -70,7 +70,7 @@ export function toSessionDisplayRows(store: Record<string, SessionEntry>): Sessi
     .toSorted((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
 }
 
-export function resolveSessionDisplayDefaults(cfg: SiriClaw-InstructConfig): SessionDisplayDefaults {
+export function resolveSessionDisplayDefaults(cfg: SiriClawInstructConfig): SessionDisplayDefaults {
   const resolved = resolveConfiguredModelRef({
     cfg,
     defaultProvider: DEFAULT_PROVIDER,
@@ -82,7 +82,7 @@ export function resolveSessionDisplayDefaults(cfg: SiriClaw-InstructConfig): Ses
 }
 
 export function resolveSessionDisplayModel(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   row: Pick<
     SessionDisplayRow,
     "key" | "model" | "modelProvider" | "modelOverride" | "providerOverride"
@@ -146,3 +146,4 @@ export function formatSessionFlagsCell(
   const label = flags.join(" ");
   return label.length === 0 ? "" : rich ? theme.muted(label) : label;
 }
+

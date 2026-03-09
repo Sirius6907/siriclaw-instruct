@@ -1,5 +1,5 @@
 import { SsrFBlockedError } from "../infra/net/ssrf.js";
-import { isChromeReachable, resolveSiriClaw-InstructUserDataDir } from "./chrome.js";
+import { isChromeReachable, resolveSiriClawInstructUserDataDir } from "./chrome.js";
 import type { ResolvedBrowserProfile } from "./config.js";
 import { resolveProfile } from "./config.js";
 import { InvalidBrowserNavigationUrlError } from "./navigation-guard.js";
@@ -96,7 +96,7 @@ function createProfileContext(
     getProfileState,
     stopRunningBrowser,
     isHttpReachable,
-    resolveSiriClaw-InstructUserDataDir,
+    resolveSiriClawInstructUserDataDir,
   });
 
   return {
@@ -240,3 +240,4 @@ export function createBrowserRouteContext(opts: ContextOptions): BrowserRouteCon
     mapTabError,
   };
 }
+

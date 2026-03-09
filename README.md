@@ -184,3 +184,4 @@ Minimal `~/.siriclaw-instruct/siriclaw-instruct.json`:
 MIT License — Copyright (c) 2026 Sirius6907
 
 See [LICENSE](LICENSE) for details.
+

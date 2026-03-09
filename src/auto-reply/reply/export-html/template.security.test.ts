@@ -319,3 +319,4 @@ describe("export html security hardening", () => {
     expect(img?.getAttribute("src")).toBe(dataImage);
   });
 });
+

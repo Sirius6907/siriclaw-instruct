@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { InboundDebounceByProvider } from "../config/types.messages.js";
 
 const resolveMs = (value: unknown): number | undefined => {
@@ -19,7 +19,7 @@ const resolveChannelOverride = (params: {
 };
 
 export function resolveInboundDebounceMs(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   overrideMs?: number;
 }): number {
@@ -126,3 +126,4 @@ export function createInboundDebouncer<T>(params: InboundDebounceCreateParams<T>
 
   return { enqueue, flushKey };
 }
+

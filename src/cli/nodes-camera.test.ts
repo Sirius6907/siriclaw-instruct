@@ -17,7 +17,7 @@ import {
 import { parseScreenRecordPayload, screenRecordTempPath } from "./nodes-screen.js";
 
 async function withCameraTempDir<T>(run: (dir: string) => Promise<T>): Promise<T> {
-  return await withTempDir("SiriClaw-Instruct-test-", run);
+  return await withTempDir("SiriClawInstruct-test-", run);
 }
 
 describe("nodes camera helpers", () => {
@@ -68,7 +68,7 @@ describe("nodes camera helpers", () => {
       tmpDir: "/tmp",
       id: "id1",
     });
-    expect(p).toBe(path.join("/tmp", "SiriClaw-Instruct-camera-snap-front-id1.jpg"));
+    expect(p).toBe(path.join("/tmp", "SiriClawInstruct-camera-snap-front-id1.jpg"));
   });
 
   it("writes camera clip payload to temp path", async () => {
@@ -84,7 +84,7 @@ describe("nodes camera helpers", () => {
         tmpDir: dir,
         id: "clip1",
       });
-      expect(out).toBe(path.join(dir, "SiriClaw-Instruct-camera-clip-front-clip1.mp4"));
+      expect(out).toBe(path.join(dir, "SiriClawInstruct-camera-clip-front-clip1.mp4"));
       await expect(readFileUtf8AndCleanup(out)).resolves.toBe("hi");
     });
   });
@@ -105,7 +105,7 @@ describe("nodes camera helpers", () => {
         id: "clip2",
         expectedHost,
       });
-      expect(out).toBe(path.join(dir, "SiriClaw-Instruct-camera-clip-back-clip2.mp4"));
+      expect(out).toBe(path.join(dir, "SiriClawInstruct-camera-clip-back-clip2.mp4"));
       await expect(readFileUtf8AndCleanup(out)).resolves.toBe("url-clip");
     });
   });
@@ -267,6 +267,7 @@ describe("nodes screen helpers", () => {
       tmpDir: "/tmp",
       id: "id1",
     });
-    expect(p).toBe(path.join("/tmp", "SiriClaw-Instruct-screen-record-id1.mp4"));
+    expect(p).toBe(path.join("/tmp", "SiriClawInstruct-screen-record-id1.mp4"));
   });
 });
+

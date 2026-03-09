@@ -37,7 +37,7 @@ export async function ensureMediaHosted(
   if (needsServerStart && !opts.startServer) {
     await fs.rm(saved.path).catch(() => {});
     throw new Error(
-      `Media hosting requires the webhook/Funnel server. Start \`${formatCliCommand("SiriClaw-Instruct webhook")}\`/\`${formatCliCommand("SiriClaw-Instruct up")}\` or re-run with --serve-media.`,
+      `Media hosting requires the webhook/Funnel server. Start \`${formatCliCommand("SiriClawInstruct webhook")}\`/\`${formatCliCommand("SiriClawInstruct up")}\` or re-run with --serve-media.`,
     );
   }
   if (needsServerStart && opts.startServer) {
@@ -66,3 +66,4 @@ async function isPortFree(port: number) {
     throw err;
   }
 }
+

@@ -15,9 +15,9 @@ describe("hasAnyWhatsAppAuth", () => {
   };
 
   beforeEach(() => {
-    envSnapshot = captureEnv(["SiriClaw-Instruct_OAUTH_DIR"]);
-    tempOauthDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-oauth-"));
-    process.env.SiriClaw-Instruct_OAUTH_DIR = tempOauthDir;
+    envSnapshot = captureEnv(["SiriClawInstruct_OAUTH_DIR"]);
+    tempOauthDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-oauth-"));
+    process.env.SiriClawInstruct_OAUTH_DIR = tempOauthDir;
   });
 
   afterEach(() => {
@@ -43,7 +43,7 @@ describe("hasAnyWhatsAppAuth", () => {
   });
 
   it("includes authDir overrides", () => {
-    const customDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-wa-auth-"));
+    const customDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-wa-auth-"));
     try {
       writeCreds(customDir);
       const cfg = {
@@ -57,3 +57,4 @@ describe("hasAnyWhatsAppAuth", () => {
     }
   });
 });
+

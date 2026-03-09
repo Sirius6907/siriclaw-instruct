@@ -17,9 +17,9 @@ describe("restart sentinel", () => {
   let tempDir: string;
 
   beforeEach(async () => {
-    envSnapshot = captureEnv(["SiriClaw-Instruct_STATE_DIR"]);
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-sentinel-"));
-    process.env.SiriClaw-Instruct_STATE_DIR = tempDir;
+    envSnapshot = captureEnv(["SiriClawInstruct_STATE_DIR"]);
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-sentinel-"));
+    process.env.SiriClawInstruct_STATE_DIR = tempDir;
   });
 
   afterEach(async () => {
@@ -146,3 +146,4 @@ describe("restart sentinel message dedup", () => {
     expect(result).toContain("Reason: /restart");
   });
 });
+

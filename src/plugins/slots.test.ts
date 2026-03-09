@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { applyExclusiveSlotSelection } from "./slots.js";
 
 describe("applyExclusiveSlotSelection", () => {
-  const createMemoryConfig = (plugins?: SiriClaw-InstructConfig["plugins"]): SiriClaw-InstructConfig => ({
+  const createMemoryConfig = (plugins?: SiriClawInstructConfig["plugins"]): SiriClawInstructConfig => ({
     plugins: {
       ...plugins,
       entries: {
@@ -16,7 +16,7 @@ describe("applyExclusiveSlotSelection", () => {
     },
   });
 
-  const runMemorySelection = (config: SiriClaw-InstructConfig, selectedId = "memory") =>
+  const runMemorySelection = (config: SiriClawInstructConfig, selectedId = "memory") =>
     applyExclusiveSlotSelection({
       config,
       selectedId,
@@ -93,7 +93,7 @@ describe("applyExclusiveSlotSelection", () => {
   });
 
   it("skips changes when no exclusive slot applies", () => {
-    const config: SiriClaw-InstructConfig = {};
+    const config: SiriClawInstructConfig = {};
     const result = applyExclusiveSlotSelection({
       config,
       selectedId: "custom",
@@ -104,3 +104,4 @@ describe("applyExclusiveSlotSelection", () => {
     expect(result.config).toBe(config);
   });
 });
+

@@ -22,12 +22,12 @@ describe("auth-profiles (chutes)", () => {
   });
 
   it("refreshes expired Chutes OAuth credentials", async () => {
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-chutes-"));
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-chutes-"));
     const agentDir = path.join(tempDir, "agents", "main", "agent");
     await withEnvAsync(
       {
-        SiriClaw-Instruct_STATE_DIR: tempDir,
-        SiriClaw-Instruct_AGENT_DIR: agentDir,
+        SiriClawInstruct_STATE_DIR: tempDir,
+        SiriClawInstruct_AGENT_DIR: agentDir,
         PI_CODING_AGENT_DIR: agentDir,
         CHUTES_CLIENT_ID: undefined,
       },
@@ -82,3 +82,4 @@ describe("auth-profiles (chutes)", () => {
     );
   });
 });
+

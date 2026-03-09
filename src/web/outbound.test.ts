@@ -3,7 +3,7 @@ import fsSync from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resetLogger, setLoggerOverride } from "../logging.js";
 import { redactIdentifier } from "../logging/redact-identifier.js";
 import { setActiveWebListener } from "./active-listener.js";
@@ -166,7 +166,7 @@ describe("web outbound", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     await sendMessageWhatsApp("+1555", "pic", {
       verbose: false,
@@ -202,7 +202,7 @@ describe("web outbound", () => {
   });
 
   it("redacts recipients and poll text in outbound logs", async () => {
-    const logPath = path.join(os.tmpdir(), `SiriClaw-Instruct-outbound-${crypto.randomUUID()}.log`);
+    const logPath = path.join(os.tmpdir(), `SiriClawInstruct-outbound-${crypto.randomUUID()}.log`);
     setLoggerOverride({ level: "trace", file: logPath });
 
     await sendPollWhatsApp(
@@ -240,3 +240,4 @@ describe("web outbound", () => {
     );
   });
 });
+

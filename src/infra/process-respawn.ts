@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { triggerSiriClaw-InstructRestart } from "./restart.js";
+import { triggerSiriClawInstructRestart } from "./restart.js";
 import { detectRespawnSupervisor } from "./supervisor-markers.js";
 
 type RespawnMode = "spawned" | "supervised" | "disabled" | "failed";
@@ -21,11 +21,11 @@ function isTruthy(value: string | undefined): boolean {
 /**
  * Attempt to restart this process with a fresh PID.
  * - supervised environments (launchd/systemd/schtasks): caller should exit and let supervisor restart
- * - SiriClaw-Instruct_NO_RESPAWN=1: caller should keep in-process restart behavior (tests/dev)
+ * - SiriClawInstruct_NO_RESPAWN=1: caller should keep in-process restart behavior (tests/dev)
  * - otherwise: spawn detached child with current argv/execArgv, then caller exits
  */
 export function restartGatewayProcessWithFreshPid(): GatewayRespawnResult {
-  if (isTruthy(process.env.SiriClaw-Instruct_NO_RESPAWN)) {
+  if (isTruthy(process.env.SiriClawInstruct_NO_RESPAWN)) {
     return { mode: "disabled" };
   }
   const supervisor = detectRespawnSupervisor(process.env);
@@ -33,9 +33,9 @@ export function restartGatewayProcessWithFreshPid(): GatewayRespawnResult {
     // launchd: exit(0) is sufficient — KeepAlive=true restarts the service.
     // Self-issued `kickstart -k` races with launchd's bootout state machine
     // and can leave the LaunchAgent permanently unloaded.
-    // See: https://github.com/SiriClaw-Instruct/SiriClaw-Instruct/issues/39760
+    // See: https://github.com/SiriClawInstruct/SiriClawInstruct/issues/39760
     if (supervisor === "schtasks") {
-      const restart = triggerSiriClaw-InstructRestart();
+      const restart = triggerSiriClawInstructRestart();
       if (!restart.ok) {
         return {
           mode: "failed",
@@ -68,3 +68,4 @@ export function restartGatewayProcessWithFreshPid(): GatewayRespawnResult {
     return { mode: "failed", detail };
   }
 }
+

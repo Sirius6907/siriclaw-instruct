@@ -139,3 +139,4 @@ describe("flushPendingToolResultsAfterIdle", () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 });
+

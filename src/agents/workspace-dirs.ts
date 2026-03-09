@@ -1,7 +1,7 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "./agent-scope.js";
 
-export function listAgentWorkspaceDirs(cfg: SiriClaw-InstructConfig): string[] {
+export function listAgentWorkspaceDirs(cfg: SiriClawInstructConfig): string[] {
   const dirs = new Set<string>();
   const list = cfg.agents?.list;
   if (Array.isArray(list)) {
@@ -14,3 +14,4 @@ export function listAgentWorkspaceDirs(cfg: SiriClaw-InstructConfig): string[] {
   dirs.add(resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg)));
   return [...dirs];
 }
+

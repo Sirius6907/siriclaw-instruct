@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resetLogger, setLoggerOverride } from "../logging/logger.js";
 import {
   buildAllowedModelSet,
@@ -25,7 +25,7 @@ const EXPLICIT_ALLOWLIST_CONFIG = {
       },
     },
   },
-} as SiriClaw-InstructConfig;
+} as SiriClawInstructConfig;
 
 const BUNDLED_ALLOWLIST_CATALOG = [
   { provider: "anthropic", id: "claude-sonnet-4-5", name: "Claude Sonnet 4.5" },
@@ -41,7 +41,7 @@ const ANTHROPIC_OPUS_CATALOG = [
   },
 ];
 
-function resolveAnthropicOpusThinking(cfg: SiriClaw-InstructConfig) {
+function resolveAnthropicOpusThinking(cfg: SiriClawInstructConfig) {
   return resolveThinkingDefault({
     cfg,
     provider: "anthropic",
@@ -212,7 +212,7 @@ describe("model-selection", () => {
             },
           },
         },
-      } as SiriClaw-InstructConfig;
+      } as SiriClawInstructConfig;
 
       expect(
         inferUniqueProviderFromConfiguredModels({
@@ -232,7 +232,7 @@ describe("model-selection", () => {
             },
           },
         },
-      } as SiriClaw-InstructConfig;
+      } as SiriClawInstructConfig;
 
       expect(
         inferUniqueProviderFromConfiguredModels({
@@ -251,7 +251,7 @@ describe("model-selection", () => {
             },
           },
         },
-      } as SiriClaw-InstructConfig;
+      } as SiriClawInstructConfig;
 
       expect(
         inferUniqueProviderFromConfiguredModels({
@@ -270,7 +270,7 @@ describe("model-selection", () => {
             },
           },
         },
-      } as SiriClaw-InstructConfig;
+      } as SiriClawInstructConfig;
 
       expect(
         inferUniqueProviderFromConfiguredModels({
@@ -283,7 +283,7 @@ describe("model-selection", () => {
 
   describe("buildModelAliasIndex", () => {
     it("should build alias index from config", () => {
-      const cfg: Partial<SiriClaw-InstructConfig> = {
+      const cfg: Partial<SiriClawInstructConfig> = {
         agents: {
           defaults: {
             models: {
@@ -295,7 +295,7 @@ describe("model-selection", () => {
       };
 
       const index = buildModelAliasIndex({
-        cfg: cfg as SiriClaw-InstructConfig,
+        cfg: cfg as SiriClawInstructConfig,
         defaultProvider: "anthropic",
       });
 
@@ -341,7 +341,7 @@ describe("model-selection", () => {
     });
 
     it("strips trailing auth profile suffix before allowlist matching", () => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         agents: {
           defaults: {
             models: {
@@ -349,7 +349,7 @@ describe("model-selection", () => {
             },
           },
         },
-      } as SiriClaw-InstructConfig;
+      } as SiriClawInstructConfig;
 
       const result = resolveAllowedModelRef({
         cfg,
@@ -470,7 +470,7 @@ describe("model-selection", () => {
       setLoggerOverride({ level: "silent", consoleLevel: "warn" });
       const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
       try {
-        const cfg: Partial<SiriClaw-InstructConfig> = {
+        const cfg: Partial<SiriClawInstructConfig> = {
           agents: {
             defaults: {
               model: { primary: "claude-3-5-sonnet" },
@@ -479,7 +479,7 @@ describe("model-selection", () => {
         };
 
         const result = resolveConfiguredModelRef({
-          cfg: cfg as SiriClaw-InstructConfig,
+          cfg: cfg as SiriClawInstructConfig,
           defaultProvider: "google",
           defaultModel: "gemini-pro",
         });
@@ -498,7 +498,7 @@ describe("model-selection", () => {
       setLoggerOverride({ level: "silent", consoleLevel: "warn" });
       const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
       try {
-        const cfg: Partial<SiriClaw-InstructConfig> = {
+        const cfg: Partial<SiriClawInstructConfig> = {
           agents: {
             defaults: {
               model: { primary: "\u001B[31mclaude-3-5-sonnet\nspoof" },
@@ -507,7 +507,7 @@ describe("model-selection", () => {
         };
 
         const result = resolveConfiguredModelRef({
-          cfg: cfg as SiriClaw-InstructConfig,
+          cfg: cfg as SiriClawInstructConfig,
           defaultProvider: "google",
           defaultModel: "gemini-pro",
         });
@@ -528,9 +528,9 @@ describe("model-selection", () => {
     });
 
     it("should use default provider/model if config is empty", () => {
-      const cfg: Partial<SiriClaw-InstructConfig> = {};
+      const cfg: Partial<SiriClawInstructConfig> = {};
       const result = resolveConfiguredModelRef({
-        cfg: cfg as SiriClaw-InstructConfig,
+        cfg: cfg as SiriClawInstructConfig,
         defaultProvider: "openai",
         defaultModel: "gpt-4",
       });
@@ -538,7 +538,7 @@ describe("model-selection", () => {
     });
 
     it("should prefer configured custom provider when default provider is not in models.providers", () => {
-      const cfg: Partial<SiriClaw-InstructConfig> = {
+      const cfg: Partial<SiriClawInstructConfig> = {
         models: {
           providers: {
             n1n: {
@@ -559,7 +559,7 @@ describe("model-selection", () => {
         },
       };
       const result = resolveConfiguredModelRef({
-        cfg: cfg as SiriClaw-InstructConfig,
+        cfg: cfg as SiriClawInstructConfig,
         defaultProvider: "anthropic",
         defaultModel: "claude-opus-4-6",
       });
@@ -567,7 +567,7 @@ describe("model-selection", () => {
     });
 
     it("should keep default provider when it is in models.providers", () => {
-      const cfg: Partial<SiriClaw-InstructConfig> = {
+      const cfg: Partial<SiriClawInstructConfig> = {
         models: {
           providers: {
             anthropic: {
@@ -588,7 +588,7 @@ describe("model-selection", () => {
         },
       };
       const result = resolveConfiguredModelRef({
-        cfg: cfg as SiriClaw-InstructConfig,
+        cfg: cfg as SiriClawInstructConfig,
         defaultProvider: "anthropic",
         defaultModel: "claude-opus-4-6",
       });
@@ -596,7 +596,7 @@ describe("model-selection", () => {
     });
 
     it("should fall back to hardcoded default when no custom providers have models", () => {
-      const cfg: Partial<SiriClaw-InstructConfig> = {
+      const cfg: Partial<SiriClawInstructConfig> = {
         models: {
           providers: {
             "empty-provider": {
@@ -607,7 +607,7 @@ describe("model-selection", () => {
         },
       };
       const result = resolveConfiguredModelRef({
-        cfg: cfg as SiriClaw-InstructConfig,
+        cfg: cfg as SiriClawInstructConfig,
         defaultProvider: "anthropic",
         defaultModel: "claude-opus-4-6",
       });
@@ -618,7 +618,7 @@ describe("model-selection", () => {
       setLoggerOverride({ level: "silent", consoleLevel: "warn" });
       const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
       try {
-        const cfg: Partial<SiriClaw-InstructConfig> = {
+        const cfg: Partial<SiriClawInstructConfig> = {
           agents: {
             defaults: {
               model: { primary: "openai/" },
@@ -627,7 +627,7 @@ describe("model-selection", () => {
         };
 
         const result = resolveConfiguredModelRef({
-          cfg: cfg as SiriClaw-InstructConfig,
+          cfg: cfg as SiriClawInstructConfig,
           defaultProvider: "anthropic",
           defaultModel: "claude-opus-4-6",
         });
@@ -657,7 +657,7 @@ describe("model-selection", () => {
             },
           },
         },
-      } as SiriClaw-InstructConfig;
+      } as SiriClawInstructConfig;
 
       expect(resolveAnthropicOpusThinking(cfg)).toBe("high");
     });
@@ -673,13 +673,13 @@ describe("model-selection", () => {
             },
           },
         },
-      } as SiriClaw-InstructConfig;
+      } as SiriClawInstructConfig;
 
       expect(resolveAnthropicOpusThinking(cfg)).toBe("adaptive");
     });
 
     it("defaults Anthropic Claude 4.6 models to adaptive", () => {
-      const cfg = {} as SiriClaw-InstructConfig;
+      const cfg = {} as SiriClawInstructConfig;
 
       expect(resolveAnthropicOpusThinking(cfg)).toBe("adaptive");
 
@@ -729,3 +729,4 @@ describe("normalizeModelSelection", () => {
     expect(normalizeModelSelection(42)).toBeUndefined();
   });
 });
+

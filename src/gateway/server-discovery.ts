@@ -14,17 +14,17 @@ export type ResolveBonjourCliPathOptions = {
 export function formatBonjourInstanceName(displayName: string) {
   const trimmed = displayName.trim();
   if (!trimmed) {
-    return "SiriClaw-Instruct";
+    return "SiriClawInstruct";
   }
-  if (/SiriClaw-Instruct/i.test(trimmed)) {
+  if (/SiriClawInstruct/i.test(trimmed)) {
     return trimmed;
   }
-  return `${trimmed} (SiriClaw-Instruct)`;
+  return `${trimmed} (SiriClawInstruct)`;
 }
 
 export function resolveBonjourCliPath(opts: ResolveBonjourCliPathOptions = {}): string | undefined {
   const env = opts.env ?? process.env;
-  const envPath = env.SiriClaw-Instruct_CLI_PATH?.trim();
+  const envPath = env.SiriClawInstruct_CLI_PATH?.trim();
   if (envPath) {
     return envPath;
   }
@@ -40,7 +40,7 @@ export function resolveBonjourCliPath(opts: ResolveBonjourCliPathOptions = {}): 
 
   const execPath = opts.execPath ?? process.execPath;
   const execDir = path.dirname(execPath);
-  const siblingCli = path.join(execDir, "SiriClaw-Instruct");
+  const siblingCli = path.join(execDir, "SiriClawInstruct");
   if (isFile(siblingCli)) {
     return siblingCli;
   }
@@ -56,7 +56,7 @@ export function resolveBonjourCliPath(opts: ResolveBonjourCliPathOptions = {}): 
   if (isFile(distCli)) {
     return distCli;
   }
-  const binCli = path.join(cwd, "bin", "SiriClaw-Instruct");
+  const binCli = path.join(cwd, "bin", "SiriClawInstruct");
   if (isFile(binCli)) {
     return binCli;
   }
@@ -70,7 +70,7 @@ export async function resolveTailnetDnsHint(opts?: {
   enabled?: boolean;
 }): Promise<string | undefined> {
   const env = opts?.env ?? process.env;
-  const envRaw = env.SiriClaw-Instruct_TAILNET_DNS?.trim();
+  const envRaw = env.SiriClawInstruct_TAILNET_DNS?.trim();
   const envValue = envRaw && envRaw.length > 0 ? envRaw.replace(/\.$/, "") : "";
   if (envValue) {
     return envValue;
@@ -88,3 +88,4 @@ export async function resolveTailnetDnsHint(opts?: {
     return undefined;
   }
 }
+

@@ -73,7 +73,7 @@ run_remote_bash() {
     /bin/bash "$tmp"
 }
 
-GUM_VERSION="${SiriClaw-Instruct_GUM_VERSION:-0.17.0}"
+GUM_VERSION="${SIRICLAW_GUM_VERSION:-0.17.0}"
 GUM=""
 GUM_STATUS="skipped"
 GUM_REASON=""
@@ -353,7 +353,7 @@ show_install_plan() {
     ui_section "Install plan"
     ui_kv "OS" "$OS"
     ui_kv "Install method" "$INSTALL_METHOD"
-    ui_kv "Requested version" "$SiriClaw-Instruct_VERSION"
+    ui_kv "Requested version" "$SIRICLAW_VERSION"
     if [[ "$USE_BETA" == "1" ]]; then
         ui_kv "Beta channel" "enabled"
     fi
@@ -474,7 +474,7 @@ cleanup_legacy_submodules() {
     fi
 }
 
-cleanup_npm_SiriClaw-Instruct_paths() {
+cleanup_npm_SIRICLAW_paths() {
     local npm_root=""
     npm_root="$(npm root -g 2>/dev/null || true)"
     if [[ -z "$npm_root" || "$npm_root" != *node_modules* ]]; then
@@ -483,7 +483,7 @@ cleanup_npm_SiriClaw-Instruct_paths() {
     rm -rf "$npm_root"/.SiriClaw-Instruct-* "$npm_root"/SiriClaw-Instruct 2>/dev/null || true
 }
 
-extract_SiriClaw-Instruct_conflict_path() {
+extract_SIRICLAW_conflict_path() {
     local log="$1"
     local path=""
     path="$(sed -n 's/.*File exists: //p' "$log" | head -n1)"
@@ -497,7 +497,7 @@ extract_SiriClaw-Instruct_conflict_path() {
     return 1
 }
 
-cleanup_SiriClaw-Instruct_bin_conflict() {
+cleanup_SIRICLAW_bin_conflict() {
     local bin_path="$1"
     if [[ -z "$bin_path" || ( ! -e "$bin_path" && ! -L "$bin_path" ) ]]; then
         return 1
@@ -781,7 +781,7 @@ print_npm_failure_diagnostics() {
     fi
 }
 
-install_SiriClaw-Instruct_npm() {
+install_SIRICLAW_npm() {
     local spec="$1"
     local log
     log="$(mktempfile)"
@@ -809,7 +809,7 @@ install_SiriClaw-Instruct_npm() {
 
         if grep -q "ENOTEMPTY: directory not empty, rename .*SiriClaw-Instruct" "$log"; then
             ui_warn "npm left stale directory; cleaning and retrying"
-            cleanup_npm_SiriClaw-Instruct_paths
+            cleanup_npm_SIRICLAW_paths
             if run_npm_global_install "$spec" "$log"; then
                 ui_success "SiriClaw-Instruct npm package installed"
                 return 0
@@ -818,8 +818,8 @@ install_SiriClaw-Instruct_npm() {
         fi
         if grep -q "EEXIST" "$log"; then
             local conflict=""
-            conflict="$(extract_SiriClaw-Instruct_conflict_path "$log" || true)"
-            if [[ -n "$conflict" ]] && cleanup_SiriClaw-Instruct_bin_conflict "$conflict"; then
+            conflict="$(extract_SIRICLAW_conflict_path "$log" || true)"
+            if [[ -n "$conflict" ]] && cleanup_SIRICLAW_bin_conflict "$conflict"; then
                 if run_npm_global_install "$spec" "$log"; then
                     ui_success "SiriClaw-Instruct npm package installed"
                     return 0
@@ -947,19 +947,19 @@ map_legacy_env() {
     fi
 }
 
-map_legacy_env "SiriClaw-Instruct_TAGLINE_INDEX" "SIRICLAW_TAGLINE_INDEX"
-map_legacy_env "SiriClaw-Instruct_NO_ONBOARD" "SIRICLAW_NO_ONBOARD"
-map_legacy_env "SiriClaw-Instruct_NO_PROMPT" "SIRICLAW_NO_PROMPT"
-map_legacy_env "SiriClaw-Instruct_DRY_RUN" "SIRICLAW_DRY_RUN"
-map_legacy_env "SiriClaw-Instruct_INSTALL_METHOD" "SIRICLAW_INSTALL_METHOD"
-map_legacy_env "SiriClaw-Instruct_VERSION" "SIRICLAW_VERSION"
-map_legacy_env "SiriClaw-Instruct_BETA" "SIRICLAW_BETA"
-map_legacy_env "SiriClaw-Instruct_GIT_DIR" "SIRICLAW_GIT_DIR"
-map_legacy_env "SiriClaw-Instruct_GIT_UPDATE" "SIRICLAW_GIT_UPDATE"
-map_legacy_env "SiriClaw-Instruct_NPM_LOGLEVEL" "SIRICLAW_NPM_LOGLEVEL"
-map_legacy_env "SiriClaw-Instruct_VERBOSE" "SIRICLAW_VERBOSE"
-map_legacy_env "SiriClaw-Instruct_PROFILE" "SIRICLAW_PROFILE"
-map_legacy_env "SiriClaw-Instruct_INSTALL_SH_NO_RUN" "SIRICLAW_INSTALL_SH_NO_RUN"
+map_legacy_env "SIRICLAW_TAGLINE_INDEX" "SIRICLAW_TAGLINE_INDEX"
+map_legacy_env "SIRICLAW_NO_ONBOARD" "SIRICLAW_NO_ONBOARD"
+map_legacy_env "SIRICLAW_NO_PROMPT" "SIRICLAW_NO_PROMPT"
+map_legacy_env "SIRICLAW_DRY_RUN" "SIRICLAW_DRY_RUN"
+map_legacy_env "SIRICLAW_INSTALL_METHOD" "SIRICLAW_INSTALL_METHOD"
+map_legacy_env "SIRICLAW_VERSION" "SIRICLAW_VERSION"
+map_legacy_env "SIRICLAW_BETA" "SIRICLAW_BETA"
+map_legacy_env "SIRICLAW_GIT_DIR" "SIRICLAW_GIT_DIR"
+map_legacy_env "SIRICLAW_GIT_UPDATE" "SIRICLAW_GIT_UPDATE"
+map_legacy_env "SIRICLAW_NPM_LOGLEVEL" "SIRICLAW_NPM_LOGLEVEL"
+map_legacy_env "SIRICLAW_VERBOSE" "SIRICLAW_VERBOSE"
+map_legacy_env "SIRICLAW_PROFILE" "SIRICLAW_PROFILE"
+map_legacy_env "SIRICLAW_INSTALL_SH_NO_RUN" "SIRICLAW_INSTALL_SH_NO_RUN"
 
 pick_tagline() {
     append_holiday_taglines
@@ -968,9 +968,9 @@ pick_tagline() {
         echo "$DEFAULT_TAGLINE"
         return
     fi
-    if [[ -n "${SiriClaw-Instruct_TAGLINE_INDEX:-}" ]]; then
-        if [[ "${SiriClaw-Instruct_TAGLINE_INDEX}" =~ ^[0-9]+$ ]]; then
-            local idx=$((SiriClaw-Instruct_TAGLINE_INDEX % count))
+    if [[ -n "${SIRICLAW_TAGLINE_INDEX:-}" ]]; then
+        if [[ "${SIRICLAW_TAGLINE_INDEX}" =~ ^[0-9]+$ ]]; then
+            local idx=$((SIRICLAW_TAGLINE_INDEX % count))
             echo "${TAGLINES[$idx]}"
             return
         fi
@@ -981,20 +981,20 @@ pick_tagline() {
 
 TAGLINE=$(pick_tagline)
 
-NO_ONBOARD=${SiriClaw-Instruct_NO_ONBOARD:-0}
-NO_PROMPT=${SiriClaw-Instruct_NO_PROMPT:-0}
-DRY_RUN=${SiriClaw-Instruct_DRY_RUN:-0}
-INSTALL_METHOD=${SiriClaw-Instruct_INSTALL_METHOD:-}
-SiriClaw-Instruct_VERSION=${SiriClaw-Instruct_VERSION:-latest}
-USE_BETA=${SiriClaw-Instruct_BETA:-0}
+NO_ONBOARD=${SIRICLAW_NO_ONBOARD:-0}
+NO_PROMPT=${SIRICLAW_NO_PROMPT:-0}
+DRY_RUN=${SIRICLAW_DRY_RUN:-0}
+INSTALL_METHOD=${SIRICLAW_INSTALL_METHOD:-}
+SIRICLAW_VERSION=${SIRICLAW_VERSION:-latest}
+USE_BETA=${SIRICLAW_BETA:-0}
 GIT_DIR_DEFAULT="${HOME}/SiriClaw-Instruct"
-GIT_DIR=${SiriClaw-Instruct_GIT_DIR:-$GIT_DIR_DEFAULT}
-GIT_UPDATE=${SiriClaw-Instruct_GIT_UPDATE:-1}
+GIT_DIR=${SIRICLAW_GIT_DIR:-$GIT_DIR_DEFAULT}
+GIT_UPDATE=${SIRICLAW_GIT_UPDATE:-1}
 SHARP_IGNORE_GLOBAL_LIBVIPS="${SHARP_IGNORE_GLOBAL_LIBVIPS:-1}"
-NPM_LOGLEVEL="${SiriClaw-Instruct_NPM_LOGLEVEL:-error}"
+NPM_LOGLEVEL="${SIRICLAW_NPM_LOGLEVEL:-error}"
 NPM_SILENT_FLAG="--silent"
-VERBOSE="${SiriClaw-Instruct_VERBOSE:-0}"
-SiriClaw-Instruct_BIN=""
+VERBOSE="${SIRICLAW_VERBOSE:-0}"
+SIRICLAW_BIN=""
 PNPM_CMD=()
 HELP=0
 
@@ -1020,16 +1020,16 @@ Options:
   --help, -h                            Show this help
 
 Environment variables:
-  SiriClaw-Instruct_INSTALL_METHOD=git|npm
-  SiriClaw-Instruct_VERSION=latest|next|<semver>
-  SiriClaw-Instruct_BETA=0|1
-  SiriClaw-Instruct_GIT_DIR=...
-  SiriClaw-Instruct_GIT_UPDATE=0|1
-  SiriClaw-Instruct_NO_PROMPT=1
-  SiriClaw-Instruct_DRY_RUN=1
-  SiriClaw-Instruct_NO_ONBOARD=1
-  SiriClaw-Instruct_VERBOSE=1
-  SiriClaw-Instruct_NPM_LOGLEVEL=error|warn|notice  Default: error (hide npm deprecation noise)
+  SIRICLAW_INSTALL_METHOD=git|npm
+  SIRICLAW_VERSION=latest|next|<semver>
+  SIRICLAW_BETA=0|1
+  SIRICLAW_GIT_DIR=...
+  SIRICLAW_GIT_UPDATE=0|1
+  SIRICLAW_NO_PROMPT=1
+  SIRICLAW_DRY_RUN=1
+  SIRICLAW_NO_ONBOARD=1
+  SIRICLAW_VERBOSE=1
+  SIRICLAW_NPM_LOGLEVEL=error|warn|notice  Default: error (hide npm deprecation noise)
   SHARP_IGNORE_GLOBAL_LIBVIPS=0|1    Default: 1 (avoid sharp building against global libvips)
 
 Examples:
@@ -1071,7 +1071,7 @@ parse_args() {
                 shift 2
                 ;;
             --version)
-                SiriClaw-Instruct_VERSION="$2"
+                SIRICLAW_VERSION="$2"
                 shift 2
                 ;;
             --beta)
@@ -1187,7 +1187,7 @@ EOF
     return 1
 }
 
-detect_SiriClaw-Instruct_checkout() {
+detect_SIRICLAW_checkout() {
     local dir="$1"
     if [[ ! -f "$dir/package.json" ]]; then
         return 1
@@ -1602,7 +1602,7 @@ fix_npm_permissions() {
     ui_success "npm configured for user installs"
 }
 
-ensure_SiriClaw-Instruct_bin_link() {
+ensure_SIRICLAW_bin_link() {
     local npm_root=""
     npm_root="$(npm root -g 2>/dev/null || true)"
     if [[ -z "$npm_root" || ! -d "$npm_root/SiriClaw-Instruct" ]]; then
@@ -1828,7 +1828,7 @@ maybe_nodenv_rehash() {
     fi
 }
 
-warn_SiriClaw-Instruct_not_found() {
+warn_SIRICLAW_not_found() {
     ui_warn "Installed, but SiriClaw-Instruct is not discoverable on PATH in this shell"
     echo "  Try: hash -r (bash) or rehash (zsh), then retry."
     local t=""
@@ -1853,7 +1853,7 @@ warn_SiriClaw-Instruct_not_found() {
     fi
 }
 
-resolve_SiriClaw-Instruct_bin() {
+resolve_SIRICLAW_bin() {
     refresh_shell_command_cache
     local resolved=""
     resolved="$(type -P SiriClaw-Instruct 2>/dev/null || true)"
@@ -1894,7 +1894,7 @@ resolve_SiriClaw-Instruct_bin() {
     return 1
 }
 
-install_SiriClaw-Instruct_from_git() {
+install_SIRICLAW_from_git() {
     local repo_dir="$1"
     local repo_url="https://github.com/SiriClaw-Instruct/SiriClaw-Instruct.git"
 
@@ -1960,48 +1960,48 @@ install_SiriClaw-Instruct() {
         local beta_version=""
         beta_version="$(resolve_beta_version || true)"
         if [[ -n "$beta_version" ]]; then
-            SiriClaw-Instruct_VERSION="$beta_version"
+            SIRICLAW_VERSION="$beta_version"
             ui_info "Beta tag detected (${beta_version})"
             package_name="SiriClaw-Instruct"
         else
-            SiriClaw-Instruct_VERSION="latest"
+            SIRICLAW_VERSION="latest"
             ui_info "No beta tag found; using latest"
         fi
     fi
 
-    if [[ -z "${SiriClaw-Instruct_VERSION}" ]]; then
-        SiriClaw-Instruct_VERSION="latest"
+    if [[ -z "${SIRICLAW_VERSION}" ]]; then
+        SIRICLAW_VERSION="latest"
     fi
 
     local resolved_version=""
-    resolved_version="$(npm view "${package_name}@${SiriClaw-Instruct_VERSION}" version 2>/dev/null || true)"
+    resolved_version="$(npm view "${package_name}@${SIRICLAW_VERSION}" version 2>/dev/null || true)"
     if [[ -n "$resolved_version" ]]; then
         ui_info "Installing SiriClaw-Instruct v${resolved_version}"
     else
-        ui_info "Installing SiriClaw-Instruct (${SiriClaw-Instruct_VERSION})"
+        ui_info "Installing SiriClaw-Instruct (${SIRICLAW_VERSION})"
     fi
     local install_spec=""
-    if [[ "${SiriClaw-Instruct_VERSION}" == "latest" ]]; then
+    if [[ "${SIRICLAW_VERSION}" == "latest" ]]; then
         install_spec="${package_name}@latest"
     else
-        install_spec="${package_name}@${SiriClaw-Instruct_VERSION}"
+        install_spec="${package_name}@${SIRICLAW_VERSION}"
     fi
 
-    if ! install_SiriClaw-Instruct_npm "${install_spec}"; then
+    if ! install_SIRICLAW_npm "${install_spec}"; then
         ui_warn "npm install failed; retrying"
-        cleanup_npm_SiriClaw-Instruct_paths
-        install_SiriClaw-Instruct_npm "${install_spec}"
+        cleanup_npm_SIRICLAW_paths
+        install_SIRICLAW_npm "${install_spec}"
     fi
 
-    if [[ "${SiriClaw-Instruct_VERSION}" == "latest" && "${package_name}" == "SiriClaw-Instruct" ]]; then
-        if ! resolve_SiriClaw-Instruct_bin &> /dev/null; then
+    if [[ "${SIRICLAW_VERSION}" == "latest" && "${package_name}" == "SiriClaw-Instruct" ]]; then
+        if ! resolve_SIRICLAW_bin &> /dev/null; then
             ui_warn "npm install SiriClaw-Instruct@latest failed; retrying SiriClaw-Instruct@next"
-            cleanup_npm_SiriClaw-Instruct_paths
-            install_SiriClaw-Instruct_npm "SiriClaw-Instruct@next"
+            cleanup_npm_SIRICLAW_paths
+            install_SIRICLAW_npm "SiriClaw-Instruct@next"
         fi
     fi
 
-    ensure_SiriClaw-Instruct_bin_link || true
+    ensure_SIRICLAW_bin_link || true
 
     ui_success "SiriClaw-Instruct installed"
 }
@@ -2009,13 +2009,13 @@ install_SiriClaw-Instruct() {
 # Run doctor for migrations (safe, non-interactive)
 run_doctor() {
     ui_info "Running doctor to migrate settings"
-    local claw="${SiriClaw-Instruct_BIN:-}"
+    local claw="${SIRICLAW_BIN:-}"
     if [[ -z "$claw" ]]; then
-        claw="$(resolve_SiriClaw-Instruct_bin || true)"
+        claw="$(resolve_SIRICLAW_bin || true)"
     fi
     if [[ -z "$claw" ]]; then
         ui_info "Skipping doctor (SiriClaw-Instruct not on PATH yet)"
-        warn_SiriClaw-Instruct_not_found
+        warn_SIRICLAW_not_found
         return 0
     fi
     run_quiet_step "Running doctor" "$claw" doctor --non-interactive || true
@@ -2023,9 +2023,9 @@ run_doctor() {
 }
 
 maybe_open_dashboard() {
-    local claw="${SiriClaw-Instruct_BIN:-}"
+    local claw="${SIRICLAW_BIN:-}"
     if [[ -z "$claw" ]]; then
-        claw="$(resolve_SiriClaw-Instruct_bin || true)"
+        claw="$(resolve_SIRICLAW_bin || true)"
     fi
     if [[ -z "$claw" ]]; then
         return 0
@@ -2037,7 +2037,7 @@ maybe_open_dashboard() {
 }
 
 resolve_workspace_dir() {
-    local profile="${SiriClaw-Instruct_PROFILE:-default}"
+    local profile="${SIRICLAW_PROFILE:-default}"
     if [[ "${profile}" != "default" ]]; then
         echo "${HOME}/.SiriClaw-Instruct/workspace-${profile}"
     else
@@ -2050,7 +2050,7 @@ run_bootstrap_onboarding_if_needed() {
         return
     fi
 
-    local config_path="${SiriClaw-Instruct_CONFIG_PATH:-$HOME/.SiriClaw-Instruct/SiriClaw-Instruct.json}"
+    local config_path="${SIRICLAW_CONFIG_PATH:-$HOME/.SiriClaw-Instruct/SiriClaw-Instruct.json}"
     if [[ -f "${config_path}" || -f "$HOME/.clawdbot/clawdbot.json" || -f "$HOME/.moltbot/moltbot.json" || -f "$HOME/.moldbot/moldbot.json" ]]; then
         return
     fi
@@ -2069,13 +2069,13 @@ run_bootstrap_onboarding_if_needed() {
     fi
 
     ui_info "BOOTSTRAP.md found; starting onboarding"
-    local claw="${SiriClaw-Instruct_BIN:-}"
+    local claw="${SIRICLAW_BIN:-}"
     if [[ -z "$claw" ]]; then
-        claw="$(resolve_SiriClaw-Instruct_bin || true)"
+        claw="$(resolve_SIRICLAW_bin || true)"
     fi
     if [[ -z "$claw" ]]; then
         ui_info "BOOTSTRAP.md found but SiriClaw-Instruct not on PATH; skipping onboarding"
-        warn_SiriClaw-Instruct_not_found
+        warn_SIRICLAW_not_found
         return
     fi
 
@@ -2085,9 +2085,9 @@ run_bootstrap_onboarding_if_needed() {
     }
 }
 
-resolve_SiriClaw-Instruct_version() {
+resolve_SIRICLAW_version() {
     local version=""
-    local claw="${SiriClaw-Instruct_BIN:-}"
+    local claw="${SIRICLAW_BIN:-}"
     if [[ -z "$claw" ]] && command -v SiriClaw-Instruct &> /dev/null; then
         claw="$(command -v SiriClaw-Instruct)"
     fi
@@ -2130,9 +2130,9 @@ try {
 }
 
 refresh_gateway_service_if_loaded() {
-    local claw="${SiriClaw-Instruct_BIN:-}"
+    local claw="${SIRICLAW_BIN:-}"
     if [[ -z "$claw" ]]; then
-        claw="$(resolve_SiriClaw-Instruct_bin || true)"
+        claw="$(resolve_SIRICLAW_bin || true)"
     fi
     if [[ -z "$claw" ]]; then
         return 0
@@ -2173,7 +2173,7 @@ main() {
     detect_os_or_die
 
     local detected_checkout=""
-    detected_checkout="$(detect_SiriClaw-Instruct_checkout "$PWD" || true)"
+    detected_checkout="$(detect_SIRICLAW_checkout "$PWD" || true)"
 
     if [[ -z "$INSTALL_METHOD" && -n "$detected_checkout" ]]; then
         if ! is_promptable; then
@@ -2188,7 +2188,7 @@ main() {
                     ;;
                 *)
                     ui_error "no install method selected"
-                    echo "Re-run with: --install-method git|npm (or set SiriClaw-Instruct_INSTALL_METHOD)."
+                    echo "Re-run with: --install-method git|npm (or set SIRICLAW_INSTALL_METHOD)."
                     exit 2
                     ;;
             esac
@@ -2249,7 +2249,7 @@ main() {
             repo_dir="$detected_checkout"
         fi
         final_git_dir="$repo_dir"
-        install_SiriClaw-Instruct_from_git "$repo_dir"
+        install_SIRICLAW_from_git "$repo_dir"
     else
         # Clean up git wrapper if switching to npm
         if [[ -x "$HOME/.local/bin/SiriClaw-Instruct" ]]; then
@@ -2272,7 +2272,7 @@ main() {
 
     ui_stage "Finalizing setup"
 
-    SiriClaw-Instruct_BIN="$(resolve_SiriClaw-Instruct_bin || true)"
+    SIRICLAW_BIN="$(resolve_SIRICLAW_bin || true)"
 
     # PATH warning: installs can succeed while the user's login shell still lacks npm's global bin dir.
     local npm_bin=""
@@ -2302,7 +2302,7 @@ main() {
     run_bootstrap_onboarding_if_needed
 
     local installed_version
-    installed_version=$(resolve_SiriClaw-Instruct_version)
+    installed_version=$(resolve_SIRICLAW_version)
 
     echo ""
     if [[ -n "$installed_version" ]]; then
@@ -2364,13 +2364,13 @@ main() {
     elif [[ "$is_upgrade" == "true" ]]; then
         ui_info "Upgrade complete"
         if [[ -r /dev/tty && -w /dev/tty ]]; then
-            local claw="${SiriClaw-Instruct_BIN:-}"
+            local claw="${SIRICLAW_BIN:-}"
             if [[ -z "$claw" ]]; then
-                claw="$(resolve_SiriClaw-Instruct_bin || true)"
+                claw="$(resolve_SIRICLAW_bin || true)"
             fi
             if [[ -z "$claw" ]]; then
                 ui_info "Skipping doctor (SiriClaw-Instruct not on PATH yet)"
-                warn_SiriClaw-Instruct_not_found
+                warn_SIRICLAW_not_found
                 return 0
             fi
             local -a doctor_args=()
@@ -2382,13 +2382,13 @@ main() {
             ui_info "Running SiriClaw-Instruct doctor"
             local doctor_ok=0
             if (( ${#doctor_args[@]} )); then
-                SiriClaw-Instruct_UPDATE_IN_PROGRESS=1 "$claw" doctor "${doctor_args[@]}" </dev/tty && doctor_ok=1
+                SIRICLAW_UPDATE_IN_PROGRESS=1 "$claw" doctor "${doctor_args[@]}" </dev/tty && doctor_ok=1
             else
-                SiriClaw-Instruct_UPDATE_IN_PROGRESS=1 "$claw" doctor </dev/tty && doctor_ok=1
+                SIRICLAW_UPDATE_IN_PROGRESS=1 "$claw" doctor </dev/tty && doctor_ok=1
             fi
             if (( doctor_ok )); then
                 ui_info "Updating plugins"
-                SiriClaw-Instruct_UPDATE_IN_PROGRESS=1 "$claw" plugins update --all || true
+                SIRICLAW_UPDATE_IN_PROGRESS=1 "$claw" plugins update --all || true
             else
                 ui_warn "Doctor failed; skipping plugin updates"
             fi
@@ -2399,7 +2399,7 @@ main() {
         if [[ "$NO_ONBOARD" == "1" || "$skip_onboard" == "true" ]]; then
             ui_info "Skipping onboard (requested); run SiriClaw-Instruct onboard later"
         else
-            local config_path="${SiriClaw-Instruct_CONFIG_PATH:-$HOME/.SiriClaw-Instruct/SiriClaw-Instruct.json}"
+            local config_path="${SIRICLAW_CONFIG_PATH:-$HOME/.SiriClaw-Instruct/SiriClaw-Instruct.json}"
             if [[ -f "${config_path}" || -f "$HOME/.clawdbot/clawdbot.json" || -f "$HOME/.moltbot/moltbot.json" || -f "$HOME/.moldbot/moldbot.json" ]]; then
                 ui_info "Config already present; running doctor"
                 run_doctor
@@ -2410,13 +2410,13 @@ main() {
             ui_info "Starting setup"
             echo ""
             if [[ -r /dev/tty && -w /dev/tty ]]; then
-                local claw="${SiriClaw-Instruct_BIN:-}"
+                local claw="${SIRICLAW_BIN:-}"
                 if [[ -z "$claw" ]]; then
-                    claw="$(resolve_SiriClaw-Instruct_bin || true)"
+                    claw="$(resolve_SIRICLAW_bin || true)"
                 fi
                 if [[ -z "$claw" ]]; then
                     ui_info "Skipping onboarding (SiriClaw-Instruct not on PATH yet)"
-                    warn_SiriClaw-Instruct_not_found
+                    warn_SIRICLAW_not_found
                     return 0
                 fi
                 exec </dev/tty
@@ -2428,16 +2428,16 @@ main() {
     fi
 
     if command -v SiriClaw-Instruct &> /dev/null; then
-        local claw="${SiriClaw-Instruct_BIN:-}"
+        local claw="${SIRICLAW_BIN:-}"
         if [[ -z "$claw" ]]; then
-            claw="$(resolve_SiriClaw-Instruct_bin || true)"
+            claw="$(resolve_SIRICLAW_bin || true)"
         fi
         if [[ -n "$claw" ]] && is_gateway_daemon_loaded "$claw"; then
             if [[ "$DRY_RUN" == "1" ]]; then
                 ui_info "Gateway daemon detected; would restart (SiriClaw-Instruct daemon restart)"
             else
                 ui_info "Gateway daemon detected; restarting"
-                if SiriClaw-Instruct_UPDATE_IN_PROGRESS=1 "$claw" daemon restart >/dev/null 2>&1; then
+                if SIRICLAW_UPDATE_IN_PROGRESS=1 "$claw" daemon restart >/dev/null 2>&1; then
                     ui_success "Gateway restarted"
                 else
                     ui_warn "Gateway restart failed; try: SiriClaw-Instruct daemon restart"
@@ -2453,7 +2453,7 @@ main() {
     show_footer_links
 }
 
-if [[ "${SiriClaw-Instruct_INSTALL_SH_NO_RUN:-0}" != "1" ]]; then
+if [[ "${SIRICLAW_INSTALL_SH_NO_RUN:-0}" != "1" ]]; then
     parse_args "$@"
     configure_verbose
     main

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import { join } from "node:path";
 import { afterAll, afterEach, beforeAll, expect, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 // Avoid exporting vitest mock types (TS2742 under pnpm + d.ts emit).
 // oxlint-disable-next-line typescript/no-explicit-any
@@ -110,7 +110,7 @@ type TempHomeEnvSnapshot = {
   userProfile: string | undefined;
   homeDrive: string | undefined;
   homePath: string | undefined;
-  SiriClaw-InstructHome: string | undefined;
+  SiriClawInstructHome: string | undefined;
   stateDir: string | undefined;
 };
 
@@ -123,8 +123,8 @@ function snapshotTempHomeEnv(): TempHomeEnvSnapshot {
     userProfile: process.env.USERPROFILE,
     homeDrive: process.env.HOMEDRIVE,
     homePath: process.env.HOMEPATH,
-    SiriClaw-InstructHome: process.env.SiriClaw-Instruct_HOME,
-    stateDir: process.env.SiriClaw-Instruct_STATE_DIR,
+    SiriClawInstructHome: process.env.SiriClawInstruct_HOME,
+    stateDir: process.env.SiriClawInstruct_STATE_DIR,
   };
 }
 
@@ -141,15 +141,15 @@ function restoreTempHomeEnv(snapshot: TempHomeEnvSnapshot): void {
   restoreKey("USERPROFILE", snapshot.userProfile);
   restoreKey("HOMEDRIVE", snapshot.homeDrive);
   restoreKey("HOMEPATH", snapshot.homePath);
-  restoreKey("SiriClaw-Instruct_HOME", snapshot.SiriClaw-InstructHome);
-  restoreKey("SiriClaw-Instruct_STATE_DIR", snapshot.stateDir);
+  restoreKey("SiriClawInstruct_HOME", snapshot.SiriClawInstructHome);
+  restoreKey("SiriClawInstruct_STATE_DIR", snapshot.stateDir);
 }
 
 function setTempHomeEnv(home: string): void {
   process.env.HOME = home;
   process.env.USERPROFILE = home;
-  delete process.env.SiriClaw-Instruct_HOME;
-  process.env.SiriClaw-Instruct_STATE_DIR = join(home, ".SiriClaw-Instruct");
+  delete process.env.SiriClawInstruct_HOME;
+  process.env.SiriClawInstruct_STATE_DIR = join(home, ".SiriClawInstruct");
 
   if (process.platform !== "win32") {
     return;
@@ -163,7 +163,7 @@ function setTempHomeEnv(home: string): void {
 }
 
 beforeAll(async () => {
-  suiteTempHomeRoot = await fs.mkdtemp(join(os.tmpdir(), "SiriClaw-Instruct-triggers-suite-"));
+  suiteTempHomeRoot = await fs.mkdtemp(join(os.tmpdir(), "SiriClawInstruct-triggers-suite-"));
 });
 
 afterAll(async () => {
@@ -178,7 +178,7 @@ afterAll(async () => {
 export async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
   const home = join(suiteTempHomeRoot, `case-${++suiteTempHomeId}`);
   const snapshot = snapshotTempHomeEnv();
-  await fs.mkdir(join(home, ".SiriClaw-Instruct", "agents", "main", "sessions"), { recursive: true });
+  await fs.mkdir(join(home, ".SiriClawInstruct", "agents", "main", "sessions"), { recursive: true });
   setTempHomeEnv(home);
 
   try {
@@ -192,12 +192,12 @@ export async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise
   }
 }
 
-export function makeCfg(home: string): SiriClaw-InstructConfig {
+export function makeCfg(home: string): SiriClawInstructConfig {
   return {
     agents: {
       defaults: {
         model: { primary: "anthropic/claude-opus-4-5" },
-        workspace: join(home, "SiriClaw-Instruct"),
+        workspace: join(home, "SiriClawInstruct"),
         // Test harness: avoid 1s coalescer idle sleeps that dominate trigger suites.
         blockStreamingCoalesce: { idleMs: 1 },
         // Trigger tests assert routing/authorization behavior, not delivery pacing.
@@ -215,7 +215,7 @@ export function makeCfg(home: string): SiriClaw-InstructConfig {
       },
     },
     session: { store: join(home, "sessions.json") },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 export async function loadGetReplyFromConfig() {
@@ -251,7 +251,7 @@ export async function readSessionStore(cfg: {
 export function makeWhatsAppElevatedCfg(
   home: string,
   opts?: { elevatedEnabled?: boolean; requireMentionInGroups?: boolean },
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const cfg = makeCfg(home);
   cfg.channels ??= {};
   cfg.channels.whatsapp = {
@@ -273,7 +273,7 @@ export function makeWhatsAppElevatedCfg(
 }
 
 export async function runDirectElevatedToggleAndLoadStore(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   getReplyFromConfig: typeof import("./reply.js").getReplyFromConfig;
   body?: string;
 }): Promise<{
@@ -395,3 +395,4 @@ export function createBlockReplyCollector() {
     },
   };
 }
+

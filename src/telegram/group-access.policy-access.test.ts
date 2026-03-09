@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { TelegramAccountConfig } from "../config/types.js";
 import { evaluateTelegramGroupPolicyAccess } from "./group-access.js";
 
@@ -8,7 +8,7 @@ import { evaluateTelegramGroupPolicyAccess } from "./group-access.js";
  */
 const baseCfg = {
   channels: { telegram: {} },
-} as unknown as SiriClaw-InstructConfig;
+} as unknown as SiriClawInstructConfig;
 
 const baseTelegramCfg: TelegramAccountConfig = {
   groupPolicy: "allowlist",
@@ -213,3 +213,4 @@ describe("evaluateTelegramGroupPolicyAccess – chat allowlist vs sender allowli
     expect(result).toEqual({ allowed: true, groupPolicy: "allowlist" });
   });
 });
+

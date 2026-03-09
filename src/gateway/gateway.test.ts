@@ -34,39 +34,39 @@ describe("gateway e2e", () => {
     async () => {
       const envSnapshot = captureEnv([
         "HOME",
-        "SiriClaw-Instruct_CONFIG_PATH",
-        "SiriClaw-Instruct_GATEWAY_TOKEN",
-        "SiriClaw-Instruct_SKIP_CHANNELS",
-        "SiriClaw-Instruct_SKIP_GMAIL_WATCHER",
-        "SiriClaw-Instruct_SKIP_CRON",
-        "SiriClaw-Instruct_SKIP_CANVAS_HOST",
-        "SiriClaw-Instruct_SKIP_BROWSER_CONTROL_SERVER",
+        "SiriClawInstruct_CONFIG_PATH",
+        "SiriClawInstruct_GATEWAY_TOKEN",
+        "SiriClawInstruct_SKIP_CHANNELS",
+        "SiriClawInstruct_SKIP_GMAIL_WATCHER",
+        "SiriClawInstruct_SKIP_CRON",
+        "SiriClawInstruct_SKIP_CANVAS_HOST",
+        "SiriClawInstruct_SKIP_BROWSER_CONTROL_SERVER",
       ]);
 
       const { baseUrl: openaiBaseUrl, restore } = installOpenAiResponsesMock();
 
-      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-gw-mock-home-"));
+      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-gw-mock-home-"));
       process.env.HOME = tempHome;
-      process.env.SiriClaw-Instruct_SKIP_CHANNELS = "1";
-      process.env.SiriClaw-Instruct_SKIP_GMAIL_WATCHER = "1";
-      process.env.SiriClaw-Instruct_SKIP_CRON = "1";
-      process.env.SiriClaw-Instruct_SKIP_CANVAS_HOST = "1";
-      process.env.SiriClaw-Instruct_SKIP_BROWSER_CONTROL_SERVER = "1";
+      process.env.SiriClawInstruct_SKIP_CHANNELS = "1";
+      process.env.SiriClawInstruct_SKIP_GMAIL_WATCHER = "1";
+      process.env.SiriClawInstruct_SKIP_CRON = "1";
+      process.env.SiriClawInstruct_SKIP_CANVAS_HOST = "1";
+      process.env.SiriClawInstruct_SKIP_BROWSER_CONTROL_SERVER = "1";
 
       const token = nextGatewayId("test-token");
-      process.env.SiriClaw-Instruct_GATEWAY_TOKEN = token;
+      process.env.SiriClawInstruct_GATEWAY_TOKEN = token;
 
-      const workspaceDir = path.join(tempHome, "SiriClaw-Instruct");
+      const workspaceDir = path.join(tempHome, "SiriClawInstruct");
       await fs.mkdir(workspaceDir, { recursive: true });
 
       const nonceA = nextGatewayId("nonce-a");
       const nonceB = nextGatewayId("nonce-b");
-      const toolProbePath = path.join(workspaceDir, `.SiriClaw-Instruct-tool-probe.${nonceA}.txt`);
+      const toolProbePath = path.join(workspaceDir, `.SiriClawInstruct-tool-probe.${nonceA}.txt`);
       await fs.writeFile(toolProbePath, `nonceA=${nonceA}\nnonceB=${nonceB}\n`);
 
-      const configDir = path.join(tempHome, ".SiriClaw-Instruct");
+      const configDir = path.join(tempHome, ".SiriClawInstruct");
       await fs.mkdir(configDir, { recursive: true });
-      const configPath = path.join(configDir, "SiriClaw-Instruct.json");
+      const configPath = path.join(configDir, "SiriClawInstruct.json");
 
       const cfg = {
         agents: { defaults: { workspace: workspaceDir } },
@@ -131,27 +131,27 @@ describe("gateway e2e", () => {
     async () => {
       const envSnapshot = captureEnv([
         "HOME",
-        "SiriClaw-Instruct_STATE_DIR",
-        "SiriClaw-Instruct_CONFIG_PATH",
-        "SiriClaw-Instruct_GATEWAY_TOKEN",
-        "SiriClaw-Instruct_SKIP_CHANNELS",
-        "SiriClaw-Instruct_SKIP_GMAIL_WATCHER",
-        "SiriClaw-Instruct_SKIP_CRON",
-        "SiriClaw-Instruct_SKIP_CANVAS_HOST",
-        "SiriClaw-Instruct_SKIP_BROWSER_CONTROL_SERVER",
+        "SiriClawInstruct_STATE_DIR",
+        "SiriClawInstruct_CONFIG_PATH",
+        "SiriClawInstruct_GATEWAY_TOKEN",
+        "SiriClawInstruct_SKIP_CHANNELS",
+        "SiriClawInstruct_SKIP_GMAIL_WATCHER",
+        "SiriClawInstruct_SKIP_CRON",
+        "SiriClawInstruct_SKIP_CANVAS_HOST",
+        "SiriClawInstruct_SKIP_BROWSER_CONTROL_SERVER",
       ]);
 
-      process.env.SiriClaw-Instruct_SKIP_CHANNELS = "1";
-      process.env.SiriClaw-Instruct_SKIP_GMAIL_WATCHER = "1";
-      process.env.SiriClaw-Instruct_SKIP_CRON = "1";
-      process.env.SiriClaw-Instruct_SKIP_CANVAS_HOST = "1";
-      process.env.SiriClaw-Instruct_SKIP_BROWSER_CONTROL_SERVER = "1";
-      delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+      process.env.SiriClawInstruct_SKIP_CHANNELS = "1";
+      process.env.SiriClawInstruct_SKIP_GMAIL_WATCHER = "1";
+      process.env.SiriClawInstruct_SKIP_CRON = "1";
+      process.env.SiriClawInstruct_SKIP_CANVAS_HOST = "1";
+      process.env.SiriClawInstruct_SKIP_BROWSER_CONTROL_SERVER = "1";
+      delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
 
-      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-wizard-home-"));
+      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-wizard-home-"));
       process.env.HOME = tempHome;
-      delete process.env.SiriClaw-Instruct_STATE_DIR;
-      delete process.env.SiriClaw-Instruct_CONFIG_PATH;
+      delete process.env.SiriClawInstruct_STATE_DIR;
+      delete process.env.SiriClawInstruct_CONFIG_PATH;
 
       const wizardToken = nextGatewayId("wiz-token");
       const port = await getFreeGatewayPort();
@@ -245,3 +245,4 @@ describe("gateway e2e", () => {
     },
   );
 });
+

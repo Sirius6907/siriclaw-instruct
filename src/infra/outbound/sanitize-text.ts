@@ -7,8 +7,8 @@
  * Converts common inline HTML to lightweight-markup equivalents used by
  * WhatsApp/Signal/Telegram and strips any remaining tags.
  *
- * @see https://github.com/SiriClaw-Instruct/SiriClaw-Instruct/issues/31884
- * @see https://github.com/SiriClaw-Instruct/SiriClaw-Instruct/issues/18558
+ * @see https://github.com/SiriClawInstruct/SiriClawInstruct/issues/31884
+ * @see https://github.com/SiriClawInstruct/SiriClawInstruct/issues/18558
  */
 
 /** Channels where HTML tags should be converted/stripped. */
@@ -62,3 +62,4 @@ export function sanitizeForPlainText(text: string): string {
       .replace(/\n{3,}/g, "\n\n")
   );
 }
+

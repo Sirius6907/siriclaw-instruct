@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "./config.js";
+import type { SiriClawInstructConfig } from "./config.js";
 import { migrateLegacyConfig, validateConfigObject } from "./config.js";
 import { WHISPER_BASE_AUDIO_MODEL } from "./legacy-migrate.test-helpers.js";
 
@@ -108,12 +108,12 @@ describe("legacy config detection", () => {
   });
   it("migrates routing.groupChat.mentionPatterns to messages.groupChat.mentionPatterns", async () => {
     const res = migrateLegacyConfig({
-      routing: { groupChat: { mentionPatterns: ["@SiriClaw-Instruct"] } },
+      routing: { groupChat: { mentionPatterns: ["@SiriClawInstruct"] } },
     });
     expect(res.changes).toContain(
       "Moved routing.groupChat.mentionPatterns → messages.groupChat.mentionPatterns.",
     );
-    expect(res.config?.messages?.groupChat?.mentionPatterns).toEqual(["@SiriClaw-Instruct"]);
+    expect(res.config?.messages?.groupChat?.mentionPatterns).toEqual(["@SiriClawInstruct"]);
     expect(getLegacyRouting(res.config)?.groupChat).toBeUndefined();
   });
   it("migrates routing agentToAgent/queue/transcribeAudio to tools/messages/media", async () => {
@@ -305,7 +305,7 @@ describe("legacy config detection", () => {
         list: [
           {
             id: "work",
-            workspace: "~/SiriClaw-Instruct-work",
+            workspace: "~/SiriClawInstruct-work",
             tools: {
               elevated: {
                 enabled: false,
@@ -606,7 +606,7 @@ describe("legacy config detection", () => {
             },
           },
         },
-        assert: (config: NonNullable<SiriClaw-InstructConfig>) => {
+        assert: (config: NonNullable<SiriClawInstructConfig>) => {
           expect(config.channels?.discord?.accounts?.work?.streaming).toBe("partial");
           expect(config.channels?.discord?.accounts?.work?.streamMode).toBeUndefined();
         },
@@ -620,7 +620,7 @@ describe("legacy config detection", () => {
             },
           },
         },
-        assert: (config: NonNullable<SiriClaw-InstructConfig>) => {
+        assert: (config: NonNullable<SiriClawInstructConfig>) => {
           expect(config.channels?.slack?.streaming).toBe("progress");
           expect(config.channels?.slack?.streamMode).toBeUndefined();
           expect(config.channels?.slack?.nativeStreaming).toBe(true);
@@ -635,7 +635,7 @@ describe("legacy config detection", () => {
             },
           },
         },
-        assert: (config: NonNullable<SiriClaw-InstructConfig>) => {
+        assert: (config: NonNullable<SiriClawInstructConfig>) => {
           expect(config.channels?.slack?.streaming).toBe("off");
           expect(config.channels?.slack?.nativeStreaming).toBe(false);
         },
@@ -677,3 +677,4 @@ describe("legacy config detection", () => {
     }
   });
 });
+

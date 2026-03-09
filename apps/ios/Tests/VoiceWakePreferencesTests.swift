@@ -36,3 +36,4 @@ import Testing
         #expect(VoiceWakePreferences.loadTriggerWords(defaults: defaults) == ["computer"])
     }
 }
+

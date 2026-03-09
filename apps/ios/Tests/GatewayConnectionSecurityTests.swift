@@ -1,6 +1,6 @@
 import Foundation
 import Network
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Testing
 @testable import SiriClaw-Instruct
 
@@ -127,3 +127,4 @@ import Testing
         #expect(controller._test_resolveManualPort(host: "device.sample.ts.net", port: 18789, useTLS: true) == 18789)
     }
 }
+

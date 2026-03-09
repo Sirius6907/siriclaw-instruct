@@ -25,11 +25,11 @@ type AuthSyncFixture = {
 };
 
 async function withAuthSyncFixture(run: (fixture: AuthSyncFixture) => Promise<void>) {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-models-list-auth-sync-"));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-models-list-auth-sync-"));
   try {
     const stateDir = path.join(root, "state");
     const agentDir = path.join(stateDir, "agents", "main", "agent");
-    const configPath = path.join(stateDir, "SiriClaw-Instruct.json");
+    const configPath = path.join(stateDir, "SiriClawInstruct.json");
     const authPath = path.join(agentDir, "auth.json");
 
     await fs.mkdir(agentDir, { recursive: true });
@@ -37,10 +37,10 @@ async function withAuthSyncFixture(run: (fixture: AuthSyncFixture) => Promise<vo
 
     await withEnvAsync(
       {
-        SiriClaw-Instruct_STATE_DIR: stateDir,
-        SiriClaw-Instruct_AGENT_DIR: agentDir,
+        SiriClawInstruct_STATE_DIR: stateDir,
+        SiriClawInstruct_AGENT_DIR: agentDir,
         PI_CODING_AGENT_DIR: agentDir,
-        SiriClaw-Instruct_CONFIG_PATH: configPath,
+        SiriClawInstruct_CONFIG_PATH: configPath,
         OPENROUTER_API_KEY: undefined,
       },
       async () => {
@@ -134,3 +134,4 @@ describe("models list auth-profile sync", () => {
     });
   });
 });
+

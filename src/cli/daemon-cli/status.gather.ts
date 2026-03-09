@@ -5,7 +5,7 @@ import {
   resolveStateDir,
 } from "../../config/config.js";
 import type {
-  SiriClaw-InstructConfig,
+  SiriClawInstructConfig,
   GatewayBindMode,
   GatewayControlUiConfig,
 } from "../../config/types.js";
@@ -59,8 +59,8 @@ type PortStatusSummary = {
 
 type DaemonConfigContext = {
   mergedDaemonEnv: Record<string, string | undefined>;
-  cliCfg: SiriClaw-InstructConfig;
-  daemonCfg: SiriClaw-InstructConfig;
+  cliCfg: SiriClawInstructConfig;
+  daemonCfg: SiriClawInstructConfig;
   cliConfigSummary: ConfigSummary;
   daemonConfigSummary: ConfigSummary;
   configMismatch: boolean;
@@ -178,8 +178,8 @@ async function loadDaemonConfigContext(
 }
 
 async function resolveGatewayStatusSummary(params: {
-  daemonCfg: SiriClaw-InstructConfig;
-  cliCfg: SiriClaw-InstructConfig;
+  daemonCfg: SiriClawInstructConfig;
+  cliCfg: SiriClawInstructConfig;
   mergedDaemonEnv: Record<string, string | undefined>;
   commandProgramArguments?: string[];
   rpcUrlOverride?: string;
@@ -379,3 +379,4 @@ export function resolvePortListeningAddresses(status: DaemonStatus): string[] {
   );
   return addrs;
 }
+

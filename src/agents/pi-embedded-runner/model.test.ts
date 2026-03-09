@@ -5,7 +5,7 @@ vi.mock("../pi-model-discovery.js", () => ({
   discoverModels: vi.fn(() => ({ find: vi.fn(() => null) })),
 }));
 
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { buildInlineProviderModels, resolveModel } from "./model.js";
 import {
   buildOpenAICodexForwardCompatExpectation,
@@ -48,7 +48,7 @@ function expectResolvedForwardCompatFallback(params: {
   provider: string;
   id: string;
   expectedModel: Record<string, unknown>;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
 }) {
   const result = resolveModel(params.provider, params.id, "/tmp/agent", params.cfg);
   expect(result.error).toBeUndefined();
@@ -214,7 +214,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const result = resolveModel("custom", "missing-model", "/tmp/agent", cfg);
 
@@ -234,7 +234,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     // Requesting a non-listed model forces the providerCfg fallback branch.
     const result = resolveModel("custom", "missing-model", "/tmp/agent", cfg);
@@ -260,7 +260,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const result = resolveModel("custom", "missing-model", "/tmp/agent", cfg);
 
@@ -316,7 +316,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const result = resolveModel("custom", "model-b", "/tmp/agent", cfg);
 
@@ -343,7 +343,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const result = resolveModel("custom", "model-b", "/tmp/agent", cfg);
 
@@ -386,7 +386,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const result = resolveModel("onehub", "glm-5", "/tmp/agent", cfg);
 
@@ -445,7 +445,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const result = resolveModel("qwen", "qwen3-coder-plus", "/tmp/agent", cfg);
 
@@ -502,7 +502,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     const result = resolveModel("openai", "gpt-5.4", "/tmp/agent", cfg);
 
@@ -615,7 +615,7 @@ describe("resolveModel", () => {
     // This test verifies the ordering: codex fallback must fire BEFORE the generic providerCfg fallback.
     // If ordering is wrong, the generic fallback would use api: "openai-responses" (the default)
     // instead of "openai-codex-responses".
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       models: {
         providers: {
           "openai-codex": {
@@ -624,7 +624,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     expectResolvedForwardCompatFallback({
       provider: "openai-codex",
@@ -641,7 +641,7 @@ describe("resolveModel", () => {
   it("uses codex fallback when inline model omits api (#39682)", () => {
     mockOpenAICodexTemplateModel();
 
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       models: {
         providers: {
           "openai-codex": {
@@ -651,7 +651,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     const result = resolveModel("openai-codex", "gpt-5.4", "/tmp/agent", cfg);
     expect(result.error).toBeUndefined();
@@ -671,7 +671,7 @@ describe("resolveModel", () => {
     expect(result.model).toBeUndefined();
     expect(result.error).toContain("Unknown model: ollama/gemma3:4b");
     expect(result.error).toContain("OLLAMA_API_KEY");
-    expect(result.error).toContain("docs.SiriClaw-Instruct.ai/providers/ollama");
+    expect(result.error).toContain("docs.SiriClawInstruct.ai/providers/ollama");
   });
 
   it("includes auth hint for unknown vllm models", () => {
@@ -710,7 +710,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     const result = resolveModel("anthropic", "claude-sonnet-4-5", "/tmp/agent", cfg);
     expect(result.error).toBeUndefined();
@@ -738,7 +738,7 @@ describe("resolveModel", () => {
           },
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     const result = resolveModel("anthropic", "claude-sonnet-4-5", "/tmp/agent", cfg);
     expect(result.error).toBeUndefined();
@@ -765,3 +765,4 @@ describe("resolveModel", () => {
     expect(result.model?.baseUrl).toBe("https://api.anthropic.com");
   });
 });
+

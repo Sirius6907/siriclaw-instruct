@@ -21,3 +21,4 @@ struct VoiceWakeToast: View {
         .accessibilityValue("Command: \(self.command)")
     }
 }
+

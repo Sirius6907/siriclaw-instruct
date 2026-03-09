@@ -5,7 +5,7 @@ import { useFastShortTimeouts } from "../../test/helpers/fast-short-timeouts.js"
 import { installEmbeddingManagerFixture } from "./embedding-manager.test-harness.js";
 
 const fx = installEmbeddingManagerFixture({
-  fixturePrefix: "SiriClaw-Instruct-mem-",
+  fixturePrefix: "SiriClawInstruct-mem-",
   largeTokens: 4000,
   smallTokens: 200,
   createCfg: ({ workspaceDir, indexPath, tokens }) => ({
@@ -139,3 +139,4 @@ describe("memory embedding batches", () => {
     expect(inputs).not.toContain("");
   });
 });
+

@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { inspectDiscordAccount } from "./account-inspect.js";
 
-function asConfig(value: unknown): SiriClaw-InstructConfig {
-  return value as SiriClaw-InstructConfig;
+function asConfig(value: unknown): SiriClawInstructConfig {
+  return value as SiriClawInstructConfig;
 }
 
 describe("inspectDiscordAccount", () => {
@@ -124,3 +124,4 @@ describe("inspectDiscordAccount", () => {
     expect(namedInspected.configured).toBe(false);
   });
 });
+

@@ -16,13 +16,13 @@ import { createTypingSignaler, resolveTypingMode } from "./typing-mode.js";
 import { createTypingController } from "./typing.js";
 
 describe("matchesMentionWithExplicit", () => {
-  const mentionRegexes = [/\bSiriClaw-Instruct\b/i];
+  const mentionRegexes = [/\bSiriClawInstruct\b/i];
 
   it("combines explicit-mention state with regex fallback rules", () => {
     const cases = [
       {
         name: "regex match with explicit resolver available",
-        text: "@SiriClaw-Instruct hello",
+        text: "@SiriClawInstruct hello",
         mentionRegexes,
         explicit: {
           hasAnyMention: true,
@@ -55,7 +55,7 @@ describe("matchesMentionWithExplicit", () => {
       },
       {
         name: "falls back to regex when explicit cannot resolve",
-        text: "SiriClaw-Instruct please",
+        text: "SiriClawInstruct please",
         mentionRegexes,
         explicit: {
           hasAnyMention: true,
@@ -406,14 +406,14 @@ describe("resolveResponsePrefixTemplate", () => {
       {
         name: "identity.name",
         template: "[{identity.name}]",
-        values: { identityName: "SiriClaw-Instruct" },
-        expected: "[SiriClaw-Instruct]",
+        values: { identityName: "SiriClawInstruct" },
+        expected: "[SiriClawInstruct]",
       },
       {
         name: "identityName alias",
         template: "[{identityName}]",
-        values: { identityName: "SiriClaw-Instruct" },
-        expected: "[SiriClaw-Instruct]",
+        values: { identityName: "SiriClawInstruct" },
+        expected: "[SiriClawInstruct]",
       },
       {
         name: "case-insensitive variables",
@@ -425,12 +425,12 @@ describe("resolveResponsePrefixTemplate", () => {
         name: "all variables",
         template: "[{identity.name}] {provider}/{model} (think:{thinkingLevel})",
         values: {
-          identityName: "SiriClaw-Instruct",
+          identityName: "SiriClawInstruct",
           provider: "anthropic",
           model: "claude-opus-4-5",
           thinkingLevel: "high",
         },
-        expected: "[SiriClaw-Instruct] anthropic/claude-opus-4-5 (think:high)",
+        expected: "[SiriClawInstruct] anthropic/claude-opus-4-5 (think:high)",
       },
     ] as const;
     expectResolvedTemplateCases(cases);
@@ -801,3 +801,4 @@ describe("hasTemplateVariables", () => {
     expect(hasTemplateVariables("[Claude]")).toBe(false);
   });
 });
+

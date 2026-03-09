@@ -1,5 +1,5 @@
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import OSLog
 @preconcurrency import WatchConnectivity
 
@@ -290,3 +290,4 @@ extension WatchMessagingService: WCSessionDelegate {
 
     nonisolated func sessionReachabilityDidChange(_ session: WCSession) {}
 }
+

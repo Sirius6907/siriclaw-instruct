@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { PluginSlotsConfig } from "../config/types.plugins.js";
 import type { PluginKind } from "./types.js";
 
@@ -31,13 +31,13 @@ export function defaultSlotIdForKey(slotKey: PluginSlotKey): string {
 }
 
 export type SlotSelectionResult = {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   warnings: string[];
   changed: boolean;
 };
 
 export function applyExclusiveSlotSelection(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   selectedId: string;
   selectedKind?: PluginKind;
   registry?: { plugins: SlotPluginRecord[] };
@@ -108,3 +108,4 @@ export function applyExclusiveSlotSelection(params: {
     changed: true,
   };
 }
+

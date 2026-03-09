@@ -141,12 +141,12 @@ describe("sanitizeSystemRunEnvOverrides", () => {
     const overrides = sanitizeSystemRunEnvOverrides({
       shellWrapper: false,
       overrides: {
-        SiriClaw-Instruct_TEST: "1",
+        SiriClawInstruct_TEST: "1",
         TOKEN: "abc",
       },
     });
     expect(overrides).toEqual({
-      SiriClaw-Instruct_TEST: "1",
+      SiriClawInstruct_TEST: "1",
       TOKEN: "abc",
     });
   });
@@ -155,7 +155,7 @@ describe("sanitizeSystemRunEnvOverrides", () => {
     const overrides = sanitizeSystemRunEnvOverrides({
       shellWrapper: true,
       overrides: {
-        SiriClaw-Instruct_TEST: "1",
+        SiriClawInstruct_TEST: "1",
         TOKEN: "abc",
         LANG: "C",
         LC_ALL: "C",
@@ -174,7 +174,7 @@ describe("shell wrapper exploit regression", () => {
     if (process.platform === "win32" || !fs.existsSync(bashPath)) {
       return;
     }
-    const marker = path.join(os.tmpdir(), `SiriClaw-Instruct-ps4-marker-${process.pid}-${Date.now()}`);
+    const marker = path.join(os.tmpdir(), `SiriClawInstruct-ps4-marker-${process.pid}-${Date.now()}`);
     try {
       fs.unlinkSync(marker);
     } catch {
@@ -215,7 +215,7 @@ describe("git env exploit regression", () => {
       return;
     }
 
-    const marker = path.join(os.tmpdir(), `SiriClaw-Instruct-git-ssh-command-${process.pid}-${Date.now()}`);
+    const marker = path.join(os.tmpdir(), `SiriClawInstruct-git-ssh-command-${process.pid}-${Date.now()}`);
     try {
       fs.unlinkSync(marker);
     } catch {
@@ -259,3 +259,4 @@ describe("git env exploit regression", () => {
     expect(fs.existsSync(marker)).toBe(false);
   });
 });
+

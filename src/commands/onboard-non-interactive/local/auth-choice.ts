@@ -1,7 +1,7 @@
 import { upsertAuthProfile } from "../../../agents/auth-profiles.js";
 import { normalizeProviderId } from "../../../agents/model-selection.js";
 import { parseDurationMs } from "../../../cli/parse-duration.js";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import type { SecretInput } from "../../../config/types.secrets.js";
 import type { RuntimeEnv } from "../../../runtime.js";
 import { resolveDefaultSecretProviderAlias } from "../../../secrets/ref-contract.js";
@@ -73,12 +73,12 @@ type ResolvedNonInteractiveApiKey = NonNullable<
 >;
 
 export async function applyNonInteractiveAuthChoice(params: {
-  nextConfig: SiriClaw-InstructConfig;
+  nextConfig: SiriClawInstructConfig;
   authChoice: AuthChoice;
   opts: OnboardOptions;
   runtime: RuntimeEnv;
-  baseConfig: SiriClaw-InstructConfig;
-}): Promise<SiriClaw-InstructConfig | null> {
+  baseConfig: SiriClawInstructConfig;
+}): Promise<SiriClawInstructConfig | null> {
   const { authChoice, opts, runtime, baseConfig } = params;
   let nextConfig = params.nextConfig;
   const requestedSecretInputMode = normalizeSecretInputModeInput(opts.secretInputMode);
@@ -682,8 +682,8 @@ export async function applyNonInteractiveAuthChoice(params: {
   }
 
   const applyMoonshotApiKeyChoice = async (
-    applyConfig: (cfg: SiriClaw-InstructConfig) => SiriClaw-InstructConfig,
-  ): Promise<SiriClaw-InstructConfig | null> => {
+    applyConfig: (cfg: SiriClawInstructConfig) => SiriClawInstructConfig,
+  ): Promise<SiriClawInstructConfig | null> => {
     const resolved = await resolveApiKey({
       provider: "moonshot",
       cfg: baseConfig,
@@ -1009,3 +1009,4 @@ export async function applyNonInteractiveAuthChoice(params: {
 
   return nextConfig;
 }
+

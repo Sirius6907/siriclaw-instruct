@@ -110,7 +110,7 @@ describe("exec safe-bin runtime policy", () => {
     if (process.platform === "win32") {
       return;
     }
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-safe-bin-runtime-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-safe-bin-runtime-"));
     try {
       await fs.chmod(dir, 0o777);
       const onWarning = vi.fn();
@@ -136,3 +136,4 @@ describe("exec safe-bin runtime policy", () => {
     }
   });
 });
+

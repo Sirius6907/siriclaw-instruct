@@ -1,17 +1,21 @@
 {
-  "name": "@SiriClaw-Instruct/memory-lancedb",
+  "name": "@siriclaw-instruct/memory-lancedb",
   "version": "2026.3.8",
   "private": true,
-  "description": "SiriClaw-Instruct LanceDB-backed long-term memory plugin with auto-recall/capture",
+  "description": "siriclaw-instruct LanceDB-backed long-term memory plugin with auto-recall/capture",
   "type": "module",
   "dependencies": {
     "@lancedb/lancedb": "^0.26.2",
     "@sinclair/typebox": "0.34.48",
     "openai": "^6.27.0"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

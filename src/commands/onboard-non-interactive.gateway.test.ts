@@ -69,8 +69,8 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
       throw new Error("temp home not initialized");
     }
     const stateDir = await fs.mkdtemp(path.join(tempHome, prefix));
-    process.env.SiriClaw-Instruct_STATE_DIR = stateDir;
-    delete process.env.SiriClaw-Instruct_CONFIG_PATH;
+    process.env.SiriClawInstruct_STATE_DIR = stateDir;
+    delete process.env.SiriClawInstruct_CONFIG_PATH;
     return stateDir;
   };
   const withStateDir = async (
@@ -87,25 +87,25 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
   beforeAll(async () => {
     envSnapshot = captureEnv([
       "HOME",
-      "SiriClaw-Instruct_STATE_DIR",
-      "SiriClaw-Instruct_CONFIG_PATH",
-      "SiriClaw-Instruct_SKIP_CHANNELS",
-      "SiriClaw-Instruct_SKIP_GMAIL_WATCHER",
-      "SiriClaw-Instruct_SKIP_CRON",
-      "SiriClaw-Instruct_SKIP_CANVAS_HOST",
-      "SiriClaw-Instruct_SKIP_BROWSER_CONTROL_SERVER",
-      "SiriClaw-Instruct_GATEWAY_TOKEN",
-      "SiriClaw-Instruct_GATEWAY_PASSWORD",
+      "SiriClawInstruct_STATE_DIR",
+      "SiriClawInstruct_CONFIG_PATH",
+      "SiriClawInstruct_SKIP_CHANNELS",
+      "SiriClawInstruct_SKIP_GMAIL_WATCHER",
+      "SiriClawInstruct_SKIP_CRON",
+      "SiriClawInstruct_SKIP_CANVAS_HOST",
+      "SiriClawInstruct_SKIP_BROWSER_CONTROL_SERVER",
+      "SiriClawInstruct_GATEWAY_TOKEN",
+      "SiriClawInstruct_GATEWAY_PASSWORD",
     ]);
-    process.env.SiriClaw-Instruct_SKIP_CHANNELS = "1";
-    process.env.SiriClaw-Instruct_SKIP_GMAIL_WATCHER = "1";
-    process.env.SiriClaw-Instruct_SKIP_CRON = "1";
-    process.env.SiriClaw-Instruct_SKIP_CANVAS_HOST = "1";
-    process.env.SiriClaw-Instruct_SKIP_BROWSER_CONTROL_SERVER = "1";
-    delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-    delete process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+    process.env.SiriClawInstruct_SKIP_CHANNELS = "1";
+    process.env.SiriClawInstruct_SKIP_GMAIL_WATCHER = "1";
+    process.env.SiriClawInstruct_SKIP_CRON = "1";
+    process.env.SiriClawInstruct_SKIP_CANVAS_HOST = "1";
+    process.env.SiriClawInstruct_SKIP_BROWSER_CONTROL_SERVER = "1";
+    delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
+    delete process.env.SiriClawInstruct_GATEWAY_PASSWORD;
 
-    tempHome = await makeTempWorkspace("SiriClaw-Instruct-onboard-");
+    tempHome = await makeTempWorkspace("SiriClawInstruct-onboard-");
     process.env.HOME = tempHome;
   });
 
@@ -119,7 +119,7 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
   it("writes gateway token auth into config", async () => {
     await withStateDir("state-noninteractive-", async (stateDir) => {
       const token = "tok_test_123";
-      const workspace = path.join(stateDir, "SiriClaw-Instruct");
+      const workspace = path.join(stateDir, "SiriClawInstruct");
 
       await runNonInteractiveOnboarding(
         {
@@ -151,12 +151,12 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
     });
   }, 60_000);
 
-  it("uses SiriClaw-Instruct_GATEWAY_TOKEN when --gateway-token is omitted", async () => {
+  it("uses SiriClawInstruct_GATEWAY_TOKEN when --gateway-token is omitted", async () => {
     await withStateDir("state-env-token-", async (stateDir) => {
       const envToken = "tok_env_fallback_123";
-      const workspace = path.join(stateDir, "SiriClaw-Instruct");
-      const prevToken = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-      process.env.SiriClaw-Instruct_GATEWAY_TOKEN = envToken;
+      const workspace = path.join(stateDir, "SiriClawInstruct");
+      const prevToken = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+      process.env.SiriClawInstruct_GATEWAY_TOKEN = envToken;
 
       try {
         await runNonInteractiveOnboarding(
@@ -183,9 +183,9 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
         expect(cfg?.gateway?.auth?.token).toBe(envToken);
       } finally {
         if (prevToken === undefined) {
-          delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+          delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
         } else {
-          process.env.SiriClaw-Instruct_GATEWAY_TOKEN = prevToken;
+          process.env.SiriClawInstruct_GATEWAY_TOKEN = prevToken;
         }
       }
     });
@@ -194,9 +194,9 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
   it("writes gateway token SecretRef from --gateway-token-ref-env", async () => {
     await withStateDir("state-env-token-ref-", async (stateDir) => {
       const envToken = "tok_env_ref_123";
-      const workspace = path.join(stateDir, "SiriClaw-Instruct");
-      const prevToken = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-      process.env.SiriClaw-Instruct_GATEWAY_TOKEN = envToken;
+      const workspace = path.join(stateDir, "SiriClawInstruct");
+      const prevToken = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+      process.env.SiriClawInstruct_GATEWAY_TOKEN = envToken;
 
       try {
         await runNonInteractiveOnboarding(
@@ -210,7 +210,7 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
             installDaemon: false,
             gatewayBind: "loopback",
             gatewayAuth: "token",
-            gatewayTokenRefEnv: "SiriClaw-Instruct_GATEWAY_TOKEN",
+            gatewayTokenRefEnv: "SiriClawInstruct_GATEWAY_TOKEN",
           },
           runtime,
         );
@@ -224,13 +224,13 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
         expect(cfg?.gateway?.auth?.token).toEqual({
           source: "env",
           provider: "default",
-          id: "SiriClaw-Instruct_GATEWAY_TOKEN",
+          id: "SiriClawInstruct_GATEWAY_TOKEN",
         });
       } finally {
         if (prevToken === undefined) {
-          delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+          delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
         } else {
-          process.env.SiriClaw-Instruct_GATEWAY_TOKEN = prevToken;
+          process.env.SiriClawInstruct_GATEWAY_TOKEN = prevToken;
         }
       }
     });
@@ -238,7 +238,7 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
 
   it("fails when --gateway-token-ref-env points to a missing env var", async () => {
     await withStateDir("state-env-token-ref-missing-", async (stateDir) => {
-      const workspace = path.join(stateDir, "SiriClaw-Instruct");
+      const workspace = path.join(stateDir, "SiriClawInstruct");
       const previous = process.env.MISSING_GATEWAY_TOKEN_ENV;
       delete process.env.MISSING_GATEWAY_TOKEN_ENV;
       try {
@@ -308,11 +308,11 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
       return;
     }
     await withStateDir("state-lan-", async (stateDir) => {
-      process.env.SiriClaw-Instruct_STATE_DIR = stateDir;
-      process.env.SiriClaw-Instruct_CONFIG_PATH = path.join(stateDir, "SiriClaw-Instruct.json");
+      process.env.SiriClawInstruct_STATE_DIR = stateDir;
+      process.env.SiriClawInstruct_CONFIG_PATH = path.join(stateDir, "SiriClawInstruct.json");
 
       const port = getPseudoPort(40_000);
-      const workspace = path.join(stateDir, "SiriClaw-Instruct");
+      const workspace = path.join(stateDir, "SiriClawInstruct");
 
       await runNonInteractiveOnboarding(
         {
@@ -345,3 +345,4 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
     });
   }, 60_000);
 });
+

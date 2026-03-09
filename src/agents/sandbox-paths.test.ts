@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { describe, expect, it } from "vitest";
-import { resolvePreferredSiriClaw-InstructTmpDir } from "../infra/tmp-SiriClaw-Instruct-dir.js";
+import { resolvePreferredSiriClawInstructTmpDir } from "../infra/tmp-siriclaw-instruct-dir.js";
 import { resolveSandboxedMediaSource } from "./sandbox-paths.js";
 
 async function withSandboxRoot<T>(run: (sandboxDir: string) => Promise<T>) {
@@ -28,9 +28,9 @@ function makeTmpProbePath(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}.txt`;
 }
 
-async function withOutsideHardlinkInSiriClaw-InstructTmp<T>(
+async function withOutsideHardlinkInSiriClawInstructTmp<T>(
   params: {
-    SiriClaw-InstructTmpDir: string;
+    SiriClawInstructTmpDir: string;
     hardlinkPrefix: string;
     symlinkPrefix?: string;
   },
@@ -38,16 +38,16 @@ async function withOutsideHardlinkInSiriClaw-InstructTmp<T>(
 ): Promise<void> {
   const outsideDir = await fs.mkdtemp(path.join(process.cwd(), "sandbox-media-hardlink-outside-"));
   const outsideFile = path.join(outsideDir, "outside-secret.txt");
-  const hardlinkPath = path.join(params.SiriClaw-InstructTmpDir, makeTmpProbePath(params.hardlinkPrefix));
+  const hardlinkPath = path.join(params.SiriClawInstructTmpDir, makeTmpProbePath(params.hardlinkPrefix));
   const symlinkPath = params.symlinkPrefix
-    ? path.join(params.SiriClaw-InstructTmpDir, makeTmpProbePath(params.symlinkPrefix))
+    ? path.join(params.SiriClawInstructTmpDir, makeTmpProbePath(params.symlinkPrefix))
     : undefined;
   try {
-    if (isPathInside(params.SiriClaw-InstructTmpDir, outsideFile)) {
+    if (isPathInside(params.SiriClawInstructTmpDir, outsideFile)) {
       return;
     }
     await fs.writeFile(outsideFile, "secret", "utf8");
-    await fs.mkdir(params.SiriClaw-InstructTmpDir, { recursive: true });
+    await fs.mkdir(params.SiriClawInstructTmpDir, { recursive: true });
     try {
       await fs.link(outsideFile, hardlinkPath);
     } catch (err) {
@@ -70,24 +70,24 @@ async function withOutsideHardlinkInSiriClaw-InstructTmp<T>(
 }
 
 describe("resolveSandboxedMediaSource", () => {
-  const SiriClaw-InstructTmpDir = resolvePreferredSiriClaw-InstructTmpDir();
+  const SiriClawInstructTmpDir = resolvePreferredSiriClawInstructTmpDir();
 
   // Group 1: /tmp paths (the bug fix)
   it.each([
     {
-      name: "absolute paths under preferred SiriClaw-Instruct tmp root",
-      media: path.join(SiriClaw-InstructTmpDir, "image.png"),
-      expected: path.join(SiriClaw-InstructTmpDir, "image.png"),
+      name: "absolute paths under preferred SiriClawInstruct tmp root",
+      media: path.join(SiriClawInstructTmpDir, "image.png"),
+      expected: path.join(SiriClawInstructTmpDir, "image.png"),
     },
     {
-      name: "file:// URLs pointing to preferred SiriClaw-Instruct tmp root",
-      media: pathToFileURL(path.join(SiriClaw-InstructTmpDir, "photo.png")).href,
-      expected: path.join(SiriClaw-InstructTmpDir, "photo.png"),
+      name: "file:// URLs pointing to preferred SiriClawInstruct tmp root",
+      media: pathToFileURL(path.join(SiriClawInstructTmpDir, "photo.png")).href,
+      expected: path.join(SiriClawInstructTmpDir, "photo.png"),
     },
     {
-      name: "nested paths under preferred SiriClaw-Instruct tmp root",
-      media: path.join(SiriClaw-InstructTmpDir, "subdir", "deep", "file.png"),
-      expected: path.join(SiriClaw-InstructTmpDir, "subdir", "deep", "file.png"),
+      name: "nested paths under preferred SiriClawInstruct tmp root",
+      media: path.join(SiriClawInstructTmpDir, "subdir", "deep", "file.png"),
+      expected: path.join(SiriClawInstructTmpDir, "subdir", "deep", "file.png"),
     },
   ])("allows $name", async ({ media, expected }) => {
     await withSandboxRoot(async (sandboxDir) => {
@@ -144,12 +144,12 @@ describe("resolveSandboxedMediaSource", () => {
     },
     {
       name: "path traversal through tmpdir",
-      media: path.join(SiriClaw-InstructTmpDir, "..", "etc", "passwd"),
+      media: path.join(SiriClawInstructTmpDir, "..", "etc", "passwd"),
       expected: /sandbox/i,
     },
     {
-      name: "absolute paths under host tmp outside SiriClaw-Instruct tmp root",
-      media: path.join(os.tmpdir(), "outside-SiriClaw-Instruct", "passwd"),
+      name: "absolute paths under host tmp outside SiriClawInstruct tmp root",
+      media: path.join(os.tmpdir(), "outside-SiriClawInstruct", "passwd"),
       expected: /sandbox/i,
     },
     {
@@ -173,19 +173,19 @@ describe("resolveSandboxedMediaSource", () => {
     });
   });
 
-  it("rejects symlinked SiriClaw-Instruct tmp paths escaping tmp root", async () => {
+  it("rejects symlinked SiriClawInstruct tmp paths escaping tmp root", async () => {
     if (process.platform === "win32") {
       return;
     }
     const outsideTmpTarget = path.resolve(process.cwd(), "package.json");
-    if (isPathInside(SiriClaw-InstructTmpDir, outsideTmpTarget)) {
+    if (isPathInside(SiriClawInstructTmpDir, outsideTmpTarget)) {
       return;
     }
 
     await withSandboxRoot(async (sandboxDir) => {
       await fs.access(outsideTmpTarget);
-      await fs.mkdir(SiriClaw-InstructTmpDir, { recursive: true });
-      const symlinkPath = path.join(SiriClaw-InstructTmpDir, `tmp-link-escape-${process.pid}`);
+      await fs.mkdir(SiriClawInstructTmpDir, { recursive: true });
+      const symlinkPath = path.join(SiriClawInstructTmpDir, `tmp-link-escape-${process.pid}`);
       await fs.symlink(outsideTmpTarget, symlinkPath);
       try {
         await expectSandboxRejection(symlinkPath, sandboxDir, /symlink|sandbox/i);
@@ -215,13 +215,13 @@ describe("resolveSandboxedMediaSource", () => {
     });
   });
 
-  it("rejects hardlinked SiriClaw-Instruct tmp paths to outside files", async () => {
+  it("rejects hardlinked SiriClawInstruct tmp paths to outside files", async () => {
     if (process.platform === "win32") {
       return;
     }
-    await withOutsideHardlinkInSiriClaw-InstructTmp(
+    await withOutsideHardlinkInSiriClawInstructTmp(
       {
-        SiriClaw-InstructTmpDir,
+        SiriClawInstructTmpDir,
         hardlinkPrefix: "sandbox-media-hardlink",
       },
       async ({ hardlinkPath }) => {
@@ -232,13 +232,13 @@ describe("resolveSandboxedMediaSource", () => {
     );
   });
 
-  it("rejects symlinked SiriClaw-Instruct tmp paths to hardlinked outside files", async () => {
+  it("rejects symlinked SiriClawInstruct tmp paths to hardlinked outside files", async () => {
     if (process.platform === "win32") {
       return;
     }
-    await withOutsideHardlinkInSiriClaw-InstructTmp(
+    await withOutsideHardlinkInSiriClawInstructTmp(
       {
-        SiriClaw-InstructTmpDir,
+        SiriClawInstructTmpDir,
         hardlinkPrefix: "sandbox-media-hardlink-target",
         symlinkPrefix: "sandbox-media-hardlink-symlink",
       },
@@ -278,3 +278,4 @@ describe("resolveSandboxedMediaSource", () => {
     expect(result).toBe("");
   });
 });
+

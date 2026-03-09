@@ -21,8 +21,8 @@ const serviceReadRuntime = vi.fn(async (_env?: NodeJS.ProcessEnv) => ({ status: 
 const serviceReadCommand = vi.fn(async (_env?: NodeJS.ProcessEnv) => ({
   programArguments: ["/bin/node", "cli", "gateway", "--port", "19001"],
   environment: {
-    SiriClaw-Instruct_STATE_DIR: "/tmp/SiriClaw-Instruct-daemon",
-    SiriClaw-Instruct_CONFIG_PATH: "/tmp/SiriClaw-Instruct-daemon/SiriClaw-Instruct.json",
+    SiriClawInstruct_STATE_DIR: "/tmp/SiriClawInstruct-daemon",
+    SiriClawInstruct_CONFIG_PATH: "/tmp/SiriClawInstruct-daemon/SiriClawInstruct.json",
   },
 }));
 const resolveGatewayBindHost = vi.fn(
@@ -31,10 +31,10 @@ const resolveGatewayBindHost = vi.fn(
 const pickPrimaryTailnetIPv4 = vi.fn(() => "100.64.0.9");
 const resolveGatewayPort = vi.fn((_cfg?: unknown, _env?: unknown) => 18789);
 const resolveStateDir = vi.fn(
-  (env: NodeJS.ProcessEnv) => env.SiriClaw-Instruct_STATE_DIR ?? "/tmp/SiriClaw-Instruct-cli",
+  (env: NodeJS.ProcessEnv) => env.SiriClawInstruct_STATE_DIR ?? "/tmp/SiriClawInstruct-cli",
 );
 const resolveConfigPath = vi.fn((env: NodeJS.ProcessEnv, stateDir: string) => {
-  return env.SiriClaw-Instruct_CONFIG_PATH ?? `${stateDir}/SiriClaw-Instruct.json`;
+  return env.SiriClawInstruct_CONFIG_PATH ?? `${stateDir}/SiriClawInstruct.json`;
 });
 let daemonLoadedConfig: Record<string, unknown> = {
   gateway: {
@@ -51,7 +51,7 @@ let cliLoadedConfig: Record<string, unknown> = {
 
 vi.mock("../../config/config.js", () => ({
   createConfigIO: ({ configPath }: { configPath: string }) => {
-    const isDaemon = configPath.includes("/SiriClaw-Instruct-daemon/");
+    const isDaemon = configPath.includes("/SiriClawInstruct-daemon/");
     return {
       readConfigFileSnapshot: async () => ({
         path: configPath,
@@ -119,17 +119,17 @@ describe("gatherDaemonStatus", () => {
 
   beforeEach(() => {
     envSnapshot = captureEnv([
-      "SiriClaw-Instruct_STATE_DIR",
-      "SiriClaw-Instruct_CONFIG_PATH",
-      "SiriClaw-Instruct_GATEWAY_TOKEN",
-      "SiriClaw-Instruct_GATEWAY_PASSWORD",
+      "SiriClawInstruct_STATE_DIR",
+      "SiriClawInstruct_CONFIG_PATH",
+      "SiriClawInstruct_GATEWAY_TOKEN",
+      "SiriClawInstruct_GATEWAY_PASSWORD",
       "DAEMON_GATEWAY_TOKEN",
       "DAEMON_GATEWAY_PASSWORD",
     ]);
-    process.env.SiriClaw-Instruct_STATE_DIR = "/tmp/SiriClaw-Instruct-cli";
-    process.env.SiriClaw-Instruct_CONFIG_PATH = "/tmp/SiriClaw-Instruct-cli/SiriClaw-Instruct.json";
-    delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-    delete process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+    process.env.SiriClawInstruct_STATE_DIR = "/tmp/SiriClawInstruct-cli";
+    process.env.SiriClawInstruct_CONFIG_PATH = "/tmp/SiriClawInstruct-cli/SiriClawInstruct.json";
+    delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
+    delete process.env.SiriClawInstruct_GATEWAY_PASSWORD;
     delete process.env.DAEMON_GATEWAY_TOKEN;
     delete process.env.DAEMON_GATEWAY_PASSWORD;
     callGatewayStatusProbe.mockClear();
@@ -298,8 +298,8 @@ describe("gatherDaemonStatus", () => {
         },
       },
     };
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = "env-token";
-    process.env.SiriClaw-Instruct_GATEWAY_PASSWORD = "env-password"; // pragma: allowlist secret
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = "env-token";
+    process.env.SiriClawInstruct_GATEWAY_PASSWORD = "env-password"; // pragma: allowlist secret
 
     await gatherDaemonStatus({
       rpc: {},
@@ -327,3 +327,4 @@ describe("gatherDaemonStatus", () => {
     expect(status.rpc).toBeUndefined();
   });
 });
+

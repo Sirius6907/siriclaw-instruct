@@ -20,17 +20,17 @@ describe("runCommandWithTimeout", () => {
     const resolved = resolveCommandEnv({
       argv: ["node", "script.js"],
       baseEnv: {
-        SiriClaw-Instruct_BASE_ENV: "base",
-        SiriClaw-Instruct_TO_REMOVE: undefined,
+        SiriClawInstruct_BASE_ENV: "base",
+        SiriClawInstruct_TO_REMOVE: undefined,
       },
       env: {
-        SiriClaw-Instruct_TEST_ENV: "ok",
+        SiriClawInstruct_TEST_ENV: "ok",
       },
     });
 
-    expect(resolved.SiriClaw-Instruct_BASE_ENV).toBe("base");
-    expect(resolved.SiriClaw-Instruct_TEST_ENV).toBe("ok");
-    expect(resolved.SiriClaw-Instruct_TO_REMOVE).toBeUndefined();
+    expect(resolved.SiriClawInstruct_BASE_ENV).toBe("base");
+    expect(resolved.SiriClawInstruct_TEST_ENV).toBe("ok");
+    expect(resolved.SiriClawInstruct_TO_REMOVE).toBeUndefined();
   });
 
   it("suppresses npm fund prompts for npm argv", async () => {
@@ -130,3 +130,4 @@ describe("attachChildProcessBridge", () => {
     detach();
   });
 });
+

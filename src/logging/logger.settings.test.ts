@@ -3,7 +3,7 @@ import { __test__ } from "./logger.js";
 
 describe("shouldSkipLoadConfigFallback", () => {
   it("matches config validate invocations", () => {
-    expect(__test__.shouldSkipLoadConfigFallback(["node", "SiriClaw-Instruct", "config", "validate"])).toBe(
+    expect(__test__.shouldSkipLoadConfigFallback(["node", "SiriClawInstruct", "config", "validate"])).toBe(
       true,
     );
   });
@@ -12,7 +12,7 @@ describe("shouldSkipLoadConfigFallback", () => {
     expect(
       __test__.shouldSkipLoadConfigFallback([
         "node",
-        "SiriClaw-Instruct",
+        "SiriClawInstruct",
         "--profile",
         "work",
         "--no-color",
@@ -25,8 +25,9 @@ describe("shouldSkipLoadConfigFallback", () => {
 
   it("does not match other commands", () => {
     expect(
-      __test__.shouldSkipLoadConfigFallback(["node", "SiriClaw-Instruct", "config", "get", "foo"]),
+      __test__.shouldSkipLoadConfigFallback(["node", "SiriClawInstruct", "config", "get", "foo"]),
     ).toBe(false);
-    expect(__test__.shouldSkipLoadConfigFallback(["node", "SiriClaw-Instruct", "status"])).toBe(false);
+    expect(__test__.shouldSkipLoadConfigFallback(["node", "SiriClawInstruct", "status"])).toBe(false);
   });
 });
+

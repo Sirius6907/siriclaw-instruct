@@ -2,12 +2,12 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import "./test-helpers/fast-core-tools.js";
-import { createSiriClaw-InstructTools } from "./SiriClaw-Instruct-tools.js";
+import { createSiriClawInstructTools } from "./siriclaw-instruct-tools.js";
 
 async function withTempAgentDir<T>(run: (agentDir: string) => Promise<T>): Promise<T> {
-  const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-tools-pdf-"));
+  const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-tools-pdf-"));
   try {
     return await run(agentDir);
   } finally {
@@ -15,10 +15,10 @@ async function withTempAgentDir<T>(run: (agentDir: string) => Promise<T>): Promi
   }
 }
 
-describe("createSiriClaw-InstructTools PDF registration", () => {
+describe("createSiriClawInstructTools PDF registration", () => {
   it("includes pdf tool when pdfModel is configured", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         agents: {
           defaults: {
             pdfModel: { primary: "openai/gpt-5-mini" },
@@ -26,8 +26,9 @@ describe("createSiriClaw-InstructTools PDF registration", () => {
         },
       };
 
-      const tools = createSiriClaw-InstructTools({ config: cfg, agentDir });
+      const tools = createSiriClawInstructTools({ config: cfg, agentDir });
       expect(tools.some((tool) => tool.name === "pdf")).toBe(true);
     });
   });
 });
+

@@ -1,13 +1,13 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { findDuplicateAgentDirs } from "./agent-dirs.js";
-import type { SiriClaw-InstructConfig } from "./types.js";
+import type { SiriClawInstructConfig } from "./types.js";
 
 afterEach(() => {
   vi.unstubAllEnvs();
 });
 
 describe("resolveEffectiveAgentDir via findDuplicateAgentDirs", () => {
-  it("uses SiriClaw-Instruct_HOME for default agent dir resolution", () => {
+  it("uses SiriClawInstruct_HOME for default agent dir resolution", () => {
     // findDuplicateAgentDirs calls resolveEffectiveAgentDir internally.
     // With a single agent there are no duplicates, but we can inspect the
     // resolved dir indirectly by triggering a duplicate with two agents
@@ -15,14 +15,14 @@ describe("resolveEffectiveAgentDir via findDuplicateAgentDirs", () => {
     // since they have different IDs.  Instead we just verify no crash and
     // that the env flows through by checking a two-agent config produces
     // distinct dirs (no duplicates).
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         list: [{ id: "alpha" }, { id: "beta" }],
       },
     };
 
     const env = {
-      SiriClaw-Instruct_HOME: "/srv/SiriClaw-Instruct-home",
+      SiriClawInstruct_HOME: "/srv/SiriClawInstruct-home",
       HOME: "/home/other",
     } as NodeJS.ProcessEnv;
 
@@ -30,14 +30,14 @@ describe("resolveEffectiveAgentDir via findDuplicateAgentDirs", () => {
     expect(dupes).toHaveLength(0);
   });
 
-  it("resolves agent dir under SiriClaw-Instruct_HOME state dir", () => {
+  it("resolves agent dir under SiriClawInstruct_HOME state dir", () => {
     // Force two agents to the same explicit agentDir to verify the path
     // that doesn't use the default — then test the default path by
     // checking that a single-agent config resolves without duplicates.
-    const cfg: SiriClaw-InstructConfig = {};
+    const cfg: SiriClawInstructConfig = {};
 
     const env = {
-      SiriClaw-Instruct_HOME: "/srv/SiriClaw-Instruct-home",
+      SiriClawInstruct_HOME: "/srv/SiriClawInstruct-home",
     } as NodeJS.ProcessEnv;
 
     // No duplicates for a single default agent
@@ -45,3 +45,4 @@ describe("resolveEffectiveAgentDir via findDuplicateAgentDirs", () => {
     expect(dupes).toHaveLength(0);
   });
 });
+

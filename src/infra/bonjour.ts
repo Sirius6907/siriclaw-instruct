@@ -26,7 +26,7 @@ export type GatewayBonjourAdvertiseOpts = {
 };
 
 function isDisabledByEnv() {
-  if (isTruthyEnvValue(process.env.SiriClaw-Instruct_DISABLE_BONJOUR)) {
+  if (isTruthyEnvValue(process.env.SiriClawInstruct_DISABLE_BONJOUR)) {
     return true;
   }
   if (process.env.NODE_ENV === "test") {
@@ -40,12 +40,12 @@ function isDisabledByEnv() {
 
 function safeServiceName(name: string) {
   const trimmed = name.trim();
-  return trimmed.length > 0 ? trimmed : "SiriClaw-Instruct";
+  return trimmed.length > 0 ? trimmed : "SiriClawInstruct";
 }
 
 function prettifyInstanceName(name: string) {
   const normalized = name.trim().replace(/\s+/g, " ");
-  return normalized.replace(/\s+\(SiriClaw-Instruct\)\s*$/i, "").trim() || normalized;
+  return normalized.replace(/\s+\(SiriClawInstruct\)\s*$/i, "").trim() || normalized;
 }
 
 type BonjourService = {
@@ -95,18 +95,18 @@ export async function startGatewayBonjourAdvertiser(
   // `Mac.localdomain`) can confuse some resolvers/browsers and break discovery.
   // Keep only the first label and normalize away a trailing `.local`.
   const hostnameRaw =
-    process.env.SiriClaw-Instruct_MDNS_HOSTNAME?.trim() ||
+    process.env.SiriClawInstruct_MDNS_HOSTNAME?.trim() ||
     process.env.SIRICLAW_MDNS_HOSTNAME?.trim() ||
-    "SiriClaw-Instruct";
+    "SiriClawInstruct";
   const hostname =
     hostnameRaw
       .replace(/\.local$/i, "")
       .split(".")[0]
-      .trim() || "SiriClaw-Instruct";
+      .trim() || "SiriClawInstruct";
   const instanceName =
     typeof opts.instanceName === "string" && opts.instanceName.trim()
       ? opts.instanceName.trim()
-      : `${hostname} (SiriClaw-Instruct)`;
+      : `${hostname} (SiriClawInstruct)`;
   const displayName = prettifyInstanceName(instanceName);
 
   const txtBase: Record<string, string> = {
@@ -147,7 +147,7 @@ export async function startGatewayBonjourAdvertiser(
 
   const gateway = responder.createService({
     name: safeServiceName(instanceName),
-    type: "SiriClaw-Instruct-gw",
+    type: "SiriClawInstruct-gw",
     protocol: Protocol.TCP,
     port: opts.gatewayPort,
     domain: "local",
@@ -279,3 +279,4 @@ export async function startGatewayBonjourAdvertiser(
     },
   };
 }
+

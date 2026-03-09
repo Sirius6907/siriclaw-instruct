@@ -1,6 +1,6 @@
 import type { App } from "@slack/bolt";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { RuntimeEnv } from "../../runtime.js";
 import type { SlackMessageEvent } from "../types.js";
 import { resolveSlackChannelConfig } from "./channel-config.js";
@@ -84,7 +84,7 @@ describe("resolveSlackChannelConfig", () => {
 });
 
 const baseParams = () => ({
-  cfg: {} as SiriClaw-InstructConfig,
+  cfg: {} as SiriClawInstructConfig,
   accountId: "default",
   botToken: "token",
   app: { client: {} } as App,
@@ -109,7 +109,7 @@ const baseParams = () => ({
   replyToMode: "off" as const,
   slashCommand: {
     enabled: false,
-    name: "SiriClaw-Instruct",
+    name: "SiriClawInstruct",
     sessionPrefix: "slack:slash",
     ephemeral: true,
   },
@@ -396,3 +396,4 @@ describe("createSlackThreadTsResolver", () => {
     expect(historyMock).toHaveBeenCalledTimes(1);
   });
 });
+

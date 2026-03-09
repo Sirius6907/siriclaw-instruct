@@ -2,14 +2,14 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import { resolveAcpInstallCommandHint, resolveConfiguredAcpBackendId } from "./install-hints.js";
 
 const originalCwd = process.cwd();
 const tempDirs: string[] = [];
 
-function withAcpConfig(acp: SiriClaw-InstructConfig["acp"]): SiriClaw-InstructConfig {
-  return { acp } as SiriClaw-InstructConfig;
+function withAcpConfig(acp: SiriClawInstructConfig["acp"]): SiriClawInstructConfig {
+  return { acp } as SiriClawInstructConfig;
 }
 
 afterEach(() => {
@@ -22,9 +22,9 @@ afterEach(() => {
 describe("ACP install hints", () => {
   it("prefers explicit runtime install command", () => {
     const cfg = withAcpConfig({
-      runtime: { installCommand: "pnpm SiriClaw-Instruct plugins install acpx" },
+      runtime: { installCommand: "pnpm SiriClawInstruct plugins install acpx" },
     });
-    expect(resolveAcpInstallCommandHint(cfg)).toBe("pnpm SiriClaw-Instruct plugins install acpx");
+    expect(resolveAcpInstallCommandHint(cfg)).toBe("pnpm SiriClawInstruct plugins install acpx");
   });
 
   it("uses local acpx extension path when present", () => {
@@ -35,7 +35,7 @@ describe("ACP install hints", () => {
 
     const cfg = withAcpConfig({ backend: "acpx" });
     const hint = resolveAcpInstallCommandHint(cfg);
-    expect(hint).toContain("SiriClaw-Instruct plugins install ");
+    expect(hint).toContain("SiriClawInstruct plugins install ");
     expect(hint).toContain(path.join("extensions", "acpx"));
   });
 
@@ -45,7 +45,7 @@ describe("ACP install hints", () => {
     process.chdir(tempRoot);
 
     const cfg = withAcpConfig({ backend: "acpx" });
-    expect(resolveAcpInstallCommandHint(cfg)).toBe("SiriClaw-Instruct plugins install acpx");
+    expect(resolveAcpInstallCommandHint(cfg)).toBe("SiriClawInstruct plugins install acpx");
   });
 
   it("returns generic plugin hint for non-acpx backend", () => {
@@ -54,3 +54,4 @@ describe("ACP install hints", () => {
     expect(resolveAcpInstallCommandHint(cfg)).toContain('ACP backend "custom-backend"');
   });
 });
+

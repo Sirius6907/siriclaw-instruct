@@ -5,7 +5,7 @@ import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import type { Api, Model } from "@mariozechner/pi-ai";
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import * as compactionModule from "../compaction.js";
 import { buildEmbeddedExtensionFactories } from "../pi-embedded-runner/extensions.js";
 import { castAgentMessage } from "../test-helpers/agent-message-fixtures.js";
@@ -420,7 +420,7 @@ describe("compaction-safeguard runtime registry", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     buildEmbeddedExtensionFactories({
       cfg,
@@ -1550,7 +1550,7 @@ describe("compaction-safeguard double-compaction guard", () => {
 async function expectWorkspaceSummaryEmptyForAgentsAlias(
   createAlias: (outsidePath: string, agentsPath: string) => void,
 ) {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-compaction-summary-"));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-compaction-summary-"));
   const prevCwd = process.cwd();
   try {
     const outside = path.join(root, "outside-secret.txt");
@@ -1583,3 +1583,4 @@ describe("readWorkspaceContextForSummary", () => {
     },
   );
 });
+

@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions.js";
 import type { ReplyPayload } from "../types.js";
 import type { InlineDirectives } from "./directive-handling.parse.js";
@@ -7,7 +7,7 @@ import { resolveQueueSettings } from "./queue.js";
 
 export function maybeHandleQueueDirective(params: {
   directives: InlineDirectives;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   sessionEntry?: SessionEntry;
 }): ReplyPayload | undefined {
@@ -76,3 +76,4 @@ export function maybeHandleQueueDirective(params: {
 
   return undefined;
 }
+

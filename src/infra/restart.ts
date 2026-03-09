@@ -289,7 +289,7 @@ function normalizeSystemdUnit(raw?: string, profile?: string): string {
   return unit.endsWith(".service") ? unit : `${unit}.service`;
 }
 
-export function triggerSiriClaw-InstructRestart(): RestartAttempt {
+export function triggerSiriClawInstructRestart(): RestartAttempt {
   if (process.env.VITEST || process.env.NODE_ENV === "test") {
     return { ok: true, method: "supervisor", detail: "test mode" };
   }
@@ -299,8 +299,8 @@ export function triggerSiriClaw-InstructRestart(): RestartAttempt {
   const tried: string[] = [];
   if (process.platform === "linux") {
     const unit = normalizeSystemdUnit(
-      process.env.SiriClaw-Instruct_SYSTEMD_UNIT,
-      process.env.SiriClaw-Instruct_PROFILE,
+      process.env.SiriClawInstruct_SYSTEMD_UNIT,
+      process.env.SiriClawInstruct_PROFILE,
     );
     const userArgs = ["--user", "restart", unit];
     tried.push(`systemctl ${userArgs.join(" ")}`);
@@ -340,8 +340,8 @@ export function triggerSiriClaw-InstructRestart(): RestartAttempt {
   }
 
   const label =
-    process.env.SiriClaw-Instruct_LAUNCHD_LABEL ||
-    resolveGatewayLaunchAgentLabel(process.env.SiriClaw-Instruct_PROFILE);
+    process.env.SiriClawInstruct_LAUNCHD_LABEL ||
+    resolveGatewayLaunchAgentLabel(process.env.SiriClawInstruct_PROFILE);
   const uid = typeof process.getuid === "function" ? process.getuid() : undefined;
   const domain = uid !== undefined ? `gui/${uid}` : "gui/501";
   const target = `${domain}/${label}`;
@@ -503,3 +503,4 @@ export const __testing = {
     clearPendingScheduledRestart();
   },
 };
+

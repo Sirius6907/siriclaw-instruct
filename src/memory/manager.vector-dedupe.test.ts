@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { MemoryIndexManager } from "./index.js";
 import { buildFileEntry } from "./internal.js";
 import { createMemoryManagerOrThrow } from "./test-manager.js";
@@ -40,7 +40,7 @@ describe("memory vector dedupe", () => {
   }
 
   beforeEach(async () => {
-    workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-mem-"));
+    workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-mem-"));
     indexPath = path.join(workspaceDir, "index.sqlite");
     await seedMemoryWorkspace(workspaceDir);
   });
@@ -65,7 +65,7 @@ describe("memory vector dedupe", () => {
         },
         list: [{ id: "main", default: true }],
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     manager = await createMemoryManagerOrThrow(cfg);
 
@@ -108,3 +108,4 @@ describe("memory vector dedupe", () => {
     expect(deleteIndex).toBeLessThan(insertIndex);
   });
 });
+

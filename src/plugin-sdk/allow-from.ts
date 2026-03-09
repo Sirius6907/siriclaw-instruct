@@ -92,3 +92,4 @@ export function isAllowedParsedChatSender<TParsed extends ParsedChatAllowTarget>
   }
   return false;
 }
+

@@ -2,10 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { listAgentIds, resolveAgentDir } from "../agents/agent-scope.js";
 import { resolveAuthStorePath } from "../agents/auth-profiles/paths.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveUserPath } from "../utils.js";
 
-export function listAuthProfileStorePaths(config: SiriClaw-InstructConfig, stateDir: string): string[] {
+export function listAuthProfileStorePaths(config: SiriClawInstructConfig, stateDir: string): string[] {
   const paths = new Set<string>();
   // Scope default auth store discovery to the provided stateDir instead of
   // ambient process env, so scans do not include unrelated host-global stores.
@@ -35,6 +35,7 @@ export function listAuthProfileStorePaths(config: SiriClaw-InstructConfig, state
   return [...paths];
 }
 
-export function collectAuthStorePaths(config: SiriClaw-InstructConfig, stateDir: string): string[] {
+export function collectAuthStorePaths(config: SiriClawInstructConfig, stateDir: string): string[] {
   return listAuthProfileStorePaths(config, stateDir);
 }
+

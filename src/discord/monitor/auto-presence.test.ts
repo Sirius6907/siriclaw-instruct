@@ -160,3 +160,4 @@ describe("discord auto presence", () => {
     expect(updatePresence).not.toHaveBeenCalled();
   });
 });
+

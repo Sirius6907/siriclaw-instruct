@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { resolveApiKeyForProfile } from "./oauth.js";
 import type { AuthProfileStore } from "./types.js";
 
@@ -10,7 +10,7 @@ function cfgFor(profileId: string, provider: string, mode: "api_key" | "token" |
         [profileId]: { provider, mode },
       },
     },
-  } satisfies SiriClaw-InstructConfig;
+  } satisfies SiriClawInstructConfig;
 }
 
 function tokenStore(params: {
@@ -392,3 +392,4 @@ describe("resolveApiKeyForProfile secret refs", () => {
     }
   });
 });
+

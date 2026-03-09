@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "SiriClaw-Instruct",
+    name: "SiriClawInstruct",
     platforms: [
         .macOS(.v15),
     ],
@@ -20,7 +20,7 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-log.git", from: "1.8.0"),
         .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.8.1"),
         .package(url: "https://github.com/steipete/Peekaboo.git", branch: "main"),
-        .package(path: "../shared/SiriClaw-InstructKit"),
+        .package(path: "../shared/siriclaw-instruct-kit"),
         .package(path: "../../Swabble"),
     ],
     targets: [
@@ -33,7 +33,7 @@ let package = Package(
         .target(
             name: "SiriClaw-InstructDiscovery",
             dependencies: [
-                .product(name: "SiriClaw-InstructKit", package: "SiriClaw-InstructKit"),
+                .product(name: "siriclaw-instruct-kit", package: "siriclaw-instruct-kit"),
             ],
             path: "Sources/SiriClaw-InstructDiscovery",
             swiftSettings: [
@@ -44,9 +44,9 @@ let package = Package(
             dependencies: [
                 "SiriClaw-InstructIPC",
                 "SiriClaw-InstructDiscovery",
-                .product(name: "SiriClaw-InstructKit", package: "SiriClaw-InstructKit"),
-                .product(name: "SiriClaw-InstructChatUI", package: "SiriClaw-InstructKit"),
-                .product(name: "SiriClaw-InstructProtocol", package: "SiriClaw-InstructKit"),
+                .product(name: "siriclaw-instruct-kit", package: "siriclaw-instruct-kit"),
+                .product(name: "SiriClaw-InstructChatUI", package: "siriclaw-instruct-kit"),
+                .product(name: "SiriClaw-InstructProtocol", package: "siriclaw-instruct-kit"),
                 .product(name: "SwabbleKit", package: "swabble"),
                 .product(name: "MenuBarExtraAccess", package: "MenuBarExtraAccess"),
                 .product(name: "Subprocess", package: "swift-subprocess"),
@@ -69,8 +69,8 @@ let package = Package(
             name: "SiriClaw-InstructMacCLI",
             dependencies: [
                 "SiriClaw-InstructDiscovery",
-                .product(name: "SiriClaw-InstructKit", package: "SiriClaw-InstructKit"),
-                .product(name: "SiriClaw-InstructProtocol", package: "SiriClaw-InstructKit"),
+                .product(name: "siriclaw-instruct-kit", package: "siriclaw-instruct-kit"),
+                .product(name: "SiriClaw-InstructProtocol", package: "siriclaw-instruct-kit"),
             ],
             path: "Sources/SiriClaw-InstructMacCLI",
             swiftSettings: [
@@ -82,7 +82,7 @@ let package = Package(
                 "SiriClaw-InstructIPC",
                 "SiriClaw-Instruct",
                 "SiriClaw-InstructDiscovery",
-                .product(name: "SiriClaw-InstructProtocol", package: "SiriClaw-InstructKit"),
+                .product(name: "SiriClaw-InstructProtocol", package: "siriclaw-instruct-kit"),
                 .product(name: "SwabbleKit", package: "swabble"),
             ],
             swiftSettings: [

@@ -372,3 +372,4 @@ private struct ConnectionStatusBox: View {
         return lines
     }
 }
+

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveSiriClaw-InstructPackageRootSync } from "../../infra/SiriClaw-Instruct-root.js";
+import { resolveSiriClawInstructPackageRootSync } from "../../infra/siriclaw-instruct-root.js";
 
 function looksLikeSkillsDir(dir: string): boolean {
   try {
@@ -36,7 +36,7 @@ export type BundledSkillsResolveOptions = {
 export function resolveBundledSkillsDir(
   opts: BundledSkillsResolveOptions = {},
 ): string | undefined {
-  const override = process.env.SiriClaw-Instruct_BUNDLED_SKILLS_DIR?.trim();
+  const override = process.env.SiriClawInstruct_BUNDLED_SKILLS_DIR?.trim();
   if (override) {
     return override;
   }
@@ -59,7 +59,7 @@ export function resolveBundledSkillsDir(
     const moduleDir = path.dirname(fileURLToPath(moduleUrl));
     const argv1 = opts.argv1 ?? process.argv[1];
     const cwd = opts.cwd ?? process.cwd();
-    const packageRoot = resolveSiriClaw-InstructPackageRootSync({
+    const packageRoot = resolveSiriClawInstructPackageRootSync({
       argv1,
       moduleUrl,
       cwd,
@@ -88,3 +88,4 @@ export function resolveBundledSkillsDir(
 
   return undefined;
 }
+

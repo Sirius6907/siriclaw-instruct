@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveDiscordToken } from "./token.js";
 
 describe("resolveDiscordToken", () => {
@@ -11,7 +11,7 @@ describe("resolveDiscordToken", () => {
     vi.stubEnv("DISCORD_BOT_TOKEN", "env-token");
     const cfg = {
       channels: { discord: { token: "cfg-token" } },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const res = resolveDiscordToken(cfg);
     expect(res.token).toBe("cfg-token");
     expect(res.source).toBe("config");
@@ -21,7 +21,7 @@ describe("resolveDiscordToken", () => {
     vi.stubEnv("DISCORD_BOT_TOKEN", "env-token");
     const cfg = {
       channels: { discord: {} },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const res = resolveDiscordToken(cfg);
     expect(res.token).toBe("env-token");
     expect(res.source).toBe("env");
@@ -38,7 +38,7 @@ describe("resolveDiscordToken", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const res = resolveDiscordToken(cfg, { accountId: "work" });
     expect(res.token).toBe("acct-token");
     expect(res.source).toBe("config");
@@ -54,7 +54,7 @@ describe("resolveDiscordToken", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const res = resolveDiscordToken(cfg, { accountId: "work" });
     expect(res.token).toBe("base-token");
     expect(res.source).toBe("config");
@@ -70,7 +70,7 @@ describe("resolveDiscordToken", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const res = resolveDiscordToken(cfg, { accountId: "work" });
     expect(res.token).toBe("");
     expect(res.source).toBe("none");
@@ -85,7 +85,7 @@ describe("resolveDiscordToken", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const res = resolveDiscordToken(cfg, { accountId: "work" });
     expect(res.token).toBe("acct-token");
     expect(res.source).toBe("config");
@@ -98,10 +98,11 @@ describe("resolveDiscordToken", () => {
           token: { source: "env", provider: "default", id: "DISCORD_BOT_TOKEN" },
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     expect(() => resolveDiscordToken(cfg)).toThrow(
       /channels\.discord\.token: unresolved SecretRef/i,
     );
   });
 });
+

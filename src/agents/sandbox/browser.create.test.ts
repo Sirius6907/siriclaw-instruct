@@ -50,10 +50,10 @@ function buildConfig(enableNoVnc: boolean): SandboxConfig {
     mode: "all",
     scope: "session",
     workspaceAccess: "none",
-    workspaceRoot: "/tmp/SiriClaw-Instruct-sandboxes",
+    workspaceRoot: "/tmp/SiriClawInstruct-sandboxes",
     docker: {
-      image: "SiriClaw-Instruct-sandbox:bookworm-slim",
-      containerPrefix: "SiriClaw-Instruct-sbx-",
+      image: "SiriClawInstruct-sandbox:bookworm-slim",
+      containerPrefix: "SiriClawInstruct-sbx-",
       workdir: "/workspace",
       readOnlyRoot: true,
       tmpfs: ["/tmp", "/var/tmp", "/run"],
@@ -63,9 +63,9 @@ function buildConfig(enableNoVnc: boolean): SandboxConfig {
     },
     browser: {
       enabled: true,
-      image: "SiriClaw-Instruct-sandbox-browser:bookworm-slim",
-      containerPrefix: "SiriClaw-Instruct-sbx-browser-",
-      network: "SiriClaw-Instruct-sandbox-browser",
+      image: "SiriClawInstruct-sandbox-browser:bookworm-slim",
+      containerPrefix: "SiriClawInstruct-sbx-browser-",
+      network: "SiriClawInstruct-sandbox-browser",
       cdpPort: 9222,
       vncPort: 5900,
       noVncPort: 6080,
@@ -147,11 +147,11 @@ describe("ensureSandboxBrowser create args", () => {
     expect(createArgs).toBeDefined();
     expect(createArgs).toContain("127.0.0.1::6080");
     const envEntries = collectDockerFlagValues(createArgs ?? [], "-e");
-    expect(envEntries).toContain("SiriClaw-Instruct_BROWSER_NO_SANDBOX=1");
+    expect(envEntries).toContain("SiriClawInstruct_BROWSER_NO_SANDBOX=1");
     const passwordEntry = envEntries.find((entry) =>
-      entry.startsWith("SiriClaw-Instruct_BROWSER_NOVNC_PASSWORD="),
+      entry.startsWith("SiriClawInstruct_BROWSER_NOVNC_PASSWORD="),
     );
-    expect(passwordEntry).toMatch(/^SiriClaw-Instruct_BROWSER_NOVNC_PASSWORD=[A-Za-z0-9]{8}$/);
+    expect(passwordEntry).toMatch(/^SiriClawInstruct_BROWSER_NOVNC_PASSWORD=[A-Za-z0-9]{8}$/);
     expect(result?.noVncUrl).toMatch(/^http:\/\/127\.0\.0\.1:19000\/sandbox\/novnc\?token=/);
     expect(result?.noVncUrl).not.toContain("password=");
   });
@@ -166,7 +166,7 @@ describe("ensureSandboxBrowser create args", () => {
 
     const createArgs = findDockerArgsCall(dockerMocks.execDocker.mock.calls, "create");
     const envEntries = collectDockerFlagValues(createArgs ?? [], "-e");
-    expect(envEntries.some((entry) => entry.startsWith("SiriClaw-Instruct_BROWSER_NOVNC_PASSWORD="))).toBe(
+    expect(envEntries.some((entry) => entry.startsWith("SiriClawInstruct_BROWSER_NOVNC_PASSWORD="))).toBe(
       false,
     );
     expect(result?.noVncUrl).toBeUndefined();
@@ -207,3 +207,4 @@ describe("ensureSandboxBrowser create args", () => {
     expect(createArgs).not.toContain("/tmp/workspace:/workspace:ro");
   });
 });
+

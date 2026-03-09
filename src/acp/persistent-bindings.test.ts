@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 const managerMocks = vi.hoisted(() => ({
   resolveSession: vi.fn(),
   closeSession: vi.fn(),
@@ -35,7 +35,7 @@ const baseCfg = {
   agents: {
     list: [{ id: "codex" }, { id: "claude" }],
   },
-} satisfies SiriClaw-InstructConfig;
+} satisfies SiriClawInstructConfig;
 
 beforeEach(() => {
   managerMocks.resolveSession.mockReset();
@@ -62,11 +62,11 @@ describe("resolveConfiguredAcpBindingRecord", () => {
             peer: { kind: "channel", id: "1478836151241412759" },
           },
           acp: {
-            cwd: "/repo/SiriClaw-Instruct",
+            cwd: "/repo/SiriClawInstruct",
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -96,7 +96,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -133,7 +133,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -170,7 +170,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -196,7 +196,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -226,7 +226,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const canonical = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -263,7 +263,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -305,7 +305,7 @@ describe("resolveConfiguredAcpBindingRecord", () => {
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -340,7 +340,7 @@ describe("resolveConfiguredAcpBindingSpecBySessionKey", () => {
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -396,7 +396,7 @@ describe("resolveConfiguredAcpBindingSpecBySessionKey", () => {
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveConfiguredAcpBindingRecord({
       cfg,
@@ -451,7 +451,7 @@ describe("ensureConfiguredAcpBindingSession", () => {
         agent: "codex",
         runtimeSessionName: "existing",
         mode: "persistent",
-        runtimeOptions: { cwd: "/workspace/SiriClaw-Instruct" },
+        runtimeOptions: { cwd: "/workspace/SiriClawInstruct" },
         state: "idle",
         lastActivityAt: Date.now(),
       },
@@ -551,7 +551,7 @@ describe("resetAcpSessionInPlace", () => {
           },
         },
       ],
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
     const sessionKey = buildConfiguredAcpSessionKey({
       channel: "discord",
       accountId: "default",
@@ -612,7 +612,7 @@ describe("resetAcpSessionInPlace", () => {
       agents: {
         list: [{ id: "main" }, { id: "coding" }],
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
     const sessionKey = "agent:coding:acp:binding:discord:default:9373ab192b2317f4";
     sessionMetaMocks.readAcpSessionEntry.mockReturnValue({
       acp: {
@@ -637,3 +637,4 @@ describe("resetAcpSessionInPlace", () => {
     );
   });
 });
+

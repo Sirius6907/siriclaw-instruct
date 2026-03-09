@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { createConfigIO } from "./io.js";
-import type { SiriClaw-InstructConfig } from "./types.js";
+import type { SiriClawInstructConfig } from "./types.js";
 
 describe("config io write", () => {
   let fixtureRoot = "";
@@ -20,7 +20,7 @@ describe("config io write", () => {
   }
 
   beforeAll(async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-config-io-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-config-io-"));
   });
 
   afterAll(async () => {
@@ -33,7 +33,7 @@ describe("config io write", () => {
     env?: NodeJS.ProcessEnv;
     logger?: { warn: (msg: string) => void; error: (msg: string) => void };
   }) {
-    const configPath = path.join(params.home, ".SiriClaw-Instruct", "SiriClaw-Instruct.json");
+    const configPath = path.join(params.home, ".SiriClawInstruct", "SiriClawInstruct.json");
     await fs.mkdir(path.dirname(configPath), { recursive: true });
     await fs.writeFile(configPath, JSON.stringify(params.initialConfig, null, 2), "utf-8");
 
@@ -80,7 +80,7 @@ describe("config io write", () => {
         error: vi.fn(),
       },
     });
-    const auditPath = path.join(params.home, ".SiriClaw-Instruct", "logs", "config-audit.jsonl");
+    const auditPath = path.join(params.home, ".SiriClawInstruct", "logs", "config-audit.jsonl");
     const next = structuredClone(snapshot.config);
     const gateway =
       next.gateway && typeof next.gateway === "object"
@@ -150,20 +150,20 @@ describe("config io write", () => {
         logger: silentLogger,
       });
 
-      const invalidConfig: SiriClaw-InstructConfig = {
+      const invalidConfig: SiriClawInstructConfig = {
         channels: {
           telegram: {
             dmPolicy: "open",
             allowFrom: [],
           },
         },
-      } satisfies SiriClaw-InstructConfig;
+      } satisfies SiriClawInstructConfig;
 
       await expect(io.writeConfigFile(invalidConfig)).rejects.toThrow(
-        "SiriClaw-Instruct config set channels.telegram.allowFrom '[\"*\"]'",
+        "SiriClawInstruct config set channels.telegram.allowFrom '[\"*\"]'",
       );
       await expect(io.writeConfigFile(invalidConfig)).rejects.toThrow(
-        'SiriClaw-Instruct config set channels.telegram.dmPolicy "pairing"',
+        'SiriClawInstruct config set channels.telegram.dmPolicy "pairing"',
       );
     });
   });
@@ -198,7 +198,7 @@ describe("config io write", () => {
 
   it("does not mutate caller config when unsetPaths is applied on first write", async () => {
     await withSuiteHome(async (home) => {
-      const configPath = path.join(home, ".SiriClaw-Instruct", "SiriClaw-Instruct.json");
+      const configPath = path.join(home, ".SiriClawInstruct", "SiriClawInstruct.json");
       const io = createConfigIO({
         env: {} as NodeJS.ProcessEnv,
         homedir: () => home,
@@ -365,7 +365,7 @@ describe("config io write", () => {
 
   it("keeps env refs in arrays when appending entries", async () => {
     await withSuiteHome(async (home) => {
-      const configPath = path.join(home, ".SiriClaw-Instruct", "SiriClaw-Instruct.json");
+      const configPath = path.join(home, ".SiriClawInstruct", "SiriClawInstruct.json");
       await fs.mkdir(path.dirname(configPath), { recursive: true });
       await fs.writeFile(
         configPath,
@@ -516,9 +516,9 @@ describe("config io write", () => {
         initialConfig: { gateway: { mode: "local" } },
         gatewayPatch: { bind: "loopback" },
         env: {
-          SiriClaw-Instruct_WATCH_MODE: "1",
-          SiriClaw-Instruct_WATCH_SESSION: "watch-session-1",
-          SiriClaw-Instruct_WATCH_COMMAND: "gateway --force",
+          SiriClawInstruct_WATCH_MODE: "1",
+          SiriClawInstruct_WATCH_SESSION: "watch-session-1",
+          SiriClawInstruct_WATCH_COMMAND: "gateway --force",
         } as NodeJS.ProcessEnv,
       });
       expect(last.watchMode).toBe(true);
@@ -527,3 +527,4 @@ describe("config io write", () => {
     });
   });
 });
+

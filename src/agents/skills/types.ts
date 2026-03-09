@@ -16,7 +16,7 @@ export type SkillInstallSpec = {
   targetDir?: string;
 };
 
-export type SiriClaw-InstructSkillMetadata = {
+export type SiriClawInstructSkillMetadata = {
   always?: boolean;
   skillKey?: string;
   primaryEnv?: string;
@@ -66,7 +66,7 @@ export type ParsedSkillFrontmatter = Record<string, string>;
 export type SkillEntry = {
   skill: Skill;
   frontmatter: ParsedSkillFrontmatter;
-  metadata?: SiriClaw-InstructSkillMetadata;
+  metadata?: SiriClawInstructSkillMetadata;
   invocation?: SkillInvocationPolicy;
 };
 
@@ -87,3 +87,4 @@ export type SkillSnapshot = {
   resolvedSkills?: Skill[];
   version?: number;
 };
+

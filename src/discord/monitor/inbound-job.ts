@@ -109,3 +109,4 @@ function normalizeDiscordThreadChannel(
     ownerId: threadChannel.ownerId,
   };
 }
+

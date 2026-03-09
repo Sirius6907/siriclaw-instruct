@@ -3,7 +3,7 @@ import { resolveCronStyleNow } from "../../agents/current-time.js";
 import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.js";
 import { DEFAULT_PI_COMPACTION_RESERVE_TOKENS_FLOOR } from "../../agents/pi-settings.js";
 import { parseNonNegativeByteSize } from "../../config/byte-size.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { resolveFreshSessionTotalTokens, type SessionEntry } from "../../config/sessions.js";
 import { SILENT_REPLY_TOKEN } from "../tokens.js";
 
@@ -42,7 +42,7 @@ function formatDateStampInTimezone(nowMs: number, timezone: string): string {
 
 export function resolveMemoryFlushPromptForRun(params: {
   prompt: string;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   nowMs?: number;
 }): string {
   const nowMs = Number.isFinite(params.nowMs) ? (params.nowMs as number) : Date.now();
@@ -79,7 +79,7 @@ const normalizeNonNegativeInt = (value: unknown): number | null => {
   return int >= 0 ? int : null;
 };
 
-export function resolveMemoryFlushSettings(cfg?: SiriClaw-InstructConfig): MemoryFlushSettings | null {
+export function resolveMemoryFlushSettings(cfg?: SiriClawInstructConfig): MemoryFlushSettings | null {
   const defaults = cfg?.agents?.defaults?.compaction?.memoryFlush;
   const enabled = defaults?.enabled ?? true;
   if (!enabled) {
@@ -181,3 +181,4 @@ export function hasAlreadyFlushedForCurrentCompaction(
   const lastFlushAt = entry.memoryFlushCompactionCount;
   return typeof lastFlushAt === "number" && lastFlushAt === compactionCount;
 }
+

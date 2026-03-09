@@ -27,8 +27,8 @@ const buildGatewayInstallPlan = vi.fn(
     programArguments: ["/bin/node", "cli", "gateway", "--port", String(params.port)],
     workingDirectory: process.cwd(),
     environment: {
-      SiriClaw-Instruct_GATEWAY_PORT: String(params.port),
-      ...(params.token ? { SiriClaw-Instruct_GATEWAY_TOKEN: params.token } : {}),
+      SiriClawInstruct_GATEWAY_PORT: String(params.port),
+      ...(params.token ? { SiriClawInstruct_GATEWAY_TOKEN: params.token } : {}),
     },
   }),
 );
@@ -119,15 +119,15 @@ describe("daemon-cli coverage", () => {
   beforeEach(() => {
     daemonProgram = createDaemonProgram();
     envSnapshot = captureEnv([
-      "SiriClaw-Instruct_STATE_DIR",
-      "SiriClaw-Instruct_CONFIG_PATH",
-      "SiriClaw-Instruct_GATEWAY_PORT",
-      "SiriClaw-Instruct_PROFILE",
+      "SiriClawInstruct_STATE_DIR",
+      "SiriClawInstruct_CONFIG_PATH",
+      "SiriClawInstruct_GATEWAY_PORT",
+      "SiriClawInstruct_PROFILE",
     ]);
-    process.env.SiriClaw-Instruct_STATE_DIR = "/tmp/SiriClaw-Instruct-cli-state";
-    process.env.SiriClaw-Instruct_CONFIG_PATH = "/tmp/SiriClaw-Instruct-cli-state/SiriClaw-Instruct.json";
-    delete process.env.SiriClaw-Instruct_GATEWAY_PORT;
-    delete process.env.SiriClaw-Instruct_PROFILE;
+    process.env.SiriClawInstruct_STATE_DIR = "/tmp/SiriClawInstruct-cli-state";
+    process.env.SiriClawInstruct_CONFIG_PATH = "/tmp/SiriClawInstruct-cli-state/SiriClawInstruct.json";
+    delete process.env.SiriClawInstruct_GATEWAY_PORT;
+    delete process.env.SiriClawInstruct_PROFILE;
     serviceReadCommand.mockResolvedValue(null);
     resolveGatewayProbeAuthWithSecretInputs.mockClear();
     buildGatewayInstallPlan.mockClear();
@@ -157,12 +157,12 @@ describe("daemon-cli coverage", () => {
     serviceReadCommand.mockResolvedValueOnce({
       programArguments: ["/bin/node", "cli", "gateway", "--port", "19001"],
       environment: {
-        SiriClaw-Instruct_PROFILE: "dev",
-        SiriClaw-Instruct_STATE_DIR: "/tmp/SiriClaw-Instruct-daemon-state",
-        SiriClaw-Instruct_CONFIG_PATH: "/tmp/SiriClaw-Instruct-daemon-state/SiriClaw-Instruct.json",
-        SiriClaw-Instruct_GATEWAY_PORT: "19001",
+        SiriClawInstruct_PROFILE: "dev",
+        SiriClawInstruct_STATE_DIR: "/tmp/SiriClawInstruct-daemon-state",
+        SiriClawInstruct_CONFIG_PATH: "/tmp/SiriClawInstruct-daemon-state/SiriClawInstruct.json",
+        SiriClawInstruct_GATEWAY_PORT: "19001",
       },
-      sourcePath: "/tmp/ai.SiriClaw-Instruct.gateway.plist",
+      sourcePath: "/tmp/ai.SiriClawInstruct.gateway.plist",
     });
 
     await runDaemonCommand(["daemon", "status", "--json"]);
@@ -242,3 +242,4 @@ describe("daemon-cli coverage", () => {
     expect(parsed.some((entry) => entry.action === "stop" && entry.ok === true)).toBe(true);
   });
 });
+

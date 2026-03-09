@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { getTailnetHostname } from "../infra/tailscale.js";
 import { isIpv6Address, parseCanonicalIpAddress } from "../shared/net/ip.js";
 
@@ -26,8 +26,8 @@ export const TAILSCALE_MISSING_BIN_NOTE_LINES = [
 
 export const TAILSCALE_DOCS_LINES = [
   "Docs:",
-  "https://docs.SiriClaw-Instruct.ai/gateway/tailscale",
-  "https://docs.SiriClaw-Instruct.ai/web",
+  "https://docs.SiriClawInstruct.ai/gateway/tailscale",
+  "https://docs.SiriClawInstruct.ai/web",
 ] as const;
 
 function normalizeTailnetHostForUrl(rawHost: string): string | null {
@@ -64,10 +64,10 @@ export function appendAllowedOrigin(existing: string[] | undefined, origin: stri
 }
 
 export async function maybeAddTailnetOriginToControlUiAllowedOrigins(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   tailscaleMode: string;
   tailscaleBin?: string | null;
-}): Promise<SiriClaw-InstructConfig> {
+}): Promise<SiriClawInstructConfig> {
   if (params.tailscaleMode !== "serve" && params.tailscaleMode !== "funnel") {
     return params.config;
   }
@@ -91,3 +91,4 @@ export async function maybeAddTailnetOriginToControlUiAllowedOrigins(params: {
     },
   };
 }
+

@@ -3,7 +3,7 @@ import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
 import { getChannelPlugin, listChannelPlugins } from "../channels/plugins/index.js";
 import type { ChannelAccountSnapshot } from "../channels/plugins/types.js";
 import { withProgress } from "../cli/progress.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { loadConfig, readBestEffortConfig } from "../config/config.js";
 import { loadSessionStore, resolveStorePath } from "../config/sessions.js";
 import { buildGatewayConnectionDetails, callGateway } from "../gateway/call.js";
@@ -74,7 +74,7 @@ export type HealthSummary = {
 const DEFAULT_TIMEOUT_MS = 10_000;
 
 const debugHealth = (...args: unknown[]) => {
-  if (isTruthyEnvValue(process.env.SiriClaw-Instruct_DEBUG_HEALTH)) {
+  if (isTruthyEnvValue(process.env.SiriClawInstruct_DEBUG_HEALTH)) {
     console.warn("[health:debug]", ...args);
   }
 };
@@ -523,7 +523,7 @@ export async function getHealthSnapshot(params?: {
 }
 
 export async function healthCommand(
-  opts: { json?: boolean; timeoutMs?: number; verbose?: boolean; config?: SiriClaw-InstructConfig },
+  opts: { json?: boolean; timeoutMs?: number; verbose?: boolean; config?: SiriClawInstructConfig },
   runtime: RuntimeEnv,
 ) {
   const cfg = opts.config ?? (await readBestEffortConfig());
@@ -548,7 +548,7 @@ export async function healthCommand(
   if (opts.json) {
     runtime.log(JSON.stringify(summary, null, 2));
   } else {
-    const debugEnabled = isTruthyEnvValue(process.env.SiriClaw-Instruct_DEBUG_HEALTH);
+    const debugEnabled = isTruthyEnvValue(process.env.SiriClawInstruct_DEBUG_HEALTH);
     const rich = isRich();
     if (opts.verbose) {
       const details = buildGatewayConnectionDetails({ config: cfg });
@@ -749,3 +749,4 @@ export async function healthCommand(
     runtime.exit(1);
   }
 }
+

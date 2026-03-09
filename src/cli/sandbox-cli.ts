@@ -14,30 +14,30 @@ type CommandOptions = Record<string, unknown>;
 
 const SANDBOX_EXAMPLES = {
   main: [
-    ["SiriClaw-Instruct sandbox list", "List all sandbox containers."],
-    ["SiriClaw-Instruct sandbox list --browser", "List only browser containers."],
-    ["SiriClaw-Instruct sandbox recreate --all", "Recreate all containers."],
-    ["SiriClaw-Instruct sandbox recreate --session main", "Recreate a specific session."],
-    ["SiriClaw-Instruct sandbox recreate --agent mybot", "Recreate agent containers."],
-    ["SiriClaw-Instruct sandbox explain", "Explain effective sandbox config."],
+    ["SiriClawInstruct sandbox list", "List all sandbox containers."],
+    ["SiriClawInstruct sandbox list --browser", "List only browser containers."],
+    ["SiriClawInstruct sandbox recreate --all", "Recreate all containers."],
+    ["SiriClawInstruct sandbox recreate --session main", "Recreate a specific session."],
+    ["SiriClawInstruct sandbox recreate --agent mybot", "Recreate agent containers."],
+    ["SiriClawInstruct sandbox explain", "Explain effective sandbox config."],
   ],
   list: [
-    ["SiriClaw-Instruct sandbox list", "List all sandbox containers."],
-    ["SiriClaw-Instruct sandbox list --browser", "List only browser containers."],
-    ["SiriClaw-Instruct sandbox list --json", "JSON output."],
+    ["SiriClawInstruct sandbox list", "List all sandbox containers."],
+    ["SiriClawInstruct sandbox list --browser", "List only browser containers."],
+    ["SiriClawInstruct sandbox list --json", "JSON output."],
   ],
   recreate: [
-    ["SiriClaw-Instruct sandbox recreate --all", "Recreate all containers."],
-    ["SiriClaw-Instruct sandbox recreate --session main", "Recreate a specific session."],
-    ["SiriClaw-Instruct sandbox recreate --agent mybot", "Recreate a specific agent (includes sub-agents)."],
-    ["SiriClaw-Instruct sandbox recreate --browser --all", "Recreate only browser containers."],
-    ["SiriClaw-Instruct sandbox recreate --all --force", "Skip confirmation."],
+    ["SiriClawInstruct sandbox recreate --all", "Recreate all containers."],
+    ["SiriClawInstruct sandbox recreate --session main", "Recreate a specific session."],
+    ["SiriClawInstruct sandbox recreate --agent mybot", "Recreate a specific agent (includes sub-agents)."],
+    ["SiriClawInstruct sandbox recreate --browser --all", "Recreate only browser containers."],
+    ["SiriClawInstruct sandbox recreate --all --force", "Skip confirmation."],
   ],
   explain: [
-    ["SiriClaw-Instruct sandbox explain", "Show effective sandbox config."],
-    ["SiriClaw-Instruct sandbox explain --session agent:main:main", "Explain a specific session."],
-    ["SiriClaw-Instruct sandbox explain --agent work", "Explain an agent sandbox."],
-    ["SiriClaw-Instruct sandbox explain --json", "JSON output."],
+    ["SiriClawInstruct sandbox explain", "Show effective sandbox config."],
+    ["SiriClawInstruct sandbox explain --session agent:main:main", "Explain a specific session."],
+    ["SiriClawInstruct sandbox explain --agent work", "Explain an agent sandbox."],
+    ["SiriClawInstruct sandbox explain --json", "JSON output."],
   ],
 } as const;
 
@@ -67,7 +67,7 @@ export function registerSandboxCli(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sandbox", "docs.SiriClaw-Instruct.ai/cli/sandbox")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sandbox", "docs.SiriClawInstruct.ai/cli/sandbox")}\n`,
     )
     .action(() => {
       sandbox.help({ error: true });
@@ -172,3 +172,4 @@ export function registerSandboxCli(program: Command) {
       ),
     );
 }
+

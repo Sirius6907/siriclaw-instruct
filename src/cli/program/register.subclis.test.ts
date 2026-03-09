@@ -32,7 +32,7 @@ const { loadValidatedConfigForPluginRegistration, registerSubCliByName, register
 
 describe("registerSubCliCommands", () => {
   const originalArgv = process.argv;
-  const originalDisableLazySubcommands = process.env.SiriClaw-Instruct_DISABLE_LAZY_SUBCOMMANDS;
+  const originalDisableLazySubcommands = process.env.SiriClawInstruct_DISABLE_LAZY_SUBCOMMANDS;
 
   const createRegisteredProgram = (argv: string[], name?: string) => {
     process.argv = argv;
@@ -46,9 +46,9 @@ describe("registerSubCliCommands", () => {
 
   beforeEach(() => {
     if (originalDisableLazySubcommands === undefined) {
-      delete process.env.SiriClaw-Instruct_DISABLE_LAZY_SUBCOMMANDS;
+      delete process.env.SiriClawInstruct_DISABLE_LAZY_SUBCOMMANDS;
     } else {
-      process.env.SiriClaw-Instruct_DISABLE_LAZY_SUBCOMMANDS = originalDisableLazySubcommands;
+      process.env.SiriClawInstruct_DISABLE_LAZY_SUBCOMMANDS = originalDisableLazySubcommands;
     }
     registerAcpCli.mockClear();
     acpAction.mockClear();
@@ -61,14 +61,14 @@ describe("registerSubCliCommands", () => {
   afterEach(() => {
     process.argv = originalArgv;
     if (originalDisableLazySubcommands === undefined) {
-      delete process.env.SiriClaw-Instruct_DISABLE_LAZY_SUBCOMMANDS;
+      delete process.env.SiriClawInstruct_DISABLE_LAZY_SUBCOMMANDS;
     } else {
-      process.env.SiriClaw-Instruct_DISABLE_LAZY_SUBCOMMANDS = originalDisableLazySubcommands;
+      process.env.SiriClawInstruct_DISABLE_LAZY_SUBCOMMANDS = originalDisableLazySubcommands;
     }
   });
 
   it("registers only the primary placeholder and dispatches", async () => {
-    const program = createRegisteredProgram(["node", "SiriClaw-Instruct", "acp"]);
+    const program = createRegisteredProgram(["node", "SiriClawInstruct", "acp"]);
 
     expect(program.commands.map((cmd) => cmd.name())).toEqual(["acp"]);
 
@@ -79,7 +79,7 @@ describe("registerSubCliCommands", () => {
   });
 
   it("registers placeholders for all subcommands when no primary", () => {
-    const program = createRegisteredProgram(["node", "SiriClaw-Instruct"]);
+    const program = createRegisteredProgram(["node", "SiriClawInstruct"]);
 
     const names = program.commands.map((cmd) => cmd.name());
     expect(names).toContain("acp");
@@ -111,7 +111,7 @@ describe("registerSubCliCommands", () => {
   });
 
   it("re-parses argv for lazy subcommands", async () => {
-    const program = createRegisteredProgram(["node", "SiriClaw-Instruct", "nodes", "list"], "SiriClaw-Instruct");
+    const program = createRegisteredProgram(["node", "SiriClawInstruct", "nodes", "list"], "SiriClawInstruct");
 
     expect(program.commands.map((cmd) => cmd.name())).toEqual(["nodes"]);
 
@@ -122,7 +122,7 @@ describe("registerSubCliCommands", () => {
   });
 
   it("replaces placeholder when registering a subcommand by name", async () => {
-    const program = createRegisteredProgram(["node", "SiriClaw-Instruct", "acp", "--help"], "SiriClaw-Instruct");
+    const program = createRegisteredProgram(["node", "SiriClawInstruct", "acp", "--help"], "SiriClawInstruct");
 
     await registerSubCliByName(program, "acp");
 
@@ -134,3 +134,4 @@ describe("registerSubCliCommands", () => {
     expect(acpAction).toHaveBeenCalledTimes(1);
   });
 });
+

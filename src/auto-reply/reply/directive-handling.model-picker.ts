@@ -1,5 +1,5 @@
 import { type ModelRef, normalizeProviderId } from "../../agents/model-selection.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 
 export type ModelPickerCatalogEntry = {
   provider: string;
@@ -80,7 +80,7 @@ export function buildModelPickerItems(catalog: ModelPickerCatalogEntry[]): Model
 
 export function resolveProviderEndpointLabel(
   provider: string,
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
 ): { endpoint?: string; api?: string } {
   const normalized = normalizeProviderId(provider);
   const providers = (cfg.models?.providers ?? {}) as Record<
@@ -95,3 +95,4 @@ export function resolveProviderEndpointLabel(
     api: api || undefined,
   };
 }
+

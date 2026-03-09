@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { AgentBootstrapHookContext } from "../hooks/internal-hooks.js";
 import { createInternalHookEvent, triggerInternalHook } from "../hooks/internal-hooks.js";
 import { resolveAgentIdFromSessionKey } from "../routing/session-key.js";
@@ -7,7 +7,7 @@ import type { WorkspaceBootstrapFile } from "./workspace.js";
 export async function applyBootstrapHookOverrides(params: {
   files: WorkspaceBootstrapFile[];
   workspaceDir: string;
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   sessionKey?: string;
   sessionId?: string;
   agentId?: string;
@@ -29,3 +29,4 @@ export async function applyBootstrapHookOverrides(params: {
   const updated = (event.context as AgentBootstrapHookContext).bootstrapFiles;
   return Array.isArray(updated) ? updated : params.files;
 }
+

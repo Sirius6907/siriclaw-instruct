@@ -62,13 +62,13 @@ describe("resolveAllowAlwaysPatterns", () => {
   }
 
   it("returns direct executable paths for non-shell segments", () => {
-    const exe = path.join("/tmp", "SiriClaw-Instruct-tool");
+    const exe = path.join("/tmp", "SiriClawInstruct-tool");
     const patterns = resolveAllowAlwaysPatterns({
       segments: [
         {
           raw: exe,
           argv: [exe],
-          resolution: { rawExecutable: exe, resolvedPath: exe, executableName: "SiriClaw-Instruct-tool" },
+          resolution: { rawExecutable: exe, resolvedPath: exe, executableName: "SiriClawInstruct-tool" },
         },
       ],
     });
@@ -448,3 +448,4 @@ describe("resolveAllowAlwaysPatterns", () => {
     });
   });
 });
+

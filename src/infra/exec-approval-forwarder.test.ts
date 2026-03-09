@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { createExecApprovalForwarder } from "./exec-approval-forwarder.js";
 
 const baseRequest = {
@@ -35,10 +35,10 @@ const TARGETS_CFG = {
       targets: [{ channel: "telegram", to: "123" }],
     },
   },
-} as SiriClaw-InstructConfig;
+} as SiriClawInstructConfig;
 
 function createForwarder(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   deliver?: ReturnType<typeof vi.fn>;
   resolveSessionTarget?: () => { channel: string; to: string } | null;
 }) {
@@ -57,7 +57,7 @@ function createForwarder(params: {
   return { deliver, forwarder };
 }
 
-function makeSessionCfg(options: { discordExecApprovalsEnabled?: boolean } = {}): SiriClaw-InstructConfig {
+function makeSessionCfg(options: { discordExecApprovalsEnabled?: boolean } = {}): SiriClawInstructConfig {
   return {
     ...(options.discordExecApprovalsEnabled
       ? {
@@ -72,11 +72,11 @@ function makeSessionCfg(options: { discordExecApprovalsEnabled?: boolean } = {})
         }
       : {}),
     approvals: { exec: { enabled: true, mode: "session" } },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 async function expectDiscordSessionTargetRequest(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   expectedAccepted: boolean;
   expectedDeliveryCount: number;
 }) {
@@ -108,7 +108,7 @@ async function expectSessionFilterRequestResult(params: {
         sessionFilter: params.sessionFilter,
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 
   const { deliver, forwarder } = createForwarder({
     cfg,
@@ -132,7 +132,7 @@ describe("exec approval forwarder", () => {
     vi.useFakeTimers();
     const cfg = {
       approvals: { exec: { enabled: true, mode: "session" } },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const { deliver, forwarder } = createForwarder({
       cfg,
@@ -193,7 +193,7 @@ describe("exec approval forwarder", () => {
 
   it("returns false when forwarding is disabled", async () => {
     const { deliver, forwarder } = createForwarder({
-      cfg: {} as SiriClaw-InstructConfig,
+      cfg: {} as SiriClawInstructConfig,
     });
     await expect(forwarder.handleRequested(baseRequest)).resolves.toBe(false);
     expect(deliver).not.toHaveBeenCalled();
@@ -243,7 +243,7 @@ describe("exec approval forwarder", () => {
 
   it("prefers turn-source routing over stale session last route", async () => {
     vi.useFakeTimers();
-    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-exec-approval-forwarder-test-"));
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-exec-approval-forwarder-test-"));
     try {
       const storePath = path.join(tmpDir, "sessions.json");
       fs.writeFileSync(
@@ -263,7 +263,7 @@ describe("exec approval forwarder", () => {
       const cfg = {
         session: { store: storePath },
         approvals: { exec: { enabled: true, mode: "session" } },
-      } as SiriClaw-InstructConfig;
+      } as SiriClawInstructConfig;
 
       const { deliver, forwarder } = createForwarder({ cfg });
       await expect(
@@ -303,7 +303,7 @@ describe("exec approval forwarder", () => {
           targets: [{ channel: "telegram", to: "123" }],
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const { deliver, forwarder } = createForwarder({ cfg });
 
     await forwarder.handleResolved({
@@ -338,3 +338,4 @@ describe("exec approval forwarder", () => {
     expect(getFirstDeliveryText(deliver)).toContain("Command:\n````\necho ```danger```\n````");
   });
 });
+

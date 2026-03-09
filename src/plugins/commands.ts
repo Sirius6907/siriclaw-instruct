@@ -5,15 +5,15 @@
  * These commands are processed before built-in commands and before agent invocation.
  */
 
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { logVerbose } from "../globals.js";
 import type {
-  SiriClaw-InstructPluginCommandDefinition,
+  SiriClawInstructPluginCommandDefinition,
   PluginCommandContext,
   PluginCommandResult,
 } from "./types.js";
 
-type RegisteredPluginCommand = SiriClaw-InstructPluginCommandDefinition & {
+type RegisteredPluginCommand = SiriClawInstructPluginCommandDefinition & {
   pluginId: string;
 };
 
@@ -107,7 +107,7 @@ export type CommandRegistrationResult = {
  */
 export function registerPluginCommand(
   pluginId: string,
-  command: SiriClaw-InstructPluginCommandDefinition,
+  command: SiriClawInstructPluginCommandDefinition,
 ): CommandRegistrationResult {
   // Prevent registration while commands are being processed
   if (registryLocked) {
@@ -248,7 +248,7 @@ export async function executePluginCommand(params: {
   channelId?: PluginCommandContext["channelId"];
   isAuthorizedSender: boolean;
   commandBody: string;
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   from?: PluginCommandContext["from"];
   to?: PluginCommandContext["to"];
   accountId?: PluginCommandContext["accountId"];
@@ -317,7 +317,7 @@ export function listPluginCommands(): Array<{
 }
 
 function resolvePluginNativeName(
-  command: SiriClaw-InstructPluginCommandDefinition,
+  command: SiriClawInstructPluginCommandDefinition,
   provider?: string,
 ): string {
   const providerName = provider?.trim().toLowerCase();
@@ -346,3 +346,4 @@ export function getPluginCommandSpecs(provider?: string): Array<{
     acceptsArgs: cmd.acceptsArgs ?? false,
   }));
 }
+

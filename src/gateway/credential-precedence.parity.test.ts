@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { resolveGatewayProbeAuth as resolveStatusGatewayProbeAuth } from "../commands/status.gateway-probe.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveGatewayAuth } from "./auth.js";
 import { resolveGatewayCredentialsFromConfig } from "./credentials.js";
 import { resolveGatewayProbeAuth } from "./probe-auth.js";
@@ -14,17 +14,17 @@ type ExpectedCredentialSet = {
 
 type TestCase = {
   name: string;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   env: NodeJS.ProcessEnv;
   expected: ExpectedCredentialSet;
 };
 
 const gatewayEnv = {
-  SiriClaw-Instruct_GATEWAY_TOKEN: "env-token", // pragma: allowlist secret
-  SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+  SiriClawInstruct_GATEWAY_TOKEN: "env-token", // pragma: allowlist secret
+  SiriClawInstruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
 } as NodeJS.ProcessEnv;
 
-function makeRemoteGatewayConfig(remote: { token?: string; password?: string }): SiriClaw-InstructConfig {
+function makeRemoteGatewayConfig(remote: { token?: string; password?: string }): SiriClawInstructConfig {
   return {
     gateway: {
       mode: "remote",
@@ -34,14 +34,14 @@ function makeRemoteGatewayConfig(remote: { token?: string; password?: string }):
         password: "local-password", // pragma: allowlist secret
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 function withGatewayAuthEnv<T>(env: NodeJS.ProcessEnv, fn: () => T): T {
   const keys = [
-    "SiriClaw-Instruct_GATEWAY_TOKEN",
-    "SiriClaw-Instruct_GATEWAY_PASSWORD",
-    "SiriClaw-Instruct_SERVICE_KIND",
+    "SiriClawInstruct_GATEWAY_TOKEN",
+    "SiriClawInstruct_GATEWAY_PASSWORD",
+    "SiriClawInstruct_SERVICE_KIND",
     "SIRICLAW_GATEWAY_TOKEN",
     "SIRICLAW_GATEWAY_PASSWORD",
   ] as const;
@@ -81,10 +81,10 @@ describe("gateway credential precedence parity", () => {
             password: "config-password", // pragma: allowlist secret
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "env-token", // pragma: allowlist secret
-        SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+        SiriClawInstruct_GATEWAY_TOKEN: "env-token", // pragma: allowlist secret
+        SiriClawInstruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
       } as NodeJS.ProcessEnv,
       expected: {
         call: { token: "env-token", password: "env-password" }, // pragma: allowlist secret
@@ -127,7 +127,7 @@ describe("gateway credential precedence parity", () => {
           mode: "local",
           auth: {},
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {
         SIRICLAW_GATEWAY_TOKEN: "legacy-token", // pragma: allowlist secret
         SIRICLAW_GATEWAY_PASSWORD: "legacy-password", // pragma: allowlist secret
@@ -149,11 +149,11 @@ describe("gateway credential precedence parity", () => {
             password: "config-password", // pragma: allowlist secret
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
-        SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
-        SiriClaw-Instruct_SERVICE_KIND: "gateway",
+        SiriClawInstruct_GATEWAY_TOKEN: "env-token",
+        SiriClawInstruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+        SiriClawInstruct_SERVICE_KIND: "gateway",
       } as NodeJS.ProcessEnv,
       expected: {
         call: { token: "config-token", password: "env-password" }, // pragma: allowlist secret
@@ -187,3 +187,4 @@ describe("gateway credential precedence parity", () => {
     expect({ token: auth.token, password: auth.password }).toEqual(expected.auth);
   });
 });
+

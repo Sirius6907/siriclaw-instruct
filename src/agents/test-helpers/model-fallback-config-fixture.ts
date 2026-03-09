@@ -1,6 +1,6 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 
-export function makeModelFallbackCfg(overrides: Partial<SiriClaw-InstructConfig> = {}): SiriClaw-InstructConfig {
+export function makeModelFallbackCfg(overrides: Partial<SiriClawInstructConfig> = {}): SiriClawInstructConfig {
   return {
     agents: {
       defaults: {
@@ -11,5 +11,6 @@ export function makeModelFallbackCfg(overrides: Partial<SiriClaw-InstructConfig>
       },
     },
     ...overrides,
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
+

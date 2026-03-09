@@ -1,6 +1,6 @@
 import os from "node:os";
 import path from "node:path";
-import type { SiriClaw-InstructConfig, MemorySearchConfig } from "../config/config.js";
+import type { SiriClawInstructConfig, MemorySearchConfig } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import type { SecretInput } from "../config/types.secrets.js";
 import { clampInt, clampNumber, resolveUserPath } from "../utils.js";
@@ -353,7 +353,7 @@ function mergeConfig(
 }
 
 export function resolveMemorySearchConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   agentId: string,
 ): ResolvedMemorySearchConfig | null {
   const defaults = cfg.agents?.defaults?.memorySearch;
@@ -364,3 +364,4 @@ export function resolveMemorySearchConfig(
   }
   return resolved;
 }
+

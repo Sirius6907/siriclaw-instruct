@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "./config.js";
+import type { SiriClawInstructConfig } from "./config.js";
 import type { WhatsAppConfig } from "./types.js";
 
 export type MergeSectionOptions<T> = {
@@ -24,10 +24,10 @@ export function mergeConfigSection<T extends Record<string, unknown>>(
 }
 
 export function mergeWhatsAppConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   patch: Partial<WhatsAppConfig>,
   options?: MergeSectionOptions<WhatsAppConfig>,
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   return {
     ...cfg,
     channels: {
@@ -36,3 +36,4 @@ export function mergeWhatsAppConfig(
     },
   };
 }
+

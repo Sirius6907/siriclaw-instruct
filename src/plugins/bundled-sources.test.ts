@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { findBundledPluginSource, resolveBundledPluginSources } from "./bundled-sources.js";
 
-const discoverSiriClaw-InstructPluginsMock = vi.fn();
+const discoverSiriClawInstructPluginsMock = vi.fn();
 const loadPluginManifestMock = vi.fn();
 
 vi.mock("./discovery.js", () => ({
-  discoverSiriClaw-InstructPlugins: (...args: unknown[]) => discoverSiriClaw-InstructPluginsMock(...args),
+  discoverSiriClawInstructPlugins: (...args: unknown[]) => discoverSiriClawInstructPluginsMock(...args),
 }));
 
 vi.mock("./manifest.js", () => ({
@@ -14,36 +14,36 @@ vi.mock("./manifest.js", () => ({
 
 describe("bundled plugin sources", () => {
   beforeEach(() => {
-    discoverSiriClaw-InstructPluginsMock.mockReset();
+    discoverSiriClawInstructPluginsMock.mockReset();
     loadPluginManifestMock.mockReset();
   });
 
   it("resolves bundled sources keyed by plugin id", () => {
-    discoverSiriClaw-InstructPluginsMock.mockReturnValue({
+    discoverSiriClawInstructPluginsMock.mockReturnValue({
       candidates: [
         {
           origin: "global",
           rootDir: "/global/feishu",
-          packageName: "@SiriClaw-Instruct/feishu",
-          packageManifest: { install: { npmSpec: "@SiriClaw-Instruct/feishu" } },
+          packageName: "@SiriClawInstruct/feishu",
+          packageManifest: { install: { npmSpec: "@SiriClawInstruct/feishu" } },
         },
         {
           origin: "bundled",
           rootDir: "/app/extensions/feishu",
-          packageName: "@SiriClaw-Instruct/feishu",
-          packageManifest: { install: { npmSpec: "@SiriClaw-Instruct/feishu" } },
+          packageName: "@SiriClawInstruct/feishu",
+          packageManifest: { install: { npmSpec: "@SiriClawInstruct/feishu" } },
         },
         {
           origin: "bundled",
           rootDir: "/app/extensions/feishu-dup",
-          packageName: "@SiriClaw-Instruct/feishu",
-          packageManifest: { install: { npmSpec: "@SiriClaw-Instruct/feishu" } },
+          packageName: "@SiriClawInstruct/feishu",
+          packageManifest: { install: { npmSpec: "@SiriClawInstruct/feishu" } },
         },
         {
           origin: "bundled",
           rootDir: "/app/extensions/msteams",
-          packageName: "@SiriClaw-Instruct/msteams",
-          packageManifest: { install: { npmSpec: "@SiriClaw-Instruct/msteams" } },
+          packageName: "@SiriClawInstruct/msteams",
+          packageManifest: { install: { npmSpec: "@SiriClawInstruct/msteams" } },
         },
       ],
       diagnostics: [],
@@ -59,7 +59,7 @@ describe("bundled plugin sources", () => {
       return {
         ok: false,
         error: "invalid manifest",
-        manifestPath: `${rootDir}/SiriClaw-Instruct.plugin.json`,
+        manifestPath: `${rootDir}/SiriClawInstruct.plugin.json`,
       };
     });
 
@@ -69,18 +69,18 @@ describe("bundled plugin sources", () => {
     expect(map.get("feishu")).toEqual({
       pluginId: "feishu",
       localPath: "/app/extensions/feishu",
-      npmSpec: "@SiriClaw-Instruct/feishu",
+      npmSpec: "@SiriClawInstruct/feishu",
     });
   });
 
   it("finds bundled source by npm spec", () => {
-    discoverSiriClaw-InstructPluginsMock.mockReturnValue({
+    discoverSiriClawInstructPluginsMock.mockReturnValue({
       candidates: [
         {
           origin: "bundled",
           rootDir: "/app/extensions/feishu",
-          packageName: "@SiriClaw-Instruct/feishu",
-          packageManifest: { install: { npmSpec: "@SiriClaw-Instruct/feishu" } },
+          packageName: "@SiriClawInstruct/feishu",
+          packageManifest: { install: { npmSpec: "@SiriClawInstruct/feishu" } },
         },
       ],
       diagnostics: [],
@@ -88,10 +88,10 @@ describe("bundled plugin sources", () => {
     loadPluginManifestMock.mockReturnValue({ ok: true, manifest: { id: "feishu" } });
 
     const resolved = findBundledPluginSource({
-      lookup: { kind: "npmSpec", value: "@SiriClaw-Instruct/feishu" },
+      lookup: { kind: "npmSpec", value: "@SiriClawInstruct/feishu" },
     });
     const missing = findBundledPluginSource({
-      lookup: { kind: "npmSpec", value: "@SiriClaw-Instruct/not-found" },
+      lookup: { kind: "npmSpec", value: "@SiriClawInstruct/not-found" },
     });
 
     expect(resolved?.pluginId).toBe("feishu");
@@ -100,13 +100,13 @@ describe("bundled plugin sources", () => {
   });
 
   it("finds bundled source by plugin id", () => {
-    discoverSiriClaw-InstructPluginsMock.mockReturnValue({
+    discoverSiriClawInstructPluginsMock.mockReturnValue({
       candidates: [
         {
           origin: "bundled",
           rootDir: "/app/extensions/diffs",
-          packageName: "@SiriClaw-Instruct/diffs",
-          packageManifest: { install: { npmSpec: "@SiriClaw-Instruct/diffs" } },
+          packageName: "@SiriClawInstruct/diffs",
+          packageManifest: { install: { npmSpec: "@SiriClawInstruct/diffs" } },
         },
       ],
       diagnostics: [],
@@ -125,3 +125,4 @@ describe("bundled plugin sources", () => {
     expect(missing).toBeUndefined();
   });
 });
+

@@ -70,7 +70,7 @@ const ensureWorkspaceAndSessions = vi.hoisted(() => vi.fn(async () => {}));
 const writeConfigFile = vi.hoisted(() => vi.fn(async () => {}));
 const readConfigFileSnapshot = vi.hoisted(() =>
   vi.fn(async () => ({
-    path: "/tmp/.SiriClaw-Instruct/SiriClaw-Instruct.json",
+    path: "/tmp/.SiriClawInstruct/SiriClawInstruct.json",
     exists: false,
     raw: null as string | null,
     parsed: {},
@@ -136,7 +136,7 @@ vi.mock("../config/config.js", () => ({
 }));
 
 vi.mock("../commands/onboard-helpers.js", () => ({
-  DEFAULT_WORKSPACE: "/tmp/SiriClaw-Instruct-workspace",
+  DEFAULT_WORKSPACE: "/tmp/SiriClawInstruct-workspace",
   applyWizardMetadata: (cfg: unknown) => cfg,
   summarizeExistingConfig: () => "summary",
   handleReset: async () => {},
@@ -219,7 +219,7 @@ describe("runOnboardingWizard", () => {
   let suiteCase = 0;
 
   beforeAll(async () => {
-    suiteRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-onboard-suite-"));
+    suiteRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-onboard-suite-"));
   });
 
   afterAll(async () => {
@@ -236,7 +236,7 @@ describe("runOnboardingWizard", () => {
 
   it("exits when config is invalid", async () => {
     readConfigFileSnapshot.mockResolvedValueOnce({
-      path: "/tmp/.SiriClaw-Instruct/SiriClaw-Instruct.json",
+      path: "/tmp/.SiriClawInstruct/SiriClawInstruct.json",
       exists: true,
       raw: "{}",
       parsed: {},
@@ -399,11 +399,11 @@ describe("runOnboardingWizard", () => {
   });
 
   it("resolves gateway.auth.password SecretRef for local onboarding probe", async () => {
-    const previous = process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
-    process.env.SiriClaw-Instruct_GATEWAY_PASSWORD = "gateway-ref-password"; // pragma: allowlist secret
+    const previous = process.env.SiriClawInstruct_GATEWAY_PASSWORD;
+    process.env.SiriClawInstruct_GATEWAY_PASSWORD = "gateway-ref-password"; // pragma: allowlist secret
     probeGatewayReachable.mockClear();
     readConfigFileSnapshot.mockResolvedValueOnce({
-      path: "/tmp/.SiriClaw-Instruct/SiriClaw-Instruct.json",
+      path: "/tmp/.SiriClawInstruct/SiriClawInstruct.json",
       exists: true,
       raw: "{}",
       parsed: {},
@@ -416,7 +416,7 @@ describe("runOnboardingWizard", () => {
             password: {
               source: "env",
               provider: "default",
-              id: "SiriClaw-Instruct_GATEWAY_PASSWORD",
+              id: "SiriClawInstruct_GATEWAY_PASSWORD",
             },
           },
         },
@@ -453,9 +453,9 @@ describe("runOnboardingWizard", () => {
       );
     } finally {
       if (previous === undefined) {
-        delete process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+        delete process.env.SiriClawInstruct_GATEWAY_PASSWORD;
       } else {
-        process.env.SiriClaw-Instruct_GATEWAY_PASSWORD = previous;
+        process.env.SiriClawInstruct_GATEWAY_PASSWORD = previous;
       }
     }
 
@@ -497,3 +497,4 @@ describe("runOnboardingWizard", () => {
     );
   });
 });
+

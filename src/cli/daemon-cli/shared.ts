@@ -84,11 +84,11 @@ export function pickProbeHostForBind(
 }
 
 const SAFE_DAEMON_ENV_KEYS = [
-  "SiriClaw-Instruct_PROFILE",
-  "SiriClaw-Instruct_STATE_DIR",
-  "SiriClaw-Instruct_CONFIG_PATH",
-  "SiriClaw-Instruct_GATEWAY_PORT",
-  "SiriClaw-Instruct_NIX_MODE",
+  "SiriClawInstruct_PROFILE",
+  "SiriClawInstruct_STATE_DIR",
+  "SiriClawInstruct_CONFIG_PATH",
+  "SiriClawInstruct_GATEWAY_PORT",
+  "SiriClawInstruct_NIX_MODE",
 ];
 
 export function filterDaemonEnv(env: Record<string, string> | undefined): Record<string, string> {
@@ -137,7 +137,7 @@ export function renderRuntimeHints(
     }
   })();
   if (runtime.missingUnit) {
-    hints.push(`Service not installed. Run: ${formatCliCommand("SiriClaw-Instruct gateway install", env)}`);
+    hints.push(`Service not installed. Run: ${formatCliCommand("SiriClawInstruct gateway install", env)}`);
     if (fileLog) {
       hints.push(`File logs: ${fileLog}`);
     }
@@ -150,8 +150,8 @@ export function renderRuntimeHints(
     hints.push(
       ...buildPlatformRuntimeLogHints({
         env,
-        systemdServiceName: resolveGatewaySystemdServiceName(env.SiriClaw-Instruct_PROFILE),
-        windowsTaskName: resolveGatewayWindowsTaskName(env.SiriClaw-Instruct_PROFILE),
+        systemdServiceName: resolveGatewaySystemdServiceName(env.SiriClawInstruct_PROFILE),
+        windowsTaskName: resolveGatewayWindowsTaskName(env.SiriClawInstruct_PROFILE),
       }),
     );
   }
@@ -159,12 +159,13 @@ export function renderRuntimeHints(
 }
 
 export function renderGatewayServiceStartHints(env: NodeJS.ProcessEnv = process.env): string[] {
-  const profile = env.SiriClaw-Instruct_PROFILE;
+  const profile = env.SiriClawInstruct_PROFILE;
   return buildPlatformServiceStartHints({
-    installCommand: formatCliCommand("SiriClaw-Instruct gateway install", env),
-    startCommand: formatCliCommand("SiriClaw-Instruct gateway", env),
+    installCommand: formatCliCommand("SiriClawInstruct gateway install", env),
+    startCommand: formatCliCommand("SiriClawInstruct gateway", env),
     launchAgentPlistPath: `~/Library/LaunchAgents/${resolveGatewayLaunchAgentLabel(profile)}.plist`,
     systemdServiceName: resolveGatewaySystemdServiceName(profile),
     windowsTaskName: resolveGatewayWindowsTaskName(profile),
   });
 }
+

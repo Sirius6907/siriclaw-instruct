@@ -4,7 +4,7 @@ import path from "node:path";
 import { resolveBrewPathDirs } from "./brew.js";
 import { isTruthyEnvValue } from "./env.js";
 
-type EnsureSiriClaw-InstructPathOpts = {
+type EnsureSiriClawInstructPathOpts = {
   execPath?: string;
   cwd?: string;
   homeDir?: string;
@@ -49,7 +49,7 @@ function mergePath(params: { existing: string; prepend?: string[]; append?: stri
   return merged.join(path.delimiter);
 }
 
-function candidateBinDirs(opts: EnsureSiriClaw-InstructPathOpts): { prepend: string[]; append: string[] } {
+function candidateBinDirs(opts: EnsureSiriClawInstructPathOpts): { prepend: string[]; append: string[] } {
   const execPath = opts.execPath ?? process.execPath;
   const cwd = opts.cwd ?? process.cwd();
   const homeDir = opts.homeDir ?? os.homedir();
@@ -58,10 +58,10 @@ function candidateBinDirs(opts: EnsureSiriClaw-InstructPathOpts): { prepend: str
   const prepend: string[] = [];
   const append: string[] = [];
 
-  // Bundled macOS app: `SiriClaw-Instruct` lives next to the executable (process.execPath).
+  // Bundled macOS app: `SiriClawInstruct` lives next to the executable (process.execPath).
   try {
     const execDir = path.dirname(execPath);
-    const siblingCli = path.join(execDir, "SiriClaw-Instruct");
+    const siblingCli = path.join(execDir, "SiriClawInstruct");
     if (isExecutable(siblingCli)) {
       prepend.push(execDir);
     }
@@ -73,10 +73,10 @@ function candidateBinDirs(opts: EnsureSiriClaw-InstructPathOpts): { prepend: str
   // disabled by default; if an operator explicitly enables it, only append (never prepend).
   const allowProjectLocalBin =
     opts.allowProjectLocalBin === true ||
-    isTruthyEnvValue(process.env.SiriClaw-Instruct_ALLOW_PROJECT_LOCAL_BIN);
+    isTruthyEnvValue(process.env.SiriClawInstruct_ALLOW_PROJECT_LOCAL_BIN);
   if (allowProjectLocalBin) {
     const localBinDir = path.join(cwd, "node_modules", ".bin");
-    if (isExecutable(path.join(localBinDir, "SiriClaw-Instruct"))) {
+    if (isExecutable(path.join(localBinDir, "SiriClawInstruct"))) {
       append.push(localBinDir);
     }
   }
@@ -106,14 +106,14 @@ function candidateBinDirs(opts: EnsureSiriClaw-InstructPathOpts): { prepend: str
 }
 
 /**
- * Best-effort PATH bootstrap so skills that require the `SiriClaw-Instruct` CLI can run
+ * Best-effort PATH bootstrap so skills that require the `SiriClawInstruct` CLI can run
  * under launchd/minimal environments (and inside the macOS app bundle).
  */
-export function ensureSiriClaw-InstructCliOnPath(opts: EnsureSiriClaw-InstructPathOpts = {}) {
-  if (isTruthyEnvValue(process.env.SiriClaw-Instruct_PATH_BOOTSTRAPPED)) {
+export function ensureSiriClawInstructCliOnPath(opts: EnsureSiriClawInstructPathOpts = {}) {
+  if (isTruthyEnvValue(process.env.SiriClawInstruct_PATH_BOOTSTRAPPED)) {
     return;
   }
-  process.env.SiriClaw-Instruct_PATH_BOOTSTRAPPED = "1";
+  process.env.SiriClawInstruct_PATH_BOOTSTRAPPED = "1";
 
   const existing = opts.pathEnv ?? process.env.PATH ?? "";
   const { prepend, append } = candidateBinDirs(opts);
@@ -126,3 +126,4 @@ export function ensureSiriClaw-InstructCliOnPath(opts: EnsureSiriClaw-InstructPa
     process.env.PATH = merged;
   }
 }
+

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 const { runAudioTranscription } = vi.hoisted(() => {
   const runAudioTranscription = vi.fn();
@@ -22,7 +22,7 @@ describe("transcribeAudioFile", () => {
 
     const result = await transcribeAudioFile({
       filePath: "/tmp/note.mp3",
-      cfg: {} as SiriClaw-InstructConfig,
+      cfg: {} as SiriClawInstructConfig,
     });
 
     expect(runAudioTranscription).toHaveBeenCalledWith({
@@ -30,7 +30,7 @@ describe("transcribeAudioFile", () => {
         MediaPath: "/tmp/note.mp3",
         MediaType: undefined,
       },
-      cfg: {} as SiriClaw-InstructConfig,
+      cfg: {} as SiriClawInstructConfig,
       agentDir: undefined,
     });
     expect(result).toEqual({ text: "hello" });
@@ -41,7 +41,7 @@ describe("transcribeAudioFile", () => {
 
     const result = await transcribeAudioFile({
       filePath: "/tmp/missing.wav",
-      cfg: {} as SiriClaw-InstructConfig,
+      cfg: {} as SiriClawInstructConfig,
     });
 
     expect(result).toEqual({ text: undefined });
@@ -50,7 +50,7 @@ describe("transcribeAudioFile", () => {
   it("propagates helper errors", async () => {
     const cfg = {
       tools: { media: { audio: { timeoutSeconds: 10 } } },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
     runAudioTranscription.mockRejectedValue(new Error("boom"));
 
     await expect(
@@ -61,3 +61,4 @@ describe("transcribeAudioFile", () => {
     ).rejects.toThrow("boom");
   });
 });
+

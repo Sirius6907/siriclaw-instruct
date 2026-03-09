@@ -8,7 +8,7 @@ import {
   initializeGlobalHookRunner,
   resetGlobalHookRunner,
 } from "../plugins/hook-runner-global.js";
-import { loadSiriClaw-InstructPlugins } from "../plugins/loader.js";
+import { loadSiriClawInstructPlugins } from "../plugins/loader.js";
 import { guardSessionManager } from "./session-tool-result-guard-wrapper.js";
 
 const EMPTY_PLUGIN_SCHEMA = { type: "object", additionalProperties: false, properties: {} };
@@ -19,7 +19,7 @@ function writeTempPlugin(params: { dir: string; id: string; body: string }): str
   const file = path.join(pluginDir, `${params.id}.mjs`);
   fs.writeFileSync(file, params.body, "utf-8");
   fs.writeFileSync(
-    path.join(pluginDir, "SiriClaw-Instruct.plugin.json"),
+    path.join(pluginDir, "SiriClawInstruct.plugin.json"),
     JSON.stringify(
       {
         id: params.id,
@@ -77,8 +77,8 @@ describe("tool_result_persist hook", () => {
   });
 
   it("loads tool_result_persist hooks without breaking persistence", () => {
-    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-toolpersist-"));
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-toolpersist-"));
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
 
     const pluginA = writeTempPlugin({
       dir: tmp,
@@ -104,7 +104,7 @@ describe("tool_result_persist hook", () => {
 } };`,
     });
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       workspaceDir: tmp,
       config: {
@@ -134,8 +134,8 @@ describe("tool_result_persist hook", () => {
 
 describe("before_message_write hook", () => {
   it("continues persistence when a before_message_write hook throws", () => {
-    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-before-write-"));
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-before-write-"));
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
 
     const plugin = writeTempPlugin({
       dir: tmp,
@@ -147,7 +147,7 @@ describe("before_message_write hook", () => {
 } };`,
     });
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       workspaceDir: tmp,
       config: {
@@ -179,3 +179,4 @@ describe("before_message_write hook", () => {
     expect(messages[0]?.role).toBe("user");
   });
 });
+

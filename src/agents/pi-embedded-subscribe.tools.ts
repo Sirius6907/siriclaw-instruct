@@ -186,8 +186,8 @@ export function filterToolResultMediaUrls(
  * Extract media file paths from a tool result.
  *
  * Strategy (first match wins):
- * 1. Parse `MEDIA:` tokens from text content blocks (all SiriClaw-Instruct tools).
- * 2. Fall back to `details.path` when image content exists (SiriClaw-Instruct imageResult).
+ * 1. Parse `MEDIA:` tokens from text content blocks (all SiriClawInstruct tools).
+ * 2. Fall back to `details.path` when image content exists (SiriClawInstruct imageResult).
  *
  * Returns an empty array when no media is found (e.g. Pi SDK `read` tool
  * returns base64 image data but no file path; those need a different delivery
@@ -337,3 +337,4 @@ export function extractMessagingToolSend(
       }
     : undefined;
 }
+

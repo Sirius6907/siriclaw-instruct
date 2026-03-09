@@ -1,9 +1,9 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { loadWorkspaceSkillEntries, type SkillEntry, type SkillSnapshot } from "../skills.js";
 
 export function resolveEmbeddedRunSkillEntries(params: {
   workspaceDir: string;
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   skillsSnapshot?: SkillSnapshot;
 }): {
   shouldLoadSkillEntries: boolean;
@@ -17,3 +17,4 @@ export function resolveEmbeddedRunSkillEntries(params: {
       : [],
   };
 }
+

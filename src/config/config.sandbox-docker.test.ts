@@ -264,16 +264,16 @@ describe("sandbox browser binds config", () => {
       globalBrowser: {},
       agentBrowser: {},
     });
-    expect(resolved.network).toBe("SiriClaw-Instruct-sandbox-browser");
+    expect(resolved.network).toBe("SiriClawInstruct-sandbox-browser");
   });
 
   it("prefers agent browser network over global browser network", () => {
     const resolved = resolveSandboxBrowserConfig({
       scope: "agent",
-      globalBrowser: { network: "SiriClaw-Instruct-sandbox-browser-global" },
-      agentBrowser: { network: "SiriClaw-Instruct-sandbox-browser-agent" },
+      globalBrowser: { network: "SiriClawInstruct-sandbox-browser-global" },
+      agentBrowser: { network: "SiriClawInstruct-sandbox-browser-agent" },
     });
-    expect(resolved.network).toBe("SiriClaw-Instruct-sandbox-browser-agent");
+    expect(resolved.network).toBe("SiriClawInstruct-sandbox-browser-agent");
   });
 
   it("merges cdpSourceRange with agent override", () => {
@@ -333,3 +333,4 @@ describe("sandbox browser binds config", () => {
     expect(res.ok).toBe(true);
   });
 });
+

@@ -432,3 +432,4 @@ export function handleMessageEnd(
   ctx.state.lastStreamedAssistantCleaned = undefined;
   ctx.state.reasoningStreamOpen = false;
 }
+

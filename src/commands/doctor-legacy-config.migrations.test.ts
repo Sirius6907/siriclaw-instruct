@@ -23,16 +23,16 @@ describe("normalizeCompatibilityConfigValues", () => {
   };
 
   beforeEach(() => {
-    previousOauthDir = process.env.SiriClaw-Instruct_OAUTH_DIR;
-    tempOauthDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-oauth-"));
-    process.env.SiriClaw-Instruct_OAUTH_DIR = tempOauthDir;
+    previousOauthDir = process.env.SiriClawInstruct_OAUTH_DIR;
+    tempOauthDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-oauth-"));
+    process.env.SiriClawInstruct_OAUTH_DIR = tempOauthDir;
   });
 
   afterEach(() => {
     if (previousOauthDir === undefined) {
-      delete process.env.SiriClaw-Instruct_OAUTH_DIR;
+      delete process.env.SiriClawInstruct_OAUTH_DIR;
     } else {
-      process.env.SiriClaw-Instruct_OAUTH_DIR = previousOauthDir;
+      process.env.SiriClawInstruct_OAUTH_DIR = previousOauthDir;
     }
     if (tempOauthDir) {
       fs.rmSync(tempOauthDir, { recursive: true, force: true });
@@ -87,7 +87,7 @@ describe("normalizeCompatibilityConfigValues", () => {
   });
 
   it("copies legacy ack reaction when authDir override exists", () => {
-    const customDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-wa-auth-"));
+    const customDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-wa-auth-"));
     try {
       writeCreds(customDir);
 
@@ -298,3 +298,4 @@ describe("normalizeCompatibilityConfigValues", () => {
     );
   });
 });
+

@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { createSiriClaw-InstructTools } from "../agents/SiriClaw-Instruct-tools.js";
+import { createSiriClawInstructTools } from "../agents/siriclaw-instruct-tools.js";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
@@ -210,11 +210,11 @@ export async function handleToolsInvokeHttpRequest(
 
   // Resolve message channel/account hints (optional headers) for policy inheritance.
   const messageChannel = normalizeMessageChannel(
-    getHeader(req, "x-SiriClaw-Instruct-message-channel") ?? "",
+    getHeader(req, "x-SiriClawInstruct-message-channel") ?? "",
   );
-  const accountId = getHeader(req, "x-SiriClaw-Instruct-account-id")?.trim() || undefined;
-  const agentTo = getHeader(req, "x-SiriClaw-Instruct-message-to")?.trim() || undefined;
-  const agentThreadId = getHeader(req, "x-SiriClaw-Instruct-thread-id")?.trim() || undefined;
+  const accountId = getHeader(req, "x-SiriClawInstruct-account-id")?.trim() || undefined;
+  const agentTo = getHeader(req, "x-SiriClawInstruct-message-to")?.trim() || undefined;
+  const agentThreadId = getHeader(req, "x-SiriClawInstruct-thread-id")?.trim() || undefined;
 
   const {
     agentId,
@@ -246,7 +246,7 @@ export async function handleToolsInvokeHttpRequest(
     : undefined;
 
   // Build tool list (core + plugin tools).
-  const allTools = createSiriClaw-InstructTools({
+  const allTools = createSiriClawInstructTools({
     agentSessionKey: sessionKey,
     agentChannel: messageChannel ?? undefined,
     agentAccountId: accountId,
@@ -338,3 +338,4 @@ export async function handleToolsInvokeHttpRequest(
 
   return true;
 }
+

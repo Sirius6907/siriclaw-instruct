@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import { resolveNodeHostGatewayCredentials } from "./runner.js";
 
-function createRemoteGatewayTokenRefConfig(tokenId: string): SiriClaw-InstructConfig {
+function createRemoteGatewayTokenRefConfig(tokenId: string): SiriClawInstructConfig {
   return {
     secrets: {
       providers: {
@@ -16,7 +16,7 @@ function createRemoteGatewayTokenRefConfig(tokenId: string): SiriClaw-InstructCo
         token: { source: "env", provider: "default", id: tokenId },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 describe("resolveNodeHostGatewayCredentials", () => {
@@ -26,12 +26,12 @@ describe("resolveNodeHostGatewayCredentials", () => {
         mode: "local",
         remote: { token: "remote-only-token" },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: undefined,
-        SiriClaw-Instruct_GATEWAY_PASSWORD: undefined,
+        SiriClawInstruct_GATEWAY_TOKEN: undefined,
+        SiriClawInstruct_GATEWAY_PASSWORD: undefined,
       },
       async () => {
         const credentials = await resolveNodeHostGatewayCredentials({ config });
@@ -54,12 +54,12 @@ describe("resolveNodeHostGatewayCredentials", () => {
           token: { source: "env", provider: "default", id: "MISSING_REMOTE_GATEWAY_TOKEN" },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: undefined,
-        SiriClaw-Instruct_GATEWAY_PASSWORD: undefined,
+        SiriClawInstruct_GATEWAY_TOKEN: undefined,
+        SiriClawInstruct_GATEWAY_PASSWORD: undefined,
         MISSING_REMOTE_GATEWAY_TOKEN: undefined,
       },
       async () => {
@@ -75,7 +75,7 @@ describe("resolveNodeHostGatewayCredentials", () => {
 
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: undefined,
+        SiriClawInstruct_GATEWAY_TOKEN: undefined,
         REMOTE_GATEWAY_TOKEN: "token-from-ref",
       },
       async () => {
@@ -85,12 +85,12 @@ describe("resolveNodeHostGatewayCredentials", () => {
     );
   });
 
-  it("prefers SiriClaw-Instruct_GATEWAY_TOKEN over configured refs", async () => {
+  it("prefers SiriClawInstruct_GATEWAY_TOKEN over configured refs", async () => {
     const config = createRemoteGatewayTokenRefConfig("REMOTE_GATEWAY_TOKEN");
 
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "token-from-env",
+        SiriClawInstruct_GATEWAY_TOKEN: "token-from-env",
         REMOTE_GATEWAY_TOKEN: "token-from-ref",
       },
       async () => {
@@ -105,7 +105,7 @@ describe("resolveNodeHostGatewayCredentials", () => {
 
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: undefined,
+        SiriClawInstruct_GATEWAY_TOKEN: undefined,
         MISSING_REMOTE_GATEWAY_TOKEN: undefined,
       },
       async () => {
@@ -130,12 +130,12 @@ describe("resolveNodeHostGatewayCredentials", () => {
           password: { source: "env", provider: "default", id: "MISSING_REMOTE_GATEWAY_PASSWORD" },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: undefined,
-        SiriClaw-Instruct_GATEWAY_PASSWORD: undefined,
+        SiriClawInstruct_GATEWAY_TOKEN: undefined,
+        SiriClawInstruct_GATEWAY_PASSWORD: undefined,
         REMOTE_GATEWAY_TOKEN: "token-from-ref",
         MISSING_REMOTE_GATEWAY_PASSWORD: undefined,
       },
@@ -147,3 +147,4 @@ describe("resolveNodeHostGatewayCredentials", () => {
     );
   });
 });
+

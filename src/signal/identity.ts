@@ -137,3 +137,4 @@ export function isSignalGroupAllowed(params: {
     isSenderAllowed: () => isSignalSenderAllowed(params.sender, params.allowFrom),
   }).allowed;
 }
+

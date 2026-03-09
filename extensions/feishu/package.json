@@ -1,7 +1,7 @@
 {
-  "name": "@SiriClaw-Instruct/feishu",
+  "name": "@siriclaw-instruct/feishu",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct Feishu/Lark channel plugin (community maintained by @m1heng)",
+  "description": "siriclaw-instruct Feishu/Lark channel plugin (community maintained by @m1heng)",
   "type": "module",
   "dependencies": {
     "@larksuiteoapi/node-sdk": "^1.59.0",
@@ -9,7 +9,7 @@
     "https-proxy-agent": "^7.0.6",
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ],
@@ -27,9 +27,13 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@SiriClaw-Instruct/feishu",
+      "npmSpec": "@siriclaw-instruct/feishu",
       "localPath": "extensions/feishu",
       "defaultChoice": "npm"
     }
   }
 }
+
+
+
+

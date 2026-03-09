@@ -13,3 +13,4 @@ export type SlackAccountSurfaceFields = {
   dm?: SlackAccountConfig["dm"];
   channels?: SlackAccountConfig["channels"];
 };
+

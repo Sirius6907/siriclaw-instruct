@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { inspectDiscordAccount, type InspectedDiscordAccount } from "../discord/account-inspect.js";
 import { inspectSlackAccount, type InspectedSlackAccount } from "../slack/account-inspect.js";
 import {
@@ -14,7 +14,7 @@ export type ReadOnlyInspectedAccount =
 
 export function inspectReadOnlyChannelAccount(params: {
   channelId: ChannelId;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
 }): ReadOnlyInspectedAccount | null {
   if (params.channelId === "discord") {
@@ -37,3 +37,4 @@ export function inspectReadOnlyChannelAccount(params: {
   }
   return null;
 }
+

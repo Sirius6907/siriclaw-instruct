@@ -60,7 +60,8 @@ export async function loginOpenAICodexOAuth(params: {
   } catch (err) {
     spin.stop("OpenAI OAuth failed");
     runtime.error(String(err));
-    await prompter.note("Trouble with OAuth? See https://docs.SiriClaw-Instruct.ai/start/faq", "OAuth help");
+    await prompter.note("Trouble with OAuth? See https://docs.SiriClawInstruct.ai/start/faq", "OAuth help");
     throw err;
   }
 }
+

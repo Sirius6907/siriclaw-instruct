@@ -6,7 +6,7 @@ import {
   resetSessionsSpawnConfigOverride,
   setSessionsSpawnConfigOverride,
   setupSessionsSpawnGatewayMock,
-} from "./SiriClaw-Instruct-tools.subagents.sessions-spawn.test-harness.js";
+} from "./siriclaw-instruct-tools.subagents.sessions-spawn.test-harness.js";
 import { resetSubagentRegistryForTests } from "./subagent-registry.js";
 
 const MAIN_SESSION_KEY = "agent:test:main";
@@ -47,3 +47,4 @@ describe("sessions_spawn default runTimeoutSeconds (config absent)", () => {
     expect(readSpawnTimeout(gateway.calls)).toBe(0);
   });
 });
+

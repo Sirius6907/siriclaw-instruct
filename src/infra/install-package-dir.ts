@@ -173,7 +173,7 @@ export async function installPackageDir(params: {
       installBaseDir: installBaseRealPath,
       candidatePaths: [canonicalTargetDir],
     });
-    stageDir = await fs.mkdtemp(path.join(installBaseRealPath, ".SiriClaw-Instruct-install-stage-"));
+    stageDir = await fs.mkdtemp(path.join(installBaseRealPath, ".SiriClawInstruct-install-stage-"));
     await fs.cp(params.sourceDir, stageDir, { recursive: true });
   } catch (err) {
     return await fail(`${params.copyErrorPrefix}: ${String(err)}`, err);
@@ -201,7 +201,7 @@ export async function installPackageDir(params: {
   }
 
   if (params.mode === "update" && (await fileExists(canonicalTargetDir))) {
-    const backupRoot = path.join(installBaseRealPath, ".SiriClaw-Instruct-install-backups");
+    const backupRoot = path.join(installBaseRealPath, ".SiriClawInstruct-install-backups");
     backupDir = path.join(backupRoot, `${path.basename(canonicalTargetDir)}-${Date.now()}`);
     try {
       await fs.mkdir(backupRoot, { recursive: true });
@@ -269,3 +269,4 @@ export async function installPackageDirWithManifestDeps(params: {
     hasDeps: Object.keys(params.manifestDependencies ?? {}).length > 0,
   });
 }
+

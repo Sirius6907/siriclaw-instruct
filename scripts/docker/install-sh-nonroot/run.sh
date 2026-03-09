@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-INSTALL_URL="${SiriClaw-Instruct_INSTALL_URL:-https://SiriClaw-Instruct.bot/install.sh}"
+INSTALL_URL="${SIRICLAW_INSTALL_URL:-https://SiriClaw-Instruct.bot/install.sh}"
 DEFAULT_PACKAGE="SiriClaw-Instruct"
-PACKAGE_NAME="${SiriClaw-Instruct_INSTALL_PACKAGE:-$DEFAULT_PACKAGE}"
+PACKAGE_NAME="${SIRICLAW_INSTALL_PACKAGE:-$DEFAULT_PACKAGE}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # shellcheck source=../install-sh-common/cli-verify.sh
@@ -24,7 +24,7 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 echo "==> Verify git installed"
 command -v git >/dev/null
 
-EXPECTED_VERSION="${SiriClaw-Instruct_INSTALL_EXPECT_VERSION:-}"
+EXPECTED_VERSION="${SIRICLAW_INSTALL_EXPECT_VERSION:-}"
 if [[ -n "$EXPECTED_VERSION" ]]; then
   LATEST_VERSION="$EXPECTED_VERSION"
 else

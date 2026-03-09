@@ -56,8 +56,9 @@ export async function buildNodeInstallPlan(params: {
 
   const environment = buildNodeServiceEnvironment({ env: params.env });
   const description = formatNodeServiceDescription({
-    version: environment.SiriClaw-Instruct_SERVICE_VERSION,
+    version: environment.SiriClawInstruct_SERVICE_VERSION,
   });
 
   return { programArguments, workingDirectory, environment, description };
 }
+

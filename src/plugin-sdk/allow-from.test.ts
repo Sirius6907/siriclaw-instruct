@@ -138,3 +138,4 @@ describe("formatNormalizedAllowFromEntries", () => {
     ).toEqual(["valid"]);
   });
 });
+

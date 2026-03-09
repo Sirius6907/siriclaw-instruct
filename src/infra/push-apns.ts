@@ -247,18 +247,18 @@ export async function loadApnsRegistration(
 export async function resolveApnsAuthConfigFromEnv(
   env: NodeJS.ProcessEnv = process.env,
 ): Promise<ApnsAuthConfigResolution> {
-  const teamId = normalizeNonEmptyString(env.SiriClaw-Instruct_APNS_TEAM_ID);
-  const keyId = normalizeNonEmptyString(env.SiriClaw-Instruct_APNS_KEY_ID);
+  const teamId = normalizeNonEmptyString(env.SiriClawInstruct_APNS_TEAM_ID);
+  const keyId = normalizeNonEmptyString(env.SiriClawInstruct_APNS_KEY_ID);
   if (!teamId || !keyId) {
     return {
       ok: false,
-      error: "APNs auth missing: set SiriClaw-Instruct_APNS_TEAM_ID and SiriClaw-Instruct_APNS_KEY_ID",
+      error: "APNs auth missing: set SiriClawInstruct_APNS_TEAM_ID and SiriClawInstruct_APNS_KEY_ID",
     };
   }
 
   const inlineKeyRaw =
-    normalizeNonEmptyString(env.SiriClaw-Instruct_APNS_PRIVATE_KEY_P8) ??
-    normalizeNonEmptyString(env.SiriClaw-Instruct_APNS_PRIVATE_KEY);
+    normalizeNonEmptyString(env.SiriClawInstruct_APNS_PRIVATE_KEY_P8) ??
+    normalizeNonEmptyString(env.SiriClawInstruct_APNS_PRIVATE_KEY);
   if (inlineKeyRaw) {
     return {
       ok: true,
@@ -270,12 +270,12 @@ export async function resolveApnsAuthConfigFromEnv(
     };
   }
 
-  const keyPath = normalizeNonEmptyString(env.SiriClaw-Instruct_APNS_PRIVATE_KEY_PATH);
+  const keyPath = normalizeNonEmptyString(env.SiriClawInstruct_APNS_PRIVATE_KEY_PATH);
   if (!keyPath) {
     return {
       ok: false,
       error:
-        "APNs private key missing: set SiriClaw-Instruct_APNS_PRIVATE_KEY_P8 or SiriClaw-Instruct_APNS_PRIVATE_KEY_PATH",
+        "APNs private key missing: set SiriClawInstruct_APNS_PRIVATE_KEY_P8 or SiriClawInstruct_APNS_PRIVATE_KEY_PATH",
     };
   }
   try {
@@ -292,7 +292,7 @@ export async function resolveApnsAuthConfigFromEnv(
     const message = err instanceof Error ? err.message : String(err);
     return {
       ok: false,
-      error: `failed reading SiriClaw-Instruct_APNS_PRIVATE_KEY_PATH (${keyPath}): ${message}`,
+      error: `failed reading SiriClawInstruct_APNS_PRIVATE_KEY_PATH (${keyPath}): ${message}`,
     };
   }
 }
@@ -425,7 +425,7 @@ function toApnsPushResult(params: {
   };
 }
 
-function createSiriClaw-InstructPushMetadata(params: {
+function createSiriClawInstructPushMetadata(params: {
   kind: "push.test" | "node.wake";
   nodeId: string;
   reason?: string;
@@ -482,7 +482,7 @@ export async function sendApnsAlert(params: {
       },
       sound: "default",
     },
-    SiriClaw-Instruct: createSiriClaw-InstructPushMetadata({
+    SiriClawInstruct: createSiriClawInstructPushMetadata({
       kind: "push.test",
       nodeId: params.nodeId,
     }),
@@ -511,7 +511,7 @@ export async function sendApnsBackgroundWake(params: {
     aps: {
       "content-available": 1,
     },
-    SiriClaw-Instruct: createSiriClaw-InstructPushMetadata({
+    SiriClawInstruct: createSiriClawInstructPushMetadata({
       kind: "node.wake",
       reason: params.wakeReason ?? "node.invoke",
       nodeId: params.nodeId,
@@ -527,3 +527,4 @@ export async function sendApnsBackgroundWake(params: {
     priority: "5",
   });
 }
+

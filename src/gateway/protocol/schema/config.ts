@@ -98,3 +98,4 @@ export const ConfigSchemaLookupResultSchema = Type.Object(
   },
   { additionalProperties: false },
 );
+

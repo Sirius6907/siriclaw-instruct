@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { runCliAgent } from "./cli-runner.js";
 import { resolveCliNoOutputTimeoutMs } from "./cli-runner/helpers.js";
 
@@ -250,7 +250,7 @@ describe("runCliAgent with process supervisor", () => {
   });
 
   it("falls back to per-agent workspace when workspaceDir is missing", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-cli-runner-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-cli-runner-"));
     const fallbackWorkspace = path.join(tempDir, "workspace-main");
     await fs.mkdir(fallbackWorkspace, { recursive: true });
     const cfg = {
@@ -259,7 +259,7 @@ describe("runCliAgent with process supervisor", () => {
           workspace: fallbackWorkspace,
         },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     supervisorSpawnMock.mockResolvedValueOnce(
       createManagedRun({
@@ -315,3 +315,4 @@ describe("resolveCliNoOutputTimeoutMs", () => {
     expect(timeoutMs).toBe(42_000);
   });
 });
+

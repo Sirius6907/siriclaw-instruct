@@ -57,7 +57,7 @@ function isSessionStoreRecord(value: unknown): value is Record<string, SessionEn
 
 function getSessionStoreTtl(): number {
   return resolveCacheTtlMs({
-    envValue: process.env.SiriClaw-Instruct_SESSION_CACHE_TTL_MS,
+    envValue: process.env.SiriClawInstruct_SESSION_CACHE_TTL_MS,
     defaultTtlMs: DEFAULT_SESSION_STORE_TTL_MS,
   });
 }
@@ -881,3 +881,4 @@ export async function updateLastRoute(params: {
     });
   });
 }
+

@@ -119,7 +119,7 @@ vi.mock("../model-auth.js", () => ({
 }));
 
 vi.mock("../models-config.js", () => ({
-  ensureSiriClaw-InstructModelsJson: vi.fn(async () => {}),
+  ensureSiriClawInstructModelsJson: vi.fn(async () => {}),
 }));
 
 vi.mock("../context-window-guard.js", () => ({
@@ -146,7 +146,7 @@ vi.mock("../../utils/message-channel.js", () => ({
 }));
 
 vi.mock("../agent-paths.js", () => ({
-  resolveSiriClaw-InstructAgentDir: vi.fn(() => "/tmp/agent-dir"),
+  resolveSiriClawInstructAgentDir: vi.fn(() => "/tmp/agent-dir"),
 }));
 
 vi.mock("../defaults.js", () => ({
@@ -196,3 +196,4 @@ vi.mock("./utils.js", () => ({
     return String(err);
   }),
 }));
+

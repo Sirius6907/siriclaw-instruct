@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { withEnv } from "../test-utils/env.js";
 import { getChannelDock } from "./dock.js";
 
-function emptyConfig(): SiriClaw-InstructConfig {
-  return {} as SiriClaw-InstructConfig;
+function emptyConfig(): SiriClawInstructConfig {
+  return {} as SiriClawInstructConfig;
 }
 
 describe("channels dock", () => {
@@ -70,7 +70,7 @@ describe("channels dock", () => {
           },
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     const accountDefault = ircDock?.config?.resolveDefaultTo?.({ cfg, accountId: "work" });
     const rootDefault = ircDock?.config?.resolveDefaultTo?.({ cfg, accountId: "missing" });
@@ -118,7 +118,7 @@ describe("channels dock", () => {
             },
           },
         },
-      } as unknown as SiriClaw-InstructConfig;
+      } as unknown as SiriClawInstructConfig;
 
       expect(telegramDock?.config?.resolveAllowFrom?.({ cfg })).toEqual(["top-owner"]);
       expect(telegramDock?.config?.resolveDefaultTo?.({ cfg })).toBe("@top-target");
@@ -148,7 +148,7 @@ describe("channels dock", () => {
           replyToMode: "all",
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     expect(slackDock?.config?.resolveAllowFrom?.({ cfg, accountId: "default" })).toEqual(["U123"]);
     expect(slackDock?.config?.resolveDefaultTo?.({ cfg, accountId: "default" })).toBe(
@@ -184,7 +184,7 @@ describe("channels dock", () => {
           defaultTo: 42,
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     expect(telegramDock?.config?.resolveAllowFrom?.({ cfg })).toEqual(["12345"]);
     expect(telegramDock?.config?.resolveDefaultTo?.({ cfg })).toBe("67890");
@@ -192,3 +192,4 @@ describe("channels dock", () => {
     expect(signalDock?.config?.resolveDefaultTo?.({ cfg })).toBe("42");
   });
 });
+

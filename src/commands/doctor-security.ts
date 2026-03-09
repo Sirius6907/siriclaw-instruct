@@ -1,7 +1,7 @@
 import { listChannelPlugins } from "../channels/plugins/index.js";
 import type { ChannelId } from "../channels/plugins/types.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig, GatewayBindMode } from "../config/config.js";
+import type { SiriClawInstructConfig, GatewayBindMode } from "../config/config.js";
 import type { AgentConfig } from "../config/types.agents.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 import { resolveGatewayAuth } from "../gateway/auth.js";
@@ -10,7 +10,7 @@ import { resolveDmAllowState } from "../security/dm-policy-shared.js";
 import { note } from "../terminal/note.js";
 import { resolveDefaultChannelAccountContext } from "./channel-account-context.js";
 
-function collectImplicitHeartbeatDirectPolicyWarnings(cfg: SiriClaw-InstructConfig): string[] {
+function collectImplicitHeartbeatDirectPolicyWarnings(cfg: SiriClawInstructConfig): string[] {
   const warnings: string[] = [];
 
   const maybeWarn = (params: {
@@ -48,15 +48,15 @@ function collectImplicitHeartbeatDirectPolicyWarnings(cfg: SiriClaw-InstructConf
   return warnings;
 }
 
-export async function noteSecurityWarnings(cfg: SiriClaw-InstructConfig) {
+export async function noteSecurityWarnings(cfg: SiriClawInstructConfig) {
   const warnings: string[] = [];
-  const auditHint = `- Run: ${formatCliCommand("SiriClaw-Instruct security audit --deep")}`;
+  const auditHint = `- Run: ${formatCliCommand("SiriClawInstruct security audit --deep")}`;
 
   if (cfg.approvals?.exec?.enabled === false) {
     warnings.push(
       "- Note: approvals.exec.enabled=false disables approval forwarding only.",
-      "  Host exec gating still comes from ~/.SiriClaw-Instruct/exec-approvals.json.",
-      `  Check local policy with: ${formatCliCommand("SiriClaw-Instruct approvals get --gateway")}`,
+      "  Host exec gating still comes from ~/.SiriClawInstruct/exec-approvals.json.",
+      `  Check local policy with: ${formatCliCommand("SiriClawInstruct approvals get --gateway")}`,
     );
   }
 
@@ -99,7 +99,7 @@ export async function noteSecurityWarnings(cfg: SiriClaw-InstructConfig) {
   const saferRemoteAccessLines = [
     "  Safer remote access: keep bind loopback and use Tailscale Serve/Funnel or an SSH tunnel.",
     "  Example tunnel: ssh -N -L 18789:127.0.0.1:18789 user@gateway-host",
-    "  Docs: https://docs.SiriClaw-Instruct.ai/gateway/remote",
+    "  Docs: https://docs.SiriClawInstruct.ai/gateway/remote",
   ];
 
   if (isExposed) {
@@ -107,19 +107,19 @@ export async function noteSecurityWarnings(cfg: SiriClaw-InstructConfig) {
       const authFixLines =
         resolvedAuth.mode === "password"
           ? [
-              `  Fix: ${formatCliCommand("SiriClaw-Instruct configure")} to set a password`,
-              `  Or switch to token: ${formatCliCommand("SiriClaw-Instruct config set gateway.auth.mode token")}`,
+              `  Fix: ${formatCliCommand("SiriClawInstruct configure")} to set a password`,
+              `  Or switch to token: ${formatCliCommand("SiriClawInstruct config set gateway.auth.mode token")}`,
             ]
           : [
-              `  Fix: ${formatCliCommand("SiriClaw-Instruct doctor --fix")} to generate a token`,
+              `  Fix: ${formatCliCommand("SiriClawInstruct doctor --fix")} to generate a token`,
               `  Or set token directly: ${formatCliCommand(
-                "SiriClaw-Instruct config set gateway.auth.mode token",
+                "SiriClawInstruct config set gateway.auth.mode token",
               )}`,
             ];
       warnings.push(
         `- CRITICAL: Gateway bound to ${bindDescriptor} without authentication.`,
         `  Anyone on your network (or internet if port-forwarded) can fully control your agent.`,
-        `  Fix: ${formatCliCommand("SiriClaw-Instruct config set gateway.bind loopback")}`,
+        `  Fix: ${formatCliCommand("SiriClawInstruct config set gateway.bind loopback")}`,
         ...saferRemoteAccessLines,
         ...authFixLines,
       );
@@ -179,7 +179,7 @@ export async function noteSecurityWarnings(cfg: SiriClaw-InstructConfig) {
     if (dmScope === "main" && isMultiUserDm) {
       warnings.push(
         `- ${params.label} DMs: multiple senders share the main session; run: ` +
-          formatCliCommand('SiriClaw-Instruct config set session.dmScope "per-channel-peer"') +
+          formatCliCommand('SiriClawInstruct config set session.dmScope "per-channel-peer"') +
           ' (or "per-account-channel-peer" for multi-account channels) to isolate sessions.',
       );
     }
@@ -231,3 +231,4 @@ export async function noteSecurityWarnings(cfg: SiriClaw-InstructConfig) {
   lines.push(auditHint);
   note(lines.join("\n"), "Security");
 }
+

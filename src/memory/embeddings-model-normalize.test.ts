@@ -32,3 +32,4 @@ describe("normalizeEmbeddingModelWithPrefixes", () => {
     ).toBe("voyage-4-large");
   });
 });
+

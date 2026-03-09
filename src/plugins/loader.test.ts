@@ -7,13 +7,13 @@ import { getGlobalHookRunner, resetGlobalHookRunner } from "./hook-runner-global
 import { createHookRunner } from "./hooks.js";
 
 vi.unmock("jiti");
-const { __testing, loadSiriClaw-InstructPlugins } = await import("./loader.js");
+const { __testing, loadSiriClawInstructPlugins } = await import("./loader.js");
 
 type TempPlugin = { dir: string; file: string; id: string };
 
-const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-plugin-"));
+const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-plugin-"));
 let tempDirIndex = 0;
-const prevBundledDir = process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR;
+const prevBundledDir = process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR;
 const EMPTY_PLUGIN_SCHEMA = { type: "object", additionalProperties: false, properties: {} };
 let cachedBundledTelegramDir = "";
 let cachedBundledMemoryDir = "";
@@ -58,7 +58,7 @@ function writePlugin(params: {
   const file = path.join(dir, filename);
   fs.writeFileSync(file, params.body, "utf-8");
   fs.writeFileSync(
-    path.join(dir, "SiriClaw-Instruct.plugin.json"),
+    path.join(dir, "SiriClawInstruct.plugin.json"),
     JSON.stringify(
       {
         id: params.id,
@@ -78,8 +78,8 @@ function loadBundledMemoryPluginRegistry(options?: {
   pluginFilename?: string;
 }) {
   if (!options && cachedBundledMemoryDir) {
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = cachedBundledMemoryDir;
-    return loadSiriClaw-InstructPlugins({
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = cachedBundledMemoryDir;
+    return loadSiriClawInstructPlugins({
       cache: false,
       workspaceDir: cachedBundledMemoryDir,
       config: {
@@ -107,7 +107,7 @@ function loadBundledMemoryPluginRegistry(options?: {
           name: options.packageMeta.name,
           version: options.packageMeta.version,
           description: options.packageMeta.description,
-          SiriClaw-Instruct: { extensions: [`./${pluginFilename}`] },
+          SiriClawInstruct: { extensions: [`./${pluginFilename}`] },
         },
         null,
         2,
@@ -127,9 +127,9 @@ function loadBundledMemoryPluginRegistry(options?: {
   if (!options) {
     cachedBundledMemoryDir = bundledDir;
   }
-  process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = bundledDir;
+  process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = bundledDir;
 
-  return loadSiriClaw-InstructPlugins({
+  return loadSiriClawInstructPlugins({
     cache: false,
     workspaceDir: bundledDir,
     config: {
@@ -152,27 +152,27 @@ function setupBundledTelegramPlugin() {
       filename: "telegram.cjs",
     });
   }
-  process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = cachedBundledTelegramDir;
+  process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = cachedBundledTelegramDir;
 }
 
-function expectTelegramLoaded(registry: ReturnType<typeof loadSiriClaw-InstructPlugins>) {
+function expectTelegramLoaded(registry: ReturnType<typeof loadSiriClawInstructPlugins>) {
   const telegram = registry.plugins.find((entry) => entry.id === "telegram");
   expect(telegram?.status).toBe("loaded");
   expect(registry.channels.some((entry) => entry.plugin.id === "telegram")).toBe(true);
 }
 
 function useNoBundledPlugins() {
-  process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
+  process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
 }
 
 function loadRegistryFromSinglePlugin(params: {
   plugin: TempPlugin;
   pluginConfig?: Record<string, unknown>;
   includeWorkspaceDir?: boolean;
-  options?: Omit<Parameters<typeof loadSiriClaw-InstructPlugins>[0], "cache" | "workspaceDir" | "config">;
+  options?: Omit<Parameters<typeof loadSiriClawInstructPlugins>[0], "cache" | "workspaceDir" | "config">;
 }) {
   const pluginConfig = params.pluginConfig ?? {};
-  return loadSiriClaw-InstructPlugins({
+  return loadSiriClawInstructPlugins({
     cache: false,
     ...(params.includeWorkspaceDir === false ? {} : { workspaceDir: params.plugin.dir }),
     ...params.options,
@@ -209,7 +209,7 @@ function createEscapingEntryFixture(params: { id: string; sourceBody: string }) 
   const linkedEntry = path.join(pluginDir, "entry.cjs");
   fs.writeFileSync(outsideEntry, params.sourceBody, "utf-8");
   fs.writeFileSync(
-    path.join(pluginDir, "SiriClaw-Instruct.plugin.json"),
+    path.join(pluginDir, "SiriClawInstruct.plugin.json"),
     JSON.stringify(
       {
         id: params.id,
@@ -241,9 +241,9 @@ function createPluginSdkAliasFixture(params?: {
 
 afterEach(() => {
   if (prevBundledDir === undefined) {
-    delete process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR;
+    delete process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR;
   } else {
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = prevBundledDir;
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = prevBundledDir;
   }
 });
 
@@ -258,7 +258,7 @@ afterAll(() => {
   }
 });
 
-describe("loadSiriClaw-InstructPlugins", () => {
+describe("loadSiriClawInstructPlugins", () => {
   it("disables bundled plugins by default", () => {
     const bundledDir = makeTempDir();
     writePlugin({
@@ -267,9 +267,9 @@ describe("loadSiriClaw-InstructPlugins", () => {
       dir: bundledDir,
       filename: "bundled.cjs",
     });
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = bundledDir;
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = bundledDir;
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       config: {
         plugins: {
@@ -285,7 +285,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
   it("loads bundled telegram plugin when enabled", () => {
     setupBundledTelegramPlugin();
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: {
@@ -304,7 +304,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
   it("loads bundled channel plugins when channels.<id>.enabled=true", () => {
     setupBundledTelegramPlugin();
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: {
@@ -325,7 +325,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
   it("still respects explicit disable via plugins.entries for bundled channels", () => {
     setupBundledTelegramPlugin();
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: {
@@ -350,7 +350,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
   it("preserves package.json metadata for bundled memory plugins", () => {
     const registry = loadBundledMemoryPluginRegistry({
       packageMeta: {
-        name: "@SiriClaw-Instruct/memory-core",
+        name: "@SiriClawInstruct/memory-core",
         version: "1.2.3",
         description: "Memory plugin package",
       },
@@ -365,7 +365,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
     expect(memory?.version).toBe("1.2.3");
   });
   it("loads plugins from config paths", () => {
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
     const plugin = writePlugin({
       id: "allowed",
       filename: "allowed.cjs",
@@ -377,7 +377,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
 };`,
     });
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -394,7 +394,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
   });
 
   it("re-initializes global hook runner when serving registry from cache", () => {
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
     const plugin = writePlugin({
       id: "cache-hook-runner",
       filename: "cache-hook-runner.cjs",
@@ -411,13 +411,13 @@ describe("loadSiriClaw-InstructPlugins", () => {
       },
     };
 
-    const first = loadSiriClaw-InstructPlugins(options);
+    const first = loadSiriClawInstructPlugins(options);
     expect(getGlobalHookRunner()).not.toBeNull();
 
     resetGlobalHookRunner();
     expect(getGlobalHookRunner()).toBeNull();
 
-    const second = loadSiriClaw-InstructPlugins(options);
+    const second = loadSiriClawInstructPlugins(options);
     expect(second).toBe(first);
     expect(getGlobalHookRunner()).not.toBeNull();
 
@@ -714,7 +714,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
 } };`,
     });
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       config: {
         plugins: {
@@ -787,13 +787,13 @@ describe("loadSiriClaw-InstructPlugins", () => {
   });
 
   it("respects explicit disable in config", () => {
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
     const plugin = writePlugin({
       id: "config-disable",
       body: `module.exports = { id: "config-disable", register() {} };`,
     });
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       config: {
         plugins: {
@@ -926,7 +926,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
   });
 
   it("enforces memory slot selection", () => {
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
     const memoryA = writePlugin({
       id: "memory-a",
       body: `module.exports = { id: "memory-a", kind: "memory", register() {} };`,
@@ -936,7 +936,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
       body: `module.exports = { id: "memory-b", kind: "memory", register() {} };`,
     });
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       config: {
         plugins: {
@@ -971,7 +971,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
       body: `module.exports = { id: "memory-b", kind: "memory", register() {} };`,
     });
     fs.writeFileSync(
-      path.join(memoryADir, "SiriClaw-Instruct.plugin.json"),
+      path.join(memoryADir, "SiriClawInstruct.plugin.json"),
       JSON.stringify(
         {
           id: "memory-a",
@@ -984,7 +984,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
       "utf-8",
     );
     fs.writeFileSync(
-      path.join(memoryBDir, "SiriClaw-Instruct.plugin.json"),
+      path.join(memoryBDir, "SiriClawInstruct.plugin.json"),
       JSON.stringify(
         {
           id: "memory-b",
@@ -996,9 +996,9 @@ describe("loadSiriClaw-InstructPlugins", () => {
       ),
       "utf-8",
     );
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = bundledDir;
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = bundledDir;
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1020,13 +1020,13 @@ describe("loadSiriClaw-InstructPlugins", () => {
   });
 
   it("disables memory plugins when slot is none", () => {
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
     const memory = writePlugin({
       id: "memory-off",
       body: `module.exports = { id: "memory-off", kind: "memory", register() {} };`,
     });
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1048,14 +1048,14 @@ describe("loadSiriClaw-InstructPlugins", () => {
       dir: bundledDir,
       filename: "shadow.cjs",
     });
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = bundledDir;
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = bundledDir;
 
     const override = writePlugin({
       id: "shadow",
       body: `module.exports = { id: "shadow", register() {} };`,
     });
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1082,10 +1082,10 @@ describe("loadSiriClaw-InstructPlugins", () => {
       dir: bundledDir,
       filename: "index.cjs",
     });
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = bundledDir;
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = bundledDir;
 
     const stateDir = makeTempDir();
-    withEnv({ SiriClaw-Instruct_STATE_DIR: stateDir, SIRICLAW_STATE_DIR: undefined }, () => {
+    withEnv({ SiriClawInstruct_STATE_DIR: stateDir, SIRICLAW_STATE_DIR: undefined }, () => {
       const globalDir = path.join(stateDir, "extensions", "feishu");
       fs.mkdirSync(globalDir, { recursive: true });
       writePlugin({
@@ -1095,7 +1095,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
         filename: "index.cjs",
       });
 
-      const registry = loadSiriClaw-InstructPlugins({
+      const registry = loadSiriClawInstructPlugins({
         cache: false,
         config: {
           plugins: {
@@ -1123,7 +1123,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
       body: `module.exports = { id: "warn-open-allow", register() {} };`,
     });
     const warnings: string[] = [];
-    loadSiriClaw-InstructPlugins({
+    loadSiriClawInstructPlugins({
       cache: false,
       logger: createWarningLogger(warnings),
       config: {
@@ -1140,7 +1140,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
   it("warns when loaded non-bundled plugin has no install/load-path provenance", () => {
     useNoBundledPlugins();
     const stateDir = makeTempDir();
-    withEnv({ SiriClaw-Instruct_STATE_DIR: stateDir, SIRICLAW_STATE_DIR: undefined }, () => {
+    withEnv({ SiriClawInstruct_STATE_DIR: stateDir, SIRICLAW_STATE_DIR: undefined }, () => {
       const globalDir = path.join(stateDir, "extensions", "rogue");
       fs.mkdirSync(globalDir, { recursive: true });
       writePlugin({
@@ -1151,7 +1151,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
       });
 
       const warnings: string[] = [];
-      const registry = loadSiriClaw-InstructPlugins({
+      const registry = loadSiriClawInstructPlugins({
         cache: false,
         logger: createWarningLogger(warnings),
         config: {
@@ -1185,7 +1185,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
       return;
     }
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1219,7 +1219,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
       throw err;
     }
 
-    const registry = loadSiriClaw-InstructPlugins({
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1265,8 +1265,8 @@ describe("loadSiriClaw-InstructPlugins", () => {
       throw err;
     }
 
-    process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = bundledDir;
-    const registry = loadSiriClaw-InstructPlugins({
+    process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = bundledDir;
+    const registry = loadSiriClawInstructPlugins({
       cache: false,
       workspaceDir: bundledDir,
       config: {
@@ -1324,7 +1324,7 @@ describe("loadSiriClaw-InstructPlugins", () => {
       filename: "legacy-root-import.cjs",
       body: `module.exports = {
   id: "legacy-root-import",
-  configSchema: (require("SiriClaw-Instruct/plugin-sdk").emptyPluginConfigSchema)(),
+  configSchema: (require("SiriClawInstruct/plugin-sdk").emptyPluginConfigSchema)(),
   register() {},
 };`,
     });
@@ -1440,3 +1440,4 @@ describe("loadSiriClaw-InstructPlugins", () => {
     expect(resolved).toBe(srcFile);
   });
 });
+

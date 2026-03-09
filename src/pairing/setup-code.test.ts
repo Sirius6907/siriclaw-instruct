@@ -12,9 +12,9 @@ describe("pairing setup code", () => {
   }
 
   beforeEach(() => {
-    vi.stubEnv("SiriClaw-Instruct_GATEWAY_TOKEN", "");
+    vi.stubEnv("SiriClawInstruct_GATEWAY_TOKEN", "");
     vi.stubEnv("SIRICLAW_GATEWAY_TOKEN", "");
-    vi.stubEnv("SiriClaw-Instruct_GATEWAY_PASSWORD", "");
+    vi.stubEnv("SiriClawInstruct_GATEWAY_PASSWORD", "");
     vi.stubEnv("SIRICLAW_GATEWAY_PASSWORD", "");
   });
 
@@ -85,7 +85,7 @@ describe("pairing setup code", () => {
     expect(resolved.authLabel).toBe("password");
   });
 
-  it("uses SiriClaw-Instruct_GATEWAY_PASSWORD without resolving configured password SecretRef", async () => {
+  it("uses SiriClawInstruct_GATEWAY_PASSWORD without resolving configured password SecretRef", async () => {
     const resolved = await resolvePairingSetupFromConfig(
       {
         gateway: {
@@ -104,7 +104,7 @@ describe("pairing setup code", () => {
       },
       {
         env: {
-          SiriClaw-Instruct_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
+          SiriClawInstruct_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
         },
       },
     );
@@ -221,7 +221,7 @@ describe("pairing setup code", () => {
       },
       {
         env: {
-          SiriClaw-Instruct_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
+          SiriClawInstruct_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
         },
       },
     );
@@ -320,7 +320,7 @@ describe("pairing setup code", () => {
       },
       {
         env: {
-          SiriClaw-Instruct_GATEWAY_TOKEN: "new-token",
+          SiriClawInstruct_GATEWAY_TOKEN: "new-token",
         },
       },
     );
@@ -404,3 +404,4 @@ describe("pairing setup code", () => {
     expect(runCommandWithTimeout).not.toHaveBeenCalled();
   });
 });
+

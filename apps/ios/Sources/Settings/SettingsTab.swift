@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Network
 import Observation
 import os
@@ -1030,3 +1030,4 @@ struct SettingsTab: View {
     }
 }
 // swiftlint:enable type_body_length
+

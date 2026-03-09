@@ -9,7 +9,7 @@ import { writePluginWithSkill } from "./test-helpers/skill-plugin-fixtures.js";
 const tempDirs: string[] = [];
 
 async function createTempWorkspaceDir() {
-  const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-"));
+  const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-"));
   tempDirs.push(workspaceDir);
   return workspaceDir;
 }
@@ -24,7 +24,7 @@ async function setupWorkspaceWithProsePlugin() {
   const workspaceDir = await createTempWorkspaceDir();
   const managedDir = path.join(workspaceDir, ".managed");
   const bundledDir = path.join(workspaceDir, ".bundled");
-  const pluginRoot = path.join(workspaceDir, ".SiriClaw-Instruct", "extensions", "open-prose");
+  const pluginRoot = path.join(workspaceDir, ".SiriClawInstruct", "extensions", "open-prose");
 
   await writePluginWithSkill({
     pluginRoot,
@@ -40,7 +40,7 @@ async function setupWorkspaceWithDiffsPlugin() {
   const workspaceDir = await createTempWorkspaceDir();
   const managedDir = path.join(workspaceDir, ".managed");
   const bundledDir = path.join(workspaceDir, ".bundled");
-  const pluginRoot = path.join(workspaceDir, ".SiriClaw-Instruct", "extensions", "diffs");
+  const pluginRoot = path.join(workspaceDir, ".SiriClawInstruct", "extensions", "diffs");
 
   await writePluginWithSkill({
     pluginRoot,
@@ -176,3 +176,4 @@ describe("loadWorkspaceSkillEntries", () => {
     },
   );
 });
+

@@ -45,7 +45,7 @@ export async function installChromeExtension(opts?: {
 }): Promise<{ path: string }> {
   const src = opts?.sourceDir ?? resolveBundledExtensionRootDir();
   if (!hasManifest(src)) {
-    throw new Error("Bundled Chrome extension is missing. Reinstall SiriClaw-Instruct and try again.");
+    throw new Error("Bundled Chrome extension is missing. Reinstall SiriClawInstruct and try again.");
   }
 
   const stateDir = opts?.stateDir ?? resolveStateDir();
@@ -101,9 +101,9 @@ export function registerBrowserExtensionCommands(
             "Next:",
             `- Chrome → chrome://extensions → enable “Developer mode”`,
             `- “Load unpacked” → select: ${displayPath}`,
-            `- Pin “SiriClaw-Instruct Browser Relay”, then click it on the tab (badge shows ON)`,
+            `- Pin “SiriClawInstruct Browser Relay”, then click it on the tab (badge shows ON)`,
             "",
-            `${theme.muted("Docs:")} ${formatDocsLink("/tools/chrome-extension", "docs.SiriClaw-Instruct.ai/tools/chrome-extension")}`,
+            `${theme.muted("Docs:")} ${formatDocsLink("/tools/chrome-extension", "docs.SiriClawInstruct.ai/tools/chrome-extension")}`,
           ].join("\n"),
         ),
       );
@@ -119,8 +119,8 @@ export function registerBrowserExtensionCommands(
         defaultRuntime.error(
           danger(
             [
-              `Chrome extension is not installed. Run: "${formatCliCommand("SiriClaw-Instruct browser extension install")}"`,
-              `Docs: ${formatDocsLink("/tools/chrome-extension", "docs.SiriClaw-Instruct.ai/tools/chrome-extension")}`,
+              `Chrome extension is not installed. Run: "${formatCliCommand("SiriClawInstruct browser extension install")}"`,
+              `Docs: ${formatDocsLink("/tools/chrome-extension", "docs.SiriClawInstruct.ai/tools/chrome-extension")}`,
             ].join("\n"),
           ),
         );
@@ -138,3 +138,4 @@ export function registerBrowserExtensionCommands(
       }
     });
 }
+

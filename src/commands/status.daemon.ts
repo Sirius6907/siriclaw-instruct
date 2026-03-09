@@ -6,7 +6,7 @@ import { readServiceStatusSummary } from "./status.service-summary.js";
 type DaemonStatusSummary = {
   label: string;
   installed: boolean | null;
-  managedBySiriClaw-Instruct: boolean;
+  managedBySiriClawInstruct: boolean;
   externallyManaged: boolean;
   loadedText: string;
   runtimeShort: string | null;
@@ -21,7 +21,7 @@ async function buildDaemonStatusSummary(
   return {
     label: summary.label,
     installed: summary.installed,
-    managedBySiriClaw-Instruct: summary.managedBySiriClaw-Instruct,
+    managedBySiriClawInstruct: summary.managedBySiriClawInstruct,
     externallyManaged: summary.externallyManaged,
     loadedText: summary.loadedText,
     runtimeShort: formatDaemonRuntimeShort(summary.runtime),
@@ -35,3 +35,4 @@ export async function getDaemonStatusSummary(): Promise<DaemonStatusSummary> {
 export async function getNodeDaemonStatusSummary(): Promise<DaemonStatusSummary> {
   return await buildDaemonStatusSummary("node");
 }
+

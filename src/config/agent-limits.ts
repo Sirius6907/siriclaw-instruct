@@ -1,11 +1,11 @@
-import type { SiriClaw-InstructConfig } from "./types.js";
+import type { SiriClawInstructConfig } from "./types.js";
 
 export const DEFAULT_AGENT_MAX_CONCURRENT = 4;
 export const DEFAULT_SUBAGENT_MAX_CONCURRENT = 8;
 // Keep depth-1 subagents as leaves unless config explicitly opts into nesting.
 export const DEFAULT_SUBAGENT_MAX_SPAWN_DEPTH = 1;
 
-export function resolveAgentMaxConcurrent(cfg?: SiriClaw-InstructConfig): number {
+export function resolveAgentMaxConcurrent(cfg?: SiriClawInstructConfig): number {
   const raw = cfg?.agents?.defaults?.maxConcurrent;
   if (typeof raw === "number" && Number.isFinite(raw)) {
     return Math.max(1, Math.floor(raw));
@@ -13,10 +13,11 @@ export function resolveAgentMaxConcurrent(cfg?: SiriClaw-InstructConfig): number
   return DEFAULT_AGENT_MAX_CONCURRENT;
 }
 
-export function resolveSubagentMaxConcurrent(cfg?: SiriClaw-InstructConfig): number {
+export function resolveSubagentMaxConcurrent(cfg?: SiriClawInstructConfig): number {
   const raw = cfg?.agents?.defaults?.subagents?.maxConcurrent;
   if (typeof raw === "number" && Number.isFinite(raw)) {
     return Math.max(1, Math.floor(raw));
   }
   return DEFAULT_SUBAGENT_MAX_CONCURRENT;
 }
+

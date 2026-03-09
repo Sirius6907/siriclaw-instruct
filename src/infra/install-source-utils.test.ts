@@ -9,7 +9,7 @@ import {
 } from "./install-source-utils.js";
 
 const runCommandWithTimeoutMock = vi.fn();
-const TEMP_DIR_PREFIX = "SiriClaw-Instruct-install-source-utils-";
+const TEMP_DIR_PREFIX = "SiriClawInstruct-install-source-utils-";
 
 vi.mock("../process/exec.js", () => ({
   runCommandWithTimeout: (...args: unknown[]) => runCommandWithTimeoutMock(...args),
@@ -57,8 +57,8 @@ async function runPack(spec: string, cwd: string, timeoutMs = 1000) {
 }
 
 async function expectPackFallsBackToDetectedArchive(params: { stdout: string }) {
-  const cwd = await createTempDir("SiriClaw-Instruct-install-source-utils-");
-  const archivePath = path.join(cwd, "SiriClaw-Instruct-plugin-1.2.3.tgz");
+  const cwd = await createTempDir("SiriClawInstruct-install-source-utils-");
+  const archivePath = path.join(cwd, "SiriClawInstruct-plugin-1.2.3.tgz");
   await fs.writeFile(archivePath, "", "utf-8");
   runCommandWithTimeoutMock.mockResolvedValue({
     stdout: params.stdout,
@@ -69,7 +69,7 @@ async function expectPackFallsBackToDetectedArchive(params: { stdout: string }) 
   });
 
   const result = await packNpmSpecToArchive({
-    spec: "SiriClaw-Instruct-plugin@1.2.3",
+    spec: "SiriClawInstruct-plugin@1.2.3",
     timeoutMs: 5000,
     cwd,
   });
@@ -100,7 +100,7 @@ describe("withTempDir", () => {
     let observedDir = "";
     const markerFile = "marker.txt";
 
-    const value = await withTempDir("SiriClaw-Instruct-install-source-utils-", async (tmpDir) => {
+    const value = await withTempDir("SiriClawInstruct-install-source-utils-", async (tmpDir) => {
       observedDir = tmpDir;
       await fs.writeFile(path.join(tmpDir, markerFile), "ok", "utf-8");
       await expect(fs.stat(path.join(tmpDir, markerFile))).resolves.toBeDefined();
@@ -114,7 +114,7 @@ describe("withTempDir", () => {
 
 describe("resolveArchiveSourcePath", () => {
   it("returns not found error for missing archive paths", async () => {
-    const result = await resolveArchiveSourcePath("/tmp/does-not-exist-SiriClaw-Instruct-archive.tgz");
+    const result = await resolveArchiveSourcePath("/tmp/does-not-exist-SiriClawInstruct-archive.tgz");
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.error).toContain("archive not found");
@@ -148,36 +148,36 @@ describe("resolveArchiveSourcePath", () => {
 describe("packNpmSpecToArchive", () => {
   it("packs spec and returns archive path using JSON output metadata", async () => {
     const cwd = await createFixtureDir();
-    const archivePath = path.join(cwd, "SiriClaw-Instruct-plugin-1.2.3.tgz");
+    const archivePath = path.join(cwd, "SiriClawInstruct-plugin-1.2.3.tgz");
     await fs.writeFile(archivePath, "", "utf-8");
     mockPackCommandResult({
       stdout: JSON.stringify([
         {
-          id: "SiriClaw-Instruct-plugin@1.2.3",
-          name: "SiriClaw-Instruct-plugin",
+          id: "SiriClawInstruct-plugin@1.2.3",
+          name: "SiriClawInstruct-plugin",
           version: "1.2.3",
-          filename: "SiriClaw-Instruct-plugin-1.2.3.tgz",
+          filename: "SiriClawInstruct-plugin-1.2.3.tgz",
           integrity: "sha512-test-integrity",
           shasum: "abc123",
         },
       ]),
     });
 
-    const result = await runPack("SiriClaw-Instruct-plugin@1.2.3", cwd);
+    const result = await runPack("SiriClawInstruct-plugin@1.2.3", cwd);
 
     expect(result).toEqual({
       ok: true,
       archivePath,
       metadata: {
-        name: "SiriClaw-Instruct-plugin",
+        name: "SiriClawInstruct-plugin",
         version: "1.2.3",
-        resolvedSpec: "SiriClaw-Instruct-plugin@1.2.3",
+        resolvedSpec: "SiriClawInstruct-plugin@1.2.3",
         integrity: "sha512-test-integrity",
         shasum: "abc123",
       },
     });
     expect(runCommandWithTimeoutMock).toHaveBeenCalledWith(
-      ["npm", "pack", "SiriClaw-Instruct-plugin@1.2.3", "--ignore-scripts", "--json"],
+      ["npm", "pack", "SiriClawInstruct-plugin@1.2.3", "--ignore-scripts", "--json"],
       expect.objectContaining({
         cwd,
         timeoutMs: 300_000,
@@ -187,13 +187,13 @@ describe("packNpmSpecToArchive", () => {
 
   it("falls back to parsing final stdout line when npm json output is unavailable", async () => {
     const cwd = await createFixtureDir();
-    const expectedArchivePath = path.join(cwd, "SiriClaw-Instruct-plugin-1.2.3.tgz");
+    const expectedArchivePath = path.join(cwd, "SiriClawInstruct-plugin-1.2.3.tgz");
     await fs.writeFile(expectedArchivePath, "", "utf-8");
     mockPackCommandResult({
-      stdout: "npm notice created package\nSiriClaw-Instruct-plugin-1.2.3.tgz\n",
+      stdout: "npm notice created package\nSiriClawInstruct-plugin-1.2.3.tgz\n",
     });
 
-    const result = await runPack("SiriClaw-Instruct-plugin@1.2.3", cwd);
+    const result = await runPack("SiriClawInstruct-plugin@1.2.3", cwd);
 
     expect(result).toEqual({
       ok: true,
@@ -231,17 +231,17 @@ describe("packNpmSpecToArchive", () => {
     const cwd = await createFixtureDir();
     mockPackCommandResult({
       stdout: "",
-      stderr: "npm error code E404\nnpm error 404  '@SiriClaw-Instruct/whatsapp@*' is not in this registry.",
+      stderr: "npm error code E404\nnpm error 404  '@SiriClawInstruct/whatsapp@*' is not in this registry.",
       code: 1,
     });
 
-    const result = await runPack("@SiriClaw-Instruct/whatsapp", cwd);
+    const result = await runPack("@SiriClawInstruct/whatsapp", cwd);
 
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.error).toContain("Package not found on npm");
-      expect(result.error).toContain("@SiriClaw-Instruct/whatsapp");
-      expect(result.error).toContain("docs.SiriClaw-Instruct.ai/tools/plugin");
+      expect(result.error).toContain("@SiriClawInstruct/whatsapp");
+      expect(result.error).toContain("docs.SiriClawInstruct.ai/tools/plugin");
     }
   });
 
@@ -251,7 +251,7 @@ describe("packNpmSpecToArchive", () => {
       stdout: " \n\n",
     });
 
-    const result = await runPack("SiriClaw-Instruct-plugin@1.2.3", cwd, 5000);
+    const result = await runPack("SiriClawInstruct-plugin@1.2.3", cwd, 5000);
 
     expect(result).toEqual({
       ok: false,
@@ -261,24 +261,24 @@ describe("packNpmSpecToArchive", () => {
 
   it("parses scoped metadata from id-only json output even with npm notice prefix", async () => {
     const cwd = await createFixtureDir();
-    await fs.writeFile(path.join(cwd, "SiriClaw-Instruct-plugin-demo-2.0.0.tgz"), "", "utf-8");
+    await fs.writeFile(path.join(cwd, "SiriClawInstruct-plugin-demo-2.0.0.tgz"), "", "utf-8");
     mockPackCommandResult({
       stdout:
         "npm notice creating package\n" +
         JSON.stringify([
           {
-            id: "@SiriClaw-Instruct/plugin-demo@2.0.0",
-            filename: "SiriClaw-Instruct-plugin-demo-2.0.0.tgz",
+            id: "@SiriClawInstruct/plugin-demo@2.0.0",
+            filename: "SiriClawInstruct-plugin-demo-2.0.0.tgz",
           },
         ]),
     });
 
-    const result = await runPack("@SiriClaw-Instruct/plugin-demo@2.0.0", cwd);
+    const result = await runPack("@SiriClawInstruct/plugin-demo@2.0.0", cwd);
     expect(result).toEqual({
       ok: true,
-      archivePath: path.join(cwd, "SiriClaw-Instruct-plugin-demo-2.0.0.tgz"),
+      archivePath: path.join(cwd, "SiriClawInstruct-plugin-demo-2.0.0.tgz"),
       metadata: {
-        resolvedSpec: "@SiriClaw-Instruct/plugin-demo@2.0.0",
+        resolvedSpec: "@SiriClawInstruct/plugin-demo@2.0.0",
       },
     });
   });
@@ -298,3 +298,4 @@ describe("packNpmSpecToArchive", () => {
     });
   });
 });
+

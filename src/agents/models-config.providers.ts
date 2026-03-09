@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { ModelDefinitionConfig } from "../config/types.models.js";
 import { coerceSecretRef, resolveSecretInputRef } from "../config/types.secrets.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
@@ -65,7 +65,7 @@ import {
 import { discoverVeniceModels, VENICE_BASE_URL } from "./venice-models.js";
 import { discoverVercelAiGatewayModels, VERCEL_AI_GATEWAY_BASE_URL } from "./vercel-ai-gateway.js";
 
-type ModelsConfig = NonNullable<SiriClaw-InstructConfig["models"]>;
+type ModelsConfig = NonNullable<SiriClawInstructConfig["models"]>;
 export type ProviderConfig = NonNullable<ModelsConfig["providers"]>[string];
 
 const MINIMAX_PORTAL_BASE_URL = "https://api.minimax.io/anthropic";
@@ -553,7 +553,7 @@ export function normalizeGoogleModelId(id: string): string {
   if (id === "gemini-3.1-flash-lite") {
     return "gemini-3.1-flash-lite-preview";
   }
-  // Preserve compatibility with earlier SiriClaw-Instruct docs/config that pointed at a
+  // Preserve compatibility with earlier SiriClawInstruct docs/config that pointed at a
   // non-existent Gemini Flash preview ID. Google's current Flash text model is
   // `gemini-3-flash-preview`.
   if (id === "gemini-3.1-flash" || id === "gemini-3.1-flash-preview") {
@@ -985,7 +985,7 @@ function buildOpenrouterProvider(): ProviderConfig {
         // applyExtraParamsToAgent skips the reasoning effort injection for
         // model id "auto" because it dynamically routes to any OpenRouter model
         // (including ones where reasoning is mandatory and cannot be disabled).
-        // See: SiriClaw-Instruct/SiriClaw-Instruct#24851
+        // See: SiriClawInstruct/SiriClawInstruct#24851
         reasoning: false,
         input: ["text", "image"],
         cost: OPENROUTER_DEFAULT_COST,
@@ -1379,7 +1379,7 @@ export async function resolveImplicitCopilotProvider(params: {
   }
 
   // We deliberately do not write pi-coding-agent auth.json here.
-  // SiriClaw-Instruct keeps auth in auth-profiles and resolves runtime availability from that store.
+  // SiriClawInstruct keeps auth in auth-profiles and resolves runtime availability from that store.
 
   // We intentionally do NOT define custom models for Copilot in models.json.
   // pi-coding-agent treats providers with models as replacements requiring apiKey.
@@ -1392,7 +1392,7 @@ export async function resolveImplicitCopilotProvider(params: {
 
 export async function resolveImplicitBedrockProvider(params: {
   agentDir: string;
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   env?: NodeJS.ProcessEnv;
 }): Promise<ProviderConfig | null> {
   const env = params.env ?? process.env;
@@ -1422,3 +1422,4 @@ export async function resolveImplicitBedrockProvider(params: {
     models,
   } satisfies ProviderConfig;
 }
+

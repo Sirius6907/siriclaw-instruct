@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   normalizeSecretInputString,
   resolveSecretInputRef,
@@ -6,10 +6,10 @@ import {
 } from "../config/types.secrets.js";
 import { resolveSecretRefString } from "./resolve.js";
 
-type SecretDefaults = NonNullable<SiriClaw-InstructConfig["secrets"]>["defaults"];
+type SecretDefaults = NonNullable<SiriClawInstructConfig["secrets"]>["defaults"];
 
 export async function resolveSecretInputString(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   value: unknown;
   env: NodeJS.ProcessEnv;
   defaults?: SecretDefaults;
@@ -39,3 +39,4 @@ export async function resolveSecretInputString(params: {
   }
   return normalize(resolved);
 }
+

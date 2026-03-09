@@ -153,3 +153,4 @@ describe("stripXaiUnsupportedKeywords", () => {
     expect(stripXaiUnsupportedKeywords(42)).toBe(42);
   });
 });
+

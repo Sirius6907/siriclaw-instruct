@@ -2,7 +2,7 @@ import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
 import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.js";
 import type { ChannelId } from "../channels/plugins/types.js";
 import { isRouteBinding, listRouteBindings } from "../config/bindings.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { AgentRouteBinding } from "../config/types.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAgentId } from "../routing/session-key.js";
 import type { ChannelChoice } from "./onboard-types.js";
@@ -73,10 +73,10 @@ export function describeBinding(binding: AgentRouteBinding) {
 }
 
 export function applyAgentBindings(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   bindings: AgentRouteBinding[],
 ): {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   added: AgentRouteBinding[];
   updated: AgentRouteBinding[];
   skipped: AgentRouteBinding[];
@@ -159,10 +159,10 @@ export function applyAgentBindings(
 }
 
 export function removeAgentBindings(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   bindings: AgentRouteBinding[],
 ): {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   removed: AgentRouteBinding[];
   missing: AgentRouteBinding[];
   conflicts: Array<{ binding: AgentRouteBinding; existingAgentId: string }>;
@@ -226,7 +226,7 @@ export function removeAgentBindings(
   };
 }
 
-function resolveDefaultAccountId(cfg: SiriClaw-InstructConfig, provider: ChannelId): string {
+function resolveDefaultAccountId(cfg: SiriClawInstructConfig, provider: ChannelId): string {
   const plugin = getChannelPlugin(provider);
   if (!plugin) {
     return DEFAULT_ACCOUNT_ID;
@@ -236,7 +236,7 @@ function resolveDefaultAccountId(cfg: SiriClaw-InstructConfig, provider: Channel
 
 function resolveBindingAccountId(params: {
   channel: ChannelId;
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   agentId: string;
   explicitAccountId?: string;
 }): string | undefined {
@@ -264,7 +264,7 @@ function resolveBindingAccountId(params: {
 export function buildChannelBindings(params: {
   agentId: string;
   selection: ChannelChoice[];
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   accountIds?: Partial<Record<ChannelChoice, string>>;
 }): AgentRouteBinding[] {
   const bindings: AgentRouteBinding[] = [];
@@ -288,7 +288,7 @@ export function buildChannelBindings(params: {
 export function parseBindingSpecs(params: {
   agentId: string;
   specs?: string[];
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
 }): { bindings: AgentRouteBinding[]; errors: string[] } {
   const bindings: AgentRouteBinding[] = [];
   const errors: string[] = [];
@@ -324,3 +324,4 @@ export function parseBindingSpecs(params: {
   }
   return { bindings, errors };
 }
+

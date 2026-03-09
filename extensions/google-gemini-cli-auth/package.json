@@ -1,12 +1,16 @@
 {
-  "name": "@SiriClaw-Instruct/google-gemini-cli-auth",
+  "name": "@siriclaw-instruct/google-gemini-cli-auth",
   "version": "2026.3.8",
   "private": true,
-  "description": "SiriClaw-Instruct Gemini CLI OAuth provider plugin",
+  "description": "siriclaw-instruct Gemini CLI OAuth provider plugin",
   "type": "module",
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

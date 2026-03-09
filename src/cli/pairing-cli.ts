@@ -57,7 +57,7 @@ export function registerPairingCli(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/pairing", "docs.SiriClaw-Instruct.ai/cli/pairing")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/pairing", "docs.SiriClawInstruct.ai/cli/pairing")}\n`,
     );
 
   pairing
@@ -135,12 +135,12 @@ export function registerPairingCli(program: Command) {
           : codeOrChannel;
       if (!channelRaw || !resolvedCode) {
         throw new Error(
-          `Usage: ${formatCliCommand("SiriClaw-Instruct pairing approve <channel> <code>")} (or: ${formatCliCommand("SiriClaw-Instruct pairing approve --channel <channel> <code>")})`,
+          `Usage: ${formatCliCommand("SiriClawInstruct pairing approve <channel> <code>")} (or: ${formatCliCommand("SiriClawInstruct pairing approve --channel <channel> <code>")})`,
         );
       }
       if (opts.channel && code != null) {
         throw new Error(
-          `Too many arguments. Use: ${formatCliCommand("SiriClaw-Instruct pairing approve --channel <channel> <code>")}`,
+          `Too many arguments. Use: ${formatCliCommand("SiriClawInstruct pairing approve --channel <channel> <code>")}`,
         );
       }
       const channel = parseChannel(channelRaw, channels);
@@ -171,3 +171,4 @@ export function registerPairingCli(program: Command) {
       });
     });
 }
+

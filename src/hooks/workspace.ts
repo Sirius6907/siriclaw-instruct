@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { MANIFEST_KEY } from "../compat/legacy-names.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { isPathInsideWithRealpath } from "../security/scan-paths.js";
@@ -10,7 +10,7 @@ import { resolveBundledHooksDir } from "./bundled-dir.js";
 import { shouldIncludeHook } from "./config.js";
 import {
   parseFrontmatter,
-  resolveSiriClaw-InstructMetadata,
+  resolveSiriClawInstructMetadata,
   resolveHookInvocationPolicy,
 } from "./frontmatter.js";
 import type {
@@ -29,7 +29,7 @@ const log = createSubsystemLogger("hooks/workspace");
 
 function filterHookEntries(
   entries: HookEntry[],
-  config?: SiriClaw-InstructConfig,
+  config?: SiriClawInstructConfig,
   eligibility?: HookEligibilityContext,
 ): HookEntry[] {
   return entries.filter((entry) => shouldIncludeHook({ entry, config, eligibility }));
@@ -220,7 +220,7 @@ export function loadHookEntriesFromDir(params: {
         pluginId: params.pluginId,
       },
       frontmatter,
-      metadata: resolveSiriClaw-InstructMetadata(frontmatter),
+      metadata: resolveSiriClawInstructMetadata(frontmatter),
       invocation: resolveHookInvocationPolicy(frontmatter),
     };
     return entry;
@@ -230,7 +230,7 @@ export function loadHookEntriesFromDir(params: {
 function loadHookEntries(
   workspaceDir: string,
   opts?: {
-    config?: SiriClaw-InstructConfig;
+    config?: SiriClawInstructConfig;
     managedHooksDir?: string;
     bundledHooksDir?: string;
   },
@@ -246,23 +246,23 @@ function loadHookEntries(
   const bundledHooks = bundledHooksDir
     ? loadHooksFromDir({
         dir: bundledHooksDir,
-        source: "SiriClaw-Instruct-bundled",
+        source: "SiriClawInstruct-bundled",
       })
     : [];
   const extraHooks = extraDirs.flatMap((dir) => {
     const resolved = resolveUserPath(dir);
     return loadHooksFromDir({
       dir: resolved,
-      source: "SiriClaw-Instruct-workspace", // Extra dirs treated as workspace
+      source: "SiriClawInstruct-workspace", // Extra dirs treated as workspace
     });
   });
   const managedHooks = loadHooksFromDir({
     dir: managedHooksDir,
-    source: "SiriClaw-Instruct-managed",
+    source: "SiriClawInstruct-managed",
   });
   const workspaceHooks = loadHooksFromDir({
     dir: workspaceHooksDir,
-    source: "SiriClaw-Instruct-workspace",
+    source: "SiriClawInstruct-workspace",
   });
 
   const merged = new Map<string, Hook>();
@@ -293,7 +293,7 @@ function loadHookEntries(
     return {
       hook,
       frontmatter,
-      metadata: resolveSiriClaw-InstructMetadata(frontmatter),
+      metadata: resolveSiriClawInstructMetadata(frontmatter),
       invocation: resolveHookInvocationPolicy(frontmatter),
     };
   });
@@ -302,7 +302,7 @@ function loadHookEntries(
 export function buildWorkspaceHookSnapshot(
   workspaceDir: string,
   opts?: {
-    config?: SiriClaw-InstructConfig;
+    config?: SiriClawInstructConfig;
     managedHooksDir?: string;
     bundledHooksDir?: string;
     entries?: HookEntry[];
@@ -326,7 +326,7 @@ export function buildWorkspaceHookSnapshot(
 export function loadWorkspaceHookEntries(
   workspaceDir: string,
   opts?: {
-    config?: SiriClaw-InstructConfig;
+    config?: SiriClawInstructConfig;
     managedHooksDir?: string;
     bundledHooksDir?: string;
   },
@@ -378,3 +378,4 @@ function resolveBoundaryFilePath(params: {
 }): string | null {
   return withOpenedBoundaryFileSync(params, (opened) => opened.path);
 }
+

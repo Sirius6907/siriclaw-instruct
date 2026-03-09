@@ -1,7 +1,7 @@
 {
   "name": "clawdbot",
   "version": "2026.2.12",
-  "description": "Compatibility shim that forwards to SiriClaw-Instruct",
+  "description": "Compatibility shim that forwards to siriclaw-instruct",
   "bin": {
     "clawdbot": "./bin/clawdbot.js"
   },
@@ -11,6 +11,10 @@
     "./cli-entry": "./bin/clawdbot.js"
   },
   "dependencies": {
-    "SiriClaw-Instruct": "workspace:*"
+    "siriclaw-instruct": "workspace:*"
   }
 }
+
+
+
+

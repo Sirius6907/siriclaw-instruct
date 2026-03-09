@@ -87,14 +87,14 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
       );
     });
 
-    it("parses SiriClaw-Instruct-gateway pids and excludes the current process", () => {
+    it("parses SiriClawInstruct-gateway pids and excludes the current process", () => {
       const stalePid = process.pid + 1;
       mockSpawnSync.mockReturnValue({
         error: null,
         status: 0,
         stdout: lsofOutput([
-          { pid: stalePid, cmd: "SiriClaw-Instruct-gateway" },
-          { pid: process.pid, cmd: "SiriClaw-Instruct-gateway" },
+          { pid: stalePid, cmd: "SiriClawInstruct-gateway" },
+          { pid: process.pid, cmd: "SiriClawInstruct-gateway" },
         ]),
         stderr: "",
       });
@@ -103,7 +103,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
       expect(pids).not.toContain(process.pid);
     });
 
-    it("excludes pids whose command does not include 'SiriClaw-Instruct'", () => {
+    it("excludes pids whose command does not include 'SiriClawInstruct'", () => {
       const otherPid = process.pid + 2;
       mockSpawnSync.mockReturnValue({
         error: null,
@@ -129,7 +129,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
       // (once for the IPv4 socket, once for IPv6). Without dedup, terminateStaleProcessesSync
       // sends SIGTERM twice and returns killed=[pid, pid], corrupting the count.
       const stalePid = process.pid + 600;
-      const stdout = `p${stalePid}\ncSiriClaw-Instruct-gateway\np${stalePid}\ncSiriClaw-Instruct-gateway\n`;
+      const stdout = `p${stalePid}\ncSiriClawInstruct-gateway\np${stalePid}\ncSiriClawInstruct-gateway\n`;
       mockSpawnSync.mockReturnValue({ error: null, status: 0, stdout, stderr: "" });
       const result = findGatewayPidsOnPortSync(18789);
       expect(result).toEqual([stalePid]); // deduped — not [pid, pid]
@@ -162,15 +162,15 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
       expect(findGatewayPidsOnPortSync(18789)).toEqual([]);
     });
 
-    it("parses multiple SiriClaw-Instruct pids from a single lsof output block", () => {
+    it("parses multiple SiriClawInstruct pids from a single lsof output block", () => {
       const pid1 = process.pid + 10;
       const pid2 = process.pid + 11;
       mockSpawnSync.mockReturnValue({
         error: null,
         status: 0,
         stdout: lsofOutput([
-          { pid: pid1, cmd: "SiriClaw-Instruct-gateway" },
-          { pid: pid2, cmd: "SiriClaw-Instruct-gateway" },
+          { pid: pid1, cmd: "SiriClawInstruct-gateway" },
+          { pid: pid2, cmd: "SiriClawInstruct-gateway" },
         ]),
         stderr: "",
       });
@@ -179,9 +179,9 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
       expect(result).toContain(pid2);
     });
 
-    it("returns [] when status 0 but only non-SiriClaw-Instruct pids present", () => {
+    it("returns [] when status 0 but only non-SiriClawInstruct pids present", () => {
       // Port may be bound by an unrelated process. findGatewayPidsOnPortSync
-      // only tracks SiriClaw-Instruct processes — non-SiriClaw-Instruct listeners are ignored.
+      // only tracks SiriClawInstruct processes — non-SiriClawInstruct listeners are ignored.
       const otherPid = process.pid + 50;
       mockSpawnSync.mockReturnValue({
         error: null,
@@ -208,7 +208,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -234,7 +234,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -271,7 +271,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -280,7 +280,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -297,10 +297,10 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
       expect(spawnCount).toBe(3);
     });
 
-    it("lsof status 1 with non-empty SiriClaw-Instruct stdout is treated as busy, not free (Linux container edge case)", () => {
+    it("lsof status 1 with non-empty SiriClawInstruct stdout is treated as busy, not free (Linux container edge case)", () => {
       // On Linux containers with restricted /proc (AppArmor, seccomp, user namespaces),
       // lsof can exit 1 AND still emit output for processes it could read.
-      // status 1 + non-empty SiriClaw-Instruct stdout must not be treated as port-free.
+      // status 1 + non-empty SiriClawInstruct stdout must not be treated as port-free.
       const stalePid = process.pid + 601;
       let call = 0;
       mockSpawnSync.mockImplementation(() => {
@@ -310,16 +310,16 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
         if (call === 2) {
-          // status 1 + SiriClaw-Instruct pid in stdout — container-restricted lsof reports partial results
+          // status 1 + SiriClawInstruct pid in stdout — container-restricted lsof reports partial results
           return {
             error: null,
             status: 1,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "lsof: WARNING: can't stat() fuse",
           };
         }
@@ -349,7 +349,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
         return {
           error: null,
           status: 0,
-          stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+          stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
           stderr: "",
         };
       });
@@ -389,7 +389,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -413,7 +413,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -443,7 +443,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -452,7 +452,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -483,7 +483,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -513,7 +513,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -538,7 +538,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -567,7 +567,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
         return {
           error: null,
           status: 0,
-          stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+          stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
           stderr: "",
         };
       });
@@ -596,7 +596,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -632,7 +632,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
@@ -678,13 +678,13 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
   // parsePidsFromLsofOutput — branch-coverage for mid-loop && short-circuits
   // -------------------------------------------------------------------------
   describe("parsePidsFromLsofOutput — branch coverage (lines 67-69)", () => {
-    it("skips a mid-loop entry when the command does not include 'SiriClaw-Instruct'", () => {
-      // Exercises the false branch of currentCmd.toLowerCase().includes("SiriClaw-Instruct")
-      // inside the mid-loop flush: a non-SiriClaw-Instruct cmd between two entries must not
-      // be pushed, but the following SiriClaw-Instruct entry still must be.
+    it("skips a mid-loop entry when the command does not include 'SiriClawInstruct'", () => {
+      // Exercises the false branch of currentCmd.toLowerCase().includes("SiriClawInstruct")
+      // inside the mid-loop flush: a non-SiriClawInstruct cmd between two entries must not
+      // be pushed, but the following SiriClawInstruct entry still must be.
       const stalePid = process.pid + 700;
-      // Mixed output: non-SiriClaw-Instruct entry first, then SiriClaw-Instruct entry
-      const stdout = `p${process.pid + 699}\ncnginx\np${stalePid}\ncSiriClaw-Instruct-gateway\n`;
+      // Mixed output: non-SiriClawInstruct entry first, then SiriClawInstruct entry
+      const stdout = `p${process.pid + 699}\ncnginx\np${stalePid}\ncSiriClawInstruct-gateway\n`;
       mockSpawnSync.mockReturnValue({ error: null, status: 0, stdout, stderr: "" });
       const result = findGatewayPidsOnPortSync(18789);
       expect(result).toContain(stalePid);
@@ -696,7 +696,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
       // (no 'c' line between them) — the first PID must be skipped, the second handled.
       const stalePid = process.pid + 701;
       // Two consecutive p-lines: first has no c-line before the next p-line
-      const stdout = `p${process.pid + 702}\np${stalePid}\ncSiriClaw-Instruct-gateway\n`;
+      const stdout = `p${process.pid + 702}\np${stalePid}\ncSiriClawInstruct-gateway\n`;
       mockSpawnSync.mockReturnValue({ error: null, status: 0, stdout, stderr: "" });
       const result = findGatewayPidsOnPortSync(18789);
       expect(result).toContain(stalePid);
@@ -707,8 +707,8 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
       // false branch: a malformed 'p' line (e.g. 'p0' or 'pNaN') must not corrupt
       // currentPid and must not end up in the returned pids array.
       const stalePid = process.pid + 703;
-      // p0 is invalid (not > 0); the following valid SiriClaw-Instruct entry must still be found.
-      const stdout = `p0\ncSiriClaw-Instruct-gateway\np${stalePid}\ncSiriClaw-Instruct-gateway\n`;
+      // p0 is invalid (not > 0); the following valid SiriClawInstruct entry must still be found.
+      const stdout = `p0\ncSiriClawInstruct-gateway\np${stalePid}\ncSiriClawInstruct-gateway\n`;
       mockSpawnSync.mockReturnValue({ error: null, status: 0, stdout, stderr: "" });
       const result = findGatewayPidsOnPortSync(18789);
       expect(result).toContain(stalePid);
@@ -721,7 +721,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
       // must not throw or corrupt the pid list. Unknown lines are just skipped.
       const stalePid = process.pid + 704;
       // Intersperse an 'f' line (file descriptor marker) — not a 'p' or 'c' line
-      const stdout = `p${stalePid}\nf8\ncSiriClaw-Instruct-gateway\n`;
+      const stdout = `p${stalePid}\nf8\ncSiriClawInstruct-gateway\n`;
       mockSpawnSync.mockReturnValue({ error: null, status: 0, stdout, stderr: "" });
       const result = findGatewayPidsOnPortSync(18789);
       // The 'f' line must not corrupt parsing; stalePid must still be found
@@ -731,13 +731,13 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
   });
 
   // -------------------------------------------------------------------------
-  // pollPortOnce branch — status 1 + non-empty stdout with zero SiriClaw-Instruct pids
+  // pollPortOnce branch — status 1 + non-empty stdout with zero SiriClawInstruct pids
   // -------------------------------------------------------------------------
-  describe("pollPortOnce — status 1 + non-empty non-SiriClaw-Instruct stdout (line 145)", () => {
-    it("treats status 1 + non-SiriClaw-Instruct stdout as port-free (not an SiriClaw-Instruct process)", () => {
-      // status 1 + non-empty stdout where no SiriClaw-Instruct pids are present:
+  describe("pollPortOnce — status 1 + non-empty non-SiriClawInstruct stdout (line 145)", () => {
+    it("treats status 1 + non-SiriClawInstruct stdout as port-free (not an SiriClawInstruct process)", () => {
+      // status 1 + non-empty stdout where no SiriClawInstruct pids are present:
       // the port may be held by an unrelated process. From our perspective
-      // (we only kill SiriClaw-Instruct pids) it is effectively free.
+      // (we only kill SiriClawInstruct pids) it is effectively free.
       const stalePid = process.pid + 800;
       let call = 0;
       mockSpawnSync.mockImplementation(() => {
@@ -746,11 +746,11 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
           return {
             error: null,
             status: 0,
-            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClaw-Instruct-gateway" }]),
+            stdout: lsofOutput([{ pid: stalePid, cmd: "SiriClawInstruct-gateway" }]),
             stderr: "",
           };
         }
-        // status 1 + non-SiriClaw-Instruct output — should be treated as free:true for our purposes
+        // status 1 + non-SiriClawInstruct output — should be treated as free:true for our purposes
         return {
           error: null,
           status: 1,
@@ -759,7 +759,7 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
         };
       });
       vi.spyOn(process, "kill").mockReturnValue(true);
-      // Should complete cleanly — no SiriClaw-Instruct pids in status-1 output → free
+      // Should complete cleanly — no SiriClawInstruct pids in status-1 output → free
       expect(() => cleanStaleGatewayProcessesSync()).not.toThrow();
       // Completed in exactly 2 calls (initial find + 1 free poll)
       expect(call).toBe(2);
@@ -808,3 +808,4 @@ describe.skipIf(isWindows)("restart-stale-pids", () => {
     });
   });
 });
+

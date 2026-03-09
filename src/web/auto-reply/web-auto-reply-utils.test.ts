@@ -30,7 +30,7 @@ const makeMsg = (overrides: Partial<WebInboundMsg>): WebInboundMsg =>
   }) as WebInboundMsg;
 
 describe("isBotMentionedFromTargets", () => {
-  const mentionCfg = { mentionRegexes: [/\bSiriClaw-Instruct\b/i] };
+  const mentionCfg = { mentionRegexes: [/\bSiriClawInstruct\b/i] };
 
   function expectMentioned(
     msg: WebInboundMsg,
@@ -43,7 +43,7 @@ describe("isBotMentionedFromTargets", () => {
 
   it("ignores regex matches when other mentions are present", () => {
     const msg = makeMsg({
-      body: "@SiriClaw-Instruct please help",
+      body: "@SiriClawInstruct please help",
       mentionedJids: ["19998887777@s.whatsapp.net"],
       selfE164: "+15551234567",
       selfJid: "15551234567@s.whatsapp.net",
@@ -63,7 +63,7 @@ describe("isBotMentionedFromTargets", () => {
 
   it("falls back to regex when no mentions are present", () => {
     const msg = makeMsg({
-      body: "SiriClaw-Instruct can you help?",
+      body: "SiriClawInstruct can you help?",
       selfE164: "+15551234567",
       selfJid: "15551234567@s.whatsapp.net",
     });
@@ -71,7 +71,7 @@ describe("isBotMentionedFromTargets", () => {
   });
 
   it("ignores JID mentions in self-chat mode", () => {
-    const cfg = { mentionRegexes: [/\bSiriClaw-Instruct\b/i], allowFrom: ["+999"] };
+    const cfg = { mentionRegexes: [/\bSiriClawInstruct\b/i], allowFrom: ["+999"] };
     const msg = makeMsg({
       body: "@owner ping",
       mentionedJids: ["999@s.whatsapp.net"],
@@ -81,7 +81,7 @@ describe("isBotMentionedFromTargets", () => {
     expectMentioned(msg, cfg, false);
 
     const msgTextMention = makeMsg({
-      body: "SiriClaw-Instruct ping",
+      body: "SiriClawInstruct ping",
       selfE164: "+999",
       selfJid: "999@s.whatsapp.net",
     });
@@ -100,7 +100,7 @@ describe("isBotMentionedFromTargets", () => {
 
 describe("resolveMentionTargets with @lid mapping", () => {
   it("uses @lid reverse mapping for mentions and self identity", async () => {
-    await withTempDir("SiriClaw-Instruct-lid-mapping-", async (authDir) => {
+    await withTempDir("SiriClawInstruct-lid-mapping-", async (authDir) => {
       await fs.writeFile(
         path.join(authDir, "lid-mapping-777_reverse.json"),
         JSON.stringify("+1777"),
@@ -134,7 +134,7 @@ describe("getSessionSnapshot", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date(2026, 0, 18, 5, 0, 0));
     try {
-      await withTempDir("SiriClaw-Instruct-snapshot-", async (root) => {
+      await withTempDir("SiriClawInstruct-snapshot-", async (root) => {
         const storePath = path.join(root, "sessions.json");
         const sessionKey = "agent:main:whatsapp:dm:s1";
 
@@ -176,13 +176,13 @@ describe("web auto-reply util", () => {
     it("returns normalized debug fields and mention outcome", () => {
       const msg = makeMsg({
         from: "777@lid",
-        body: "SiriClaw-Instruct ping",
+        body: "SiriClawInstruct ping",
         selfE164: "+15551234567",
         selfJid: "15551234567@s.whatsapp.net",
       });
-      const result = debugMention(msg, { mentionRegexes: [/\bSiriClaw-Instruct\b/i] });
+      const result = debugMention(msg, { mentionRegexes: [/\bSiriClawInstruct\b/i] });
       expect(result.wasMentioned).toBe(true);
-      expect(result.details.bodyClean).toBe("SiriClaw-Instruct ping");
+      expect(result.details.bodyClean).toBe("SiriClawInstruct ping");
       expect(result.details.normalizedMentionedJids).toBeNull();
     });
 
@@ -264,3 +264,4 @@ describe("web auto-reply util", () => {
     }
   });
 });
+

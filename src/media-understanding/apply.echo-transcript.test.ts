@@ -2,8 +2,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MsgContext } from "../auto-reply/templating.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
-import { resolvePreferredSiriClaw-InstructTmpDir } from "../infra/tmp-SiriClaw-Instruct-dir.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
+import { resolvePreferredSiriClawInstructTmpDir } from "../infra/tmp-siriclaw-instruct-dir.js";
 import { createSafeAudioFixtureBuffer } from "./runner.test-utils.js";
 
 // ---------------------------------------------------------------------------
@@ -66,7 +66,7 @@ vi.mock("../infra/outbound/deliver.js", () => ({
 let applyMediaUnderstanding: typeof import("./apply.js").applyMediaUnderstanding;
 let clearMediaUnderstandingBinaryCacheForTests: () => void;
 
-const TEMP_MEDIA_PREFIX = "SiriClaw-Instruct-echo-transcript-test-";
+const TEMP_MEDIA_PREFIX = "SiriClawInstruct-echo-transcript-test-";
 let suiteTempMediaRootDir = "";
 
 async function createTempAudioFile(): Promise<string> {
@@ -93,10 +93,10 @@ function createAudioConfigWithEcho(opts?: {
   echoFormat?: string;
   transcribedText?: string;
 }): {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   providers: Record<string, { id: string; transcribeAudio: () => Promise<{ text: string }> }>;
 } {
-  const cfg: SiriClaw-InstructConfig = {
+  const cfg: SiriClawInstructConfig = {
     tools: {
       media: {
         audio: {
@@ -145,7 +145,7 @@ function createAudioConfigWithoutEchoFlag() {
 
 describe("applyMediaUnderstanding – echo transcript", () => {
   beforeAll(async () => {
-    const baseDir = resolvePreferredSiriClaw-InstructTmpDir();
+    const baseDir = resolvePreferredSiriClawInstructTmpDir();
     await fs.mkdir(baseDir, { recursive: true });
     suiteTempMediaRootDir = await fs.mkdtemp(path.join(baseDir, TEMP_MEDIA_PREFIX));
     const mod = await import("./apply.js");
@@ -331,3 +331,4 @@ describe("applyMediaUnderstanding – echo transcript", () => {
     expect(mockDeliverOutboundPayloads).toHaveBeenCalledOnce();
   });
 });
+

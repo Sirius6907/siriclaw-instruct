@@ -1,7 +1,7 @@
 import { EventEmitter } from "node:events";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AcpRuntimeError } from "../../acp/runtime/errors.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { RuntimeEnv } from "../../runtime.js";
 
 type NativeCommandSpecMock = {
@@ -75,7 +75,7 @@ const {
     })),
     createdBindingManagers,
     getAcpSessionStatusMock: vi.fn(
-      async (_params: { cfg: SiriClaw-InstructConfig; sessionKey: string; signal?: AbortSignal }) => ({
+      async (_params: { cfg: SiriClawInstructConfig; sessionKey: string; signal?: AbortSignal }) => ({
         state: "idle",
       }),
     ),
@@ -295,7 +295,7 @@ vi.mock("./thread-bindings.js", () => ({
 
 describe("monitorDiscordProvider", () => {
   type ReconcileHealthProbeParams = {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId: string;
     sessionKey: string;
     binding: unknown;
@@ -303,7 +303,7 @@ describe("monitorDiscordProvider", () => {
   };
 
   type ReconcileStartupParams = {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     healthProbe?: (
       params: ReconcileHealthProbeParams,
     ) => Promise<{ status: string; reason?: string }>;
@@ -317,7 +317,7 @@ describe("monitorDiscordProvider", () => {
     };
   };
 
-  const baseConfig = (): SiriClaw-InstructConfig =>
+  const baseConfig = (): SiriClawInstructConfig =>
     ({
       channels: {
         discord: {
@@ -326,7 +326,7 @@ describe("monitorDiscordProvider", () => {
           },
         },
       },
-    }) as SiriClaw-InstructConfig;
+    }) as SiriClawInstructConfig;
 
   const getConstructedEventQueue = (): { listenerTimeout?: number } | undefined => {
     expect(clientConstructorOptionsMock).toHaveBeenCalledTimes(1);
@@ -745,3 +745,4 @@ describe("monitorDiscordProvider", () => {
     expect(connectedFalse).toBeDefined();
   });
 });
+

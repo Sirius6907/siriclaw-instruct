@@ -5,3 +5,4 @@ export function supportsModelTools(model: { compat?: unknown }): boolean {
       : undefined;
   return compat?.supportsTools !== false;
 }
+

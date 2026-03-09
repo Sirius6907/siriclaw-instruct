@@ -18,8 +18,8 @@ describe("updateNpmInstalledPlugins", () => {
   it("skips integrity drift checks for unpinned npm specs during dry-run updates", async () => {
     installPluginFromNpmSpecMock.mockResolvedValue({
       ok: true,
-      pluginId: "opik-SiriClaw-Instruct",
-      targetDir: "/tmp/opik-SiriClaw-Instruct",
+      pluginId: "opik-SiriClawInstruct",
+      targetDir: "/tmp/opik-SiriClawInstruct",
       version: "0.2.6",
       extensions: ["index.ts"],
     });
@@ -29,22 +29,22 @@ describe("updateNpmInstalledPlugins", () => {
       config: {
         plugins: {
           installs: {
-            "opik-SiriClaw-Instruct": {
+            "opik-SiriClawInstruct": {
               source: "npm",
-              spec: "@opik/opik-SiriClaw-Instruct",
+              spec: "@opik/opik-SiriClawInstruct",
               integrity: "sha512-old",
-              installPath: "/tmp/opik-SiriClaw-Instruct",
+              installPath: "/tmp/opik-SiriClawInstruct",
             },
           },
         },
       },
-      pluginIds: ["opik-SiriClaw-Instruct"],
+      pluginIds: ["opik-SiriClawInstruct"],
       dryRun: true,
     });
 
     expect(installPluginFromNpmSpecMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@opik/opik-SiriClaw-Instruct",
+        spec: "@opik/opik-SiriClawInstruct",
         expectedIntegrity: undefined,
       }),
     );
@@ -53,8 +53,8 @@ describe("updateNpmInstalledPlugins", () => {
   it("keeps integrity drift checks for exact-version npm specs during dry-run updates", async () => {
     installPluginFromNpmSpecMock.mockResolvedValue({
       ok: true,
-      pluginId: "opik-SiriClaw-Instruct",
-      targetDir: "/tmp/opik-SiriClaw-Instruct",
+      pluginId: "opik-SiriClawInstruct",
+      targetDir: "/tmp/opik-SiriClawInstruct",
       version: "0.2.6",
       extensions: ["index.ts"],
     });
@@ -64,22 +64,22 @@ describe("updateNpmInstalledPlugins", () => {
       config: {
         plugins: {
           installs: {
-            "opik-SiriClaw-Instruct": {
+            "opik-SiriClawInstruct": {
               source: "npm",
-              spec: "@opik/opik-SiriClaw-Instruct@0.2.5",
+              spec: "@opik/opik-SiriClawInstruct@0.2.5",
               integrity: "sha512-old",
-              installPath: "/tmp/opik-SiriClaw-Instruct",
+              installPath: "/tmp/opik-SiriClawInstruct",
             },
           },
         },
       },
-      pluginIds: ["opik-SiriClaw-Instruct"],
+      pluginIds: ["opik-SiriClawInstruct"],
       dryRun: true,
     });
 
     expect(installPluginFromNpmSpecMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        spec: "@opik/opik-SiriClaw-Instruct@0.2.5",
+        spec: "@opik/opik-SiriClawInstruct@0.2.5",
         expectedIntegrity: "sha512-old",
       }),
     );
@@ -89,7 +89,7 @@ describe("updateNpmInstalledPlugins", () => {
     installPluginFromNpmSpecMock.mockResolvedValue({
       ok: false,
       code: "npm_package_not_found",
-      error: "Package not found on npm: @SiriClaw-Instruct/missing.",
+      error: "Package not found on npm: @SiriClawInstruct/missing.",
     });
 
     const { updateNpmInstalledPlugins } = await import("./update.js");
@@ -99,7 +99,7 @@ describe("updateNpmInstalledPlugins", () => {
           installs: {
             missing: {
               source: "npm",
-              spec: "@SiriClaw-Instruct/missing",
+              spec: "@SiriClawInstruct/missing",
               installPath: "/tmp/missing",
             },
           },
@@ -113,7 +113,7 @@ describe("updateNpmInstalledPlugins", () => {
       {
         pluginId: "missing",
         status: "error",
-        message: "Failed to check missing: npm package not found for @SiriClaw-Instruct/missing.",
+        message: "Failed to check missing: npm package not found for @SiriClawInstruct/missing.",
       },
     ]);
   });
@@ -151,3 +151,4 @@ describe("updateNpmInstalledPlugins", () => {
     ]);
   });
 });
+

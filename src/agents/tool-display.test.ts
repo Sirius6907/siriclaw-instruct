@@ -81,11 +81,11 @@ describe("tool display details", () => {
     const detail = formatToolDetail(
       resolveToolDisplay({
         name: "web_search",
-        args: { query: "SiriClaw-Instruct docs", count: 3 },
+        args: { query: "SiriClawInstruct docs", count: 3 },
       }),
     );
 
-    expect(detail).toBe('for "SiriClaw-Instruct docs" (top 3)');
+    expect(detail).toBe('for "SiriClawInstruct docs" (top 3)');
   });
 
   it("summarizes exec commands with context", () => {
@@ -94,14 +94,14 @@ describe("tool display details", () => {
         name: "exec",
         args: {
           command:
-            "set -euo pipefail\ngit -C /Users/adityasingh/.SiriClaw-Instruct/workspace status --short | head -n 3",
-          workdir: "/Users/adityasingh/.SiriClaw-Instruct/workspace",
+            "set -euo pipefail\ngit -C /Users/adityasingh/.SiriClawInstruct/workspace status --short | head -n 3",
+          workdir: "/Users/adityasingh/.SiriClawInstruct/workspace",
         },
       }),
     );
 
     expect(detail).toContain("check git status -> show first 3 lines");
-    expect(detail).toContain(".SiriClaw-Instruct/workspace)");
+    expect(detail).toContain(".SiriClawInstruct/workspace)");
   });
 
   it("moves cd path to context suffix and appends raw command", () => {
@@ -267,7 +267,7 @@ describe("tool display details", () => {
         name: "exec",
         args: {
           command: "python3 <<PY\nprint('x')\nPY",
-          workdir: "/Users/adityasingh/.SiriClaw-Instruct/workspace",
+          workdir: "/Users/adityasingh/.SiriClawInstruct/workspace",
         },
       }),
     );
@@ -276,7 +276,7 @@ describe("tool display details", () => {
         name: "exec",
         args: {
           command: "node --check /tmp/test.js",
-          workdir: "/Users/adityasingh/.SiriClaw-Instruct/workspace",
+          workdir: "/Users/adityasingh/.SiriClawInstruct/workspace",
         },
       }),
     );
@@ -285,7 +285,7 @@ describe("tool display details", () => {
         name: "exec",
         args: {
           command: "node -c /tmp/test.js",
-          workdir: "/Users/adityasingh/.SiriClaw-Instruct/workspace",
+          workdir: "/Users/adityasingh/.SiriClawInstruct/workspace",
         },
       }),
     );
@@ -295,3 +295,4 @@ describe("tool display details", () => {
     expect(nodeShortCheckDetail).toContain("check js syntax for /tmp/test.js");
   });
 });
+

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   resolveGatewayConnectionAuth,
   resolveGatewayConnectionAuthFromConfig,
@@ -10,19 +10,19 @@ type ResolvedAuth = { token?: string; password?: string };
 
 type ConnectionAuthCase = {
   name: string;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   env: NodeJS.ProcessEnv;
   options?: Partial<Omit<GatewayConnectionAuthOptions, "config" | "env">>;
   expected: ResolvedAuth;
 };
 
-function cfg(input: Partial<SiriClaw-InstructConfig>): SiriClaw-InstructConfig {
-  return input as SiriClaw-InstructConfig;
+function cfg(input: Partial<SiriClawInstructConfig>): SiriClawInstructConfig {
+  return input as SiriClawInstructConfig;
 }
 
 const DEFAULT_ENV = {
-  SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
-  SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+  SiriClawInstruct_GATEWAY_TOKEN: "env-token",
+  SiriClawInstruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
 } as NodeJS.ProcessEnv;
 
 describe("resolveGatewayConnectionAuth", () => {
@@ -281,7 +281,7 @@ describe("resolveGatewayConnectionAuth", () => {
     });
   });
 
-  it("resolves config-first token SecretRef even when SiriClaw-Instruct env token exists", async () => {
+  it("resolves config-first token SecretRef even when SiriClawInstruct env token exists", async () => {
     const config = cfg({
       gateway: {
         mode: "local",
@@ -296,7 +296,7 @@ describe("resolveGatewayConnectionAuth", () => {
       },
     });
     const env = {
-      SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
+      SiriClawInstruct_GATEWAY_TOKEN: "env-token",
       CONFIG_FIRST_TOKEN: "config-first-token",
     } as NodeJS.ProcessEnv;
 
@@ -312,7 +312,7 @@ describe("resolveGatewayConnectionAuth", () => {
     });
   });
 
-  it("resolves config-first password SecretRef even when SiriClaw-Instruct env password exists", async () => {
+  it("resolves config-first password SecretRef even when SiriClawInstruct env password exists", async () => {
     const config = cfg({
       gateway: {
         mode: "local",
@@ -328,7 +328,7 @@ describe("resolveGatewayConnectionAuth", () => {
       },
     });
     const env = {
-      SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+      SiriClawInstruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
       CONFIG_FIRST_PASSWORD: "config-first-password", // pragma: allowlist secret
     } as NodeJS.ProcessEnv;
 
@@ -359,7 +359,7 @@ describe("resolveGatewayConnectionAuth", () => {
       },
     });
     const env = {
-      SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
+      SiriClawInstruct_GATEWAY_TOKEN: "env-token",
     } as NodeJS.ProcessEnv;
 
     await expect(
@@ -396,7 +396,7 @@ describe("resolveGatewayConnectionAuth", () => {
       },
     });
     const env = {
-      SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+      SiriClawInstruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
     } as NodeJS.ProcessEnv;
 
     await expect(
@@ -417,3 +417,4 @@ describe("resolveGatewayConnectionAuth", () => {
     ).toThrow("gateway.auth.password");
   });
 });
+

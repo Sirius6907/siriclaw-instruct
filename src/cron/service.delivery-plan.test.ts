@@ -8,7 +8,7 @@ import {
 } from "./service.test-harness.js";
 
 const noopLogger = createNoopLogger();
-const { makeStorePath } = createCronStoreHarness({ prefix: "SiriClaw-Instruct-cron-delivery-" });
+const { makeStorePath } = createCronStoreHarness({ prefix: "SiriClawInstruct-cron-delivery-" });
 
 type DeliveryMode = "none" | "announce";
 
@@ -127,3 +127,4 @@ describe("CronService delivery plan consistency", () => {
     );
   });
 });
+

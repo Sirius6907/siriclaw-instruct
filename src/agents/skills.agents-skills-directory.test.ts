@@ -21,7 +21,7 @@ function buildSkillsPrompt(workspaceDir: string, managedDir: string, bundledDir:
 }
 
 async function createWorkspaceSkillDirs() {
-  const workspaceDir = await createTempDir("SiriClaw-Instruct-");
+  const workspaceDir = await createTempDir("SiriClawInstruct-");
   return {
     workspaceDir,
     managedDir: path.join(workspaceDir, ".managed"),
@@ -33,7 +33,7 @@ describe("buildWorkspaceSkillsPrompt — .agents/skills/ directories", () => {
   let fakeHome: string;
 
   beforeEach(async () => {
-    fakeHome = await createTempDir("SiriClaw-Instruct-home-");
+    fakeHome = await createTempDir("SiriClawInstruct-home-");
     vi.spyOn(os, "homedir").mockReturnValue(fakeHome);
   });
 
@@ -139,3 +139,4 @@ describe("buildWorkspaceSkillsPrompt — .agents/skills/ directories", () => {
     expect(prompt).toContain("workspace-only");
   });
 });
+

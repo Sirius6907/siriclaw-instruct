@@ -1,4 +1,4 @@
-import SHARED_TOOL_DISPLAY_JSON from "../../apps/shared/SiriClaw-InstructKit/Sources/SiriClaw-InstructKit/Resources/tool-display.json" with { type: "json" };
+import SHARED_TOOL_DISPLAY_JSON from "../../apps/shared/siriclaw-instruct-kit/Sources/OpenClawKit/Resources/tool-display.json" with { type: "json" };
 import { redactToolDetail } from "../logging/redact.js";
 import { shortenHomeInString } from "../utils.js";
 import {

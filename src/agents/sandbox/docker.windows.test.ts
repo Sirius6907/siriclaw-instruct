@@ -5,7 +5,7 @@ import { createTrackedTempDirs } from "../../test-utils/tracked-temp-dirs.js";
 import { resolveDockerSpawnInvocation } from "./docker.js";
 
 const tempDirs = createTrackedTempDirs();
-const createTempDir = () => tempDirs.make("SiriClaw-Instruct-docker-spawn-test-");
+const createTempDir = () => tempDirs.make("SiriClawInstruct-docker-spawn-test-");
 
 afterEach(async () => {
   await tempDirs.cleanup();
@@ -66,3 +66,4 @@ describe("resolveDockerSpawnInvocation", () => {
     expect(resolved.windowsHide).toBeUndefined();
   });
 });
+

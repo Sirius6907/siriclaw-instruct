@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { RuntimeEnv } from "../../runtime.js";
 
 export type IMessageAttachment = {
@@ -31,10 +31,11 @@ export type MonitorIMessageOpts = {
   cliPath?: string;
   dbPath?: string;
   accountId?: string;
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   allowFrom?: Array<string | number>;
   groupAllowFrom?: Array<string | number>;
   includeAttachments?: boolean;
   mediaMaxMb?: number;
   requireMention?: boolean;
 };
+

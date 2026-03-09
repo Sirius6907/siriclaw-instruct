@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { defaultSlotIdForKey } from "../plugins/slots.js";
 import type { ContextEngine } from "./types.js";
 
@@ -48,7 +48,7 @@ export function listContextEngineIds(): string[] {
  *
  * Throws if the resolved engine id has no registered factory.
  */
-export async function resolveContextEngine(config?: SiriClaw-InstructConfig): Promise<ContextEngine> {
+export async function resolveContextEngine(config?: SiriClawInstructConfig): Promise<ContextEngine> {
   const slotValue = config?.plugins?.slots?.contextEngine;
   const engineId =
     typeof slotValue === "string" && slotValue.trim()
@@ -65,3 +65,4 @@ export async function resolveContextEngine(config?: SiriClaw-InstructConfig): Pr
 
   return factory();
 }
+

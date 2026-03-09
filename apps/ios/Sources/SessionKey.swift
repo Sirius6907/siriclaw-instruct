@@ -21,3 +21,4 @@ enum SessionKey {
         return trimmed.hasPrefix("agent:")
     }
 }
+

@@ -35,7 +35,7 @@ export type {
 export type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
 export { createReplyPrefixContext } from "../channels/reply-prefix.js";
 export { createTypingCallbacks } from "../channels/typing.js";
-export type { SiriClaw-InstructConfig as ClawdbotConfig, SiriClaw-InstructConfig } from "../config/config.js";
+export type { SiriClawInstructConfig as ClawdbotConfig, SiriClawInstructConfig } from "../config/config.js";
 export {
   resolveAllowlistProviderRuntimeGroupPolicy,
   resolveDefaultGroupPolicy,
@@ -55,7 +55,7 @@ export { installRequestBodyLimitGuard } from "../infra/http-body.js";
 export { fetchWithSsrFGuard } from "../infra/net/fetch-guard.js";
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 export type { PluginRuntime } from "../plugins/runtime/types.js";
-export type { AnyAgentTool, SiriClaw-InstructPluginApi } from "../plugins/types.js";
+export type { AnyAgentTool, SiriClawInstructPluginApi } from "../plugins/types.js";
 export { DEFAULT_ACCOUNT_ID, normalizeAgentId } from "../routing/session-key.js";
 export type { RuntimeEnv } from "../runtime.js";
 export { formatDocsLink } from "../terminal/links.js";
@@ -80,3 +80,4 @@ export {
   WEBHOOK_RATE_LIMIT_DEFAULTS,
 } from "./webhook-memory-guards.js";
 export { applyBasicWebhookRequestGuards } from "./webhook-request-guards.js";
+

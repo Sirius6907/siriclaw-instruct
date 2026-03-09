@@ -124,3 +124,4 @@ describe("summarizeMapping", () => {
     expect(runtime.log).not.toHaveBeenCalled();
   });
 });
+

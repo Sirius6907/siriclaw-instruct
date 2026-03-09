@@ -4,7 +4,7 @@ import {
   type OAuthCredentials,
   type OAuthProvider,
 } from "@mariozechner/pi-ai";
-import { loadConfig, type SiriClaw-InstructConfig } from "../../config/config.js";
+import { loadConfig, type SiriClawInstructConfig } from "../../config/config.js";
 import { coerceSecretRef } from "../../config/types.secrets.js";
 import { withFileLock } from "../../infra/file-lock.js";
 import { refreshQwenPortalCredentials } from "../../providers/qwen-portal-oauth.js";
@@ -42,7 +42,7 @@ const isCompatibleModeType = (mode: string | undefined, type: string | undefined
 };
 
 function isProfileConfigCompatible(params: {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   profileId: string;
   provider: string;
   mode: "api_key" | "token" | "oauth";
@@ -110,13 +110,13 @@ function shouldUseOpenaiCodexRefreshFallback(params: {
 }
 
 type ResolveApiKeyForProfileParams = {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   store: AuthProfileStore;
   profileId: string;
   agentDir?: string;
 };
 
-type SecretDefaults = NonNullable<SiriClaw-InstructConfig["secrets"]>["defaults"];
+type SecretDefaults = NonNullable<SiriClawInstructConfig["secrets"]>["defaults"];
 
 function adoptNewerMainOAuthCredential(params: {
   store: AuthProfileStore;
@@ -261,7 +261,7 @@ async function resolveProfileSecretString(params: {
   value: string | undefined;
   valueRef: unknown;
   refDefaults: SecretDefaults | undefined;
-  configForRefResolution: SiriClaw-InstructConfig;
+  configForRefResolution: SiriClawInstructConfig;
   cache: SecretRefResolveCache;
   inlineFailureMessage: string;
   refFailureMessage: string;
@@ -489,3 +489,4 @@ export async function resolveApiKeyForProfile(
     );
   }
 }
+

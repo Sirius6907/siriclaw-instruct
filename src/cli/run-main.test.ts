@@ -42,14 +42,14 @@ describe("rewriteUpdateFlagArgv", () => {
 
 describe("shouldRegisterPrimarySubcommand", () => {
   it("skips eager primary registration for help/version invocations", () => {
-    expect(shouldRegisterPrimarySubcommand(["node", "SiriClaw-Instruct", "status", "--help"])).toBe(false);
-    expect(shouldRegisterPrimarySubcommand(["node", "SiriClaw-Instruct", "-V"])).toBe(false);
-    expect(shouldRegisterPrimarySubcommand(["node", "SiriClaw-Instruct", "-v"])).toBe(false);
+    expect(shouldRegisterPrimarySubcommand(["node", "SiriClawInstruct", "status", "--help"])).toBe(false);
+    expect(shouldRegisterPrimarySubcommand(["node", "SiriClawInstruct", "-V"])).toBe(false);
+    expect(shouldRegisterPrimarySubcommand(["node", "SiriClawInstruct", "-v"])).toBe(false);
   });
 
   it("keeps eager primary registration for regular command runs", () => {
-    expect(shouldRegisterPrimarySubcommand(["node", "SiriClaw-Instruct", "status"])).toBe(true);
-    expect(shouldRegisterPrimarySubcommand(["node", "SiriClaw-Instruct", "acp", "-v"])).toBe(true);
+    expect(shouldRegisterPrimarySubcommand(["node", "SiriClawInstruct", "status"])).toBe(true);
+    expect(shouldRegisterPrimarySubcommand(["node", "SiriClawInstruct", "acp", "-v"])).toBe(true);
   });
 });
 
@@ -57,7 +57,7 @@ describe("shouldSkipPluginCommandRegistration", () => {
   it("skips plugin registration for root help/version", () => {
     expect(
       shouldSkipPluginCommandRegistration({
-        argv: ["node", "SiriClaw-Instruct", "--help"],
+        argv: ["node", "SiriClawInstruct", "--help"],
         primary: null,
         hasBuiltinPrimary: false,
       }),
@@ -67,7 +67,7 @@ describe("shouldSkipPluginCommandRegistration", () => {
   it("skips plugin registration for builtin subcommand help", () => {
     expect(
       shouldSkipPluginCommandRegistration({
-        argv: ["node", "SiriClaw-Instruct", "config", "--help"],
+        argv: ["node", "SiriClawInstruct", "config", "--help"],
         primary: "config",
         hasBuiltinPrimary: true,
       }),
@@ -77,7 +77,7 @@ describe("shouldSkipPluginCommandRegistration", () => {
   it("skips plugin registration for builtin command runs", () => {
     expect(
       shouldSkipPluginCommandRegistration({
-        argv: ["node", "SiriClaw-Instruct", "sessions", "--json"],
+        argv: ["node", "SiriClawInstruct", "sessions", "--json"],
         primary: "sessions",
         hasBuiltinPrimary: true,
       }),
@@ -87,7 +87,7 @@ describe("shouldSkipPluginCommandRegistration", () => {
   it("keeps plugin registration for non-builtin help", () => {
     expect(
       shouldSkipPluginCommandRegistration({
-        argv: ["node", "SiriClaw-Instruct", "voicecall", "--help"],
+        argv: ["node", "SiriClawInstruct", "voicecall", "--help"],
         primary: "voicecall",
         hasBuiltinPrimary: false,
       }),
@@ -97,7 +97,7 @@ describe("shouldSkipPluginCommandRegistration", () => {
   it("keeps plugin registration for non-builtin command runs", () => {
     expect(
       shouldSkipPluginCommandRegistration({
-        argv: ["node", "SiriClaw-Instruct", "voicecall", "status"],
+        argv: ["node", "SiriClawInstruct", "voicecall", "status"],
         primary: "voicecall",
         hasBuiltinPrimary: false,
       }),
@@ -107,22 +107,23 @@ describe("shouldSkipPluginCommandRegistration", () => {
 
 describe("shouldEnsureCliPath", () => {
   it("skips path bootstrap for help/version invocations", () => {
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "--help"])).toBe(false);
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "-V"])).toBe(false);
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "-v"])).toBe(false);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "--help"])).toBe(false);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "-V"])).toBe(false);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "-v"])).toBe(false);
   });
 
   it("skips path bootstrap for read-only fast paths", () => {
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "status"])).toBe(false);
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "--log-level", "debug", "status"])).toBe(false);
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "sessions", "--json"])).toBe(false);
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "config", "get", "update"])).toBe(false);
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "models", "status", "--json"])).toBe(false);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "status"])).toBe(false);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "--log-level", "debug", "status"])).toBe(false);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "sessions", "--json"])).toBe(false);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "config", "get", "update"])).toBe(false);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "models", "status", "--json"])).toBe(false);
   });
 
   it("keeps path bootstrap for mutating or unknown commands", () => {
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "message", "send"])).toBe(true);
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "voicecall", "status"])).toBe(true);
-    expect(shouldEnsureCliPath(["node", "SiriClaw-Instruct", "acp", "-v"])).toBe(true);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "message", "send"])).toBe(true);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "voicecall", "status"])).toBe(true);
+    expect(shouldEnsureCliPath(["node", "SiriClawInstruct", "acp", "-v"])).toBe(true);
   });
 });
+

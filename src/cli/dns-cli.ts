@@ -105,7 +105,7 @@ export function registerDnsCli(program: Command) {
     .description("DNS helpers for wide-area discovery (Tailscale + CoreDNS)")
     .addHelpText(
       "after",
-      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/dns", "docs.SiriClaw-Instruct.ai/cli/dns")}\n`,
+      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/dns", "docs.SiriClawInstruct.ai/cli/dns")}\n`,
     );
 
   dns
@@ -113,7 +113,7 @@ export function registerDnsCli(program: Command) {
     .description(
       "Set up CoreDNS to serve your discovery domain for unicast DNS-SD (Wide-Area Bonjour)",
     )
-    .option("--domain <domain>", "Wide-area discovery domain (e.g. SiriClaw-Instruct.internal)")
+    .option("--domain <domain>", "Wide-area discovery domain (e.g. SiriClawInstruct.internal)")
     .option(
       "--apply",
       "Install/update CoreDNS config and (re)start the service (requires sudo)",
@@ -153,7 +153,7 @@ export function registerDnsCli(program: Command) {
         }).trimEnd(),
       );
       defaultRuntime.log("");
-      defaultRuntime.log(theme.heading("Recommended ~/.SiriClaw-Instruct/SiriClaw-Instruct.json:"));
+      defaultRuntime.log(theme.heading("Recommended ~/.SiriClawInstruct/SiriClawInstruct.json:"));
       defaultRuntime.log(
         JSON.stringify(
           {
@@ -231,7 +231,7 @@ export function registerDnsCli(program: Command) {
         const serial = `${y}${m}${d}01`;
 
         const zoneLines = [
-          `; created by SiriClaw-Instruct dns setup (will be overwritten by the gateway when wide-area discovery is enabled)`,
+          `; created by SiriClawInstruct dns setup (will be overwritten by the gateway when wide-area discovery is enabled)`,
           `$ORIGIN ${wideAreaDomain}`,
           `$TTL 60`,
           `@ IN SOA ns1 hostmaster ${serial} 7200 3600 1209600 60`,
@@ -254,9 +254,10 @@ export function registerDnsCli(program: Command) {
         defaultRuntime.log("");
         defaultRuntime.log(
           theme.muted(
-            "Note: enable discovery.wideArea.enabled in ~/.SiriClaw-Instruct/SiriClaw-Instruct.json on the gateway and restart the gateway so it writes the DNS-SD zone.",
+            "Note: enable discovery.wideArea.enabled in ~/.SiriClawInstruct/SiriClawInstruct.json on the gateway and restart the gateway so it writes the DNS-SD zone.",
           ),
         );
       }
     });
 }
+

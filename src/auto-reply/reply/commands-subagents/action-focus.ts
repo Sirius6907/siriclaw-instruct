@@ -189,3 +189,4 @@ export async function handleSubagentsFocusAction(
       : `bound this ${bindingContext.labelNoun} to ${binding.targetSessionKey}`;
   return stopWithText(`✅ ${actionText} (${focusTarget.targetKind}).`);
 }
+

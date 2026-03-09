@@ -20,7 +20,7 @@ import { listAgentWorkspaceDirs } from "../agents/workspace-dirs.js";
 import { formatCliCommand } from "../cli/command-format.js";
 import { MANIFEST_KEY } from "../compat/legacy-names.js";
 import { resolveNativeSkillsEnabled } from "../config/commands.js";
-import type { SiriClaw-InstructConfig, ConfigFileSnapshot } from "../config/config.js";
+import type { SiriClawInstructConfig, ConfigFileSnapshot } from "../config/config.js";
 import { createConfigIO } from "../config/config.js";
 import { collectIncludePathsRecursive } from "../config/includes-scan.js";
 import { resolveOAuthDir } from "../config/paths.js";
@@ -130,7 +130,7 @@ async function listInstalledPluginDirs(params: {
 }
 
 function resolveToolPolicies(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentTools?: AgentToolsConfig;
   sandboxMode?: "off" | "non-main" | "all";
   agentId?: string | null;
@@ -153,7 +153,7 @@ function normalizePluginIdSet(entries: string[]): Set<string> {
 }
 
 function resolveEnabledExtensionPluginIds(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   pluginDirs: string[];
 }): string[] {
   const normalized = normalizePluginsConfig(params.cfg.plugins);
@@ -355,7 +355,7 @@ async function listSandboxBrowserContainers(
 ): Promise<string[] | null> {
   try {
     const result = await execDockerRawFn(
-      ["ps", "-a", "--filter", "label=SiriClaw-Instruct.sandboxBrowser=1", "--format", "{{.Names}}"],
+      ["ps", "-a", "--filter", "label=SiriClawInstruct.sandboxBrowser=1", "--format", "{{.Names}}"],
       { allowFailure: true },
     );
     if (result.code !== 0) {
@@ -380,7 +380,7 @@ async function readSandboxBrowserHashLabels(params: {
       [
         "inspect",
         "-f",
-        '{{ index .Config.Labels "SiriClaw-Instruct.configHash" }}\t{{ index .Config.Labels "SiriClaw-Instruct.browserConfigEpoch" }}',
+        '{{ index .Config.Labels "SiriClawInstruct.configHash" }}\t{{ index .Config.Labels "SiriClawInstruct.browserConfigEpoch" }}',
         params.containerName,
       ],
       { allowFailure: true },
@@ -490,7 +490,7 @@ export async function collectSandboxBrowserHashLabelFindings(params?: {
       detail:
         `Containers: ${missingHash.join(", ")}. ` +
         "These browser containers predate hash-based drift checks and may miss security remediations until recreated.",
-      remediation: `${formatCliCommand("SiriClaw-Instruct sandbox recreate --browser --all")} (add --force to skip prompt).`,
+      remediation: `${formatCliCommand("SiriClawInstruct sandbox recreate --browser --all")} (add --force to skip prompt).`,
     });
   }
 
@@ -501,8 +501,8 @@ export async function collectSandboxBrowserHashLabelFindings(params?: {
       title: "Sandbox browser container hash epoch is stale",
       detail:
         `Containers: ${staleEpoch.join(", ")}. ` +
-        `Expected SiriClaw-Instruct.browserConfigEpoch=${SANDBOX_BROWSER_SECURITY_HASH_EPOCH}.`,
-      remediation: `${formatCliCommand("SiriClaw-Instruct sandbox recreate --browser --all")} (add --force to skip prompt).`,
+        `Expected SiriClawInstruct.browserConfigEpoch=${SANDBOX_BROWSER_SECURITY_HASH_EPOCH}.`,
+      remediation: `${formatCliCommand("SiriClawInstruct sandbox recreate --browser --all")} (add --force to skip prompt).`,
     });
   }
 
@@ -515,7 +515,7 @@ export async function collectSandboxBrowserHashLabelFindings(params?: {
         `Containers: ${nonLoopbackPublished.join(", ")}. ` +
         "Sandbox browser observer/control ports should stay loopback-only to avoid unintended remote access.",
       remediation:
-        `${formatCliCommand("SiriClaw-Instruct sandbox recreate --browser --all")} (add --force to skip prompt), ` +
+        `${formatCliCommand("SiriClawInstruct sandbox recreate --browser --all")} (add --force to skip prompt), ` +
         "then verify published ports are bound to 127.0.0.1.",
     });
   }
@@ -524,7 +524,7 @@ export async function collectSandboxBrowserHashLabelFindings(params?: {
 }
 
 export async function collectPluginsTrustFindings(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   stateDir: string;
 }): Promise<SecurityAuditFinding[]> {
   const findings: SecurityAuditFinding[] = [];
@@ -651,7 +651,7 @@ export async function collectPluginsTrustFindings(params: {
           sandboxMode,
           agentId: context.agentId,
         });
-        const broadPolicy = isToolAllowedByPolicies("__SiriClaw-Instruct_plugin_probe__", policies);
+        const broadPolicy = isToolAllowedByPolicies("__SiriClawInstruct_plugin_probe__", policies);
         const explicitPluginAllow =
           !restrictiveProfile &&
           (hasExplicitPluginAllow({
@@ -749,7 +749,7 @@ export async function collectPluginsTrustFindings(params: {
         title: "Plugin install records drift from installed package versions",
         detail: `Detected plugin install metadata drift:\n${pluginVersionDrift.map((entry) => `- ${entry}`).join("\n")}`,
         remediation:
-          "Run `SiriClaw-Instruct plugins update --all` (or reinstall affected plugins) to refresh install metadata.",
+          "Run `SiriClawInstruct plugins update --all` (or reinstall affected plugins) to refresh install metadata.",
       });
     }
   }
@@ -812,7 +812,7 @@ export async function collectPluginsTrustFindings(params: {
         title: "Hook install records drift from installed package versions",
         detail: `Detected hook install metadata drift:\n${hookVersionDrift.map((entry) => `- ${entry}`).join("\n")}`,
         remediation:
-          "Run `SiriClaw-Instruct hooks update --all` (or reinstall affected hooks) to refresh install metadata.",
+          "Run `SiriClawInstruct hooks update --all` (or reinstall affected hooks) to refresh install metadata.",
       });
     }
   }
@@ -821,7 +821,7 @@ export async function collectPluginsTrustFindings(params: {
 }
 
 export async function collectWorkspaceSkillSymlinkEscapeFindings(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
 }): Promise<SecurityAuditFinding[]> {
   const findings: SecurityAuditFinding[] = [];
   const workspaceDirs = listAgentWorkspaceDirs(params.cfg);
@@ -971,7 +971,7 @@ export async function collectIncludeFilePermFindings(params: {
 }
 
 export async function collectStateDeepFilesystemFindings(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   env: NodeJS.ProcessEnv;
   stateDir: string;
   platform?: NodeJS.Platform;
@@ -1150,7 +1150,7 @@ export async function collectPluginsCodeSafetyFindings(params: {
         title: "Plugin extensions directory scan failed",
         detail: `Static code scan could not list extensions directory: ${String(err)}`,
         remediation:
-          "Check file permissions and plugin layout, then rerun `SiriClaw-Instruct security audit --deep`.",
+          "Check file permissions and plugin layout, then rerun `SiriClawInstruct security audit --deep`.",
       });
     },
   });
@@ -1186,7 +1186,7 @@ export async function collectPluginsCodeSafetyFindings(params: {
         title: `Plugin "${pluginName}" has extension entry path traversal`,
         detail: `Found extension entries that escape the plugin directory:\n${escapedEntries.map((entry) => `  - ${entry}`).join("\n")}`,
         remediation:
-          "Update the plugin manifest so all SiriClaw-Instruct.extensions entries stay inside the plugin directory.",
+          "Update the plugin manifest so all SiriClawInstruct.extensions entries stay inside the plugin directory.",
       });
     }
 
@@ -1201,7 +1201,7 @@ export async function collectPluginsCodeSafetyFindings(params: {
         title: `Plugin "${pluginName}" code scan failed`,
         detail: `Static code scan could not complete: ${String(err)}`,
         remediation:
-          "Check file permissions and plugin layout, then rerun `SiriClaw-Instruct security audit --deep`.",
+          "Check file permissions and plugin layout, then rerun `SiriClawInstruct security audit --deep`.",
       });
       return null;
     });
@@ -1219,7 +1219,7 @@ export async function collectPluginsCodeSafetyFindings(params: {
         title: `Plugin "${pluginName}" contains dangerous code patterns`,
         detail: `Found ${summary.critical} critical issue(s) in ${summary.scannedFiles} scanned file(s):\n${details}`,
         remediation:
-          "Review the plugin source code carefully before use. If untrusted, remove the plugin from your SiriClaw-Instruct extensions state directory.",
+          "Review the plugin source code carefully before use. If untrusted, remove the plugin from your SiriClawInstruct extensions state directory.",
       });
     } else if (summary.warn > 0) {
       const warnFindings = summary.findings.filter((f) => f.severity === "warn");
@@ -1239,7 +1239,7 @@ export async function collectPluginsCodeSafetyFindings(params: {
 }
 
 export async function collectInstalledSkillsCodeSafetyFindings(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   stateDir: string;
   summaryCache?: CodeSafetySummaryCache;
 }): Promise<SecurityAuditFinding[]> {
@@ -1251,7 +1251,7 @@ export async function collectInstalledSkillsCodeSafetyFindings(params: {
   for (const workspaceDir of workspaceDirs) {
     const entries = loadWorkspaceSkillEntries(workspaceDir, { config: params.cfg });
     for (const entry of entries) {
-      if (entry.skill.source === "SiriClaw-Instruct-bundled") {
+      if (entry.skill.source === "SiriClawInstruct-bundled") {
         continue;
       }
 
@@ -1276,7 +1276,7 @@ export async function collectInstalledSkillsCodeSafetyFindings(params: {
           title: `Skill "${skillName}" code scan failed`,
           detail: `Static code scan could not complete for ${skillDir}: ${String(err)}`,
           remediation:
-            "Check file permissions and skill layout, then rerun `SiriClaw-Instruct security audit --deep`.",
+            "Check file permissions and skill layout, then rerun `SiriClawInstruct security audit --deep`.",
         });
         return null;
       });
@@ -1312,3 +1312,4 @@ export async function collectInstalledSkillsCodeSafetyFindings(params: {
 
   return findings;
 }
+

@@ -21,8 +21,8 @@ import { findDuplicateAgentDirs, formatDuplicateAgentDirError } from "./agent-di
 import { appendAllowedValuesHint, summarizeAllowedValues } from "./allowed-values.js";
 import { applyAgentDefaults, applyModelDefaults, applySessionDefaults } from "./defaults.js";
 import { findLegacyConfigIssues } from "./legacy.js";
-import type { SiriClaw-InstructConfig, ConfigValidationIssue } from "./types.js";
-import { SiriClaw-InstructSchema } from "./zod-schema.js";
+import type { SiriClawInstructConfig, ConfigValidationIssue } from "./types.js";
+import { SiriClawInstructSchema } from "./zod-schema.js";
 
 const LEGACY_REMOVED_PLUGIN_IDS = new Set(["google-antigravity-auth"]);
 
@@ -145,7 +145,7 @@ function isWorkspaceAvatarPath(value: string, workspaceDir: string): boolean {
   return isPathWithinRoot(workspaceRoot, resolved);
 }
 
-function validateIdentityAvatar(config: SiriClaw-InstructConfig): ConfigValidationIssue[] {
+function validateIdentityAvatar(config: SiriClawInstructConfig): ConfigValidationIssue[] {
   const agents = config.agents?.list;
   if (!Array.isArray(agents) || agents.length === 0) {
     return [];
@@ -195,7 +195,7 @@ function validateIdentityAvatar(config: SiriClaw-InstructConfig): ConfigValidati
   return issues;
 }
 
-function validateGatewayTailscaleBind(config: SiriClaw-InstructConfig): ConfigValidationIssue[] {
+function validateGatewayTailscaleBind(config: SiriClawInstructConfig): ConfigValidationIssue[] {
   const tailscaleMode = config.gateway?.tailscale?.mode ?? "off";
   if (tailscaleMode !== "serve" && tailscaleMode !== "funnel") {
     return [];
@@ -228,7 +228,7 @@ function validateGatewayTailscaleBind(config: SiriClaw-InstructConfig): ConfigVa
  */
 export function validateConfigObjectRaw(
   raw: unknown,
-): { ok: true; config: SiriClaw-InstructConfig } | { ok: false; issues: ConfigValidationIssue[] } {
+): { ok: true; config: SiriClawInstructConfig } | { ok: false; issues: ConfigValidationIssue[] } {
   const legacyIssues = findLegacyConfigIssues(raw);
   if (legacyIssues.length > 0) {
     return {
@@ -239,14 +239,14 @@ export function validateConfigObjectRaw(
       })),
     };
   }
-  const validated = SiriClaw-InstructSchema.safeParse(raw);
+  const validated = SiriClawInstructSchema.safeParse(raw);
   if (!validated.success) {
     return {
       ok: false,
       issues: validated.error.issues.map((issue) => mapZodIssueToConfigIssue(issue)),
     };
   }
-  const duplicates = findDuplicateAgentDirs(validated.data as SiriClaw-InstructConfig);
+  const duplicates = findDuplicateAgentDirs(validated.data as SiriClawInstructConfig);
   if (duplicates.length > 0) {
     return {
       ok: false,
@@ -258,23 +258,23 @@ export function validateConfigObjectRaw(
       ],
     };
   }
-  const avatarIssues = validateIdentityAvatar(validated.data as SiriClaw-InstructConfig);
+  const avatarIssues = validateIdentityAvatar(validated.data as SiriClawInstructConfig);
   if (avatarIssues.length > 0) {
     return { ok: false, issues: avatarIssues };
   }
-  const gatewayTailscaleBindIssues = validateGatewayTailscaleBind(validated.data as SiriClaw-InstructConfig);
+  const gatewayTailscaleBindIssues = validateGatewayTailscaleBind(validated.data as SiriClawInstructConfig);
   if (gatewayTailscaleBindIssues.length > 0) {
     return { ok: false, issues: gatewayTailscaleBindIssues };
   }
   return {
     ok: true,
-    config: validated.data as SiriClaw-InstructConfig,
+    config: validated.data as SiriClawInstructConfig,
   };
 }
 
 export function validateConfigObject(
   raw: unknown,
-): { ok: true; config: SiriClaw-InstructConfig } | { ok: false; issues: ConfigValidationIssue[] } {
+): { ok: true; config: SiriClawInstructConfig } | { ok: false; issues: ConfigValidationIssue[] } {
   const result = validateConfigObjectRaw(raw);
   if (!result.ok) {
     return result;
@@ -288,7 +288,7 @@ export function validateConfigObject(
 type ValidateConfigWithPluginsResult =
   | {
       ok: true;
-      config: SiriClaw-InstructConfig;
+      config: SiriClawInstructConfig;
       warnings: ConfigValidationIssue[];
     }
   | {
@@ -602,3 +602,4 @@ function validateConfigObjectWithPluginsBase(
 
   return { ok: true, config, warnings };
 }
+

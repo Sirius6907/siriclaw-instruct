@@ -1,8 +1,8 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { AuthProfileStore } from "./types.js";
 
 export function resolveAuthProfileDisplayLabel(params: {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   store: AuthProfileStore;
   profileId: string;
 }): string {
@@ -15,3 +15,4 @@ export function resolveAuthProfileDisplayLabel(params: {
   }
   return profileId;
 }
+

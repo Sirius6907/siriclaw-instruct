@@ -29,15 +29,15 @@ function createMinimaxPrompter(
 
 describe("applyAuthChoiceMiniMax", () => {
   const lifecycle = createAuthTestLifecycle([
-    "SiriClaw-Instruct_STATE_DIR",
-    "SiriClaw-Instruct_AGENT_DIR",
+    "SiriClawInstruct_STATE_DIR",
+    "SiriClawInstruct_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
     "MINIMAX_API_KEY",
     "MINIMAX_OAUTH_TOKEN",
   ]);
 
   async function setupTempState() {
-    const env = await setupAuthTestEnv("SiriClaw-Instruct-minimax-");
+    const env = await setupAuthTestEnv("SiriClawInstruct-minimax-");
     lifecycle.setStateDir(env.stateDir);
     return env.agentDir;
   }
@@ -221,3 +221,4 @@ describe("applyAuthChoiceMiniMax", () => {
     expect(parsed.profiles?.["minimax:default"]?.key).toBe("mm-lightning-token");
   });
 });
+

@@ -21,7 +21,7 @@ describe("telegram thread bindings", () => {
   afterEach(() => {
     vi.useRealTimers();
     if (stateDirOverride) {
-      delete process.env.SiriClaw-Instruct_STATE_DIR;
+      delete process.env.SiriClawInstruct_STATE_DIR;
       fs.rmSync(stateDirOverride, { recursive: true, force: true });
       stateDirOverride = undefined;
     }
@@ -124,8 +124,8 @@ describe("telegram thread bindings", () => {
   });
 
   it("does not persist lifecycle updates when manager persistence is disabled", async () => {
-    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-telegram-bindings-"));
-    process.env.SiriClaw-Instruct_STATE_DIR = stateDirOverride;
+    stateDirOverride = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-telegram-bindings-"));
+    process.env.SiriClawInstruct_STATE_DIR = stateDirOverride;
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-03-06T10:00:00.000Z"));
 
@@ -164,3 +164,4 @@ describe("telegram thread bindings", () => {
     expect(fs.existsSync(statePath)).toBe(false);
   });
 });
+

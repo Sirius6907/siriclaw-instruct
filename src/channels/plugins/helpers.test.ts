@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { buildAccountScopedDmSecurityPolicy, formatPairingApproveHint } from "./helpers.js";
 
-function cfgWithChannel(channelKey: string, accounts?: Record<string, unknown>): SiriClaw-InstructConfig {
+function cfgWithChannel(channelKey: string, accounts?: Record<string, unknown>): SiriClawInstructConfig {
   return {
     channels: {
       [channelKey]: accounts ? { accounts } : {},
     },
-  } as unknown as SiriClaw-InstructConfig;
+  } as unknown as SiriClawInstructConfig;
 }
 
 describe("buildAccountScopedDmSecurityPolicy", () => {
@@ -81,15 +81,16 @@ describe("buildAccountScopedDmSecurityPolicy", () => {
         allowFrom: ["user-1"],
         defaultPolicy: "allowlist",
         policyPathSuffix: "dmPolicy",
-        approveHint: "SiriClaw-Instruct pairing approve synology-chat <code>",
+        approveHint: "SiriClawInstruct pairing approve synology-chat <code>",
       }),
     ).toEqual({
       policy: "allowlist",
       allowFrom: ["user-1"],
       policyPath: "channels.synology-chat.dmPolicy",
       allowFromPath: "channels.synology-chat.",
-      approveHint: "SiriClaw-Instruct pairing approve synology-chat <code>",
+      approveHint: "SiriClawInstruct pairing approve synology-chat <code>",
       normalizeEntry: undefined,
     });
   });
 });
+

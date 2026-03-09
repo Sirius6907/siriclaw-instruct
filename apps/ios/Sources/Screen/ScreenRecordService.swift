@@ -1,5 +1,5 @@
 import AVFoundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import ReplayKit
 
 final class ScreenRecordService: @unchecked Sendable {
@@ -349,3 +349,4 @@ extension ScreenRecordService {
     }
 }
 #endif
+

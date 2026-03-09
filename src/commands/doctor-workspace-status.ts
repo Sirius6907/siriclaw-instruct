@@ -1,11 +1,11 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { buildWorkspaceSkillStatus } from "../agents/skills-status.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
-import { loadSiriClaw-InstructPlugins } from "../plugins/loader.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
+import { loadSiriClawInstructPlugins } from "../plugins/loader.js";
 import { note } from "../terminal/note.js";
 import { detectLegacyWorkspaceDirs, formatLegacyWorkspaceWarning } from "./doctor-workspace.js";
 
-export function noteWorkspaceStatus(cfg: SiriClaw-InstructConfig) {
+export function noteWorkspaceStatus(cfg: SiriClawInstructConfig) {
   const workspaceDir = resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg));
   const legacyWorkspace = detectLegacyWorkspaceDirs({ workspaceDir });
   if (legacyWorkspace.legacyDirs.length > 0) {
@@ -25,7 +25,7 @@ export function noteWorkspaceStatus(cfg: SiriClaw-InstructConfig) {
     "Skills status",
   );
 
-  const pluginRegistry = loadSiriClaw-InstructPlugins({
+  const pluginRegistry = loadSiriClawInstructPlugins({
     config: cfg,
     workspaceDir,
     logger: {
@@ -66,3 +66,4 @@ export function noteWorkspaceStatus(cfg: SiriClaw-InstructConfig) {
 
   return { workspaceDir };
 }
+

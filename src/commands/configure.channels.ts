@@ -1,6 +1,6 @@
 import { getChannelPlugin, listChannelPlugins } from "../channels/plugins/index.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { CONFIG_PATH } from "../config/config.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { note } from "../terminal/note.js";
@@ -9,9 +9,9 @@ import { confirm, select } from "./configure.shared.js";
 import { guardCancel } from "./onboard-helpers.js";
 
 export async function removeChannelConfigWizard(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   runtime: RuntimeEnv,
-): Promise<SiriClaw-InstructConfig> {
+): Promise<SiriClawInstructConfig> {
   let next = { ...cfg };
 
   const listConfiguredChannels = () =>
@@ -24,8 +24,8 @@ export async function removeChannelConfigWizard(
     if (configured.length === 0) {
       note(
         [
-          "No channel config found in SiriClaw-Instruct.json.",
-          `Tip: \`${formatCliCommand("SiriClaw-Instruct channels status")}\` shows what is configured and enabled.`,
+          "No channel config found in SiriClawInstruct.json.",
+          `Tip: \`${formatCliCommand("SiriClawInstruct channels status")}\` shows what is configured and enabled.`,
         ].join("\n"),
         "Remove channel",
       );
@@ -68,7 +68,7 @@ export async function removeChannelConfigWizard(
     next = {
       ...next,
       channels: Object.keys(nextChannels).length
-        ? (nextChannels as SiriClaw-InstructConfig["channels"])
+        ? (nextChannels as SiriClawInstructConfig["channels"])
         : undefined,
     };
 
@@ -80,3 +80,4 @@ export async function removeChannelConfigWizard(
     );
   }
 }
+

@@ -6,7 +6,7 @@ import CryptoKit
 import EventKit
 import Foundation
 import Darwin
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Network
 import Observation
 import os
@@ -1069,3 +1069,4 @@ private final class GatewayTLSFingerprintProbe: NSObject, URLSessionDelegate, @u
         return digest.map { String(format: "%02x", $0) }.joined()
     }
 }
+

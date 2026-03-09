@@ -10,7 +10,7 @@ export type PluginRuntimeGatewayRequestScope = {
 };
 
 const PLUGIN_RUNTIME_GATEWAY_REQUEST_SCOPE_KEY: unique symbol = Symbol.for(
-  "SiriClaw-Instruct.pluginRuntimeGatewayRequestScope",
+  "SiriClawInstruct.pluginRuntimeGatewayRequestScope",
 );
 
 const pluginRuntimeGatewayRequestScope = (() => {
@@ -44,3 +44,4 @@ export function getPluginRuntimeGatewayRequestScope():
   | undefined {
   return pluginRuntimeGatewayRequestScope.getStore();
 }
+

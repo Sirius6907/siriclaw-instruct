@@ -241,9 +241,9 @@ describe("edge cases", () => {
       },
       {
         name: ".co stays links",
-        input: "Visit t.co and SiriClaw-Instruct.co",
-        contains: ['<a href="http://t.co">', '<a href="http://SiriClaw-Instruct.co">'],
-        notContains: ["<code>t.co</code>", "<code>SiriClaw-Instruct.co</code>"],
+        input: "Visit t.co and SiriClawInstruct.co",
+        contains: ['<a href="http://t.co">', '<a href="http://SiriClawInstruct.co">'],
+        notContains: ["<code>t.co</code>", "<code>SiriClawInstruct.co</code>"],
       },
       {
         name: "non-target extensions stay plain text",
@@ -420,3 +420,4 @@ describe("edge cases", () => {
     expect(result).toContain('title="C.sh"');
   });
 });
+

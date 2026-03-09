@@ -433,7 +433,7 @@ export async function runAgentTurnWithFallback(params: {
                     // Serialize tool result delivery to preserve message ordering.
                     // Without this, concurrent tool callbacks race through typing signals
                     // and message sends, causing out-of-order delivery to the user.
-                    // See: https://github.com/SiriClaw-Instruct/SiriClaw-Instruct/issues/11044
+                    // See: https://github.com/SiriClawInstruct/SiriClawInstruct/issues/11044
                     let toolResultChain: Promise<void> = Promise.resolve();
                     return (payload: ReplyPayload) => {
                       toolResultChain = toolResultChain
@@ -613,7 +613,7 @@ export async function runAgentTurnWithFallback(params: {
         ? "⚠️ Context overflow — prompt too large for this model. Try a shorter message or a larger-context model."
         : isRoleOrderingError
           ? "⚠️ Message ordering conflict - please try again. If this persists, use /new to start a fresh session."
-          : `⚠️ Agent failed before reply: ${trimmedMessage}.\nLogs: SiriClaw-Instruct logs --follow`;
+          : `⚠️ Agent failed before reply: ${trimmedMessage}.\nLogs: SiriClawInstruct logs --follow`;
 
       return {
         kind: "final",
@@ -652,3 +652,4 @@ export async function runAgentTurnWithFallback(params: {
     directlySentBlockKeys: directlySentBlockKeys.size > 0 ? directlySentBlockKeys : undefined,
   };
 }
+

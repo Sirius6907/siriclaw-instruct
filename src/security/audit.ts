@@ -6,7 +6,7 @@ import { resolveBrowserConfig, resolveProfile } from "../browser/config.js";
 import { resolveBrowserControlAuth } from "../browser/control-auth.js";
 import { listChannelPlugins } from "../channels/plugins/index.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { ConfigFileSnapshot, SiriClaw-InstructConfig } from "../config/config.js";
+import type { ConfigFileSnapshot, SiriClawInstructConfig } from "../config/config.js";
 import { resolveConfigPath, resolveStateDir } from "../config/paths.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 import { resolveGatewayAuth } from "../gateway/auth.js";
@@ -85,8 +85,8 @@ export type SecurityAuditReport = {
 };
 
 export type SecurityAuditOptions = {
-  config: SiriClaw-InstructConfig;
-  sourceConfig?: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
+  sourceConfig?: SiriClawInstructConfig;
   env?: NodeJS.ProcessEnv;
   platform?: NodeJS.Platform;
   deep?: boolean;
@@ -113,8 +113,8 @@ export type SecurityAuditOptions = {
 };
 
 type AuditExecutionContext = {
-  cfg: SiriClaw-InstructConfig;
-  sourceConfig: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
+  sourceConfig: SiriClawInstructConfig;
   env: NodeJS.ProcessEnv;
   platform: NodeJS.Platform;
   includeFilesystem: boolean;
@@ -165,7 +165,7 @@ function hasNonEmptyString(value: unknown): boolean {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function isFeishuDocToolEnabled(cfg: SiriClaw-InstructConfig): boolean {
+function isFeishuDocToolEnabled(cfg: SiriClawInstructConfig): boolean {
   const channels = asRecord(cfg.channels);
   const feishu = asRecord(channels?.feishu);
   if (!feishu || feishu.enabled === false) {
@@ -233,7 +233,7 @@ async function collectFilesystemFindings(params: {
         checkId: "fs.state_dir.perms_world_writable",
         severity: "critical",
         title: "State dir is world-writable",
-        detail: `${formatPermissionDetail(params.stateDir, stateDirPerms)}; other users can write into your SiriClaw-Instruct state.`,
+        detail: `${formatPermissionDetail(params.stateDir, stateDirPerms)}; other users can write into your SiriClawInstruct state.`,
         remediation: formatPermissionRemediation({
           targetPath: params.stateDir,
           perms: stateDirPerms,
@@ -247,7 +247,7 @@ async function collectFilesystemFindings(params: {
         checkId: "fs.state_dir.perms_group_writable",
         severity: "warn",
         title: "State dir is group-writable",
-        detail: `${formatPermissionDetail(params.stateDir, stateDirPerms)}; group users can write into your SiriClaw-Instruct state.`,
+        detail: `${formatPermissionDetail(params.stateDir, stateDirPerms)}; group users can write into your SiriClawInstruct state.`,
         remediation: formatPermissionRemediation({
           targetPath: params.stateDir,
           perms: stateDirPerms,
@@ -337,7 +337,7 @@ async function collectFilesystemFindings(params: {
 }
 
 function collectGatewayConfigFindings(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   env: NodeJS.ProcessEnv,
 ): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
@@ -357,9 +357,9 @@ function collectGatewayConfigFindings(
   const hasToken = typeof auth.token === "string" && auth.token.trim().length > 0;
   const hasPassword = typeof auth.password === "string" && auth.password.trim().length > 0;
   const envTokenConfigured =
-    hasNonEmptyString(env.SiriClaw-Instruct_GATEWAY_TOKEN) || hasNonEmptyString(env.SIRICLAW_GATEWAY_TOKEN);
+    hasNonEmptyString(env.SiriClawInstruct_GATEWAY_TOKEN) || hasNonEmptyString(env.SIRICLAW_GATEWAY_TOKEN);
   const envPasswordConfigured =
-    hasNonEmptyString(env.SiriClaw-Instruct_GATEWAY_PASSWORD) ||
+    hasNonEmptyString(env.SiriClawInstruct_GATEWAY_PASSWORD) ||
     hasNonEmptyString(env.SIRICLAW_GATEWAY_PASSWORD);
   const tokenConfiguredFromConfig = hasConfiguredSecretInput(
     cfg.gateway?.auth?.token,
@@ -716,7 +716,7 @@ function isStrictLoopbackTrustedProxyEntry(entry: string): boolean {
 }
 
 function collectBrowserControlFindings(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   env: NodeJS.ProcessEnv,
 ): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
@@ -730,7 +730,7 @@ function collectBrowserControlFindings(
       severity: "warn",
       title: "Browser control config looks invalid",
       detail: String(err),
-      remediation: `Fix browser.cdpUrl in ${resolveConfigPath()} and re-run "${formatCliCommand("SiriClaw-Instruct security audit --deep")}".`,
+      remediation: `Fix browser.cdpUrl in ${resolveConfigPath()} and re-run "${formatCliCommand("SiriClawInstruct security audit --deep")}".`,
     });
     return findings;
   }
@@ -743,7 +743,7 @@ function collectBrowserControlFindings(
   const explicitAuthMode = cfg.gateway?.auth?.mode;
   const tokenConfigured =
     Boolean(browserAuth.token) ||
-    hasNonEmptyString(env.SiriClaw-Instruct_GATEWAY_TOKEN) ||
+    hasNonEmptyString(env.SiriClawInstruct_GATEWAY_TOKEN) ||
     hasNonEmptyString(env.SIRICLAW_GATEWAY_TOKEN) ||
     hasConfiguredSecretInput(cfg.gateway?.auth?.token, cfg.secrets?.defaults);
   const passwordCanWin =
@@ -755,7 +755,7 @@ function collectBrowserControlFindings(
   const passwordConfigured =
     Boolean(browserAuth.password) ||
     (passwordCanWin &&
-      (hasNonEmptyString(env.SiriClaw-Instruct_GATEWAY_PASSWORD) ||
+      (hasNonEmptyString(env.SiriClawInstruct_GATEWAY_PASSWORD) ||
         hasNonEmptyString(env.SIRICLAW_GATEWAY_PASSWORD) ||
         hasConfiguredSecretInput(cfg.gateway?.auth?.password, cfg.secrets?.defaults)));
   if (!tokenConfigured && !passwordConfigured) {
@@ -796,7 +796,7 @@ function collectBrowserControlFindings(
   return findings;
 }
 
-function collectLoggingFindings(cfg: SiriClaw-InstructConfig): SecurityAuditFinding[] {
+function collectLoggingFindings(cfg: SiriClawInstructConfig): SecurityAuditFinding[] {
   const redact = cfg.logging?.redactSensitive;
   if (redact !== "off") {
     return [];
@@ -812,7 +812,7 @@ function collectLoggingFindings(cfg: SiriClaw-InstructConfig): SecurityAuditFind
   ];
 }
 
-function collectElevatedFindings(cfg: SiriClaw-InstructConfig): SecurityAuditFinding[] {
+function collectElevatedFindings(cfg: SiriClawInstructConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const enabled = cfg.tools?.elevated?.enabled;
   const allowFrom = cfg.tools?.elevated?.allowFrom ?? {};
@@ -847,7 +847,7 @@ function collectElevatedFindings(cfg: SiriClaw-InstructConfig): SecurityAuditFin
   return findings;
 }
 
-function collectExecRuntimeFindings(cfg: SiriClaw-InstructConfig): SecurityAuditFinding[] {
+function collectExecRuntimeFindings(cfg: SiriClawInstructConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const globalExecHost = cfg.tools?.exec?.host;
   const defaultSandboxMode = resolveSandboxConfigForAgent(cfg).mode;
@@ -1039,7 +1039,7 @@ function collectExecRuntimeFindings(cfg: SiriClaw-InstructConfig): SecurityAudit
 }
 
 async function maybeProbeGateway(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   env: NodeJS.ProcessEnv;
   timeoutMs: number;
   probe: typeof probeGateway;
@@ -1235,7 +1235,7 @@ export async function runSecurityAudit(opts: SecurityAuditOptions): Promise<Secu
       severity: "warn",
       title: "Gateway probe failed (deep)",
       detail: deep.gateway.error ?? "gateway unreachable",
-      remediation: `Run "${formatCliCommand("SiriClaw-Instruct status --all")}" to debug connectivity/auth, then re-run "${formatCliCommand("SiriClaw-Instruct security audit --deep")}".`,
+      remediation: `Run "${formatCliCommand("SiriClawInstruct status --all")}" to debug connectivity/auth, then re-run "${formatCliCommand("SiriClawInstruct security audit --deep")}".`,
     });
   }
   if (deepProbeResult?.authWarning) {
@@ -1244,10 +1244,11 @@ export async function runSecurityAudit(opts: SecurityAuditOptions): Promise<Secu
       severity: "warn",
       title: "Gateway probe auth SecretRef is unavailable",
       detail: deepProbeResult.authWarning,
-      remediation: `Set SiriClaw-Instruct_GATEWAY_TOKEN/SiriClaw-Instruct_GATEWAY_PASSWORD in this shell or resolve the external secret provider, then re-run "${formatCliCommand("SiriClaw-Instruct security audit --deep")}".`,
+      remediation: `Set SiriClawInstruct_GATEWAY_TOKEN/SiriClawInstruct_GATEWAY_PASSWORD in this shell or resolve the external secret provider, then re-run "${formatCliCommand("SiriClawInstruct security audit --deep")}".`,
     });
   }
 
   const summary = countBySeverity(findings);
   return { ts: Date.now(), summary, findings, deep };
 }
+

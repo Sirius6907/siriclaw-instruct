@@ -165,3 +165,4 @@ describe("registerPluginHttpRoute", () => {
     expect(registry.httpRoutes).toHaveLength(1);
   });
 });
+

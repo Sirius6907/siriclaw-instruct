@@ -11,7 +11,7 @@ type AcpRuntimeRegistryGlobalState = {
   backendsById: Map<string, AcpRuntimeBackend>;
 };
 
-const ACP_RUNTIME_REGISTRY_STATE_KEY = Symbol.for("SiriClaw-Instruct.acpRuntimeRegistryState");
+const ACP_RUNTIME_REGISTRY_STATE_KEY = Symbol.for("SiriClawInstruct.acpRuntimeRegistryState");
 
 function createAcpRuntimeRegistryGlobalState(): AcpRuntimeRegistryGlobalState {
   return {
@@ -116,3 +116,4 @@ export const __testing = {
     return resolveAcpRuntimeRegistryGlobalState();
   },
 };
+

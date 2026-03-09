@@ -2,7 +2,7 @@ import { Type } from "@sinclair/typebox";
 import { normalizeGroupActivation } from "../../auto-reply/group-activation.js";
 import { getFollowupQueueDepth, resolveQueueSettings } from "../../auto-reply/reply/queue.js";
 import { buildStatusMessage } from "../../auto-reply/status.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { loadConfig } from "../../config/config.js";
 import {
   loadSessionStore,
@@ -88,7 +88,7 @@ function resolveSessionEntry(params: {
 }
 
 function resolveSessionKeyFromSessionId(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   sessionId: string;
   agentId?: string;
 }): string | null {
@@ -110,7 +110,7 @@ function resolveSessionKeyFromSessionId(params: {
 }
 
 async function resolveModelOverride(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   raw: string;
   sessionEntry?: SessionEntry;
   agentId: string;
@@ -174,7 +174,7 @@ async function resolveModelOverride(params: {
 
 export function createSessionStatusTool(opts?: {
   agentSessionKey?: string;
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
 }): AnyAgentTool {
   return {
     label: "Session Status",
@@ -396,3 +396,4 @@ export function createSessionStatusTool(opts?: {
     },
   };
 }
+

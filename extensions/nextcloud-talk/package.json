@@ -1,12 +1,12 @@
 {
-  "name": "@SiriClaw-Instruct/nextcloud-talk",
+  "name": "@siriclaw-instruct/nextcloud-talk",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct Nextcloud Talk channel plugin",
+  "description": "siriclaw-instruct Nextcloud Talk channel plugin",
   "type": "module",
   "dependencies": {
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ],
@@ -25,9 +25,13 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@SiriClaw-Instruct/nextcloud-talk",
+      "npmSpec": "@siriclaw-instruct/nextcloud-talk",
       "localPath": "extensions/nextcloud-talk",
       "defaultChoice": "npm"
     }
   }
 }
+
+
+
+

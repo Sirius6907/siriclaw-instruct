@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { PluginManifestRegistry } from "../../plugins/manifest-registry.js";
 import { createTrackedTempDirs } from "../../test-utils/tracked-temp-dirs.js";
 
@@ -30,7 +30,7 @@ function buildRegistry(params: { acpxRoot: string; helperRoot: string }): Plugin
         origin: "workspace",
         rootDir: params.acpxRoot,
         source: params.acpxRoot,
-        manifestPath: path.join(params.acpxRoot, "SiriClaw-Instruct.plugin.json"),
+        manifestPath: path.join(params.acpxRoot, "SiriClawInstruct.plugin.json"),
       },
       {
         id: "helper",
@@ -41,7 +41,7 @@ function buildRegistry(params: { acpxRoot: string; helperRoot: string }): Plugin
         origin: "workspace",
         rootDir: params.helperRoot,
         source: params.helperRoot,
-        manifestPath: path.join(params.helperRoot, "SiriClaw-Instruct.plugin.json"),
+        manifestPath: path.join(params.helperRoot, "SiriClawInstruct.plugin.json"),
       },
     ],
   };
@@ -63,16 +63,16 @@ function createSinglePluginRegistry(params: {
         origin: "workspace",
         rootDir: params.pluginRoot,
         source: params.pluginRoot,
-        manifestPath: path.join(params.pluginRoot, "SiriClaw-Instruct.plugin.json"),
+        manifestPath: path.join(params.pluginRoot, "SiriClawInstruct.plugin.json"),
       },
     ],
   };
 }
 
 async function setupAcpxAndHelperRegistry() {
-  const workspaceDir = await tempDirs.make("SiriClaw-Instruct-");
-  const acpxRoot = await tempDirs.make("SiriClaw-Instruct-acpx-plugin-");
-  const helperRoot = await tempDirs.make("SiriClaw-Instruct-helper-plugin-");
+  const workspaceDir = await tempDirs.make("SiriClawInstruct-");
+  const acpxRoot = await tempDirs.make("SiriClawInstruct-acpx-plugin-");
+  const helperRoot = await tempDirs.make("SiriClawInstruct-helper-plugin-");
   await fs.mkdir(path.join(acpxRoot, "skills"), { recursive: true });
   await fs.mkdir(path.join(helperRoot, "skills"), { recursive: true });
   hoisted.loadPluginManifestRegistry.mockReturnValue(buildRegistry({ acpxRoot, helperRoot }));
@@ -80,9 +80,9 @@ async function setupAcpxAndHelperRegistry() {
 }
 
 async function setupPluginOutsideSkills() {
-  const workspaceDir = await tempDirs.make("SiriClaw-Instruct-");
-  const pluginRoot = await tempDirs.make("SiriClaw-Instruct-plugin-");
-  const outsideDir = await tempDirs.make("SiriClaw-Instruct-outside-");
+  const workspaceDir = await tempDirs.make("SiriClawInstruct-");
+  const pluginRoot = await tempDirs.make("SiriClawInstruct-plugin-");
+  const outsideDir = await tempDirs.make("SiriClawInstruct-outside-");
   const outsideSkills = path.join(outsideDir, "skills");
   return { workspaceDir, pluginRoot, outsideSkills };
 }
@@ -116,7 +116,7 @@ describe("resolvePluginSkillDirs", () => {
       workspaceDir,
       config: {
         acp: { enabled: acpEnabled },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
     });
 
     expect(dirs).toEqual(expectedDirs({ acpxRoot, helperRoot }));
@@ -137,7 +137,7 @@ describe("resolvePluginSkillDirs", () => {
 
     const dirs = resolvePluginSkillDirs({
       workspaceDir,
-      config: {} as SiriClaw-InstructConfig,
+      config: {} as SiriClawInstructConfig,
     });
 
     expect(dirs).toEqual([path.resolve(pluginRoot, "skills")]);
@@ -162,9 +162,10 @@ describe("resolvePluginSkillDirs", () => {
 
     const dirs = resolvePluginSkillDirs({
       workspaceDir,
-      config: {} as SiriClaw-InstructConfig,
+      config: {} as SiriClawInstructConfig,
     });
 
     expect(dirs).toEqual([]);
   });
 });
+

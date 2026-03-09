@@ -6,8 +6,8 @@ import {
   resolveSubagentMaxConcurrent,
 } from "./agent-limits.js";
 import { loadConfig } from "./config.js";
-import { withTempHome, writeSiriClaw-InstructConfig } from "./test-helpers.js";
-import { SiriClaw-InstructSchema } from "./zod-schema.js";
+import { withTempHome, writeSiriClawInstructConfig } from "./test-helpers.js";
+import { SiriClawInstructSchema } from "./zod-schema.js";
 
 describe("agent concurrency defaults", () => {
   it("resolves defaults when unset", () => {
@@ -29,7 +29,7 @@ describe("agent concurrency defaults", () => {
   });
 
   it("accepts subagent spawn depth and per-agent child limits", () => {
-    const parsed = SiriClaw-InstructSchema.parse({
+    const parsed = SiriClawInstructSchema.parse({
       agents: {
         defaults: {
           subagents: {
@@ -46,7 +46,7 @@ describe("agent concurrency defaults", () => {
 
   it("injects defaults on load", async () => {
     await withTempHome(async (home) => {
-      await writeSiriClaw-InstructConfig(home, {});
+      await writeSiriClawInstructConfig(home, {});
 
       const cfg = loadConfig();
 
@@ -55,3 +55,4 @@ describe("agent concurrency defaults", () => {
     });
   });
 });
+

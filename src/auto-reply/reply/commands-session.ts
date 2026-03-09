@@ -13,7 +13,7 @@ import {
 import { logVerbose } from "../../globals.js";
 import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
 import type { SessionBindingRecord } from "../../infra/outbound/session-binding-service.js";
-import { scheduleGatewaySigusr1Restart, triggerSiriClaw-InstructRestart } from "../../infra/restart.js";
+import { scheduleGatewaySigusr1Restart, triggerSiriClawInstructRestart } from "../../infra/restart.js";
 import { loadCostUsageSummary, loadSessionCostSummary } from "../../infra/session-cost-usage.js";
 import {
   setTelegramThreadBindingIdleTimeoutBySessionKey,
@@ -569,11 +569,11 @@ export const handleRestartCommand: CommandHandler = async (params, allowTextComm
     return {
       shouldContinue: false,
       reply: {
-        text: "⚙️ Restarting SiriClaw-Instruct in-process (SIGUSR1); back in a few seconds.",
+        text: "⚙️ Restarting SiriClawInstruct in-process (SIGUSR1); back in a few seconds.",
       },
     };
   }
-  const restartMethod = triggerSiriClaw-InstructRestart();
+  const restartMethod = triggerSiriClawInstructRestart();
   if (!restartMethod.ok) {
     const detail = restartMethod.detail ? ` Details: ${restartMethod.detail}` : "";
     return {
@@ -586,9 +586,10 @@ export const handleRestartCommand: CommandHandler = async (params, allowTextComm
   return {
     shouldContinue: false,
     reply: {
-      text: `⚙️ Restarting SiriClaw-Instruct via ${restartMethod.method}; give me a few seconds to come back online.`,
+      text: `⚙️ Restarting SiriClawInstruct via ${restartMethod.method}; give me a few seconds to come back online.`,
     },
   };
 };
 
 export { handleAbortTrigger, handleStopCommand };
+

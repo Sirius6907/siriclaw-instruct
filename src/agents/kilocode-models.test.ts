@@ -227,3 +227,4 @@ describe("discoverKilocodeModels (fetch path)", () => {
     });
   });
 });
+

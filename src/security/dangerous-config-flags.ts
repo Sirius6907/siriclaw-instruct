@@ -1,6 +1,6 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
-export function collectEnabledInsecureOrDangerousFlags(cfg: SiriClaw-InstructConfig): string[] {
+export function collectEnabledInsecureOrDangerousFlags(cfg: SiriClawInstructConfig): string[] {
   const enabledFlags: string[] = [];
   if (cfg.gateway?.controlUi?.allowInsecureAuth === true) {
     enabledFlags.push("gateway.controlUi.allowInsecureAuth=true");
@@ -26,3 +26,4 @@ export function collectEnabledInsecureOrDangerousFlags(cfg: SiriClaw-InstructCon
   }
   return enabledFlags;
 }
+

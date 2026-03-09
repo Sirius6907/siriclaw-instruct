@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import readline from "node:readline";
 import { resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import { writeFileWithinRoot } from "../infra/fs-safe.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
@@ -173,7 +173,7 @@ type QmdManagerMode = "full" | "status";
 
 export class QmdMemoryManager implements MemorySearchManager {
   static async create(params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     agentId: string;
     resolved: ResolvedMemoryBackendConfig;
     mode?: QmdManagerMode;
@@ -187,7 +187,7 @@ export class QmdMemoryManager implements MemorySearchManager {
     return manager;
   }
 
-  private readonly cfg: SiriClaw-InstructConfig;
+  private readonly cfg: SiriClawInstructConfig;
   private readonly agentId: string;
   private readonly qmd: ResolvedQmdConfig;
   private readonly workspaceDir: string;
@@ -229,7 +229,7 @@ export class QmdMemoryManager implements MemorySearchManager {
   private attemptedDuplicateDocumentRepair = false;
 
   private constructor(params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     agentId: string;
     resolved: ResolvedQmdConfig;
   }) {
@@ -1308,11 +1308,11 @@ export class QmdMemoryManager implements MemorySearchManager {
     }
     if (!mcporter.startDaemon) {
       type McporterWarnGlobal = typeof globalThis & {
-        __SiriClaw-InstructMcporterColdStartWarned?: boolean;
+        __SiriClawInstructMcporterColdStartWarned?: boolean;
       };
       const g: McporterWarnGlobal = globalThis;
-      if (!g.__SiriClaw-InstructMcporterColdStartWarned) {
-        g.__SiriClaw-InstructMcporterColdStartWarned = true;
+      if (!g.__SiriClawInstructMcporterColdStartWarned) {
+        g.__SiriClawInstructMcporterColdStartWarned = true;
         log.warn(
           "mcporter qmd bridge enabled but startDaemon=false; each query may cold-start QMD MCP. Consider setting memory.qmd.mcporter.startDaemon=true to keep it warm.",
         );
@@ -1320,21 +1320,21 @@ export class QmdMemoryManager implements MemorySearchManager {
       return;
     }
     type McporterGlobal = typeof globalThis & {
-      __SiriClaw-InstructMcporterDaemonStart?: Promise<void>;
+      __SiriClawInstructMcporterDaemonStart?: Promise<void>;
     };
     const g: McporterGlobal = globalThis;
-    if (!g.__SiriClaw-InstructMcporterDaemonStart) {
-      g.__SiriClaw-InstructMcporterDaemonStart = (async () => {
+    if (!g.__SiriClawInstructMcporterDaemonStart) {
+      g.__SiriClawInstructMcporterDaemonStart = (async () => {
         try {
           await this.runMcporter(["daemon", "start"], { timeoutMs: 10_000 });
         } catch (err) {
           log.warn(`mcporter daemon start failed: ${String(err)}`);
           // Allow future searches to retry daemon start on transient failures.
-          delete g.__SiriClaw-InstructMcporterDaemonStart;
+          delete g.__SiriClawInstructMcporterDaemonStart;
         }
       })();
     }
-    await g.__SiriClaw-InstructMcporterDaemonStart;
+    await g.__SiriClawInstructMcporterDaemonStart;
   }
 
   private async runMcporter(
@@ -2244,3 +2244,4 @@ function appendOutputWithCap(
   }
   return { text: appended.slice(-maxChars), truncated: true };
 }
+

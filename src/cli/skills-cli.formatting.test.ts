@@ -13,10 +13,10 @@ describe("skills-cli (e2e)", () => {
   let envSnapshot: ReturnType<typeof captureEnv>;
 
   beforeAll(() => {
-    envSnapshot = captureEnv(["SiriClaw-Instruct_BUNDLED_SKILLS_DIR"]);
-    tempWorkspaceDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-skills-test-"));
-    tempBundledDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-bundled-skills-test-"));
-    process.env.SiriClaw-Instruct_BUNDLED_SKILLS_DIR = tempBundledDir;
+    envSnapshot = captureEnv(["SiriClawInstruct_BUNDLED_SKILLS_DIR"]);
+    tempWorkspaceDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-skills-test-"));
+    tempBundledDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-bundled-skills-test-"));
+    process.env.SiriClawInstruct_BUNDLED_SKILLS_DIR = tempBundledDir;
   });
 
   afterAll(() => {
@@ -36,7 +36,7 @@ describe("skills-cli (e2e)", () => {
         skill: {
           name: "peekaboo",
           description: "Capture UI screenshots",
-          source: "SiriClaw-Instruct-bundled",
+          source: "SiriClawInstruct-bundled",
           filePath: path.join(baseDir, "SKILL.md"),
           baseDir,
         } as SkillEntry["skill"],
@@ -83,3 +83,4 @@ describe("skills-cli (e2e)", () => {
     expect(output).toContain("Details:");
   });
 });
+

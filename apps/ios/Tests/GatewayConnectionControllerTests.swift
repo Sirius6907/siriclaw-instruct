@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Foundation
 import Testing
 import UIKit
@@ -114,3 +114,4 @@ import UIKit
         }
     }
 }
+

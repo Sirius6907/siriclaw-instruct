@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
 import { applySetupAccountConfigPatch } from "./setup-helpers.js";
 
-function asConfig(value: unknown): SiriClaw-InstructConfig {
-  return value as SiriClaw-InstructConfig;
+function asConfig(value: unknown): SiriClawInstructConfig {
+  return value as SiriClawInstructConfig;
 }
 
 describe("applySetupAccountConfigPatch", () => {
@@ -79,3 +79,4 @@ describe("applySetupAccountConfigPatch", () => {
     });
   });
 });
+

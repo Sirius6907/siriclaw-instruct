@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 
 const buildGatewayInstallPlan = vi.hoisted(() => vi.fn());
 const gatewayInstallErrorHint = vi.hoisted(() => vi.fn(() => "hint"));
@@ -46,7 +46,7 @@ describe("installGatewayDaemonNonInteractive", () => {
       warnings: [],
     });
     buildGatewayInstallPlan.mockResolvedValue({
-      programArguments: ["SiriClaw-Instruct", "gateway", "run"],
+      programArguments: ["SiriClawInstruct", "gateway", "run"],
       workingDirectory: "/tmp",
       environment: {},
     });
@@ -63,11 +63,11 @@ describe("installGatewayDaemonNonInteractive", () => {
             token: {
               source: "env",
               provider: "default",
-              id: "SiriClaw-Instruct_GATEWAY_TOKEN",
+              id: "SiriClawInstruct_GATEWAY_TOKEN",
             },
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       opts: { installDaemon: true },
       runtime,
       port: 18789,
@@ -89,7 +89,7 @@ describe("installGatewayDaemonNonInteractive", () => {
     const runtime = { log: vi.fn(), error: vi.fn(), exit: vi.fn() };
 
     await installGatewayDaemonNonInteractive({
-      nextConfig: {} as SiriClaw-InstructConfig,
+      nextConfig: {} as SiriClawInstructConfig,
       opts: { installDaemon: true },
       runtime,
       port: 18789,
@@ -101,3 +101,4 @@ describe("installGatewayDaemonNonInteractive", () => {
     expect(serviceInstall).not.toHaveBeenCalled();
   });
 });
+

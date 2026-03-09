@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { captureEnv } from "../../test-utils/env.js";
 import { handleTelegramAction, readTelegramButtons } from "./telegram-actions.js";
 
@@ -40,13 +40,13 @@ describe("handleTelegramAction", () => {
     emoji: "✅",
   } as const;
 
-  function reactionConfig(reactionLevel: "minimal" | "extensive" | "off" | "ack"): SiriClaw-InstructConfig {
+  function reactionConfig(reactionLevel: "minimal" | "extensive" | "off" | "ack"): SiriClawInstructConfig {
     return {
       channels: { telegram: { botToken: "tok", reactionLevel } },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
   }
 
-  function telegramConfig(overrides?: Record<string, unknown>): SiriClaw-InstructConfig {
+  function telegramConfig(overrides?: Record<string, unknown>): SiriClawInstructConfig {
     return {
       channels: {
         telegram: {
@@ -54,7 +54,7 @@ describe("handleTelegramAction", () => {
           ...overrides,
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
   }
 
   async function sendInlineButtonsMessage(params: {
@@ -146,7 +146,7 @@ describe("handleTelegramAction", () => {
   it("soft-fails when messageId is missing", async () => {
     const cfg = {
       channels: { telegram: { botToken: "tok", reactionLevel: "minimal" } },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const result = await handleTelegramAction(
       {
         action: "react",
@@ -181,7 +181,7 @@ describe("handleTelegramAction", () => {
   });
 
   it("rejects sticker actions when disabled by default", async () => {
-    const cfg = { channels: { telegram: { botToken: "tok" } } } as SiriClaw-InstructConfig;
+    const cfg = { channels: { telegram: { botToken: "tok" } } } as SiriClawInstructConfig;
     await expect(
       handleTelegramAction(
         {
@@ -198,7 +198,7 @@ describe("handleTelegramAction", () => {
   it("sends stickers when enabled", async () => {
     const cfg = {
       channels: { telegram: { botToken: "tok", actions: { sticker: true } } },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     await handleTelegramAction(
       {
         action: "sendSticker",
@@ -262,7 +262,7 @@ describe("handleTelegramAction", () => {
           actions: { reactions: false },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const result = await handleTelegramAction(
       {
         action: "react",
@@ -448,7 +448,7 @@ describe("handleTelegramAction", () => {
       channels: {
         telegram: { botToken: "tok", actions: { sendMessage: false } },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     await expect(
       handleTelegramAction(
         {
@@ -466,7 +466,7 @@ describe("handleTelegramAction", () => {
       channels: {
         telegram: { botToken: "tok", actions: { poll: false } },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     await expect(
       handleTelegramAction(
         {
@@ -483,7 +483,7 @@ describe("handleTelegramAction", () => {
   it("deletes a message", async () => {
     const cfg = {
       channels: { telegram: { botToken: "tok" } },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     await handleTelegramAction(
       {
         action: "deleteMessage",
@@ -504,7 +504,7 @@ describe("handleTelegramAction", () => {
       channels: {
         telegram: { botToken: "tok", actions: { deleteMessage: false } },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     await expect(
       handleTelegramAction(
         {
@@ -519,7 +519,7 @@ describe("handleTelegramAction", () => {
 
   it("throws on missing bot token for sendMessage", async () => {
     delete process.env.TELEGRAM_BOT_TOKEN;
-    const cfg = {} as SiriClaw-InstructConfig;
+    const cfg = {} as SiriClawInstructConfig;
     await expect(
       handleTelegramAction(
         {
@@ -535,7 +535,7 @@ describe("handleTelegramAction", () => {
   it("allows inline buttons by default (allowlist)", async () => {
     const cfg = {
       channels: { telegram: { botToken: "tok" } },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     await handleTelegramAction(
       {
         action: "sendMessage",
@@ -688,7 +688,7 @@ describe("handleTelegramAction per-account gating", () => {
     >;
     topLevelBotToken?: string;
     topLevelActions?: { reactions?: boolean };
-  }): SiriClaw-InstructConfig {
+  }): SiriClawInstructConfig {
     return {
       channels: {
         telegram: {
@@ -697,10 +697,10 @@ describe("handleTelegramAction per-account gating", () => {
           accounts: params.accounts,
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
   }
 
-  async function expectAccountStickerSend(cfg: SiriClaw-InstructConfig, accountId = "media") {
+  async function expectAccountStickerSend(cfg: SiriClawInstructConfig, accountId = "media") {
     await handleTelegramAction(
       { action: "sendSticker", to: "123", fileId: "sticker-id", accountId },
       cfg,
@@ -730,7 +730,7 @@ describe("handleTelegramAction per-account gating", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     await expect(
       handleTelegramAction(
@@ -802,3 +802,4 @@ describe("handleTelegramAction per-account gating", () => {
     );
   });
 });
+

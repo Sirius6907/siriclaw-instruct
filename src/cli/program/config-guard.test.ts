@@ -18,7 +18,7 @@ function makeSnapshot() {
     valid: true,
     issues: [],
     legacyIssues: [],
-    path: "/tmp/SiriClaw-Instruct.json",
+    path: "/tmp/SiriClawInstruct.json",
   };
 }
 
@@ -149,3 +149,4 @@ describe("ensureConfigReady", () => {
     expect(output).toContain("Doctor warnings");
   });
 });
+

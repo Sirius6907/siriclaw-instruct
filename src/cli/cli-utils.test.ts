@@ -21,8 +21,8 @@ describe("waitForever", () => {
 describe("shouldSkipRespawnForArgv", () => {
   it("skips respawn for help/version calls", () => {
     const cases = [
-      ["node", "SiriClaw-Instruct", "--help"],
-      ["node", "SiriClaw-Instruct", "-V"],
+      ["node", "SiriClawInstruct", "--help"],
+      ["node", "SiriClawInstruct", "-V"],
     ] as const;
     for (const argv of cases) {
       expect(shouldSkipRespawnForArgv([...argv]), argv.join(" ")).toBe(true);
@@ -30,7 +30,7 @@ describe("shouldSkipRespawnForArgv", () => {
   });
 
   it("keeps respawn path for normal commands", () => {
-    expect(shouldSkipRespawnForArgv(["node", "SiriClaw-Instruct", "status"])).toBe(false);
+    expect(shouldSkipRespawnForArgv(["node", "SiriClawInstruct", "status"])).toBe(false);
   });
 });
 
@@ -55,10 +55,10 @@ describe("dns cli", () => {
     try {
       const program = new Command();
       registerDnsCli(program);
-      await program.parseAsync(["dns", "setup", "--domain", "SiriClaw-Instruct.internal"], { from: "user" });
+      await program.parseAsync(["dns", "setup", "--domain", "SiriClawInstruct.internal"], { from: "user" });
       const output = log.mock.calls.map((call) => call.join(" ")).join("\\n");
       expect(output).toContain("DNS setup");
-      expect(output).toContain("SiriClaw-Instruct.internal");
+      expect(output).toContain("SiriClawInstruct.internal");
     } finally {
       log.mockRestore();
     }
@@ -113,3 +113,4 @@ describe("parseDurationMs", () => {
     expect(() => parseDurationMs("1h-30m")).toThrow();
   });
 });
+

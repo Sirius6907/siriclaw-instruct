@@ -34,7 +34,7 @@ function inheritedUpdateTimeout(
 export function registerUpdateCli(program: Command) {
   const update = program
     .command("update")
-    .description("Update SiriClaw-Instruct and inspect update channel status")
+    .description("Update SiriClawInstruct and inspect update channel status")
     .option("--json", "Output result as JSON", false)
     .option("--no-restart", "Skip restarting the gateway service after a successful update")
     .option("--dry-run", "Preview update actions without making changes", false)
@@ -44,16 +44,16 @@ export function registerUpdateCli(program: Command) {
     .option("--yes", "Skip confirmation prompts (non-interactive)", false)
     .addHelpText("after", () => {
       const examples = [
-        ["SiriClaw-Instruct update", "Update a source checkout (git)"],
-        ["SiriClaw-Instruct update --channel beta", "Switch to beta channel (git + npm)"],
-        ["SiriClaw-Instruct update --channel dev", "Switch to dev channel (git + npm)"],
-        ["SiriClaw-Instruct update --tag beta", "One-off update to a dist-tag or version"],
-        ["SiriClaw-Instruct update --dry-run", "Preview actions without changing anything"],
-        ["SiriClaw-Instruct update --no-restart", "Update without restarting the service"],
-        ["SiriClaw-Instruct update --json", "Output result as JSON"],
-        ["SiriClaw-Instruct update --yes", "Non-interactive (accept downgrade prompts)"],
-        ["SiriClaw-Instruct update wizard", "Interactive update wizard"],
-        ["SiriClaw-Instruct --update", "Shorthand for SiriClaw-Instruct update"],
+        ["SiriClawInstruct update", "Update a source checkout (git)"],
+        ["SiriClawInstruct update --channel beta", "Switch to beta channel (git + npm)"],
+        ["SiriClawInstruct update --channel dev", "Switch to dev channel (git + npm)"],
+        ["SiriClawInstruct update --tag beta", "One-off update to a dist-tag or version"],
+        ["SiriClawInstruct update --dry-run", "Preview actions without changing anything"],
+        ["SiriClawInstruct update --no-restart", "Update without restarting the service"],
+        ["SiriClawInstruct update --json", "Output result as JSON"],
+        ["SiriClawInstruct update --yes", "Non-interactive (accept downgrade prompts)"],
+        ["SiriClawInstruct update wizard", "Interactive update wizard"],
+        ["SiriClawInstruct --update", "Shorthand for SiriClawInstruct update"],
       ] as const;
       const fmtExamples = examples
         .map(([cmd, desc]) => `  ${theme.command(cmd)} ${theme.muted(`# ${desc}`)}`)
@@ -65,7 +65,7 @@ ${theme.heading("What this does:")}
 
 ${theme.heading("Switch channels:")}
   - Use --channel stable|beta|dev to persist the update channel in config
-  - Run SiriClaw-Instruct update status to see the active channel and source
+  - Run SiriClawInstruct update status to see the active channel and source
   - Use --tag <dist-tag|version> for a one-off npm update without persisting
 
 ${theme.heading("Non-interactive:")}
@@ -82,7 +82,7 @@ ${theme.heading("Notes:")}
   - Downgrades require confirmation (can break configuration)
   - Skips update if the working directory has uncommitted changes
 
-${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.SiriClaw-Instruct.ai/cli/update")}`;
+${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.SiriClawInstruct.ai/cli/update")}`;
     })
     .action(async (opts) => {
       try {
@@ -107,7 +107,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.SiriClaw-Instruct.
     .option("--timeout <seconds>", "Timeout for each update step in seconds (default: 1200)")
     .addHelpText(
       "after",
-      `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.SiriClaw-Instruct.ai/cli/update")}\n`,
+      `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.SiriClawInstruct.ai/cli/update")}\n`,
     )
     .action(async (opts, command) => {
       try {
@@ -129,14 +129,14 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.SiriClaw-Instruct.
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["SiriClaw-Instruct update status", "Show channel + version status."],
-          ["SiriClaw-Instruct update status --json", "JSON output."],
-          ["SiriClaw-Instruct update status --timeout 10", "Custom timeout."],
+          ["SiriClawInstruct update status", "Show channel + version status."],
+          ["SiriClawInstruct update status --json", "JSON output."],
+          ["SiriClawInstruct update status --timeout 10", "Custom timeout."],
         ])}\n\n${theme.heading("Notes:")}\n${theme.muted(
           "- Shows current update channel (stable/beta/dev) and source",
         )}\n${theme.muted("- Includes git tag/branch/SHA for source checkouts")}\n\n${theme.muted(
           "Docs:",
-        )} ${formatDocsLink("/cli/update", "docs.SiriClaw-Instruct.ai/cli/update")}`,
+        )} ${formatDocsLink("/cli/update", "docs.SiriClawInstruct.ai/cli/update")}`,
     )
     .action(async (opts, command) => {
       try {
@@ -150,3 +150,4 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.SiriClaw-Instruct.
       }
     });
 }
+

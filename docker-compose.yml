@@ -75,3 +75,4 @@ services:
     entrypoint: ["node", "siriclaw-instruct.mjs"]
     depends_on:
       - siriclaw-instruct-gateway
+

@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.js";
 
 type ChannelSectionBase = {
@@ -6,14 +6,14 @@ type ChannelSectionBase = {
   accounts?: Record<string, Record<string, unknown>>;
 };
 
-function channelHasAccounts(cfg: SiriClaw-InstructConfig, channelKey: string): boolean {
+function channelHasAccounts(cfg: SiriClawInstructConfig, channelKey: string): boolean {
   const channels = cfg.channels as Record<string, unknown> | undefined;
   const base = channels?.[channelKey] as ChannelSectionBase | undefined;
   return Boolean(base?.accounts && Object.keys(base.accounts).length > 0);
 }
 
 function shouldStoreNameInAccounts(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channelKey: string;
   accountId: string;
   alwaysUseAccounts?: boolean;
@@ -28,12 +28,12 @@ function shouldStoreNameInAccounts(params: {
 }
 
 export function applyAccountNameToChannelSection(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channelKey: string;
   accountId: string;
   name?: string;
   alwaysUseAccounts?: boolean;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const trimmed = params.name?.trim();
   if (!trimmed) {
     return params.cfg;
@@ -60,7 +60,7 @@ export function applyAccountNameToChannelSection(params: {
           name: trimmed,
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
   }
   const baseAccounts: Record<string, Record<string, unknown>> = base?.accounts ?? {};
   const existingAccount = baseAccounts[accountId] ?? {};
@@ -83,14 +83,14 @@ export function applyAccountNameToChannelSection(params: {
         },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 export function migrateBaseNameToDefaultAccount(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channelKey: string;
   alwaysUseAccounts?: boolean;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   if (params.alwaysUseAccounts) {
     return params.cfg;
   }
@@ -117,15 +117,15 @@ export function migrateBaseNameToDefaultAccount(params: {
         accounts,
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 export function applySetupAccountConfigPatch(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channelKey: string;
   accountId: string;
   patch: Record<string, unknown>;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const accountId = normalizeAccountId(params.accountId);
   const channels = params.cfg.channels as Record<string, unknown> | undefined;
   const channelConfig = channels?.[params.channelKey];
@@ -146,7 +146,7 @@ export function applySetupAccountConfigPatch(params: {
           ...params.patch,
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
   }
 
   const accounts = base?.accounts ?? {};
@@ -167,7 +167,7 @@ export function applySetupAccountConfigPatch(params: {
         },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 type ChannelSectionRecord = Record<string, unknown> & {
@@ -232,9 +232,9 @@ function cloneIfObject<T>(value: T): T {
 // move top-level account settings into accounts.default so the original
 // account keeps working without duplicate account values at channel root.
 export function moveSingleAccountChannelSectionToDefaultAccount(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channelKey: string;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const channels = params.cfg.channels as Record<string, unknown> | undefined;
   const baseConfig = channels?.[params.channelKey];
   const base =
@@ -279,5 +279,6 @@ export function moveSingleAccountChannelSectionToDefaultAccount(params: {
         },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
+

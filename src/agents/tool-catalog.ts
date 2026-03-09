@@ -21,7 +21,7 @@ type CoreToolDefinition = {
   description: string;
   sectionId: string;
   profiles: ToolProfileId[];
-  includeInSiriClaw-InstructGroup?: boolean;
+  includeInSiriClawInstructGroup?: boolean;
 };
 
 const CORE_TOOL_SECTION_ORDER: Array<{ id: string; label: string }> = [
@@ -87,7 +87,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Search the web",
     sectionId: "web",
     profiles: [],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "web_fetch",
@@ -95,7 +95,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Fetch web content",
     sectionId: "web",
     profiles: [],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "memory_search",
@@ -103,7 +103,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Semantic search",
     sectionId: "memory",
     profiles: ["coding"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "memory_get",
@@ -111,7 +111,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Read memory files",
     sectionId: "memory",
     profiles: ["coding"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "sessions_list",
@@ -119,7 +119,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "List sessions",
     sectionId: "sessions",
     profiles: ["coding", "messaging"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "sessions_history",
@@ -127,7 +127,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Session history",
     sectionId: "sessions",
     profiles: ["coding", "messaging"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "sessions_send",
@@ -135,7 +135,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Send to session",
     sectionId: "sessions",
     profiles: ["coding", "messaging"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "sessions_spawn",
@@ -143,7 +143,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Spawn sub-agent",
     sectionId: "sessions",
     profiles: ["coding"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "subagents",
@@ -151,7 +151,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Manage sub-agents",
     sectionId: "sessions",
     profiles: ["coding"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "session_status",
@@ -159,7 +159,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Session status",
     sectionId: "sessions",
     profiles: ["minimal", "coding", "messaging"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "browser",
@@ -167,7 +167,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Control web browser",
     sectionId: "ui",
     profiles: [],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "canvas",
@@ -175,7 +175,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Control canvases",
     sectionId: "ui",
     profiles: [],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "message",
@@ -183,7 +183,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Send messages",
     sectionId: "messaging",
     profiles: ["messaging"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "cron",
@@ -191,7 +191,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Schedule tasks",
     sectionId: "automation",
     profiles: ["coding"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "gateway",
@@ -199,7 +199,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Gateway control",
     sectionId: "automation",
     profiles: [],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "nodes",
@@ -207,7 +207,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Nodes + devices",
     sectionId: "nodes",
     profiles: [],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "agents_list",
@@ -215,7 +215,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "List agents",
     sectionId: "agents",
     profiles: [],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "image",
@@ -223,7 +223,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Image understanding",
     sectionId: "media",
     profiles: ["coding"],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
   {
     id: "tts",
@@ -231,7 +231,7 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     description: "Text-to-speech conversion",
     sectionId: "media",
     profiles: [],
-    includeInSiriClaw-InstructGroup: true,
+    includeInSiriClawInstructGroup: true,
   },
 ];
 
@@ -266,11 +266,11 @@ function buildCoreToolGroupMap() {
     list.push(tool.id);
     sectionToolMap.set(groupId, list);
   }
-  const SiriClaw-InstructTools = CORE_TOOL_DEFINITIONS.filter((tool) => tool.includeInSiriClaw-InstructGroup).map(
+  const SiriClawInstructTools = CORE_TOOL_DEFINITIONS.filter((tool) => tool.includeInSiriClawInstructGroup).map(
     (tool) => tool.id,
   );
   return {
-    "group:SiriClaw-Instruct": SiriClaw-InstructTools,
+    "group:SiriClawInstruct": SiriClawInstructTools,
     ...Object.fromEntries(sectionToolMap.entries()),
   };
 }
@@ -324,3 +324,4 @@ export function resolveCoreToolProfiles(toolId: string): ToolProfileId[] {
 export function isKnownCoreToolId(toolId: string): boolean {
   return CORE_TOOL_BY_ID.has(toolId);
 }
+

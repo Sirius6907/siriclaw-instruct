@@ -10,10 +10,11 @@ export function registerDaemonCli(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/gateway", "docs.SiriClaw-Instruct.ai/cli/gateway")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/gateway", "docs.SiriClawInstruct.ai/cli/gateway")}\n`,
     );
 
   addGatewayServiceCommands(daemon, {
     statusDescription: "Show service install status + probe the Gateway",
   });
 }
+

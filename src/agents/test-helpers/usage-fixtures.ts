@@ -14,3 +14,4 @@ export const ZERO_USAGE_FIXTURE: Usage = {
     total: 0,
   },
 };
+

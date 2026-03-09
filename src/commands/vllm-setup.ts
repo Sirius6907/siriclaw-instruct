@@ -1,5 +1,5 @@
 import { upsertAuthProfileWithLock } from "../agents/auth-profiles.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
 
 export const VLLM_DEFAULT_BASE_URL = "http://127.0.0.1:8000/v1";
@@ -13,10 +13,10 @@ export const VLLM_DEFAULT_COST = {
 };
 
 export async function promptAndConfigureVllm(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: WizardPrompter;
   agentDir?: string;
-}): Promise<{ config: SiriClaw-InstructConfig; modelId: string; modelRef: string }> {
+}): Promise<{ config: SiriClawInstructConfig; modelId: string; modelRef: string }> {
   const baseUrlRaw = await params.prompter.text({
     message: "vLLM base URL",
     initialValue: VLLM_DEFAULT_BASE_URL,
@@ -47,7 +47,7 @@ export async function promptAndConfigureVllm(params: {
     agentDir: params.agentDir,
   });
 
-  const nextConfig: SiriClaw-InstructConfig = {
+  const nextConfig: SiriClawInstructConfig = {
     ...params.cfg,
     models: {
       ...params.cfg.models,
@@ -76,3 +76,4 @@ export async function promptAndConfigureVllm(params: {
 
   return { config: nextConfig, modelId, modelRef };
 }
+

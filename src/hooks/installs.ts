@@ -1,9 +1,9 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { HookInstallRecord } from "../config/types.hooks.js";
 
 export type HookInstallUpdate = HookInstallRecord & { hookId: string };
 
-export function recordHookInstall(cfg: SiriClaw-InstructConfig, update: HookInstallUpdate): SiriClaw-InstructConfig {
+export function recordHookInstall(cfg: SiriClawInstructConfig, update: HookInstallUpdate): SiriClawInstructConfig {
   const { hookId, ...record } = update;
   const installs = {
     ...cfg.hooks?.internal?.installs,
@@ -28,3 +28,4 @@ export function recordHookInstall(cfg: SiriClaw-InstructConfig, update: HookInst
     },
   };
 }
+

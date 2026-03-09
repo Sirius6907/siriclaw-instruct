@@ -14,3 +14,4 @@ export function normalizeEmbeddingModelWithPrefixes(params: {
   }
   return trimmed;
 }
+

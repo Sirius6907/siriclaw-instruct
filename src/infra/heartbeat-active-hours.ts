@@ -1,12 +1,12 @@
 import { resolveUserTimezone } from "../agents/date-time.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { AgentDefaultsConfig } from "../config/types.agent-defaults.js";
 
 type HeartbeatConfig = AgentDefaultsConfig["heartbeat"];
 
 const ACTIVE_HOURS_TIME_PATTERN = /^(?:([01]\d|2[0-3]):([0-5]\d)|24:00)$/;
 
-function resolveActiveHoursTimezone(cfg: SiriClaw-InstructConfig, raw?: string): string {
+function resolveActiveHoursTimezone(cfg: SiriClawInstructConfig, raw?: string): string {
   const trimmed = raw?.trim();
   if (!trimmed || trimmed === "user") {
     return resolveUserTimezone(cfg.agents?.defaults?.userTimezone);
@@ -68,7 +68,7 @@ function resolveMinutesInTimeZone(nowMs: number, timeZone: string): number | nul
 }
 
 export function isWithinActiveHours(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   heartbeat?: HeartbeatConfig,
   nowMs?: number,
 ): boolean {
@@ -97,3 +97,4 @@ export function isWithinActiveHours(
   }
   return currentMin >= startMin || currentMin < endMin;
 }
+

@@ -1,9 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveSiriClaw-InstructAgentDir } from "./agent-paths.js";
+import { resolveSiriClawInstructAgentDir } from "./agent-paths.js";
 
 export async function readGeneratedModelsJson<T>(): Promise<T> {
-  const modelPath = path.join(resolveSiriClaw-InstructAgentDir(), "models.json");
+  const modelPath = path.join(resolveSiriClawInstructAgentDir(), "models.json");
   const raw = await fs.readFile(modelPath, "utf8");
   return JSON.parse(raw) as T;
 }
+

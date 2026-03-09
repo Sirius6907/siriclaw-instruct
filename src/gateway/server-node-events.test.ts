@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { loadSessionEntry as loadSessionEntryType } from "./session-utils.js";
 
 const buildSessionLookup = (
@@ -11,7 +11,7 @@ const buildSessionLookup = (
     updatedAt?: number;
   } = {},
 ): ReturnType<typeof loadSessionEntryType> => ({
-  cfg: { session: { mainKey: "agent:main:main" } } as SiriClaw-InstructConfig,
+  cfg: { session: { mainKey: "agent:main:main" } } as SiriClawInstructConfig,
   storePath: "/tmp/sessions.json",
   store: {} as ReturnType<typeof loadSessionEntryType>["store"],
   entry: {
@@ -38,7 +38,7 @@ vi.mock("../commands/agent.js", () => ({
 }));
 vi.mock("../config/config.js", () => ({
   loadConfig: vi.fn(() => ({ session: { mainKey: "agent:main:main" } })),
-  STATE_DIR: "/tmp/SiriClaw-Instruct-state",
+  STATE_DIR: "/tmp/SiriClawInstruct-state",
 }));
 vi.mock("../config/sessions.js", () => ({
   updateSessionStore: vi.fn(),
@@ -565,3 +565,4 @@ describe("agent request events", () => {
     });
   });
 });
+

@@ -1,4 +1,4 @@
-import { resolveSiriClaw-InstructAgentDir } from "../agents/agent-paths.js";
+import { resolveSiriClawInstructAgentDir } from "../agents/agent-paths.js";
 import {
   resolveDefaultAgentId,
   resolveAgentDir,
@@ -50,7 +50,7 @@ export async function applyAuthChoicePluginProvider(
   const defaultAgentId = resolveDefaultAgentId(nextConfig);
   const agentDir =
     params.agentDir ??
-    (agentId === defaultAgentId ? resolveSiriClaw-InstructAgentDir() : resolveAgentDir(nextConfig, agentId));
+    (agentId === defaultAgentId ? resolveSiriClawInstructAgentDir() : resolveAgentDir(nextConfig, agentId));
   const workspaceDir =
     resolveAgentWorkspaceDir(nextConfig, agentId) ?? resolveDefaultAgentWorkspaceDir();
 
@@ -127,3 +127,4 @@ export async function applyAuthChoicePluginProvider(
 
   return { config: nextConfig, agentModelOverride };
 }
+

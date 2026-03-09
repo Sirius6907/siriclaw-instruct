@@ -1,5 +1,5 @@
 import type { ReplyPayload } from "../../auto-reply/types.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { GroupToolPolicyConfig } from "../../config/types.tools.js";
 import type { OutboundDeliveryResult, OutboundSendDeps } from "../../infra/outbound/deliver.js";
 import type { OutboundIdentity } from "../../infra/outbound/identity.js";
@@ -23,59 +23,59 @@ import type {
 
 export type ChannelSetupAdapter = {
   resolveAccountId?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId?: string;
     input?: ChannelSetupInput;
   }) => string;
   resolveBindingAccountId?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     agentId: string;
     accountId?: string;
   }) => string | undefined;
   applyAccountName?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId: string;
     name?: string;
-  }) => SiriClaw-InstructConfig;
+  }) => SiriClawInstructConfig;
   applyAccountConfig: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId: string;
     input: ChannelSetupInput;
-  }) => SiriClaw-InstructConfig;
+  }) => SiriClawInstructConfig;
   validateInput?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId: string;
     input: ChannelSetupInput;
   }) => string | null;
 };
 
 export type ChannelConfigAdapter<ResolvedAccount> = {
-  listAccountIds: (cfg: SiriClaw-InstructConfig) => string[];
-  resolveAccount: (cfg: SiriClaw-InstructConfig, accountId?: string | null) => ResolvedAccount;
-  inspectAccount?: (cfg: SiriClaw-InstructConfig, accountId?: string | null) => unknown;
-  defaultAccountId?: (cfg: SiriClaw-InstructConfig) => string;
+  listAccountIds: (cfg: SiriClawInstructConfig) => string[];
+  resolveAccount: (cfg: SiriClawInstructConfig, accountId?: string | null) => ResolvedAccount;
+  inspectAccount?: (cfg: SiriClawInstructConfig, accountId?: string | null) => unknown;
+  defaultAccountId?: (cfg: SiriClawInstructConfig) => string;
   setAccountEnabled?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId: string;
     enabled: boolean;
-  }) => SiriClaw-InstructConfig;
-  deleteAccount?: (params: { cfg: SiriClaw-InstructConfig; accountId: string }) => SiriClaw-InstructConfig;
-  isEnabled?: (account: ResolvedAccount, cfg: SiriClaw-InstructConfig) => boolean;
-  disabledReason?: (account: ResolvedAccount, cfg: SiriClaw-InstructConfig) => string;
-  isConfigured?: (account: ResolvedAccount, cfg: SiriClaw-InstructConfig) => boolean | Promise<boolean>;
-  unconfiguredReason?: (account: ResolvedAccount, cfg: SiriClaw-InstructConfig) => string;
-  describeAccount?: (account: ResolvedAccount, cfg: SiriClaw-InstructConfig) => ChannelAccountSnapshot;
+  }) => SiriClawInstructConfig;
+  deleteAccount?: (params: { cfg: SiriClawInstructConfig; accountId: string }) => SiriClawInstructConfig;
+  isEnabled?: (account: ResolvedAccount, cfg: SiriClawInstructConfig) => boolean;
+  disabledReason?: (account: ResolvedAccount, cfg: SiriClawInstructConfig) => string;
+  isConfigured?: (account: ResolvedAccount, cfg: SiriClawInstructConfig) => boolean | Promise<boolean>;
+  unconfiguredReason?: (account: ResolvedAccount, cfg: SiriClawInstructConfig) => string;
+  describeAccount?: (account: ResolvedAccount, cfg: SiriClawInstructConfig) => ChannelAccountSnapshot;
   resolveAllowFrom?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId?: string | null;
   }) => Array<string | number> | undefined;
   formatAllowFrom?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId?: string | null;
     allowFrom: Array<string | number>;
   }) => string[];
   resolveDefaultTo?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId?: string | null;
   }) => string | undefined;
 };
@@ -87,7 +87,7 @@ export type ChannelGroupAdapter = {
 };
 
 export type ChannelOutboundContext = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   to: string;
   text: string;
   mediaUrl?: string;
@@ -112,7 +112,7 @@ export type ChannelOutboundAdapter = {
   textChunkLimit?: number;
   pollMaxOptions?: number;
   resolveTarget?: (params: {
-    cfg?: SiriClaw-InstructConfig;
+    cfg?: SiriClawInstructConfig;
     to?: string;
     allowFrom?: string[];
     accountId?: string | null;
@@ -128,37 +128,37 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
   defaultRuntime?: ChannelAccountSnapshot;
   buildChannelSummary?: (params: {
     account: ResolvedAccount;
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     defaultAccountId: string;
     snapshot: ChannelAccountSnapshot;
   }) => Record<string, unknown> | Promise<Record<string, unknown>>;
   probeAccount?: (params: {
     account: ResolvedAccount;
     timeoutMs: number;
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
   }) => Promise<Probe>;
   auditAccount?: (params: {
     account: ResolvedAccount;
     timeoutMs: number;
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     probe?: Probe;
   }) => Promise<Audit>;
   buildAccountSnapshot?: (params: {
     account: ResolvedAccount;
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     runtime?: ChannelAccountSnapshot;
     probe?: Probe;
     audit?: Audit;
   }) => ChannelAccountSnapshot | Promise<ChannelAccountSnapshot>;
   logSelfId?: (params: {
     account: ResolvedAccount;
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     runtime: RuntimeEnv;
     includeChannelPrefix?: boolean;
   }) => void;
   resolveAccountState?: (params: {
     account: ResolvedAccount;
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     configured: boolean;
     enabled: boolean;
   }) => ChannelAccountState;
@@ -166,7 +166,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
 };
 
 export type ChannelGatewayContext<ResolvedAccount = unknown> = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId: string;
   account: ResolvedAccount;
   runtime: RuntimeEnv;
@@ -233,7 +233,7 @@ export type ChannelGatewayContext<ResolvedAccount = unknown> = {
    * - External plugins should check for undefined before using
    *
    * @since Plugin SDK 2026.2.19
-   * @see {@link https://docs.SiriClaw-Instruct.ai/plugins/developing-plugins | Plugin SDK documentation}
+   * @see {@link https://docs.SiriClawInstruct.ai/plugins/developing-plugins | Plugin SDK documentation}
    */
   channelRuntime?: PluginRuntime["channel"];
 };
@@ -255,7 +255,7 @@ export type ChannelLoginWithQrWaitResult = {
 };
 
 export type ChannelLogoutContext<ResolvedAccount = unknown> = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId: string;
   account: ResolvedAccount;
   runtime: RuntimeEnv;
@@ -266,7 +266,7 @@ export type ChannelPairingAdapter = {
   idLabel: string;
   normalizeAllowEntry?: (entry: string) => string;
   notifyApproval?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     id: string;
     runtime?: RuntimeEnv;
   }) => Promise<void>;
@@ -290,7 +290,7 @@ export type ChannelGatewayAdapter<ResolvedAccount = unknown> = {
 
 export type ChannelAuthAdapter = {
   login?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId?: string | null;
     runtime: RuntimeEnv;
     verbose?: boolean;
@@ -300,24 +300,24 @@ export type ChannelAuthAdapter = {
 
 export type ChannelHeartbeatAdapter = {
   checkReady?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId?: string | null;
     deps?: ChannelHeartbeatDeps;
   }) => Promise<{ ok: boolean; reason: string }>;
-  resolveRecipients?: (params: { cfg: SiriClaw-InstructConfig; opts?: { to?: string; all?: boolean } }) => {
+  resolveRecipients?: (params: { cfg: SiriClawInstructConfig; opts?: { to?: string; all?: boolean } }) => {
     recipients: string[];
     source: string;
   };
 };
 
 type ChannelDirectorySelfParams = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
   runtime: RuntimeEnv;
 };
 
 type ChannelDirectoryListParams = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
   query?: string | null;
   limit?: number | null;
@@ -325,7 +325,7 @@ type ChannelDirectoryListParams = {
 };
 
 type ChannelDirectoryListGroupMembersParams = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
   groupId: string;
   limit?: number | null;
@@ -355,7 +355,7 @@ export type ChannelResolveResult = {
 
 export type ChannelResolverAdapter = {
   resolveTargets: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId?: string | null;
     inputs: string[];
     kind: ChannelResolveKind;
@@ -365,7 +365,7 @@ export type ChannelResolverAdapter = {
 
 export type ChannelElevatedAdapter = {
   allowFromFallback?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId?: string | null;
   }) => Array<string | number> | undefined;
 };
@@ -381,3 +381,4 @@ export type ChannelSecurityAdapter<ResolvedAccount = unknown> = {
   ) => ChannelSecurityDmPolicy | null;
   collectWarnings?: (ctx: ChannelSecurityContext<ResolvedAccount>) => Promise<string[]> | string[];
 };
+

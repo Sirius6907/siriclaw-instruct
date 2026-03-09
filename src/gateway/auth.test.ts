@@ -87,13 +87,13 @@ describe("gateway auth", () => {
     expect(res.user).toBe(params.expected.user);
   }
 
-  it("resolves token/password from SiriClaw-Instruct gateway env vars", () => {
+  it("resolves token/password from SiriClawInstruct gateway env vars", () => {
     expect(
       resolveGatewayAuth({
         authConfig: {},
         env: {
-          SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
-          SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password",
+          SiriClawInstruct_GATEWAY_TOKEN: "env-token",
+          SiriClawInstruct_GATEWAY_PASSWORD: "env-password",
         } as NodeJS.ProcessEnv,
       }),
     ).toMatchObject({
@@ -129,8 +129,8 @@ describe("gateway auth", () => {
           password: "config-password", // pragma: allowlist secret
         },
         env: {
-          SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
-          SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password",
+          SiriClawInstruct_GATEWAY_TOKEN: "env-token",
+          SiriClawInstruct_GATEWAY_PASSWORD: "env-password",
         } as NodeJS.ProcessEnv,
       }),
     ).toMatchObject({
@@ -143,12 +143,12 @@ describe("gateway auth", () => {
     expect(
       resolveGatewayAuth({
         authConfig: {
-          token: "${SiriClaw-Instruct_GATEWAY_TOKEN}",
-          password: "${SiriClaw-Instruct_GATEWAY_PASSWORD}",
+          token: "${SiriClawInstruct_GATEWAY_TOKEN}",
+          password: "${SiriClawInstruct_GATEWAY_PASSWORD}",
         },
         env: {
-          SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
-          SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password",
+          SiriClawInstruct_GATEWAY_TOKEN: "env-token",
+          SiriClawInstruct_GATEWAY_PASSWORD: "env-password",
         } as NodeJS.ProcessEnv,
       }),
     ).toMatchObject({
@@ -434,7 +434,7 @@ describe("gateway auth", () => {
     ).toThrow(/provider reference object/);
   });
 
-  it("accepts password mode when env provides SiriClaw-Instruct_GATEWAY_PASSWORD", () => {
+  it("accepts password mode when env provides SiriClawInstruct_GATEWAY_PASSWORD", () => {
     const rawPasswordRef = { source: "exec", provider: "op", id: "pw" } as never;
     const auth = resolveGatewayAuth({
       authConfig: {
@@ -442,7 +442,7 @@ describe("gateway auth", () => {
         password: rawPasswordRef,
       },
       env: {
-        SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password",
+        SiriClawInstruct_GATEWAY_PASSWORD: "env-password",
       } as NodeJS.ProcessEnv,
     });
 
@@ -650,3 +650,4 @@ describe("trusted-proxy auth", () => {
     expect(res.user).toBe("nick@example.com");
   });
 });
+

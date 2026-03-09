@@ -1,14 +1,18 @@
 {
-  "name": "@SiriClaw-Instruct/lobster",
+  "name": "@siriclaw-instruct/lobster",
   "version": "2026.3.8",
   "description": "Lobster workflow tool plugin (typed pipelines + resumable approvals)",
   "type": "module",
   "dependencies": {
     "@sinclair/typebox": "0.34.48"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

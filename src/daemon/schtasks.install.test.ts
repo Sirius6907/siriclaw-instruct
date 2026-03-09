@@ -22,10 +22,10 @@ describe("installScheduledTask", () => {
   async function withUserProfileDir(
     run: (tmpDir: string, env: Record<string, string>) => Promise<void>,
   ) {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-schtasks-install-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-schtasks-install-"));
     const env = {
       USERPROFILE: tmpDir,
-      SiriClaw-Instruct_PROFILE: "default",
+      SiriClawInstruct_PROFILE: "default",
     };
     try {
       await run(tmpDir, env);
@@ -98,7 +98,7 @@ describe("installScheduledTask", () => {
 
       expect(schtasksCalls[0]).toEqual(["/Query"]);
       expect(schtasksCalls[1]?.[0]).toBe("/Create");
-      expect(schtasksCalls[2]).toEqual(["/Run", "/TN", "SiriClaw-Instruct Gateway"]);
+      expect(schtasksCalls[2]).toEqual(["/Run", "/TN", "SiriClawInstruct Gateway"]);
     });
   });
 
@@ -142,13 +142,14 @@ describe("installScheduledTask", () => {
         programArguments: ["node", "gateway.js"],
         environment: {
           PATH: "C:\\Windows\\System32;C:\\Program Files\\Docker\\Docker\\resources\\bin",
-          SiriClaw-Instruct_GATEWAY_PORT: "18789",
+          SiriClawInstruct_GATEWAY_PORT: "18789",
         },
       });
 
       const script = await fs.readFile(scriptPath, "utf8");
       expect(script).not.toContain('set "PATH=');
-      expect(script).toContain('set "SiriClaw-Instruct_GATEWAY_PORT=18789"');
+      expect(script).toContain('set "SiriClawInstruct_GATEWAY_PORT=18789"');
     });
   });
 });
+

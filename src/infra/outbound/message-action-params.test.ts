@@ -2,13 +2,13 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   hydrateAttachmentParamsForAction,
   normalizeSandboxMediaParams,
 } from "./message-action-params.js";
 
-const cfg = {} as SiriClaw-InstructConfig;
+const cfg = {} as SiriClawInstructConfig;
 const maybeIt = process.platform === "win32" ? it.skip : it;
 
 describe("message action sandbox media hydration", () => {
@@ -55,3 +55,4 @@ describe("message action sandbox media hydration", () => {
     }
   });
 });
+

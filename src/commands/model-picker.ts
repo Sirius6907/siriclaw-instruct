@@ -9,7 +9,7 @@ import {
   normalizeProviderId,
   resolveConfiguredModelRef,
 } from "../agents/model-selection.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
 import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.js";
 import { formatTokenK } from "./models/shared.js";
@@ -27,7 +27,7 @@ const PROVIDER_FILTER_THRESHOLD = 30;
 const HIDDEN_ROUTER_MODELS = new Set(["openrouter/auto"]);
 
 type PromptDefaultModelParams = {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   prompter: WizardPrompter;
   allowKeep?: boolean;
   includeManual?: boolean;
@@ -38,12 +38,12 @@ type PromptDefaultModelParams = {
   message?: string;
 };
 
-type PromptDefaultModelResult = { model?: string; config?: SiriClaw-InstructConfig };
+type PromptDefaultModelResult = { model?: string; config?: SiriClawInstructConfig };
 type PromptModelAllowlistResult = { models?: string[] };
 
 function hasAuthForProvider(
   provider: string,
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   store: ReturnType<typeof ensureAuthProfileStore>,
 ) {
   if (listProfilesForProvider(store, provider).length > 0) {
@@ -59,7 +59,7 @@ function hasAuthForProvider(
 }
 
 function createProviderAuthChecker(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentDir?: string;
 }): (provider: string) => boolean {
   const authStore = ensureAuthProfileStore(params.agentDir, {
@@ -77,11 +77,11 @@ function createProviderAuthChecker(params: {
   };
 }
 
-function resolveConfiguredModelRaw(cfg: SiriClaw-InstructConfig): string {
+function resolveConfiguredModelRaw(cfg: SiriClawInstructConfig): string {
   return resolveAgentModelPrimaryValue(cfg.agents?.defaults?.model) ?? "";
 }
 
-function resolveConfiguredModelKeys(cfg: SiriClaw-InstructConfig): string[] {
+function resolveConfiguredModelKeys(cfg: SiriClawInstructConfig): string[] {
   const models = cfg.agents?.defaults?.models ?? {};
   return Object.keys(models)
     .map((key) => String(key ?? "").trim())
@@ -357,7 +357,7 @@ export async function promptDefaultModel(
 }
 
 export async function promptModelAllowlist(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   prompter: WizardPrompter;
   message?: string;
   agentDir?: string;
@@ -459,7 +459,7 @@ export async function promptModelAllowlist(params: {
   return { models: [] };
 }
 
-export function applyPrimaryModel(cfg: SiriClaw-InstructConfig, model: string): SiriClaw-InstructConfig {
+export function applyPrimaryModel(cfg: SiriClawInstructConfig, model: string): SiriClawInstructConfig {
   const defaults = cfg.agents?.defaults;
   const existingModel = defaults?.model;
   const existingModels = defaults?.models;
@@ -486,7 +486,7 @@ export function applyPrimaryModel(cfg: SiriClaw-InstructConfig, model: string): 
   };
 }
 
-export function applyModelAllowlist(cfg: SiriClaw-InstructConfig, models: string[]): SiriClaw-InstructConfig {
+export function applyModelAllowlist(cfg: SiriClawInstructConfig, models: string[]): SiriClawInstructConfig {
   const defaults = cfg.agents?.defaults;
   const normalized = normalizeModelKeys(models);
   if (normalized.length === 0) {
@@ -522,9 +522,9 @@ export function applyModelAllowlist(cfg: SiriClaw-InstructConfig, models: string
 }
 
 export function applyModelFallbacksFromSelection(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   selection: string[],
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const normalized = normalizeModelKeys(selection);
   if (normalized.length <= 1) {
     return cfg;
@@ -565,3 +565,4 @@ export function applyModelFallbacksFromSelection(
     },
   };
 }
+

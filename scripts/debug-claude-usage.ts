@@ -46,7 +46,7 @@ const parseArgs = (): Args => {
 
 const loadAuthProfiles = (agentId: string) => {
   const stateRoot =
-    process.env.SiriClaw-Instruct_STATE_DIR?.trim() ||
+    process.env.SIRICLAW_STATE_DIR?.trim() ||
     process.env.SIRICLAW_STATE_DIR?.trim() ||
     path.join(os.homedir(), ".SiriClaw-Instruct");
   const authPath = path.join(stateRoot, "agents", agentId, "agent", "auth-profiles.json");

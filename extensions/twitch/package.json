@@ -1,7 +1,7 @@
 {
-  "name": "@SiriClaw-Instruct/twitch",
+  "name": "@siriclaw-instruct/twitch",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct Twitch channel plugin",
+  "description": "siriclaw-instruct Twitch channel plugin",
   "type": "module",
   "dependencies": {
     "@twurple/api": "^8.0.3",
@@ -9,9 +9,13 @@
     "@twurple/chat": "^8.0.3",
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

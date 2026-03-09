@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resetEmbeddingMocks } from "./embedding.test-mocks.js";
 import type { MemoryIndexManager } from "./index.js";
 import { getRequiredMemoryIndexManager } from "./test-manager-helpers.js";
@@ -10,7 +10,7 @@ import { getRequiredMemoryIndexManager } from "./test-manager-helpers.js";
 function createMemorySearchCfg(options: {
   workspaceDir: string;
   indexPath: string;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   return {
     agents: {
       defaults: {
@@ -26,7 +26,7 @@ function createMemorySearchCfg(options: {
       },
       list: [{ id: "main", default: true }],
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 describe("MemoryIndexManager.readFile", () => {
@@ -36,7 +36,7 @@ describe("MemoryIndexManager.readFile", () => {
 
   beforeEach(async () => {
     resetEmbeddingMocks();
-    workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-mem-read-"));
+    workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-mem-read-"));
     indexPath = path.join(workspaceDir, "index.sqlite");
     await fs.mkdir(path.join(workspaceDir, "memory"), { recursive: true });
   });
@@ -122,3 +122,4 @@ describe("MemoryIndexManager.readFile", () => {
     readSpy.mockRestore();
   });
 });
+

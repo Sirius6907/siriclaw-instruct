@@ -6,7 +6,7 @@ import {
   loadSkillsFromDir,
   type Skill,
 } from "@mariozechner/pi-coding-agent";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { isPathInside } from "../../infra/path-guards.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { CONFIG_DIR, resolveUserPath } from "../../utils.js";
@@ -16,7 +16,7 @@ import { shouldIncludeSkill } from "./config.js";
 import { normalizeSkillFilter } from "./filter.js";
 import {
   parseFrontmatter,
-  resolveSiriClaw-InstructMetadata,
+  resolveSiriClawInstructMetadata,
   resolveSkillInvocationPolicy,
 } from "./frontmatter.js";
 import { resolvePluginSkillDirs } from "./plugin-skills.js";
@@ -67,7 +67,7 @@ function debugSkillCommandOnce(
 
 function filterSkillEntries(
   entries: SkillEntry[],
-  config?: SiriClaw-InstructConfig,
+  config?: SiriClawInstructConfig,
   skillFilter?: string[],
   eligibility?: SkillEligibilityContext,
 ): SkillEntry[] {
@@ -136,7 +136,7 @@ type ResolvedSkillsLimits = {
   maxSkillFileBytes: number;
 };
 
-function resolveSkillsLimits(config?: SiriClaw-InstructConfig): ResolvedSkillsLimits {
+function resolveSkillsLimits(config?: SiriClawInstructConfig): ResolvedSkillsLimits {
   const limits = config?.skills?.limits;
   return {
     maxCandidatesPerRoot: limits?.maxCandidatesPerRoot ?? DEFAULT_MAX_CANDIDATES_PER_ROOT,
@@ -292,7 +292,7 @@ function unwrapLoadedSkills(loaded: unknown): Skill[] {
 function loadSkillEntries(
   workspaceDir: string,
   opts?: {
-    config?: SiriClaw-InstructConfig;
+    config?: SiriClawInstructConfig;
     managedSkillsDir?: string;
     bundledSkillsDir?: string;
   },
@@ -458,19 +458,19 @@ function loadSkillEntries(
   const bundledSkills = bundledSkillsDir
     ? loadSkills({
         dir: bundledSkillsDir,
-        source: "SiriClaw-Instruct-bundled",
+        source: "SiriClawInstruct-bundled",
       })
     : [];
   const extraSkills = mergedExtraDirs.flatMap((dir) => {
     const resolved = resolveUserPath(dir);
     return loadSkills({
       dir: resolved,
-      source: "SiriClaw-Instruct-extra",
+      source: "SiriClawInstruct-extra",
     });
   });
   const managedSkills = loadSkills({
     dir: managedSkillsDir,
-    source: "SiriClaw-Instruct-managed",
+    source: "SiriClawInstruct-managed",
   });
   const personalAgentsSkillsDir = path.resolve(os.homedir(), ".agents", "skills");
   const personalAgentsSkills = loadSkills({
@@ -484,7 +484,7 @@ function loadSkillEntries(
   });
   const workspaceSkills = loadSkills({
     dir: workspaceSkillsDir,
-    source: "SiriClaw-Instruct-workspace",
+    source: "SiriClawInstruct-workspace",
   });
 
   const merged = new Map<string, Skill>();
@@ -519,14 +519,14 @@ function loadSkillEntries(
     return {
       skill,
       frontmatter,
-      metadata: resolveSiriClaw-InstructMetadata(frontmatter),
+      metadata: resolveSiriClawInstructMetadata(frontmatter),
       invocation: resolveSkillInvocationPolicy(frontmatter),
     };
   });
   return skillEntries;
 }
 
-function applySkillsPromptLimits(params: { skills: Skill[]; config?: SiriClaw-InstructConfig }): {
+function applySkillsPromptLimits(params: { skills: Skill[]; config?: SiriClawInstructConfig }): {
   skillsForPrompt: Skill[];
   truncated: boolean;
   truncatedReason: "count" | "chars" | null;
@@ -591,7 +591,7 @@ export function buildWorkspaceSkillsPrompt(
 }
 
 type WorkspaceSkillBuildOptions = {
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   managedSkillsDir?: string;
   bundledSkillsDir?: string;
   entries?: SkillEntry[];
@@ -625,7 +625,7 @@ function resolveWorkspaceSkillPromptState(
     config: opts?.config,
   });
   const truncationNote = truncated
-    ? `⚠️ Skills truncated: included ${skillsForPrompt.length} of ${resolvedSkills.length}. Run \`SiriClaw-Instruct skills check\` to audit.`
+    ? `⚠️ Skills truncated: included ${skillsForPrompt.length} of ${resolvedSkills.length}. Run \`SiriClawInstruct skills check\` to audit.`
     : "";
   const prompt = [
     remoteNote,
@@ -640,7 +640,7 @@ function resolveWorkspaceSkillPromptState(
 export function resolveSkillsPromptForRun(params: {
   skillsSnapshot?: SkillSnapshot;
   entries?: SkillEntry[];
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   workspaceDir: string;
 }): string {
   const snapshotPrompt = params.skillsSnapshot?.prompt?.trim();
@@ -660,7 +660,7 @@ export function resolveSkillsPromptForRun(params: {
 export function loadWorkspaceSkillEntries(
   workspaceDir: string,
   opts?: {
-    config?: SiriClaw-InstructConfig;
+    config?: SiriClawInstructConfig;
     managedSkillsDir?: string;
     bundledSkillsDir?: string;
   },
@@ -710,7 +710,7 @@ function resolveSyncedSkillDestinationPath(params: {
 export async function syncSkillsToWorkspace(params: {
   sourceWorkspaceDir: string;
   targetWorkspaceDir: string;
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   managedSkillsDir?: string;
   bundledSkillsDir?: string;
 }) {
@@ -767,7 +767,7 @@ export async function syncSkillsToWorkspace(params: {
 
 export function filterWorkspaceSkillEntries(
   entries: SkillEntry[],
-  config?: SiriClaw-InstructConfig,
+  config?: SiriClawInstructConfig,
 ): SkillEntry[] {
   return filterSkillEntries(entries, config);
 }
@@ -775,7 +775,7 @@ export function filterWorkspaceSkillEntries(
 export function buildWorkspaceSkillCommandSpecs(
   workspaceDir: string,
   opts?: {
-    config?: SiriClaw-InstructConfig;
+    config?: SiriClawInstructConfig;
     managedSkillsDir?: string;
     bundledSkillsDir?: string;
     entries?: SkillEntry[];
@@ -879,3 +879,4 @@ export function buildWorkspaceSkillCommandSpecs(
   }
   return specs;
 }
+

@@ -38,3 +38,4 @@ enum SettingsNetworkingHelpers {
         return "http://\(fallback)"
     }
 }
+

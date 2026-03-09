@@ -4,7 +4,7 @@ const mocks = vi.hoisted(() => ({
   getChannelPlugin: vi.fn(),
   resolveOutboundTarget: vi.fn(),
   deliverOutboundPayloads: vi.fn(),
-  loadSiriClaw-InstructPlugins: vi.fn(),
+  loadSiriClawInstructPlugins: vi.fn(),
 }));
 
 vi.mock("../../channels/plugins/index.js", () => ({
@@ -15,7 +15,7 @@ vi.mock("../../channels/plugins/index.js", () => ({
 
 vi.mock("../../agents/agent-scope.js", () => ({
   resolveDefaultAgentId: () => "main",
-  resolveAgentWorkspaceDir: () => "/tmp/SiriClaw-Instruct-test-workspace",
+  resolveAgentWorkspaceDir: () => "/tmp/SiriClawInstruct-test-workspace",
 }));
 
 vi.mock("../../config/plugin-auto-enable.js", () => ({
@@ -23,7 +23,7 @@ vi.mock("../../config/plugin-auto-enable.js", () => ({
 }));
 
 vi.mock("../../plugins/loader.js", () => ({
-  loadSiriClaw-InstructPlugins: mocks.loadSiriClaw-InstructPlugins,
+  loadSiriClawInstructPlugins: mocks.loadSiriClawInstructPlugins,
 }));
 
 vi.mock("./targets.js", () => ({
@@ -44,7 +44,7 @@ describe("sendMessage", () => {
     mocks.getChannelPlugin.mockClear();
     mocks.resolveOutboundTarget.mockClear();
     mocks.deliverOutboundPayloads.mockClear();
-    mocks.loadSiriClaw-InstructPlugins.mockClear();
+    mocks.loadSiriClawInstructPlugins.mockClear();
 
     mocks.getChannelPlugin.mockReturnValue({
       outbound: { deliveryMode: "direct" },
@@ -93,6 +93,7 @@ describe("sendMessage", () => {
       via: "direct",
     });
 
-    expect(mocks.loadSiriClaw-InstructPlugins).toHaveBeenCalledTimes(1);
+    expect(mocks.loadSiriClawInstructPlugins).toHaveBeenCalledTimes(1);
   });
 });
+

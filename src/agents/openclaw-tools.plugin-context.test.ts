@@ -11,11 +11,11 @@ vi.mock("../plugins/tools.js", () => ({
   resolvePluginTools: resolvePluginToolsMock,
 }));
 
-import { createSiriClaw-InstructTools } from "./SiriClaw-Instruct-tools.js";
+import { createSiriClawInstructTools } from "./siriclaw-instruct-tools.js";
 
-describe("createSiriClaw-InstructTools plugin context", () => {
+describe("createSiriClawInstructTools plugin context", () => {
   it("forwards trusted requester sender identity to plugin tool context", () => {
-    createSiriClaw-InstructTools({
+    createSiriClawInstructTools({
       config: {} as never,
       requesterSenderId: "trusted-sender",
       senderIsOwner: true,
@@ -32,7 +32,7 @@ describe("createSiriClaw-InstructTools plugin context", () => {
   });
 
   it("forwards ephemeral sessionId to plugin tool context", () => {
-    createSiriClaw-InstructTools({
+    createSiriClawInstructTools({
       config: {} as never,
       agentSessionKey: "agent:main:telegram:direct:12345",
       sessionId: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
@@ -48,3 +48,4 @@ describe("createSiriClaw-InstructTools plugin context", () => {
     );
   });
 });
+

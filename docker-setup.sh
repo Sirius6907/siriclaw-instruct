@@ -595,3 +595,4 @@ echo ""
 echo "Commands:"
 echo "  ${COMPOSE_HINT} logs -f SiriClaw-Instruct-gateway"
 echo "  ${COMPOSE_HINT} exec SiriClaw-Instruct-gateway node dist/index.js health --token \"$SiriClaw-Instruct_GATEWAY_TOKEN\""
+

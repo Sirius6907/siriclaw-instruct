@@ -3,14 +3,14 @@ import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import "./test-helpers/fast-coding-tools.js";
-import { createSiriClaw-InstructCodingTools } from "./pi-tools.js";
+import { createSiriClawInstructCodingTools } from "./pi-tools.js";
 import { expectReadWriteEditTools } from "./test-helpers/pi-tools-fs-helpers.js";
 
-describe("createSiriClaw-InstructCodingTools", () => {
+describe("createSiriClawInstructCodingTools", () => {
   it("accepts Claude Code parameter aliases for read/write/edit", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-alias-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-alias-"));
     try {
-      const tools = createSiriClaw-InstructCodingTools({ workspaceDir: tmpDir });
+      const tools = createSiriClawInstructCodingTools({ workspaceDir: tmpDir });
       const { readTool, writeTool, editTool } = expectReadWriteEditTools(tools);
 
       const filePath = "alias-test.txt";
@@ -40,9 +40,9 @@ describe("createSiriClaw-InstructCodingTools", () => {
   });
 
   it("coerces structured content blocks for write", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-structured-write-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-structured-write-"));
     try {
-      const tools = createSiriClaw-InstructCodingTools({ workspaceDir: tmpDir });
+      const tools = createSiriClawInstructCodingTools({ workspaceDir: tmpDir });
       const writeTool = tools.find((tool) => tool.name === "write");
       expect(writeTool).toBeDefined();
 
@@ -64,12 +64,12 @@ describe("createSiriClaw-InstructCodingTools", () => {
   });
 
   it("coerces structured old/new text blocks for edit", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-structured-edit-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-structured-edit-"));
     try {
       const filePath = path.join(tmpDir, "structured-edit.js");
       await fs.writeFile(filePath, "const value = 'old';\n", "utf8");
 
-      const tools = createSiriClaw-InstructCodingTools({ workspaceDir: tmpDir });
+      const tools = createSiriClawInstructCodingTools({ workspaceDir: tmpDir });
       const editTool = tools.find((tool) => tool.name === "edit");
       expect(editTool).toBeDefined();
 
@@ -86,3 +86,4 @@ describe("createSiriClaw-InstructCodingTools", () => {
     }
   });
 });
+

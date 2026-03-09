@@ -1,5 +1,5 @@
 import { normalizeChatChannelId } from "../channels/registry.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { PluginRecord } from "./registry.js";
 import { defaultSlotIdForKey } from "./slots.js";
 
@@ -88,7 +88,7 @@ const normalizePluginEntries = (entries: unknown): NormalizedPluginsConfig["entr
 };
 
 export const normalizePluginsConfig = (
-  config?: SiriClaw-InstructConfig["plugins"],
+  config?: SiriClawInstructConfig["plugins"],
 ): NormalizedPluginsConfig => {
   const memorySlot = normalizeSlotValue(config?.slots?.memory);
   return {
@@ -103,13 +103,13 @@ export const normalizePluginsConfig = (
   };
 };
 
-const hasExplicitMemorySlot = (plugins?: SiriClaw-InstructConfig["plugins"]) =>
+const hasExplicitMemorySlot = (plugins?: SiriClawInstructConfig["plugins"]) =>
   Boolean(plugins?.slots && Object.prototype.hasOwnProperty.call(plugins.slots, "memory"));
 
-const hasExplicitMemoryEntry = (plugins?: SiriClaw-InstructConfig["plugins"]) =>
+const hasExplicitMemoryEntry = (plugins?: SiriClawInstructConfig["plugins"]) =>
   Boolean(plugins?.entries && Object.prototype.hasOwnProperty.call(plugins.entries, "memory-core"));
 
-const hasExplicitPluginConfig = (plugins?: SiriClaw-InstructConfig["plugins"]) => {
+const hasExplicitPluginConfig = (plugins?: SiriClawInstructConfig["plugins"]) => {
   if (!plugins) {
     return false;
   }
@@ -135,9 +135,9 @@ const hasExplicitPluginConfig = (plugins?: SiriClaw-InstructConfig["plugins"]) =
 };
 
 export function applyTestPluginDefaults(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   env: NodeJS.ProcessEnv = process.env,
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   if (!env.VITEST) {
     return cfg;
   }
@@ -173,7 +173,7 @@ export function applyTestPluginDefaults(
 }
 
 export function isTestDefaultMemorySlotDisabled(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
   if (!env.VITEST) {
@@ -220,7 +220,7 @@ export function resolveEnableState(
 }
 
 export function isBundledChannelEnabledByChannelConfig(
-  cfg: SiriClaw-InstructConfig | undefined,
+  cfg: SiriClawInstructConfig | undefined,
   pluginId: string,
 ): boolean {
   if (!cfg) {
@@ -242,7 +242,7 @@ export function resolveEffectiveEnableState(params: {
   id: string;
   origin: PluginRecord["origin"];
   config: NormalizedPluginsConfig;
-  rootConfig?: SiriClaw-InstructConfig;
+  rootConfig?: SiriClawInstructConfig;
 }): { enabled: boolean; reason?: string } {
   const base = resolveEnableState(params.id, params.origin, params.config);
   if (
@@ -284,3 +284,4 @@ export function resolveMemorySlotDecision(params: {
   }
   return { enabled: true, selected: true };
 }
+

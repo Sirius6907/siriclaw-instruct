@@ -55,17 +55,17 @@ export async function ensureConfigReady(params: {
       await runDoctorConfigFlow();
     } else {
       const originalStdoutWrite = process.stdout.write.bind(process.stdout);
-      const originalSuppressNotes = process.env.SiriClaw-Instruct_SUPPRESS_NOTES;
+      const originalSuppressNotes = process.env.SiriClawInstruct_SUPPRESS_NOTES;
       process.stdout.write = (() => true) as unknown as typeof process.stdout.write;
-      process.env.SiriClaw-Instruct_SUPPRESS_NOTES = "1";
+      process.env.SiriClawInstruct_SUPPRESS_NOTES = "1";
       try {
         await runDoctorConfigFlow();
       } finally {
         process.stdout.write = originalStdoutWrite;
         if (originalSuppressNotes === undefined) {
-          delete process.env.SiriClaw-Instruct_SUPPRESS_NOTES;
+          delete process.env.SiriClawInstruct_SUPPRESS_NOTES;
         } else {
-          process.env.SiriClaw-Instruct_SUPPRESS_NOTES = originalSuppressNotes;
+          process.env.SiriClawInstruct_SUPPRESS_NOTES = originalSuppressNotes;
         }
       }
     }
@@ -110,7 +110,7 @@ export async function ensureConfigReady(params: {
   }
   params.runtime.error("");
   params.runtime.error(
-    `${muted("Run:")} ${commandText(formatCliCommand("SiriClaw-Instruct doctor --fix"))}`,
+    `${muted("Run:")} ${commandText(formatCliCommand("SiriClawInstruct doctor --fix"))}`,
   );
   if (!allowInvalid) {
     params.runtime.exit(1);
@@ -120,3 +120,4 @@ export async function ensureConfigReady(params: {
 export const __test__ = {
   resetConfigGuardStateForTests,
 };
+

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 
 const mocks = vi.hoisted(() => ({
   readConfigFileSnapshot: vi.fn(),
@@ -20,7 +20,7 @@ describe("models/shared", () => {
   });
 
   it("returns config when snapshot is valid", async () => {
-    const cfg = { providers: {} } as unknown as SiriClaw-InstructConfig;
+    const cfg = { providers: {} } as unknown as SiriClawInstructConfig;
     mocks.readConfigFileSnapshot.mockResolvedValue({
       valid: true,
       config: cfg,
@@ -32,17 +32,17 @@ describe("models/shared", () => {
   it("throws formatted issues when snapshot is invalid", async () => {
     mocks.readConfigFileSnapshot.mockResolvedValue({
       valid: false,
-      path: "/tmp/SiriClaw-Instruct.json",
+      path: "/tmp/SiriClawInstruct.json",
       issues: [{ path: "providers.openai.apiKey", message: "Required" }],
     });
 
     await expect(loadValidConfigOrThrow()).rejects.toThrowError(
-      "Invalid config at /tmp/SiriClaw-Instruct.json\n- providers.openai.apiKey: Required",
+      "Invalid config at /tmp/SiriClawInstruct.json\n- providers.openai.apiKey: Required",
     );
   });
 
   it("updateConfig writes mutated config", async () => {
-    const cfg = { update: { channel: "stable" } } as unknown as SiriClaw-InstructConfig;
+    const cfg = { update: { channel: "stable" } } as unknown as SiriClawInstructConfig;
     mocks.readConfigFileSnapshot.mockResolvedValue({
       valid: true,
       config: cfg,
@@ -61,3 +61,4 @@ describe("models/shared", () => {
     );
   });
 });
+

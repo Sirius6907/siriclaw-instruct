@@ -113,7 +113,7 @@ export async function createWaSocket(
     version,
     logger,
     printQRInTerminal: false,
-    browser: ["SiriClaw-Instruct", "cli", VERSION],
+    browser: ["SiriClawInstruct", "cli", VERSION],
     syncFullHistory: false,
     markOnlineOnConnect: false,
   });
@@ -136,7 +136,7 @@ export async function createWaSocket(
           if (status === DisconnectReason.loggedOut) {
             console.error(
               danger(
-                `WhatsApp session logged out. Run: ${formatCliCommand("SiriClaw-Instruct channels login")}`,
+                `WhatsApp session logged out. Run: ${formatCliCommand("SiriClawInstruct channels login")}`,
               ),
             );
           }
@@ -310,3 +310,4 @@ export function formatError(err: unknown): string {
 export function newConnectionId() {
   return randomUUID();
 }
+

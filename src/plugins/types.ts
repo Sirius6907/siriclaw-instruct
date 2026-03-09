@@ -7,7 +7,7 @@ import type { ReplyPayload } from "../auto-reply/types.js";
 import type { ChannelDock } from "../channels/dock.js";
 import type { ChannelId, ChannelPlugin } from "../channels/plugins/types.js";
 import type { createVpsAwareOAuthHandlers } from "../commands/oauth-flow.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { ModelProviderConfig } from "../config/types.js";
 import type { GatewayRequestHandler } from "../gateway/server-methods/types.js";
 import type { InternalHookHandler } from "../hooks/internal-hooks.js";
@@ -41,7 +41,7 @@ export type PluginConfigValidation =
   | { ok: true; value?: unknown }
   | { ok: false; errors: string[] };
 
-export type SiriClaw-InstructPluginConfigSchema = {
+export type SiriClawInstructPluginConfigSchema = {
   safeParse?: (value: unknown) => {
     success: boolean;
     data?: unknown;
@@ -55,8 +55,8 @@ export type SiriClaw-InstructPluginConfigSchema = {
   jsonSchema?: Record<string, unknown>;
 };
 
-export type SiriClaw-InstructPluginToolContext = {
-  config?: SiriClaw-InstructConfig;
+export type SiriClawInstructPluginToolContext = {
+  config?: SiriClawInstructConfig;
   workspaceDir?: string;
   agentDir?: string;
   agentId?: string;
@@ -72,17 +72,17 @@ export type SiriClaw-InstructPluginToolContext = {
   sandboxed?: boolean;
 };
 
-export type SiriClaw-InstructPluginToolFactory = (
-  ctx: SiriClaw-InstructPluginToolContext,
+export type SiriClawInstructPluginToolFactory = (
+  ctx: SiriClawInstructPluginToolContext,
 ) => AnyAgentTool | AnyAgentTool[] | null | undefined;
 
-export type SiriClaw-InstructPluginToolOptions = {
+export type SiriClawInstructPluginToolOptions = {
   name?: string;
   names?: string[];
   optional?: boolean;
 };
 
-export type SiriClaw-InstructPluginHookOptions = {
+export type SiriClawInstructPluginHookOptions = {
   entry?: HookEntry;
   name?: string;
   description?: string;
@@ -93,13 +93,13 @@ export type ProviderAuthKind = "oauth" | "api_key" | "token" | "device_code" | "
 
 export type ProviderAuthResult = {
   profiles: Array<{ profileId: string; credential: AuthProfileCredential }>;
-  configPatch?: Partial<SiriClaw-InstructConfig>;
+  configPatch?: Partial<SiriClawInstructConfig>;
   defaultModel?: string;
   notes?: string[];
 };
 
 export type ProviderAuthContext = {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   agentDir?: string;
   workspaceDir?: string;
   prompter: WizardPrompter;
@@ -131,7 +131,7 @@ export type ProviderPlugin = {
   refreshOAuth?: (cred: OAuthCredential) => Promise<OAuthCredential>;
 };
 
-export type SiriClaw-InstructPluginGatewayMethod = {
+export type SiriClawInstructPluginGatewayMethod = {
   method: string;
   handler: GatewayRequestHandler;
 };
@@ -156,8 +156,8 @@ export type PluginCommandContext = {
   args?: string;
   /** The full normalized command body */
   commandBody: string;
-  /** Current SiriClaw-Instruct configuration */
-  config: SiriClaw-InstructConfig;
+  /** Current SiriClawInstruct configuration */
+  config: SiriClawInstructConfig;
   /** Raw "From" value (channel-scoped id) */
   from?: string;
   /** Raw "To" value (channel-scoped id) */
@@ -183,7 +183,7 @@ export type PluginCommandHandler = (
 /**
  * Definition for a plugin-registered command.
  */
-export type SiriClaw-InstructPluginCommandDefinition = {
+export type SiriClawInstructPluginCommandDefinition = {
   /** Command name without leading slash (e.g., "tts") */
   name: string;
   /**
@@ -202,95 +202,95 @@ export type SiriClaw-InstructPluginCommandDefinition = {
   handler: PluginCommandHandler;
 };
 
-export type SiriClaw-InstructPluginHttpRouteAuth = "gateway" | "plugin";
-export type SiriClaw-InstructPluginHttpRouteMatch = "exact" | "prefix";
+export type SiriClawInstructPluginHttpRouteAuth = "gateway" | "plugin";
+export type SiriClawInstructPluginHttpRouteMatch = "exact" | "prefix";
 
-export type SiriClaw-InstructPluginHttpRouteHandler = (
+export type SiriClawInstructPluginHttpRouteHandler = (
   req: IncomingMessage,
   res: ServerResponse,
 ) => Promise<boolean | void> | boolean | void;
 
-export type SiriClaw-InstructPluginHttpRouteParams = {
+export type SiriClawInstructPluginHttpRouteParams = {
   path: string;
-  handler: SiriClaw-InstructPluginHttpRouteHandler;
-  auth: SiriClaw-InstructPluginHttpRouteAuth;
-  match?: SiriClaw-InstructPluginHttpRouteMatch;
+  handler: SiriClawInstructPluginHttpRouteHandler;
+  auth: SiriClawInstructPluginHttpRouteAuth;
+  match?: SiriClawInstructPluginHttpRouteMatch;
   replaceExisting?: boolean;
 };
 
-export type SiriClaw-InstructPluginCliContext = {
+export type SiriClawInstructPluginCliContext = {
   program: Command;
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   workspaceDir?: string;
   logger: PluginLogger;
 };
 
-export type SiriClaw-InstructPluginCliRegistrar = (ctx: SiriClaw-InstructPluginCliContext) => void | Promise<void>;
+export type SiriClawInstructPluginCliRegistrar = (ctx: SiriClawInstructPluginCliContext) => void | Promise<void>;
 
-export type SiriClaw-InstructPluginServiceContext = {
-  config: SiriClaw-InstructConfig;
+export type SiriClawInstructPluginServiceContext = {
+  config: SiriClawInstructConfig;
   workspaceDir?: string;
   stateDir: string;
   logger: PluginLogger;
 };
 
-export type SiriClaw-InstructPluginService = {
+export type SiriClawInstructPluginService = {
   id: string;
-  start: (ctx: SiriClaw-InstructPluginServiceContext) => void | Promise<void>;
-  stop?: (ctx: SiriClaw-InstructPluginServiceContext) => void | Promise<void>;
+  start: (ctx: SiriClawInstructPluginServiceContext) => void | Promise<void>;
+  stop?: (ctx: SiriClawInstructPluginServiceContext) => void | Promise<void>;
 };
 
-export type SiriClaw-InstructPluginChannelRegistration = {
+export type SiriClawInstructPluginChannelRegistration = {
   plugin: ChannelPlugin;
   dock?: ChannelDock;
 };
 
-export type SiriClaw-InstructPluginDefinition = {
+export type SiriClawInstructPluginDefinition = {
   id?: string;
   name?: string;
   description?: string;
   version?: string;
   kind?: PluginKind;
-  configSchema?: SiriClaw-InstructPluginConfigSchema;
-  register?: (api: SiriClaw-InstructPluginApi) => void | Promise<void>;
-  activate?: (api: SiriClaw-InstructPluginApi) => void | Promise<void>;
+  configSchema?: SiriClawInstructPluginConfigSchema;
+  register?: (api: SiriClawInstructPluginApi) => void | Promise<void>;
+  activate?: (api: SiriClawInstructPluginApi) => void | Promise<void>;
 };
 
-export type SiriClaw-InstructPluginModule =
-  | SiriClaw-InstructPluginDefinition
-  | ((api: SiriClaw-InstructPluginApi) => void | Promise<void>);
+export type SiriClawInstructPluginModule =
+  | SiriClawInstructPluginDefinition
+  | ((api: SiriClawInstructPluginApi) => void | Promise<void>);
 
-export type SiriClaw-InstructPluginApi = {
+export type SiriClawInstructPluginApi = {
   id: string;
   name: string;
   version?: string;
   description?: string;
   source: string;
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   pluginConfig?: Record<string, unknown>;
   runtime: PluginRuntime;
   logger: PluginLogger;
   registerTool: (
-    tool: AnyAgentTool | SiriClaw-InstructPluginToolFactory,
-    opts?: SiriClaw-InstructPluginToolOptions,
+    tool: AnyAgentTool | SiriClawInstructPluginToolFactory,
+    opts?: SiriClawInstructPluginToolOptions,
   ) => void;
   registerHook: (
     events: string | string[],
     handler: InternalHookHandler,
-    opts?: SiriClaw-InstructPluginHookOptions,
+    opts?: SiriClawInstructPluginHookOptions,
   ) => void;
-  registerHttpRoute: (params: SiriClaw-InstructPluginHttpRouteParams) => void;
-  registerChannel: (registration: SiriClaw-InstructPluginChannelRegistration | ChannelPlugin) => void;
+  registerHttpRoute: (params: SiriClawInstructPluginHttpRouteParams) => void;
+  registerChannel: (registration: SiriClawInstructPluginChannelRegistration | ChannelPlugin) => void;
   registerGatewayMethod: (method: string, handler: GatewayRequestHandler) => void;
-  registerCli: (registrar: SiriClaw-InstructPluginCliRegistrar, opts?: { commands?: string[] }) => void;
-  registerService: (service: SiriClaw-InstructPluginService) => void;
+  registerCli: (registrar: SiriClawInstructPluginCliRegistrar, opts?: { commands?: string[] }) => void;
+  registerService: (service: SiriClawInstructPluginService) => void;
   registerProvider: (provider: ProviderPlugin) => void;
   /**
    * Register a custom command that bypasses the LLM agent.
    * Plugin commands are processed before built-in commands and before agent invocation.
    * Use this for simple state-toggling or status commands that don't need AI reasoning.
    */
-  registerCommand: (command: SiriClaw-InstructPluginCommandDefinition) => void;
+  registerCommand: (command: SiriClawInstructPluginCommandDefinition) => void;
   /** Register a context engine implementation (exclusive slot — only one active at a time). */
   registerContextEngine: (
     id: string,
@@ -890,3 +890,4 @@ export type PluginHookRegistration<K extends PluginHookName = PluginHookName> = 
   priority?: number;
   source: string;
 };
+

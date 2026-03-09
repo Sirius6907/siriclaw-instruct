@@ -1,7 +1,7 @@
 import path from "node:path";
 import { type Api, getEnvApiKey, type Model } from "@mariozechner/pi-ai";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { ModelProviderAuthMode, ModelProviderConfig } from "../config/types.js";
 import { getShellEnvAppliedKeys } from "../infra/shell-env.js";
 import {
@@ -28,7 +28,7 @@ const AWS_SECRET_KEY_ENV = "AWS_SECRET_ACCESS_KEY";
 const AWS_PROFILE_ENV = "AWS_PROFILE";
 
 function resolveProviderConfig(
-  cfg: SiriClaw-InstructConfig | undefined,
+  cfg: SiriClawInstructConfig | undefined,
   provider: string,
 ): ModelProviderConfig | undefined {
   const providers = cfg?.models?.providers ?? {};
@@ -50,7 +50,7 @@ function resolveProviderConfig(
 }
 
 export function getCustomProviderApiKey(
-  cfg: SiriClaw-InstructConfig | undefined,
+  cfg: SiriClawInstructConfig | undefined,
   provider: string,
 ): string | undefined {
   const entry = resolveProviderConfig(cfg, provider);
@@ -58,7 +58,7 @@ export function getCustomProviderApiKey(
 }
 
 function resolveProviderAuthOverride(
-  cfg: SiriClaw-InstructConfig | undefined,
+  cfg: SiriClawInstructConfig | undefined,
   provider: string,
 ): ModelProviderAuthMode | undefined {
   const entry = resolveProviderConfig(cfg, provider);
@@ -70,7 +70,7 @@ function resolveProviderAuthOverride(
 }
 
 function resolveSyntheticLocalProviderAuth(params: {
-  cfg: SiriClaw-InstructConfig | undefined;
+  cfg: SiriClawInstructConfig | undefined;
   provider: string;
 }): ResolvedProviderAuth | null {
   const normalizedProvider = normalizeProviderId(params.provider);
@@ -165,7 +165,7 @@ export type ResolvedProviderAuth = {
 
 export async function resolveApiKeyForProvider(params: {
   provider: string;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   profileId?: string;
   preferredProfile?: string;
   store?: AuthProfileStore;
@@ -263,7 +263,7 @@ export async function resolveApiKeyForProvider(params: {
     [
       `No API key found for provider "${provider}".`,
       `Auth store: ${authStorePath} (agentDir: ${resolvedAgentDir}).`,
-      `Configure auth for this agent (${formatCliCommand("SiriClaw-Instruct agents add <id>")}) or copy auth-profiles.json from the main agentDir.`,
+      `Configure auth for this agent (${formatCliCommand("SiriClawInstruct agents add <id>")}) or copy auth-profiles.json from the main agentDir.`,
     ].join(" "),
   );
 }
@@ -305,7 +305,7 @@ export function resolveEnvApiKey(provider: string): EnvApiKeyResult | null {
 
 export function resolveModelAuthMode(
   provider?: string,
-  cfg?: SiriClaw-InstructConfig,
+  cfg?: SiriClawInstructConfig,
   store?: AuthProfileStore,
 ): ModelAuthMode | undefined {
   const resolved = provider?.trim();
@@ -361,7 +361,7 @@ export function resolveModelAuthMode(
 
 export async function getApiKeyForModel(params: {
   model: Model<Api>;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   profileId?: string;
   preferredProfile?: string;
   store?: AuthProfileStore;
@@ -384,3 +384,4 @@ export function requireApiKey(auth: ResolvedProviderAuth, provider: string): str
   }
   throw new Error(`No API key resolved for provider "${provider}" (auth mode: ${auth.mode}).`);
 }
+

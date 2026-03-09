@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Network
 import Testing
 @testable import SiriClaw-Instruct
@@ -31,3 +31,4 @@ import Testing
         #expect(!pretty.localizedCaseInsensitiveContains("\\032"))
     }
 }
+

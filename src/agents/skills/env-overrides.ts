@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { normalizeResolvedSecretInputString } from "../../config/types.secrets.js";
 import { isDangerousHostEnvVarName } from "../../infra/host-env-security.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
@@ -21,7 +21,7 @@ type ActiveSkillEnvEntry = {
  * Tracks env var keys that are currently injected by skill overrides.
  * Used by ACP harness spawn to strip skill-injected keys so they don't
  * leak to child processes (e.g., OPENAI_API_KEY leaking to Codex CLI).
- * @see https://github.com/SiriClaw-Instruct/SiriClaw-Instruct/issues/36280
+ * @see https://github.com/SiriClawInstruct/SiriClawInstruct/issues/36280
  */
 const activeSkillEnvEntries = new Map<string, ActiveSkillEnvEntry>();
 
@@ -210,7 +210,7 @@ function createEnvReverter(updates: EnvUpdate[]) {
   };
 }
 
-export function applySkillEnvOverrides(params: { skills: SkillEntry[]; config?: SiriClaw-InstructConfig }) {
+export function applySkillEnvOverrides(params: { skills: SkillEntry[]; config?: SiriClawInstructConfig }) {
   const { skills, config } = params;
   const updates: EnvUpdate[] = [];
 
@@ -235,7 +235,7 @@ export function applySkillEnvOverrides(params: { skills: SkillEntry[]; config?: 
 
 export function applySkillEnvOverridesFromSnapshot(params: {
   snapshot?: SkillSnapshot;
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
 }) {
   const { snapshot, config } = params;
   if (!snapshot) {
@@ -260,3 +260,4 @@ export function applySkillEnvOverridesFromSnapshot(params: {
 
   return createEnvReverter(updates);
 }
+

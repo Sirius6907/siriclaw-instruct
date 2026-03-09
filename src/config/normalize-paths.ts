@@ -1,5 +1,5 @@
 import { isPlainObject, resolveUserPath } from "../utils.js";
-import type { SiriClaw-InstructConfig } from "./types.js";
+import type { SiriClawInstructConfig } from "./types.js";
 
 const PATH_VALUE_RE = /^~(?=$|[\\/])/;
 
@@ -60,10 +60,11 @@ function normalizeAny(key: string | undefined, value: unknown): unknown {
  * Goal: accept `~/...` consistently across config file + env overrides, while
  * keeping the surface area small and predictable.
  */
-export function normalizeConfigPaths(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function normalizeConfigPaths(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   if (!cfg || typeof cfg !== "object") {
     return cfg;
   }
   normalizeAny(undefined, cfg);
   return cfg;
 }
+

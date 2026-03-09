@@ -8,7 +8,7 @@ import {
   validateGatewayPasswordInput,
 } from "../commands/onboard-helpers.js";
 import type { GatewayAuthChoice, SecretInputMode } from "../commands/onboard-types.js";
-import type { GatewayBindMode, GatewayTailscaleMode, SiriClaw-InstructConfig } from "../config/config.js";
+import type { GatewayBindMode, GatewayTailscaleMode, SiriClawInstructConfig } from "../config/config.js";
 import { ensureControlUiAllowedOriginsForNonLoopbackBind } from "../config/gateway-control-ui-origins.js";
 import {
   normalizeSecretInputString,
@@ -35,8 +35,8 @@ import type { WizardPrompter } from "./prompts.js";
 
 type ConfigureGatewayOptions = {
   flow: WizardFlow;
-  baseConfig: SiriClaw-InstructConfig;
-  nextConfig: SiriClaw-InstructConfig;
+  baseConfig: SiriClawInstructConfig;
+  nextConfig: SiriClawInstructConfig;
   localPort: number;
   quickstartGateway: QuickstartGatewayDefaults;
   secretInputMode?: SecretInputMode;
@@ -45,7 +45,7 @@ type ConfigureGatewayOptions = {
 };
 
 type ConfigureGatewayResult = {
-  nextConfig: SiriClaw-InstructConfig;
+  nextConfig: SiriClawInstructConfig;
   settings: GatewayWizardSettings;
 };
 
@@ -194,10 +194,10 @@ export async function configureGatewayForOnboarding(
           provider: "gateway-auth-token",
           config: nextConfig,
           prompter,
-          preferredEnvVar: "SiriClaw-Instruct_GATEWAY_TOKEN",
+          preferredEnvVar: "SiriClawInstruct_GATEWAY_TOKEN",
           copy: {
             sourceMessage: "Where is this gateway token stored?",
-            envVarPlaceholder: "SiriClaw-Instruct_GATEWAY_TOKEN",
+            envVarPlaceholder: "SiriClawInstruct_GATEWAY_TOKEN",
           },
         });
         gatewayTokenInput = resolved.ref;
@@ -205,7 +205,7 @@ export async function configureGatewayForOnboarding(
       }
     } else if (flow === "quickstart") {
       gatewayToken =
-        (quickstartTokenString ?? normalizeGatewayTokenInput(process.env.SiriClaw-Instruct_GATEWAY_TOKEN)) ||
+        (quickstartTokenString ?? normalizeGatewayTokenInput(process.env.SiriClawInstruct_GATEWAY_TOKEN)) ||
         randomToken();
       gatewayTokenInput = gatewayToken;
     } else {
@@ -214,7 +214,7 @@ export async function configureGatewayForOnboarding(
         placeholder: "Needed for multi-machine or non-loopback access",
         initialValue:
           quickstartTokenString ??
-          normalizeGatewayTokenInput(process.env.SiriClaw-Instruct_GATEWAY_TOKEN) ??
+          normalizeGatewayTokenInput(process.env.SiriClawInstruct_GATEWAY_TOKEN) ??
           "",
       });
       gatewayToken = normalizeGatewayTokenInput(tokenInput) || randomToken();
@@ -232,7 +232,7 @@ export async function configureGatewayForOnboarding(
         copy: {
           modeMessage: "How do you want to provide the gateway password?",
           plaintextLabel: "Enter password now",
-          plaintextHint: "Stores the password directly in SiriClaw-Instruct config",
+          plaintextHint: "Stores the password directly in SiriClawInstruct config",
         },
       });
       if (selectedMode === "ref") {
@@ -240,10 +240,10 @@ export async function configureGatewayForOnboarding(
           provider: "gateway-auth-password",
           config: nextConfig,
           prompter,
-          preferredEnvVar: "SiriClaw-Instruct_GATEWAY_PASSWORD",
+          preferredEnvVar: "SiriClawInstruct_GATEWAY_PASSWORD",
           copy: {
             sourceMessage: "Where is this gateway password stored?",
-            envVarPlaceholder: "SiriClaw-Instruct_GATEWAY_PASSWORD",
+            envVarPlaceholder: "SiriClawInstruct_GATEWAY_PASSWORD",
           },
         });
         password = resolved.ref;
@@ -339,3 +339,4 @@ export async function configureGatewayForOnboarding(
     },
   };
 }
+

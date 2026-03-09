@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import { resolvePluginInstallDir } from "./install.js";
 import { defaultSlotIdForKey } from "./slots.js";
@@ -17,7 +17,7 @@ export type UninstallActions = {
 export type UninstallPluginResult =
   | {
       ok: true;
-      config: SiriClaw-InstructConfig;
+      config: SiriClawInstructConfig;
       pluginId: string;
       actions: UninstallActions;
       warnings: string[];
@@ -63,9 +63,9 @@ export function resolveUninstallDirectoryTarget(params: {
  * Returns a new config with the plugin removed from entries, installs, allow, load.paths, and slots.
  */
 export function removePluginFromConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   pluginId: string,
-): { config: SiriClaw-InstructConfig; actions: Omit<UninstallActions, "directory"> } {
+): { config: SiriClawInstructConfig; actions: Omit<UninstallActions, "directory"> } {
   const actions: Omit<UninstallActions, "directory"> = {
     entry: false,
     install: false,
@@ -155,7 +155,7 @@ export function removePluginFromConfig(
     delete cleanedPlugins.slots;
   }
 
-  const config: SiriClaw-InstructConfig = {
+  const config: SiriClawInstructConfig = {
     ...cfg,
     plugins: Object.keys(cleanedPlugins).length > 0 ? cleanedPlugins : undefined,
   };
@@ -164,7 +164,7 @@ export function removePluginFromConfig(
 }
 
 export type UninstallPluginParams = {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   pluginId: string;
   deleteFiles?: boolean;
   extensionsDir?: string;
@@ -235,3 +235,4 @@ export async function uninstallPlugin(
     warnings,
   };
 }
+

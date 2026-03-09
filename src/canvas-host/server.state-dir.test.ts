@@ -6,8 +6,8 @@ import { withStateDirEnv } from "../test-helpers/state-dir-env.js";
 import { createCanvasHostHandler } from "./server.js";
 
 describe("canvas host state dir defaults", () => {
-  it("uses SiriClaw-Instruct_STATE_DIR for the default canvas root", async () => {
-    await withStateDirEnv("SiriClaw-Instruct-canvas-state-", async ({ stateDir }) => {
+  it("uses SiriClawInstruct_STATE_DIR for the default canvas root", async () => {
+    await withStateDirEnv("SiriClawInstruct-canvas-state-", async ({ stateDir }) => {
       const handler = await createCanvasHostHandler({
         runtime: defaultRuntime,
         allowInTests: true,
@@ -19,10 +19,11 @@ describe("canvas host state dir defaults", () => {
         expect(actualRoot).toBe(expectedRoot);
         const indexPath = path.join(expectedRoot, "index.html");
         const indexContents = await fs.readFile(indexPath, "utf8");
-        expect(indexContents).toContain("SiriClaw-Instruct Canvas");
+        expect(indexContents).toContain("SiriClawInstruct Canvas");
       } finally {
         await handler.close();
       }
     });
   });
 });
+

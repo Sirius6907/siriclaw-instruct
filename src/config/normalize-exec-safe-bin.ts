@@ -1,8 +1,8 @@
 import { normalizeSafeBinProfileFixtures } from "../infra/exec-safe-bin-policy.js";
 import { normalizeTrustedSafeBinDirs } from "../infra/exec-safe-bin-trust.js";
-import type { SiriClaw-InstructConfig } from "./types.js";
+import type { SiriClawInstructConfig } from "./types.js";
 
-export function normalizeExecSafeBinProfilesInConfig(cfg: SiriClaw-InstructConfig): void {
+export function normalizeExecSafeBinProfilesInConfig(cfg: SiriClawInstructConfig): void {
   const normalizeExec = (exec: unknown) => {
     if (!exec || typeof exec !== "object" || Array.isArray(exec)) {
       return;
@@ -35,3 +35,4 @@ export function normalizeExecSafeBinProfilesInConfig(cfg: SiriClaw-InstructConfi
     normalizeExec(agent?.tools?.exec);
   }
 }
+

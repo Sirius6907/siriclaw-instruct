@@ -9,7 +9,7 @@ import {
   resolveHooksGmailModel,
 } from "../agents/model-selection.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { CONFIG_PATH, readConfigFileSnapshot, writeConfigFile } from "../config/config.js";
 import { logConfigUpdated } from "../config/logging.js";
 import { resolveSecretInputRef } from "../config/types.secrets.js";
@@ -17,7 +17,7 @@ import { resolveGatewayService } from "../daemon/service.js";
 import { hasAmbiguousGatewayAuthModeConfig } from "../gateway/auth-mode-policy.js";
 import { resolveGatewayAuth } from "../gateway/auth.js";
 import { buildGatewayConnectionDetails } from "../gateway/call.js";
-import { resolveSiriClaw-InstructPackageRoot } from "../infra/SiriClaw-Instruct-root.js";
+import { resolveSiriClawInstructPackageRoot } from "../infra/siriclaw-instruct-root.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { defaultRuntime } from "../runtime.js";
 import { note } from "../terminal/note.js";
@@ -65,7 +65,7 @@ import { ensureSystemdUserLingerInteractive } from "./systemd-linger.js";
 const intro = (message: string) => clackIntro(stylePromptTitle(message) ?? message);
 const outro = (message: string) => clackOutro(stylePromptTitle(message) ?? message);
 
-function resolveMode(cfg: SiriClaw-InstructConfig): "local" | "remote" {
+function resolveMode(cfg: SiriClawInstructConfig): "local" | "remote" {
   return cfg.gateway?.mode === "remote" ? "remote" : "local";
 }
 
@@ -75,9 +75,9 @@ export async function doctorCommand(
 ) {
   const prompter = createDoctorPrompter({ runtime, options });
   printWizardHeader(runtime);
-  intro("SiriClaw-Instruct doctor");
+  intro("SiriClawInstruct doctor");
 
-  const root = await resolveSiriClaw-InstructPackageRoot({
+  const root = await resolveSiriClawInstructPackageRoot({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),
@@ -103,7 +103,7 @@ export async function doctorCommand(
     options,
     confirm: (p) => prompter.confirm(p),
   });
-  let cfg: SiriClaw-InstructConfig = configResult.cfg;
+  let cfg: SiriClawInstructConfig = configResult.cfg;
   const cfgForPersistence = structuredClone(cfg);
   const sourceConfigValid = configResult.sourceConfigValid ?? true;
 
@@ -111,11 +111,11 @@ export async function doctorCommand(
   if (!cfg.gateway?.mode) {
     const lines = [
       "gateway.mode is unset; gateway start will be blocked.",
-      `Fix: run ${formatCliCommand("SiriClaw-Instruct configure")} and set Gateway mode (local/remote).`,
-      `Or set directly: ${formatCliCommand("SiriClaw-Instruct config set gateway.mode local")}`,
+      `Fix: run ${formatCliCommand("SiriClawInstruct configure")} and set Gateway mode (local/remote).`,
+      `Or set directly: ${formatCliCommand("SiriClawInstruct config set gateway.mode local")}`,
     ];
     if (!fs.existsSync(configPath)) {
-      lines.push(`Missing config: run ${formatCliCommand("SiriClaw-Instruct setup")} first.`);
+      lines.push(`Missing config: run ${formatCliCommand("SiriClawInstruct setup")} first.`);
     }
     note(lines.join("\n"), "Gateway");
   }
@@ -124,8 +124,8 @@ export async function doctorCommand(
       [
         "gateway.auth.token and gateway.auth.password are both configured while gateway.auth.mode is unset.",
         "Set an explicit mode to avoid ambiguous auth selection and startup/runtime failures.",
-        `Set token mode: ${formatCliCommand("SiriClaw-Instruct config set gateway.auth.mode token")}`,
-        `Set password mode: ${formatCliCommand("SiriClaw-Instruct config set gateway.auth.mode password")}`,
+        `Set token mode: ${formatCliCommand("SiriClawInstruct config set gateway.auth.mode token")}`,
+        `Set password mode: ${formatCliCommand("SiriClawInstruct config set gateway.auth.mode password")}`,
       ].join("\n"),
       "Gateway auth",
     );
@@ -339,7 +339,7 @@ export async function doctorCommand(
       runtime.log(`Backup: ${shortenHomePath(backupPath)}`);
     }
   } else if (!prompter.shouldRepair) {
-    runtime.log(`Run "${formatCliCommand("SiriClaw-Instruct doctor --fix")}" to apply changes.`);
+    runtime.log(`Run "${formatCliCommand("SiriClawInstruct doctor --fix")}" to apply changes.`);
   }
 
   if (options.workspaceSuggestions !== false) {
@@ -361,3 +361,4 @@ export async function doctorCommand(
 
   outro("Doctor complete.");
 }
+

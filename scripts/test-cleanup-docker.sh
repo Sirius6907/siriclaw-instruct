@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-IMAGE_NAME="${SiriClaw-Instruct_CLEANUP_SMOKE_IMAGE:-${SIRICLAW_CLEANUP_SMOKE_IMAGE:-SiriClaw-Instruct-cleanup-smoke:local}}"
+IMAGE_NAME="${SIRICLAW_CLEANUP_SMOKE_IMAGE:-${SIRICLAW_CLEANUP_SMOKE_IMAGE:-SiriClaw-Instruct-cleanup-smoke:local}}"
 
 echo "==> Build image: $IMAGE_NAME"
 docker build \

@@ -6,7 +6,7 @@ import { saveAuthProfileStore } from "./auth-profiles.js";
 import { discoverAuthStorage } from "./pi-model-discovery.js";
 
 async function createAgentDir(): Promise<string> {
-  return await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-pi-auth-storage-"));
+  return await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-pi-auth-storage-"));
 }
 
 async function withAgentDir(run: (agentDir: string) => Promise<void>): Promise<void> {
@@ -128,8 +128,8 @@ describe("discoverAuthStorage", () => {
 
   it("preserves legacy auth.json when auth store is forced read-only", async () => {
     await withAgentDir(async (agentDir) => {
-      const previous = process.env.SiriClaw-Instruct_AUTH_STORE_READONLY;
-      process.env.SiriClaw-Instruct_AUTH_STORE_READONLY = "1";
+      const previous = process.env.SiriClawInstruct_AUTH_STORE_READONLY;
+      process.env.SiriClawInstruct_AUTH_STORE_READONLY = "1";
       try {
         writeRuntimeOpenRouterProfile(agentDir);
         await writeLegacyAuthJson(agentDir, {
@@ -142,11 +142,12 @@ describe("discoverAuthStorage", () => {
         expect(parsed.openrouter).toMatchObject({ type: "api_key", key: "legacy-static-key" });
       } finally {
         if (previous === undefined) {
-          delete process.env.SiriClaw-Instruct_AUTH_STORE_READONLY;
+          delete process.env.SiriClawInstruct_AUTH_STORE_READONLY;
         } else {
-          process.env.SiriClaw-Instruct_AUTH_STORE_READONLY = previous;
+          process.env.SiriClawInstruct_AUTH_STORE_READONLY = previous;
         }
       }
     });
   });
 });
+

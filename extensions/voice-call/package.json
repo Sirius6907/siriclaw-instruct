@@ -1,7 +1,7 @@
 {
-  "name": "@SiriClaw-Instruct/voice-call",
+  "name": "@siriclaw-instruct/voice-call",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct voice-call plugin",
+  "description": "siriclaw-instruct voice-call plugin",
   "type": "module",
   "dependencies": {
     "@sinclair/typebox": "0.34.48",
@@ -9,9 +9,13 @@
     "ws": "^8.19.0",
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

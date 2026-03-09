@@ -1,5 +1,5 @@
 import type { RequestClient } from "@buape/carbon";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { RetryConfig } from "../infra/retry.js";
 
 export class DiscordSendError extends Error {
@@ -29,7 +29,7 @@ export type DiscordSendResult = {
 };
 
 export type DiscordReactOpts = {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   token?: string;
   accountId?: string;
   rest?: RequestClient;
@@ -174,3 +174,4 @@ export type DiscordChannelPermissionSet = {
   allow?: string;
   deny?: string;
 };
+

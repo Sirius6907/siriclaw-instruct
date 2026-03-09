@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import type { OAuthCredentials } from "@mariozechner/pi-ai";
 import { afterEach, describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
@@ -51,7 +51,7 @@ function createLegacyProviderConfig(params: {
   modelName?: string;
   baseUrl?: string;
   apiKey?: string;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   return {
     models: {
       providers: {
@@ -73,7 +73,7 @@ function createLegacyProviderConfig(params: {
         },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 const EXPECTED_FALLBACKS = ["anthropic/claude-opus-4-5"] as const;
@@ -118,10 +118,10 @@ function expectAliasPreserved(
 
 describe("writeOAuthCredentials", () => {
   const lifecycle = createAuthTestLifecycle([
-    "SiriClaw-Instruct_STATE_DIR",
-    "SiriClaw-Instruct_AGENT_DIR",
+    "SiriClawInstruct_STATE_DIR",
+    "SiriClawInstruct_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
-    "SiriClaw-Instruct_OAUTH_DIR",
+    "SiriClawInstruct_OAUTH_DIR",
   ]);
 
   let tempStateDir: string;
@@ -131,8 +131,8 @@ describe("writeOAuthCredentials", () => {
     await lifecycle.cleanup();
   });
 
-  it("writes auth-profiles.json under SiriClaw-Instruct_AGENT_DIR when set", async () => {
-    const env = await setupAuthTestEnv("SiriClaw-Instruct-oauth-");
+  it("writes auth-profiles.json under SiriClawInstruct_AGENT_DIR when set", async () => {
+    const env = await setupAuthTestEnv("SiriClawInstruct-oauth-");
     lifecycle.setStateDir(env.stateDir);
 
     const creds = {
@@ -158,8 +158,8 @@ describe("writeOAuthCredentials", () => {
   });
 
   it("writes OAuth credentials to all sibling agent dirs when syncSiblingAgents=true", async () => {
-    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-oauth-sync-"));
-    process.env.SiriClaw-Instruct_STATE_DIR = tempStateDir;
+    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-oauth-sync-"));
+    process.env.SiriClawInstruct_STATE_DIR = tempStateDir;
 
     const mainAgentDir = path.join(tempStateDir, "agents", "main", "agent");
     const kidAgentDir = path.join(tempStateDir, "agents", "kid", "agent");
@@ -168,7 +168,7 @@ describe("writeOAuthCredentials", () => {
     await fs.mkdir(kidAgentDir, { recursive: true });
     await fs.mkdir(workerAgentDir, { recursive: true });
 
-    process.env.SiriClaw-Instruct_AGENT_DIR = kidAgentDir;
+    process.env.SiriClawInstruct_AGENT_DIR = kidAgentDir;
     process.env.PI_CODING_AGENT_DIR = kidAgentDir;
 
     const creds = {
@@ -195,15 +195,15 @@ describe("writeOAuthCredentials", () => {
   });
 
   it("writes OAuth credentials only to target dir by default", async () => {
-    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-oauth-nosync-"));
-    process.env.SiriClaw-Instruct_STATE_DIR = tempStateDir;
+    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-oauth-nosync-"));
+    process.env.SiriClawInstruct_STATE_DIR = tempStateDir;
 
     const mainAgentDir = path.join(tempStateDir, "agents", "main", "agent");
     const kidAgentDir = path.join(tempStateDir, "agents", "kid", "agent");
     await fs.mkdir(mainAgentDir, { recursive: true });
     await fs.mkdir(kidAgentDir, { recursive: true });
 
-    process.env.SiriClaw-Instruct_AGENT_DIR = kidAgentDir;
+    process.env.SiriClawInstruct_AGENT_DIR = kidAgentDir;
     process.env.PI_CODING_AGENT_DIR = kidAgentDir;
 
     const creds = {
@@ -226,11 +226,11 @@ describe("writeOAuthCredentials", () => {
     await expect(fs.readFile(authProfilePathFor(mainAgentDir), "utf8")).rejects.toThrow();
   });
 
-  it("syncs siblings from explicit agentDir outside SiriClaw-Instruct_STATE_DIR", async () => {
-    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-oauth-external-"));
-    process.env.SiriClaw-Instruct_STATE_DIR = tempStateDir;
+  it("syncs siblings from explicit agentDir outside SiriClawInstruct_STATE_DIR", async () => {
+    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-oauth-external-"));
+    process.env.SiriClawInstruct_STATE_DIR = tempStateDir;
 
-    // Create standard-layout agents tree *outside* SiriClaw-Instruct_STATE_DIR
+    // Create standard-layout agents tree *outside* SiriClawInstruct_STATE_DIR
     const externalRoot = path.join(tempStateDir, "external", "agents");
     const extMain = path.join(externalRoot, "main", "agent");
     const extKid = path.join(externalRoot, "kid", "agent");
@@ -270,8 +270,8 @@ describe("writeOAuthCredentials", () => {
 
 describe("setMinimaxApiKey", () => {
   const lifecycle = createAuthTestLifecycle([
-    "SiriClaw-Instruct_STATE_DIR",
-    "SiriClaw-Instruct_AGENT_DIR",
+    "SiriClawInstruct_STATE_DIR",
+    "SiriClawInstruct_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
   ]);
 
@@ -279,8 +279,8 @@ describe("setMinimaxApiKey", () => {
     await lifecycle.cleanup();
   });
 
-  it("writes to SiriClaw-Instruct_AGENT_DIR when set", async () => {
-    const env = await setupAuthTestEnv("SiriClaw-Instruct-minimax-", { agentSubdir: "custom-agent" });
+  it("writes to SiriClawInstruct_AGENT_DIR when set", async () => {
+    const env = await setupAuthTestEnv("SiriClawInstruct-minimax-", { agentSubdir: "custom-agent" });
     lifecycle.setStateDir(env.stateDir);
 
     await setMinimaxApiKey("sk-minimax-test");
@@ -743,3 +743,4 @@ describe("default-model config helpers", () => {
     }
   });
 });
+

@@ -6,7 +6,7 @@ import { createBrowserRouteContext } from "./server-context.js";
 export const originalFetch = globalThis.fetch;
 
 export function makeState(
-  profile: "remote" | "SiriClaw-Instruct",
+  profile: "remote" | "SiriClawInstruct",
 ): BrowserServerState & { profiles: Map<string, { lastTargetId?: string | null }> } {
   return {
     // oxlint-disable-next-line typescript/no-explicit-any
@@ -36,7 +36,7 @@ export function makeState(
           cdpPort: 443,
           color: "#00AA00",
         },
-        SiriClaw-Instruct: { cdpPort: 18800, color: "#FF4500" },
+        SiriClawInstruct: { cdpPort: 18800, color: "#FF4500" },
       },
     },
     profiles: new Map(),
@@ -105,3 +105,4 @@ export function makeManagedTabsWithNew(params?: { newFirst?: boolean }): JsonLis
   const newTab = makeManagedTab("NEW", 9);
   return params?.newFirst ? [newTab, ...oldTabs] : [...oldTabs, newTab];
 }
+

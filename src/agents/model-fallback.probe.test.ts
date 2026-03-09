@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { AuthProfileStore } from "./auth-profiles.js";
 import { makeModelFallbackCfg } from "./test-helpers/model-fallback-config-fixture.js";
 
@@ -73,7 +73,7 @@ async function expectProbeFailureFallsBack({
         },
       },
     },
-  } as Partial<SiriClaw-InstructConfig>);
+  } as Partial<SiriClawInstructConfig>);
 
   mockedIsProfileInCooldown.mockReturnValue(true);
   mockedGetSoonestCooldownExpiry.mockReturnValue(1_700_000_000_000 + 30 * 1000);
@@ -103,7 +103,7 @@ describe("runWithModelFallback – probe logic", () => {
   const NOW = 1_700_000_000_000;
 
   const runPrimaryCandidate = (
-    cfg: SiriClaw-InstructConfig,
+    cfg: SiriClawInstructConfig,
     run: (provider: string, model: string) => Promise<unknown>,
   ) =>
     runWithModelFallback({
@@ -295,7 +295,7 @@ describe("runWithModelFallback – probe logic", () => {
           },
         },
       },
-    } as Partial<SiriClaw-InstructConfig>);
+    } as Partial<SiriClawInstructConfig>);
 
     const almostExpired = NOW + 30 * 1000;
     mockedGetSoonestCooldownExpiry.mockReturnValue(almostExpired);
@@ -356,7 +356,7 @@ describe("runWithModelFallback – probe logic", () => {
           },
         },
       },
-    } as Partial<SiriClaw-InstructConfig>);
+    } as Partial<SiriClawInstructConfig>);
 
     // Billing cooldown far from expiry — would normally be skipped
     const expiresIn30Min = NOW + 30 * 60 * 1000;
@@ -408,3 +408,4 @@ describe("runWithModelFallback – probe logic", () => {
     expect(result.attempts[0]?.reason).toBe("billing");
   });
 });
+

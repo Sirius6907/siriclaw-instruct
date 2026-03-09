@@ -107,17 +107,17 @@ export function createGatewayReloadHandlers(params: {
         cfg: nextConfig,
         log: params.logHooks,
         onSkipped: () =>
-          params.logHooks.info("skipping gmail watcher restart (SiriClaw-Instruct_SKIP_GMAIL_WATCHER=1)"),
+          params.logHooks.info("skipping gmail watcher restart (SiriClawInstruct_SKIP_GMAIL_WATCHER=1)"),
       });
     }
 
     if (plan.restartChannels.size > 0) {
       if (
-        isTruthyEnvValue(process.env.SiriClaw-Instruct_SKIP_CHANNELS) ||
-        isTruthyEnvValue(process.env.SiriClaw-Instruct_SKIP_PROVIDERS)
+        isTruthyEnvValue(process.env.SiriClawInstruct_SKIP_CHANNELS) ||
+        isTruthyEnvValue(process.env.SiriClawInstruct_SKIP_PROVIDERS)
       ) {
         params.logChannels.info(
-          "skipping channel reload (SiriClaw-Instruct_SKIP_CHANNELS=1 or SiriClaw-Instruct_SKIP_PROVIDERS=1)",
+          "skipping channel reload (SiriClawInstruct_SKIP_CHANNELS=1 or SiriClawInstruct_SKIP_PROVIDERS=1)",
         );
       } else {
         const restartChannel = async (name: ChannelKind) => {
@@ -234,3 +234,4 @@ export function createGatewayReloadHandlers(params: {
 
   return { applyHotReload, requestGatewayRestart };
 }
+

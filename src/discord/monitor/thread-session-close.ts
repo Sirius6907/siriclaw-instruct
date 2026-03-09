@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { resolveStorePath, updateSessionStore } from "../../config/sessions.js";
 
 /**
@@ -11,7 +11,7 @@ import { resolveStorePath, updateSessionStore } from "../../config/sessions.js";
  * any on-disk transcript history.
  */
 export async function closeDiscordThreadSessions(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId: string;
   threadId: string;
 }): Promise<number> {
@@ -57,3 +57,4 @@ export async function closeDiscordThreadSessions(params: {
 
   return resetCount;
 }
+

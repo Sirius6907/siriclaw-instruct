@@ -1,5 +1,5 @@
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 
 extension NodeAppModel {
     static func normalizeWatchNotifyParams(_ params: SiriClaw-InstructWatchNotifyParams) -> SiriClaw-InstructWatchNotifyParams {
@@ -101,3 +101,4 @@ extension NodeAppModel {
         return trimmed.isEmpty ? nil : trimmed
     }
 }
+

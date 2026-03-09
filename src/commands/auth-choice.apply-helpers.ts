@@ -1,5 +1,5 @@
 import { resolveEnvApiKey } from "../agents/model-auth.js";
-import type { SiriClaw-InstructConfig } from "../config/types.js";
+import type { SiriClawInstructConfig } from "../config/types.js";
 import {
   isValidEnvSecretRefId,
   type SecretInput,
@@ -63,7 +63,7 @@ function resolveDefaultFilePointerId(provider: string): string {
 }
 
 function resolveRefFallbackInput(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   provider: string;
   preferredEnvVar?: string;
 }): { ref: SecretRef; resolvedValue: string } {
@@ -93,7 +93,7 @@ function resolveRefFallbackInput(params: {
 
 export async function promptSecretRefForOnboarding(params: {
   provider: string;
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   prompter: WizardPrompter;
   preferredEnvVar?: string;
   copy?: SecretRefOnboardingPromptCopy;
@@ -166,7 +166,7 @@ export async function promptSecretRefForOnboarding(params: {
       });
       await params.prompter.note(
         params.copy?.envValidatedMessage?.(envVar) ??
-          `Validated environment variable ${envVar}. SiriClaw-Instruct will store a reference, not the key value.`,
+          `Validated environment variable ${envVar}. SiriClawInstruct will store a reference, not the key value.`,
         "Reference validated",
       );
       return { ref, resolvedValue };
@@ -254,7 +254,7 @@ export async function promptSecretRefForOnboarding(params: {
       });
       await params.prompter.note(
         params.copy?.providerValidatedMessage?.(selectedProvider, id, providerEntry.source) ??
-          `Validated ${providerEntry.source} reference ${selectedProvider}:${id}. SiriClaw-Instruct will store a reference, not the key value.`,
+          `Validated ${providerEntry.source} reference ${selectedProvider}:${id}. SiriClawInstruct will store a reference, not the key value.`,
         "Reference validated",
       );
       return { ref, resolvedValue };
@@ -395,7 +395,7 @@ export async function resolveSecretInputModeForEnvSelection(params: {
       {
         value: "plaintext",
         label: params.copy?.plaintextLabel ?? "Paste API key now",
-        hint: params.copy?.plaintextHint ?? "Stores the key directly in SiriClaw-Instruct config",
+        hint: params.copy?.plaintextHint ?? "Stores the key directly in SiriClawInstruct config",
       },
       {
         value: "ref",
@@ -433,7 +433,7 @@ export async function ensureApiKeyFromOptionEnvOrPrompt(params: {
   token: string | undefined;
   tokenProvider: string | undefined;
   secretInputMode?: SecretInputMode;
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   expectedProviders: string[];
   provider: string;
   envLabel: string;
@@ -475,7 +475,7 @@ export async function ensureApiKeyFromOptionEnvOrPrompt(params: {
 }
 
 export async function ensureApiKeyFromEnvOrPrompt(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   provider: string;
   envLabel: string;
   promptMessage: string;
@@ -530,3 +530,4 @@ export async function ensureApiKeyFromEnvOrPrompt(params: {
   await params.setCredential(apiKey, selectedMode);
   return apiKey;
 }
+

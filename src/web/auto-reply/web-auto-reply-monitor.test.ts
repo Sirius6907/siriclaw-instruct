@@ -11,7 +11,7 @@ let sessionDir: string | undefined;
 let sessionStorePath: string;
 
 beforeEach(async () => {
-  sessionDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-group-gating-"));
+  sessionDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-group-gating-"));
   sessionStorePath = path.join(sessionDir, "sessions.json");
   await fs.writeFile(sessionStorePath, "{}");
 });
@@ -96,7 +96,7 @@ function makeOwnerGroupConfig() {
 
 function makeInboundCfg(messagePrefix = "") {
   return {
-    agents: { defaults: { workspace: "/tmp/SiriClaw-Instruct" } },
+    agents: { defaults: { workspace: "/tmp/SiriClawInstruct" } },
     channels: { whatsapp: { messagePrefix } },
   } as never;
 }
@@ -236,7 +236,7 @@ describe("applyGroupGating", () => {
           groups: { "*": { requireMention: false } },
         },
       },
-      messages: { groupChat: { mentionPatterns: ["@SiriClaw-Instruct"] } },
+      messages: { groupChat: { mentionPatterns: ["@SiriClawInstruct"] } },
     });
 
     const { result } = runGroupGating({
@@ -360,3 +360,4 @@ describe("formatReplyContext", () => {
     ).toBe("[Replying to unknown sender]\noriginal\n[/Replying]");
   });
 });
+

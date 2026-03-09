@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // vi.hoisted runs before module imports, ensuring FAST_TEST_MODE is picked up.
 vi.hoisted(() => {
-  process.env.SiriClaw-Instruct_TEST_FAST = "1";
+  process.env.SiriClawInstruct_TEST_FAST = "1";
 });
 
 import {
@@ -502,3 +502,4 @@ describe("waitForDescendantSubagentSummary", () => {
     expect(result).toBeUndefined();
   });
 });
+

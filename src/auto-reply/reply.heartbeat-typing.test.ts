@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { runEmbeddedPiAgentMock } from "./reply.directive.directive-behavior.e2e-mocks.js";
 import { createTempHomeHarness, makeReplyConfig } from "./reply.test-harness.js";
 
@@ -19,7 +19,7 @@ vi.mock("../web/session.js", () => webMocks);
 import { getReplyFromConfig } from "./reply.js";
 
 const { withTempHome } = createTempHomeHarness({
-  prefix: "SiriClaw-Instruct-typing-",
+  prefix: "SiriClawInstruct-typing-",
   beforeEachCase: () => runEmbeddedPiAgentMock.mockClear(),
 });
 
@@ -39,14 +39,14 @@ describe("getReplyFromConfig typing (heartbeat)", () => {
       await getReplyFromConfig(
         { Body: "hi", From: "+1000", To: "+2000", Provider: "whatsapp" },
         { onReplyStart, isHeartbeat },
-        makeReplyConfig(home) as unknown as SiriClaw-InstructConfig,
+        makeReplyConfig(home) as unknown as SiriClawInstructConfig,
       );
     });
     return onReplyStart;
   }
 
   beforeEach(() => {
-    vi.stubEnv("SiriClaw-Instruct_TEST_FAST", "1");
+    vi.stubEnv("SiriClawInstruct_TEST_FAST", "1");
   });
 
   it("starts typing for normal runs", async () => {
@@ -59,3 +59,4 @@ describe("getReplyFromConfig typing (heartbeat)", () => {
     expect(onReplyStart).not.toHaveBeenCalled();
   });
 });
+

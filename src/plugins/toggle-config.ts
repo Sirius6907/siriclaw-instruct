@@ -1,15 +1,15 @@
 import { normalizeChatChannelId } from "../channels/registry.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 export function setPluginEnabledInConfig(
-  config: SiriClaw-InstructConfig,
+  config: SiriClawInstructConfig,
   pluginId: string,
   enabled: boolean,
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const builtInChannelId = normalizeChatChannelId(pluginId);
   const resolvedId = builtInChannelId ?? pluginId;
 
-  const next: SiriClaw-InstructConfig = {
+  const next: SiriClawInstructConfig = {
     ...config,
     plugins: {
       ...config.plugins,
@@ -45,3 +45,4 @@ export function setPluginEnabledInConfig(
     },
   };
 }
+

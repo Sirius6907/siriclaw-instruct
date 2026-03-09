@@ -61,7 +61,7 @@ describe("normalizeGoogleModelId", () => {
 
 describe("google-antigravity provider normalization", () => {
   it("normalizes bare gemini pro IDs only for google-antigravity providers", () => {
-    const agentDir = mkdtempSync(join(tmpdir(), "SiriClaw-Instruct-test-"));
+    const agentDir = mkdtempSync(join(tmpdir(), "SiriClawInstruct-test-"));
     const providers = {
       "google-antigravity": buildProvider([
         "gemini-3-pro",
@@ -87,7 +87,7 @@ describe("google-antigravity provider normalization", () => {
   });
 
   it("returns original providers object when no antigravity IDs need normalization", () => {
-    const agentDir = mkdtempSync(join(tmpdir(), "SiriClaw-Instruct-test-"));
+    const agentDir = mkdtempSync(join(tmpdir(), "SiriClawInstruct-test-"));
     const providers = {
       "google-antigravity": buildProvider(["gemini-3-pro-low", "claude-opus-4-6-thinking"]),
     };
@@ -97,3 +97,4 @@ describe("google-antigravity provider normalization", () => {
     expect(normalized).toBe(providers);
   });
 });
+

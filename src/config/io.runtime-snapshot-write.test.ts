@@ -10,9 +10,9 @@ import {
   setRuntimeConfigSnapshot,
   writeConfigFile,
 } from "./io.js";
-import type { SiriClaw-InstructConfig } from "./types.js";
+import type { SiriClawInstructConfig } from "./types.js";
 
-function createSourceConfig(): SiriClaw-InstructConfig {
+function createSourceConfig(): SiriClawInstructConfig {
   return {
     models: {
       providers: {
@@ -26,7 +26,7 @@ function createSourceConfig(): SiriClaw-InstructConfig {
   };
 }
 
-function createRuntimeConfig(): SiriClaw-InstructConfig {
+function createRuntimeConfig(): SiriClawInstructConfig {
   return {
     models: {
       providers: {
@@ -47,7 +47,7 @@ function resetRuntimeConfigState(): void {
 
 describe("runtime config snapshot writes", () => {
   it("returns the source snapshot when runtime snapshot is active", async () => {
-    await withTempHome("SiriClaw-Instruct-config-runtime-source-", async () => {
+    await withTempHome("SiriClawInstruct-config-runtime-source-", async () => {
       const sourceConfig = createSourceConfig();
       const runtimeConfig = createRuntimeConfig();
       try {
@@ -69,8 +69,8 @@ describe("runtime config snapshot writes", () => {
   });
 
   it("preserves source secret refs when writeConfigFile receives runtime-resolved config", async () => {
-    await withTempHome("SiriClaw-Instruct-config-runtime-write-", async (home) => {
-      const configPath = path.join(home, ".SiriClaw-Instruct", "SiriClaw-Instruct.json");
+    await withTempHome("SiriClawInstruct-config-runtime-write-", async (home) => {
+      const configPath = path.join(home, ".SiriClawInstruct", "SiriClawInstruct.json");
       const sourceConfig = createSourceConfig();
       const runtimeConfig = createRuntimeConfig();
 
@@ -97,3 +97,4 @@ describe("runtime config snapshot writes", () => {
     });
   });
 });
+

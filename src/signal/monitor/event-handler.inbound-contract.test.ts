@@ -260,3 +260,4 @@ describe("signal createSignalEventHandler inbound contract", () => {
     expect(dispatchInboundMessageMock).not.toHaveBeenCalled();
   });
 });
+

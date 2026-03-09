@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import type { DatabaseSync } from "node:sqlite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resetEmbeddingMocks } from "./embedding.test-mocks.js";
 import type { MemoryIndexManager } from "./index.js";
 import { getRequiredMemoryIndexManager } from "./test-manager-helpers.js";
@@ -13,7 +13,7 @@ describe("memory manager readonly recovery", () => {
   let indexPath = "";
   let manager: MemoryIndexManager | null = null;
 
-  function createMemoryConfig(): SiriClaw-InstructConfig {
+  function createMemoryConfig(): SiriClawInstructConfig {
     return {
       agents: {
         defaults: {
@@ -27,7 +27,7 @@ describe("memory manager readonly recovery", () => {
         },
         list: [{ id: "main", default: true }],
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
   }
 
   async function createManager() {
@@ -72,7 +72,7 @@ describe("memory manager readonly recovery", () => {
 
   beforeEach(async () => {
     resetEmbeddingMocks();
-    workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-mem-readonly-"));
+    workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-mem-readonly-"));
     indexPath = path.join(workspaceDir, "index.sqlite");
     await fs.mkdir(path.join(workspaceDir, "memory"), { recursive: true });
     await fs.writeFile(path.join(workspaceDir, "MEMORY.md"), "Hello memory.");
@@ -120,3 +120,4 @@ describe("memory manager readonly recovery", () => {
     expect(busyTimeout).toBe(5000);
   });
 });
+

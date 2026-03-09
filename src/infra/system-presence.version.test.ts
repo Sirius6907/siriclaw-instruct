@@ -13,10 +13,10 @@ async function withPresenceModule<T>(
 }
 
 describe("system-presence version fallback", () => {
-  it("uses runtime VERSION when SiriClaw-Instruct_VERSION is not set", async () => {
+  it("uses runtime VERSION when SiriClawInstruct_VERSION is not set", async () => {
     await withPresenceModule(
       {
-        SiriClaw-Instruct_SERVICE_VERSION: "2.4.6-service",
+        SiriClawInstruct_SERVICE_VERSION: "2.4.6-service",
         npm_package_version: "1.0.0-package",
       },
       async ({ listSystemPresence }) => {
@@ -27,11 +27,11 @@ describe("system-presence version fallback", () => {
     );
   });
 
-  it("prefers SiriClaw-Instruct_VERSION over runtime VERSION", async () => {
+  it("prefers SiriClawInstruct_VERSION over runtime VERSION", async () => {
     await withPresenceModule(
       {
-        SiriClaw-Instruct_VERSION: "9.9.9-cli",
-        SiriClaw-Instruct_SERVICE_VERSION: "2.4.6-service",
+        SiriClawInstruct_VERSION: "9.9.9-cli",
+        SiriClawInstruct_SERVICE_VERSION: "2.4.6-service",
         npm_package_version: "1.0.0-package",
       },
       ({ listSystemPresence }) => {
@@ -41,11 +41,11 @@ describe("system-presence version fallback", () => {
     );
   });
 
-  it("uses runtime VERSION when SiriClaw-Instruct_VERSION and SiriClaw-Instruct_SERVICE_VERSION are blank", async () => {
+  it("uses runtime VERSION when SiriClawInstruct_VERSION and SiriClawInstruct_SERVICE_VERSION are blank", async () => {
     await withPresenceModule(
       {
-        SiriClaw-Instruct_VERSION: " ",
-        SiriClaw-Instruct_SERVICE_VERSION: "\t",
+        SiriClawInstruct_VERSION: " ",
+        SiriClawInstruct_SERVICE_VERSION: "\t",
         npm_package_version: "1.0.0-package",
       },
       async ({ listSystemPresence }) => {
@@ -56,3 +56,4 @@ describe("system-presence version fallback", () => {
     );
   });
 });
+

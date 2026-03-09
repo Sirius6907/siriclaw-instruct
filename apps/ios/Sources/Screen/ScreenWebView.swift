@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import SwiftUI
 import WebKit
 
@@ -191,3 +191,4 @@ private final class CanvasA2UIActionMessageHandler: NSObject, WKScriptMessageHan
         controller.onA2UIAction?(body)
     }
 }
+

@@ -1,10 +1,10 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { resolveWhatsAppAccount } from "../../web/accounts.js";
 import { resolveWhatsAppOutboundTarget } from "../../whatsapp/resolve-outbound-target.js";
 import { ToolAuthorizationError } from "./common.js";
 
 export function resolveAuthorizedWhatsAppOutboundTarget(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   chatJid: string;
   accountId?: string;
   actionLabel: string;
@@ -25,3 +25,4 @@ export function resolveAuthorizedWhatsAppOutboundTarget(params: {
   }
   return { to: resolution.to, accountId: account.accountId };
 }
+

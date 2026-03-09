@@ -66,7 +66,7 @@ export async function startBrowserControlServerFromConfig(): Promise<BrowserServ
     const s = app.listen(port, "127.0.0.1", () => resolve(s));
     s.once("error", reject);
   }).catch((err) => {
-    logServer.error(`SiriClaw-Instruct browser server failed to bind 127.0.0.1:${port}: ${String(err)}`);
+    logServer.error(`SiriClawInstruct browser server failed to bind 127.0.0.1:${port}: ${String(err)}`);
     return null;
   });
 
@@ -119,3 +119,4 @@ export async function stopBrowserControlServer(): Promise<void> {
     }
   }
 }
+

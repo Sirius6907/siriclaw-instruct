@@ -7,7 +7,7 @@ import { resolveStateDir } from "../config/paths.js";
 import { runCommandWithTimeout } from "../process/exec.js";
 import { VERSION } from "../version.js";
 import { writeJsonAtomic } from "./json-files.js";
-import { resolveSiriClaw-InstructPackageRoot } from "./SiriClaw-Instruct-root.js";
+import { resolveSiriClawInstructPackageRoot } from "./siriclaw-instruct-root.js";
 import { normalizeUpdateChannel, DEFAULT_PACKAGE_CHANNEL } from "./update-channels.js";
 import { compareSemverStrings, resolveNpmChannelTag, checkUpdateStatus } from "./update-check.js";
 
@@ -265,14 +265,14 @@ async function runAutoUpdateCommand(params: {
     }
   }
   if (argv.length === 0) {
-    argv.push("SiriClaw-Instruct", ...baseArgs);
+    argv.push("SiriClawInstruct", ...baseArgs);
   }
 
   try {
     const res = await runCommandWithTimeout(argv, {
       timeoutMs: params.timeoutMs,
       env: {
-        SiriClaw-Instruct_AUTO_UPDATE: "1",
+        SiriClawInstruct_AUTO_UPDATE: "1",
       },
     });
     return {
@@ -344,7 +344,7 @@ export async function runGatewayUpdateCheck(params: {
     }
   }
 
-  const root = await resolveSiriClaw-InstructPackageRoot({
+  const root = await resolveSiriClawInstructPackageRoot({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),
@@ -400,7 +400,7 @@ export async function runGatewayUpdateCheck(params: {
       state.lastNotifiedVersion !== resolved.version || state.lastNotifiedTag !== tag;
     if (shouldRunUpdateHints && shouldNotify) {
       params.log.info(
-        `update available (${tag}): v${resolved.version} (current v${VERSION}). Run: ${formatCliCommand("SiriClaw-Instruct update")}`,
+        `update available (${tag}): v${resolved.version} (current v${VERSION}). Run: ${formatCliCommand("SiriClawInstruct update")}`,
       );
       nextState.lastNotifiedVersion = resolved.version;
       nextState.lastNotifiedTag = tag;
@@ -524,3 +524,4 @@ export function scheduleGatewayUpdateCheck(params: {
     }
   };
 }
+

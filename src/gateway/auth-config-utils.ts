@@ -1,8 +1,8 @@
-import type { GatewayAuthConfig, SiriClaw-InstructConfig } from "../config/config.js";
+import type { GatewayAuthConfig, SiriClawInstructConfig } from "../config/config.js";
 import { resolveSecretInputRef } from "../config/types.secrets.js";
 import { resolveRequiredConfiguredSecretRefInputString } from "./resolve-configured-secret-input-string.js";
 
-export function withGatewayAuthPassword(cfg: SiriClaw-InstructConfig, password: string): SiriClaw-InstructConfig {
+export function withGatewayAuthPassword(cfg: SiriClawInstructConfig, password: string): SiriClawInstructConfig {
   return {
     ...cfg,
     gateway: {
@@ -33,12 +33,12 @@ function shouldResolveGatewayPasswordSecretRef(params: {
 }
 
 export async function resolveGatewayPasswordSecretRef(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   env: NodeJS.ProcessEnv;
   mode?: GatewayAuthConfig["mode"];
   hasPasswordCandidate: boolean;
   hasTokenCandidate: boolean;
-}): Promise<SiriClaw-InstructConfig> {
+}): Promise<SiriClawInstructConfig> {
   const authPassword = params.cfg.gateway?.auth?.password;
   const { ref } = resolveSecretInputRef({
     value: authPassword,
@@ -67,3 +67,4 @@ export async function resolveGatewayPasswordSecretRef(params: {
   }
   return withGatewayAuthPassword(params.cfg, value);
 }
+

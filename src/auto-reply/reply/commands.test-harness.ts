@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { MsgContext } from "../templating.js";
 import type { HandleCommandsParams } from "./commands-types.js";
 import { buildCommandContext } from "./commands.js";
@@ -6,7 +6,7 @@ import { parseInlineDirectives } from "./directive-handling.js";
 
 export function buildCommandTestParams(
   commandBody: string,
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   ctxOverrides?: Partial<MsgContext>,
   options?: {
     workspaceDir?: string;
@@ -49,3 +49,4 @@ export function buildCommandTestParams(
   };
   return params;
 }
+

@@ -71,3 +71,4 @@ enum DeviceInfoHelper {
         return "\(version) (\(build))"
     }
 }
+

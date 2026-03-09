@@ -107,3 +107,4 @@ export function registerCronSimpleCommands(cron: Command) {
       }),
   );
 }
+

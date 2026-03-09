@@ -56,3 +56,4 @@ struct LiveNotificationCenter: NotificationCentering, @unchecked Sendable {
         }
     }
 }
+

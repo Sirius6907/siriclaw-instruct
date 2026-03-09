@@ -1,6 +1,6 @@
 import { listChannelPlugins } from "../../channels/plugins/index.js";
 import type { ChannelPlugin } from "../../channels/plugins/types.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   listDeliverableMessageChannels,
   type DeliverableMessageChannel,
@@ -42,7 +42,7 @@ function isAccountEnabled(account: unknown): boolean {
   return enabled !== false;
 }
 
-async function isPluginConfigured(plugin: ChannelPlugin, cfg: SiriClaw-InstructConfig): Promise<boolean> {
+async function isPluginConfigured(plugin: ChannelPlugin, cfg: SiriClawInstructConfig): Promise<boolean> {
   const accountIds = plugin.config.listAccountIds(cfg);
   if (accountIds.length === 0) {
     return false;
@@ -69,7 +69,7 @@ async function isPluginConfigured(plugin: ChannelPlugin, cfg: SiriClaw-InstructC
 }
 
 export async function listConfiguredMessageChannels(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
 ): Promise<MessageChannelId[]> {
   const channels: MessageChannelId[] = [];
   for (const plugin of listChannelPlugins()) {
@@ -84,7 +84,7 @@ export async function listConfiguredMessageChannels(
 }
 
 export async function resolveMessageChannelSelection(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel?: string | null;
   fallbackChannel?: string | null;
 }): Promise<{
@@ -132,3 +132,4 @@ export async function resolveMessageChannelSelection(params: {
     `Channel is required when multiple channels are configured: ${configured.join(", ")}`,
   );
 }
+

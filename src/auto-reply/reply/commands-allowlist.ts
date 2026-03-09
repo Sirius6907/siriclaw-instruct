@@ -3,7 +3,7 @@ import { resolveChannelConfigWrites } from "../../channels/plugins/config-writes
 import { listPairingChannels } from "../../channels/plugins/pairing.js";
 import type { ChannelId } from "../../channels/plugins/types.js";
 import { normalizeChannelId } from "../../channels/registry.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   readConfigFileSnapshot,
   validateConfigObjectWithPlugins,
@@ -153,7 +153,7 @@ function parseAllowlistCommand(raw: string): AllowlistCommand | null {
 }
 
 function normalizeAllowFrom(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channelId: ChannelId;
   accountId?: string | null;
   values: Array<string | number>;
@@ -348,7 +348,7 @@ function mapResolvedAllowlistNames(entries: ResolvedAllowlistName[]): Map<string
 }
 
 async function resolveSlackNames(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
   entries: string[];
 }) {
@@ -362,7 +362,7 @@ async function resolveSlackNames(params: {
 }
 
 async function resolveDiscordNames(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
   entries: string[];
 }) {
@@ -768,3 +768,4 @@ export const handleAllowlistCommand: CommandHandler = async (params, allowTextCo
     reply: { text: `✅ ${scopeLabel} allowlist ${actionLabel} in pairing store.` },
   };
 };
+

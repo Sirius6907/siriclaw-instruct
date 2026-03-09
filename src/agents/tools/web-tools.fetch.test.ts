@@ -496,3 +496,4 @@ describe("web_fetch extraction fallbacks", () => {
     expect(message).toContain("blocked");
   });
 });
+

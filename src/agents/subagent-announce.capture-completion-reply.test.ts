@@ -26,17 +26,17 @@ describe("captureSubagentCompletionReply", () => {
   let captureSubagentCompletionReply: (typeof import("./subagent-announce.js"))["captureSubagentCompletionReply"];
 
   beforeAll(async () => {
-    previousFastTestEnv = process.env.SiriClaw-Instruct_TEST_FAST;
-    process.env.SiriClaw-Instruct_TEST_FAST = "1";
+    previousFastTestEnv = process.env.SiriClawInstruct_TEST_FAST;
+    process.env.SiriClawInstruct_TEST_FAST = "1";
     ({ captureSubagentCompletionReply } = await import("./subagent-announce.js"));
   });
 
   afterAll(() => {
     if (previousFastTestEnv === undefined) {
-      delete process.env.SiriClaw-Instruct_TEST_FAST;
+      delete process.env.SiriClawInstruct_TEST_FAST;
       return;
     }
-    process.env.SiriClaw-Instruct_TEST_FAST = previousFastTestEnv;
+    process.env.SiriClawInstruct_TEST_FAST = previousFastTestEnv;
   });
 
   beforeEach(() => {
@@ -94,3 +94,4 @@ describe("captureSubagentCompletionReply", () => {
     vi.useRealTimers();
   });
 });
+

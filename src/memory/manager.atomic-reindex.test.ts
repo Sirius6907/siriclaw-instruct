@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { getEmbedBatchMock, resetEmbeddingMocks } from "./embedding.test-mocks.js";
 import type { MemoryIndexManager } from "./index.js";
 import { getRequiredMemoryIndexManager } from "./test-manager-helpers.js";
@@ -18,11 +18,11 @@ describe("memory manager atomic reindex", () => {
   const embedBatch = getEmbedBatchMock();
 
   beforeAll(async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-mem-atomic-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-mem-atomic-"));
   });
 
   beforeEach(async () => {
-    vi.stubEnv("SiriClaw-Instruct_TEST_MEMORY_UNSAFE_REINDEX", "0");
+    vi.stubEnv("SiriClawInstruct_TEST_MEMORY_UNSAFE_REINDEX", "0");
     resetEmbeddingMocks();
     shouldFail = false;
     embedBatch.mockImplementation(async (texts: string[]) => {
@@ -69,7 +69,7 @@ describe("memory manager atomic reindex", () => {
         },
         list: [{ id: "main", default: true }],
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     manager = await getRequiredMemoryIndexManager({ cfg, agentId: "main" });
 
@@ -84,3 +84,4 @@ describe("memory manager atomic reindex", () => {
     expect(afterStatus.chunks).toBeGreaterThan(0);
   });
 });
+

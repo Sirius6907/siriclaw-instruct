@@ -11,3 +11,4 @@ export function isSlackChannelAllowedByPolicy(params: {
     routeMatched: params.channelAllowed,
   }).allowed;
 }
+

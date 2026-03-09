@@ -15,7 +15,7 @@ vi.mock("../media/image-ops.js", () => ({
 }));
 
 import "./test-helpers/fast-core-tools.js";
-import { createSiriClaw-InstructTools } from "./SiriClaw-Instruct-tools.js";
+import { createSiriClawInstructTools } from "./siriclaw-instruct-tools.js";
 
 const NODE_ID = "mac-1";
 const BASE_RUN_INPUT = { action: "run", node: NODE_ID, command: ["echo", "hi"] } as const;
@@ -60,7 +60,7 @@ function getNodesTool(options?: { modelHasVision?: boolean; allowMediaInvokeComm
   if (options?.allowMediaInvokeCommands !== undefined) {
     toolOptions.allowMediaInvokeCommands = options.allowMediaInvokeCommands;
   }
-  const tool = createSiriClaw-InstructTools(toolOptions).find((candidate) => candidate.name === "nodes");
+  const tool = createSiriClawInstructTools(toolOptions).find((candidate) => candidate.name === "nodes");
   if (!tool) {
     throw new Error("missing nodes tool");
   }
@@ -793,3 +793,4 @@ describe("nodes invoke", () => {
     });
   });
 });
+

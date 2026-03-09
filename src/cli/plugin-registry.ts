@@ -1,7 +1,7 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { loadConfig } from "../config/config.js";
 import { createSubsystemLogger } from "../logging.js";
-import { loadSiriClaw-InstructPlugins } from "../plugins/loader.js";
+import { loadSiriClawInstructPlugins } from "../plugins/loader.js";
 import { getActivePluginRegistry } from "../plugins/runtime.js";
 import type { PluginLogger } from "../plugins/types.js";
 
@@ -30,10 +30,11 @@ export function ensurePluginRegistryLoaded(): void {
     error: (msg) => log.error(msg),
     debug: (msg) => log.debug(msg),
   };
-  loadSiriClaw-InstructPlugins({
+  loadSiriClawInstructPlugins({
     config,
     workspaceDir,
     logger,
   });
   pluginRegistryLoaded = true;
 }
+

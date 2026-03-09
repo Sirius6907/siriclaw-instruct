@@ -17,9 +17,9 @@ describe("doctor command", () => {
   it("warns when the state directory is missing", async () => {
     mockDoctorConfigSnapshot();
 
-    const missingDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-missing-state-"));
+    const missingDir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-missing-state-"));
     fs.rmSync(missingDir, { recursive: true, force: true });
-    process.env.SiriClaw-Instruct_STATE_DIR = missingDir;
+    process.env.SiriClawInstruct_STATE_DIR = missingDir;
     note.mockClear();
 
     await doctorCommand(createDoctorRuntime(), {
@@ -58,15 +58,15 @@ describe("doctor command", () => {
     expect(warned).toBe(true);
   });
 
-  it("skips gateway auth warning when SiriClaw-Instruct_GATEWAY_TOKEN is set", async () => {
+  it("skips gateway auth warning when SiriClawInstruct_GATEWAY_TOKEN is set", async () => {
     mockDoctorConfigSnapshot({
       config: {
         gateway: { mode: "local" },
       },
     });
 
-    const prevToken = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = "env-token-1234567890";
+    const prevToken = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = "env-token-1234567890";
     note.mockClear();
 
     try {
@@ -76,9 +76,9 @@ describe("doctor command", () => {
       });
     } finally {
       if (prevToken === undefined) {
-        delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+        delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
       } else {
-        process.env.SiriClaw-Instruct_GATEWAY_TOKEN = prevToken;
+        process.env.SiriClawInstruct_GATEWAY_TOKEN = prevToken;
       }
     }
 
@@ -111,9 +111,10 @@ describe("doctor command", () => {
     const gatewayAuthNote = note.mock.calls.find((call) => call[1] === "Gateway auth");
     expect(gatewayAuthNote).toBeTruthy();
     expect(String(gatewayAuthNote?.[0])).toContain("gateway.auth.mode is unset");
-    expect(String(gatewayAuthNote?.[0])).toContain("SiriClaw-Instruct config set gateway.auth.mode token");
+    expect(String(gatewayAuthNote?.[0])).toContain("SiriClawInstruct config set gateway.auth.mode token");
     expect(String(gatewayAuthNote?.[0])).toContain(
-      "SiriClaw-Instruct config set gateway.auth.mode password",
+      "SiriClawInstruct config set gateway.auth.mode password",
     );
   });
 });
+

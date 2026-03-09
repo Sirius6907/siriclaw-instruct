@@ -1,22 +1,22 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   resolveGatewayCredentialsFromConfig,
   resolveGatewayCredentialsFromValues,
 } from "./credentials.js";
 
-function cfg(input: Partial<SiriClaw-InstructConfig>): SiriClaw-InstructConfig {
-  return input as SiriClaw-InstructConfig;
+function cfg(input: Partial<SiriClawInstructConfig>): SiriClawInstructConfig {
+  return input as SiriClawInstructConfig;
 }
 
 type ResolveFromConfigInput = Parameters<typeof resolveGatewayCredentialsFromConfig>[0];
-type GatewayConfig = NonNullable<SiriClaw-InstructConfig["gateway"]>;
+type GatewayConfig = NonNullable<SiriClawInstructConfig["gateway"]>;
 
 const DEFAULT_GATEWAY_AUTH = { token: "config-token", password: "config-password" }; // pragma: allowlist secret
 const DEFAULT_REMOTE_AUTH = { token: "remote-token", password: "remote-password" }; // pragma: allowlist secret
 const DEFAULT_GATEWAY_ENV = {
-  SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
-  SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+  SiriClawInstruct_GATEWAY_TOKEN: "env-token",
+  SiriClawInstruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
 } as NodeJS.ProcessEnv;
 
 function resolveGatewayCredentialsFor(
@@ -65,7 +65,7 @@ function resolveLocalModeWithUnresolvedPassword(mode: "none" | "trusted-proxy") 
           default: { source: "env" },
         },
       },
-    } as unknown as SiriClaw-InstructConfig,
+    } as unknown as SiriClawInstructConfig,
     env: {} as NodeJS.ProcessEnv,
     includeLegacyEnv: false,
   });
@@ -129,9 +129,9 @@ describe("resolveGatewayCredentialsFromConfig", () => {
         },
       }),
       env: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
-        SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
-        SiriClaw-Instruct_SERVICE_KIND: "gateway",
+        SiriClawInstruct_GATEWAY_TOKEN: "env-token",
+        SiriClawInstruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+        SiriClawInstruct_SERVICE_KIND: "gateway",
       } as NodeJS.ProcessEnv,
     });
     expect(resolved).toEqual({
@@ -174,7 +174,7 @@ describe("resolveGatewayCredentialsFromConfig", () => {
               default: { source: "env" },
             },
           },
-        } as unknown as SiriClaw-InstructConfig,
+        } as unknown as SiriClawInstructConfig,
         env: {} as NodeJS.ProcessEnv,
         includeLegacyEnv: false,
       }),
@@ -188,12 +188,12 @@ describe("resolveGatewayCredentialsFromConfig", () => {
           mode: "local",
           auth: {
             mode: "token",
-            token: "${SiriClaw-Instruct_GATEWAY_TOKEN}",
+            token: "${SiriClawInstruct_GATEWAY_TOKEN}",
           },
         },
       }),
       env: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
+        SiriClawInstruct_GATEWAY_TOKEN: "env-token",
       } as NodeJS.ProcessEnv,
       includeLegacyEnv: false,
     });
@@ -212,7 +212,7 @@ describe("resolveGatewayCredentialsFromConfig", () => {
             mode: "local",
             auth: {
               mode: "token",
-              token: "${SiriClaw-Instruct_GATEWAY_TOKEN}",
+              token: "${SiriClawInstruct_GATEWAY_TOKEN}",
             },
           },
         }),
@@ -321,7 +321,7 @@ describe("resolveGatewayCredentialsFromConfig", () => {
         },
       }),
       env: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
+        SiriClawInstruct_GATEWAY_TOKEN: "env-token",
       } as NodeJS.ProcessEnv,
       remoteTokenFallback: "remote-only",
     });
@@ -345,7 +345,7 @@ describe("resolveGatewayCredentialsFromConfig", () => {
               default: { source: "env" },
             },
           },
-        } as unknown as SiriClaw-InstructConfig,
+        } as unknown as SiriClawInstructConfig,
         env: {} as NodeJS.ProcessEnv,
         includeLegacyEnv: false,
         remoteTokenFallback: "remote-only",
@@ -370,7 +370,7 @@ describe("resolveGatewayCredentialsFromConfig", () => {
           default: { source: "env" },
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
   }
 
   it("ignores unresolved local token ref in remote-only mode when local auth mode is token", () => {
@@ -416,7 +416,7 @@ describe("resolveGatewayCredentialsFromConfig", () => {
             default: { source: "env" },
           },
         },
-      } as unknown as SiriClaw-InstructConfig,
+      } as unknown as SiriClawInstructConfig,
       env: {} as NodeJS.ProcessEnv,
       includeLegacyEnv: false,
     });
@@ -443,7 +443,7 @@ describe("resolveGatewayCredentialsFromConfig", () => {
               default: { source: "env" },
             },
           },
-        } as unknown as SiriClaw-InstructConfig,
+        } as unknown as SiriClawInstructConfig,
         env: {} as NodeJS.ProcessEnv,
         includeLegacyEnv: false,
         remotePasswordFallback: "remote-only", // pragma: allowlist secret
@@ -474,8 +474,8 @@ describe("resolveGatewayCredentialsFromValues", () => {
       configToken: "config-token",
       configPassword: "config-password", // pragma: allowlist secret
       env: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
-        SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+        SiriClawInstruct_GATEWAY_TOKEN: "env-token",
+        SiriClawInstruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
       } as NodeJS.ProcessEnv,
       includeLegacyEnv: false,
       tokenPrecedence: "config-first",
@@ -492,8 +492,8 @@ describe("resolveGatewayCredentialsFromValues", () => {
       configToken: "config-token",
       configPassword: "config-password", // pragma: allowlist secret
       env: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
-        SiriClaw-Instruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
+        SiriClawInstruct_GATEWAY_TOKEN: "env-token",
+        SiriClawInstruct_GATEWAY_PASSWORD: "env-password", // pragma: allowlist secret
       } as NodeJS.ProcessEnv,
     });
     expect(resolved).toEqual({
@@ -504,8 +504,8 @@ describe("resolveGatewayCredentialsFromValues", () => {
 
   it("rejects unresolved env var placeholders in config credentials", () => {
     const resolved = resolveGatewayCredentialsFromValues({
-      configToken: "${SiriClaw-Instruct_GATEWAY_TOKEN}",
-      configPassword: "${SiriClaw-Instruct_GATEWAY_PASSWORD}",
+      configToken: "${SiriClawInstruct_GATEWAY_TOKEN}",
+      configPassword: "${SiriClawInstruct_GATEWAY_PASSWORD}",
       env: {} as NodeJS.ProcessEnv,
       tokenPrecedence: "config-first",
       passwordPrecedence: "config-first", // pragma: allowlist secret
@@ -524,3 +524,4 @@ describe("resolveGatewayCredentialsFromValues", () => {
     expect(resolved).toEqual({ token: "real-token-value", password: "real-password" }); // pragma: allowlist secret
   });
 });
+

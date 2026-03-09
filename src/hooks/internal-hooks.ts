@@ -1,5 +1,5 @@
 /**
- * Hook system for SiriClaw-Instruct agent events
+ * Hook system for SiriClawInstruct agent events
  *
  * Provides an extensible event-driven hook system for agent events
  * like command processing, session lifecycle, etc.
@@ -7,7 +7,7 @@
 
 import type { WorkspaceBootstrapFile } from "../agents/workspace.js";
 import type { CliDeps } from "../cli/deps.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 
 export type InternalHookEventType = "command" | "session" | "agent" | "gateway" | "message";
@@ -15,7 +15,7 @@ export type InternalHookEventType = "command" | "session" | "agent" | "gateway" 
 export type AgentBootstrapHookContext = {
   workspaceDir: string;
   bootstrapFiles: WorkspaceBootstrapFile[];
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   sessionKey?: string;
   sessionId?: string;
   agentId?: string;
@@ -28,7 +28,7 @@ export type AgentBootstrapHookEvent = InternalHookEvent & {
 };
 
 export type GatewayStartupHookContext = {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   deps?: CliDeps;
   workspaceDir?: string;
 };
@@ -184,9 +184,9 @@ export type InternalHookHandler = (event: InternalHookEvent) => Promise<void> | 
  * to silently fire with zero handlers.
  */
 const _g = globalThis as typeof globalThis & {
-  __SiriClaw-Instruct_internal_hook_handlers__?: Map<string, InternalHookHandler[]>;
+  __SiriClawInstruct_internal_hook_handlers__?: Map<string, InternalHookHandler[]>;
 };
-const handlers = (_g.__SiriClaw-Instruct_internal_hook_handlers__ ??= new Map<
+const handlers = (_g.__SiriClawInstruct_internal_hook_handlers__ ??= new Map<
   string,
   InternalHookHandler[]
 >());
@@ -419,3 +419,4 @@ export function isMessagePreprocessedEvent(
   }
   return hasStringContextField(context, "channelId");
 }
+

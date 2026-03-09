@@ -53,7 +53,7 @@ describe("sandbox fs bridge anchored ops", () => {
   ] as const;
 
   it.each(pinnedReadCases)("$name", async (testCase) => {
-    await withTempDir("SiriClaw-Instruct-fs-bridge-contract-read-", async (stateDir) => {
+    await withTempDir("SiriClawInstruct-fs-bridge-contract-read-", async (stateDir) => {
       const workspaceDir = path.join(stateDir, "workspace");
       await testCase.setup(workspaceDir, stateDir);
       const bridge = createSandboxFsBridge({
@@ -118,3 +118,4 @@ describe("sandbox fs bridge anchored ops", () => {
     ).toBe(true);
   });
 });
+

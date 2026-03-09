@@ -1,8 +1,8 @@
 import { OPENCODE_ZEN_DEFAULT_MODEL_REF } from "../agents/opencode-zen-models.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { applyAgentDefaultModelPrimary } from "./onboard-auth.config-shared.js";
 
-export function applyOpencodeZenProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyOpencodeZenProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   // Use the built-in opencode provider from pi-ai; only seed the allowlist alias.
   const models = { ...cfg.agents?.defaults?.models };
   models[OPENCODE_ZEN_DEFAULT_MODEL_REF] = {
@@ -22,7 +22,8 @@ export function applyOpencodeZenProviderConfig(cfg: SiriClaw-InstructConfig): Si
   };
 }
 
-export function applyOpencodeZenConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyOpencodeZenConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyOpencodeZenProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, OPENCODE_ZEN_DEFAULT_MODEL_REF);
 }
+

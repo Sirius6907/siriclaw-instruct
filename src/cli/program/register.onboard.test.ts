@@ -130,10 +130,10 @@ describe("registerOnboardCommand", () => {
   });
 
   it("forwards --gateway-token-ref-env", async () => {
-    await runCli(["onboard", "--gateway-token-ref-env", "SiriClaw-Instruct_GATEWAY_TOKEN"]);
+    await runCli(["onboard", "--gateway-token-ref-env", "SiriClawInstruct_GATEWAY_TOKEN"]);
     expect(onboardCommandMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        gatewayTokenRefEnv: "SiriClaw-Instruct_GATEWAY_TOKEN",
+        gatewayTokenRefEnv: "SiriClawInstruct_GATEWAY_TOKEN",
       }),
       runtime,
     );
@@ -148,3 +148,4 @@ describe("registerOnboardCommand", () => {
     expect(runtime.exit).toHaveBeenCalledWith(1);
   });
 });
+

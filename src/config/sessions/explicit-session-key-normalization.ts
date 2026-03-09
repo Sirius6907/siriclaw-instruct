@@ -48,3 +48,4 @@ export function normalizeExplicitSessionKey(sessionKey: string, ctx: MsgContext)
   const normalize = resolveExplicitSessionKeyNormalizer(normalized, ctx);
   return normalize ? normalize(normalized, ctx) : normalized;
 }
+

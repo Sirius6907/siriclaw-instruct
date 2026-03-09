@@ -5,7 +5,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
 const TEST_GATEWAY_TOKEN = "test-gateway-token-1234567890";
 
 let cfg: Record<string, unknown> = {};
-let lastCreateSiriClaw-InstructToolsContext: Record<string, unknown> | undefined;
+let lastCreateSiriClawInstructToolsContext: Record<string, unknown> | undefined;
 
 // Perf: keep this suite pure unit. Mock heavyweight config/session modules.
 vi.mock("../config/config.js", () => ({
@@ -52,7 +52,7 @@ vi.mock("../plugins/tools.js", () => ({
 
 // Perf: the real tool factory instantiates many tools per request; for these HTTP
 // routing/policy tests we only need a small set of tool names.
-vi.mock("../agents/SiriClaw-Instruct-tools.js", () => {
+vi.mock("../agents/SiriClawInstruct-tools.js", () => {
   const toolInputError = (message: string) => {
     const err = new Error(message);
     err.name = "ToolInputError";
@@ -82,8 +82,8 @@ vi.mock("../agents/SiriClaw-Instruct-tools.js", () => {
       execute: async () => ({
         ok: true,
         route: {
-          agentTo: lastCreateSiriClaw-InstructToolsContext?.agentTo,
-          agentThreadId: lastCreateSiriClaw-InstructToolsContext?.agentThreadId,
+          agentTo: lastCreateSiriClawInstructToolsContext?.agentTo,
+          agentThreadId: lastCreateSiriClawInstructToolsContext?.agentThreadId,
         },
       }),
     },
@@ -145,8 +145,8 @@ vi.mock("../agents/SiriClaw-Instruct-tools.js", () => {
   ];
 
   return {
-    createSiriClaw-InstructTools: (ctx: Record<string, unknown>) => {
-      lastCreateSiriClaw-InstructToolsContext = ctx;
+    createSiriClawInstructTools: (ctx: Record<string, unknown>) => {
+      lastCreateSiriClawInstructToolsContext = ctx;
       return tools;
     },
   };
@@ -201,11 +201,11 @@ afterAll(async () => {
 });
 
 beforeEach(() => {
-  delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-  delete process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+  delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
+  delete process.env.SiriClawInstruct_GATEWAY_PASSWORD;
   pluginHttpHandlers = [];
   cfg = {};
-  lastCreateSiriClaw-InstructToolsContext = undefined;
+  lastCreateSiriClawInstructToolsContext = undefined;
 });
 
 const resolveGatewayToken = (): string => TEST_GATEWAY_TOKEN;
@@ -335,7 +335,7 @@ describe("POST /tools/invoke", () => {
     const body = await res.json();
     expect(body.ok).toBe(true);
     expect(body).toHaveProperty("result");
-    expect(lastCreateSiriClaw-InstructToolsContext?.allowMediaInvokeCommands).toBe(true);
+    expect(lastCreateSiriClawInstructToolsContext?.allowMediaInvokeCommands).toBe(true);
   });
 
   it("supports tools.alsoAllow in profile and implicit modes", async () => {
@@ -444,8 +444,8 @@ describe("POST /tools/invoke", () => {
       port: sharedPort,
       headers: {
         ...gatewayAuthHeaders(),
-        "x-SiriClaw-Instruct-message-to": "channel:24514",
-        "x-SiriClaw-Instruct-thread-id": "thread-24514",
+        "x-SiriClawInstruct-message-to": "channel:24514",
+        "x-SiriClawInstruct-thread-id": "thread-24514",
       },
       tool: "sessions_spawn",
       sessionKey: "main",
@@ -596,3 +596,4 @@ describe("POST /tools/invoke", () => {
     expect(body.result?.observedFileFormat).toBeUndefined();
   });
 });
+

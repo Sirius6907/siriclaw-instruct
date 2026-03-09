@@ -42,3 +42,4 @@ describe("ensureCustomApiRegistered", () => {
     expect(streamFn).toHaveBeenCalledTimes(2);
   });
 });
+

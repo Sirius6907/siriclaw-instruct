@@ -19,7 +19,7 @@ import { formatHelpExamples } from "./help-format.js";
 export function registerBrowserCli(program: Command) {
   const browser = program
     .command("browser")
-    .description("Manage SiriClaw-Instruct's dedicated browser (Chrome/Chromium)")
+    .description("Manage SiriClawInstruct's dedicated browser (Chrome/Chromium)")
     .option("--browser-profile <name>", "Browser profile name (default from config)")
     .option("--json", "Output machine-readable JSON", false)
     .addHelpText(
@@ -30,13 +30,13 @@ export function registerBrowserCli(program: Command) {
           true,
         )}\n\n${theme.muted("Docs:")} ${formatDocsLink(
           "/cli/browser",
-          "docs.SiriClaw-Instruct.ai/cli/browser",
+          "docs.SiriClawInstruct.ai/cli/browser",
         )}\n`,
     )
     .action(() => {
       browser.outputHelp();
       defaultRuntime.error(
-        danger(`Missing subcommand. Try: "${formatCliCommand("SiriClaw-Instruct browser status")}"`),
+        danger(`Missing subcommand. Try: "${formatCliCommand("SiriClawInstruct browser status")}"`),
       );
       defaultRuntime.exit(1);
     });
@@ -53,3 +53,4 @@ export function registerBrowserCli(program: Command) {
   registerBrowserDebugCommands(browser, parentOpts);
   registerBrowserStateCommands(browser, parentOpts);
 }
+

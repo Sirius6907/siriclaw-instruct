@@ -8,13 +8,14 @@ export function buildPairingReply(params: {
 }): string {
   const { channel, idLine, code } = params;
   return [
-    "SiriClaw-Instruct: access not configured.",
+    "SiriClawInstruct: access not configured.",
     "",
     idLine,
     "",
     `Pairing code: ${code}`,
     "",
     "Ask the bot owner to approve with:",
-    formatCliCommand(`SiriClaw-Instruct pairing approve ${channel} ${code}`),
+    formatCliCommand(`SiriClawInstruct pairing approve ${channel} ${code}`),
   ].join("\n");
 }
+

@@ -1,6 +1,6 @@
 import AVFAudio
 import SiriClaw-InstructChatUI
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import SiriClaw-InstructProtocol
 import Foundation
 import Observation
@@ -2264,3 +2264,4 @@ private struct IncrementalPrefetchedAudio {
 }
 
 // swiftlint:enable type_body_length file_length
+

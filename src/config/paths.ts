@@ -2,32 +2,32 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { expandHomePrefix, resolveRequiredHomeDir } from "../infra/home-dir.js";
-import type { SiriClaw-InstructConfig } from "./types.js";
+import type { SiriClawInstructConfig } from "./types.js";
 
 /**
- * Nix mode detection: When SiriClaw-Instruct_NIX_MODE=1, the gateway is running under Nix.
+ * Nix mode detection: When SiriClawInstruct_NIX_MODE=1, the gateway is running under Nix.
  * In this mode:
  * - No auto-install flows should be attempted
  * - Missing dependencies should produce actionable Nix-specific error messages
  * - Config is managed externally (read-only from Nix perspective)
  */
 export function resolveIsNixMode(env: NodeJS.ProcessEnv = process.env): boolean {
-  return env.SiriClaw-Instruct_NIX_MODE === "1";
+  return env.SiriClawInstruct_NIX_MODE === "1";
 }
 
 export const isNixMode = resolveIsNixMode();
 
 // Support historical (and occasionally misspelled) legacy state dirs.
 const LEGACY_STATE_DIRNAMES = [".clawdbot", ".moldbot", ".moltbot"] as const;
-const NEW_STATE_DIRNAME = ".SiriClaw-Instruct";
-const CONFIG_FILENAME = "SiriClaw-Instruct.json";
+const NEW_STATE_DIRNAME = ".SiriClawInstruct";
+const CONFIG_FILENAME = "SiriClawInstruct.json";
 const LEGACY_CONFIG_FILENAMES = ["clawdbot.json", "moldbot.json", "moltbot.json"] as const;
 
 function resolveDefaultHomeDir(): string {
   return resolveRequiredHomeDir(process.env, os.homedir);
 }
 
-/** Build a homedir thunk that respects SiriClaw-Instruct_HOME for the given env. */
+/** Build a homedir thunk that respects SiriClawInstruct_HOME for the given env. */
 function envHomedir(env: NodeJS.ProcessEnv): () => string {
   return () => resolveRequiredHomeDir(env, os.homedir);
 }
@@ -54,20 +54,20 @@ export function resolveNewStateDir(homedir: () => string = resolveDefaultHomeDir
 
 /**
  * State directory for mutable data (sessions, logs, caches).
- * Can be overridden via SiriClaw-Instruct_STATE_DIR.
- * Default: ~/.SiriClaw-Instruct
+ * Can be overridden via SiriClawInstruct_STATE_DIR.
+ * Default: ~/.SiriClawInstruct
  */
 export function resolveStateDir(
   env: NodeJS.ProcessEnv = process.env,
   homedir: () => string = envHomedir(env),
 ): string {
   const effectiveHomedir = () => resolveRequiredHomeDir(env, homedir);
-  const override = env.SiriClaw-Instruct_STATE_DIR?.trim() || env.SIRICLAW_STATE_DIR?.trim();
+  const override = env.SiriClawInstruct_STATE_DIR?.trim() || env.SIRICLAW_STATE_DIR?.trim();
   if (override) {
     return resolveUserPath(override, env, effectiveHomedir);
   }
   const newDir = newStateDir(effectiveHomedir);
-  if (env.SiriClaw-Instruct_TEST_FAST === "1") {
+  if (env.SiriClawInstruct_TEST_FAST === "1") {
     return newDir;
   }
   const legacyDirs = legacyStateDirs(effectiveHomedir);
@@ -112,14 +112,14 @@ export const STATE_DIR = resolveStateDir();
 
 /**
  * Config file path (JSON5).
- * Can be overridden via SiriClaw-Instruct_CONFIG_PATH.
- * Default: ~/.SiriClaw-Instruct/SiriClaw-Instruct.json (or $SiriClaw-Instruct_STATE_DIR/SiriClaw-Instruct.json)
+ * Can be overridden via SiriClawInstruct_CONFIG_PATH.
+ * Default: ~/.SiriClawInstruct/SiriClawInstruct.json (or $SiriClawInstruct_STATE_DIR/SiriClawInstruct.json)
  */
 export function resolveCanonicalConfigPath(
   env: NodeJS.ProcessEnv = process.env,
   stateDir: string = resolveStateDir(env, envHomedir(env)),
 ): string {
-  const override = env.SiriClaw-Instruct_CONFIG_PATH?.trim() || env.SIRICLAW_CONFIG_PATH?.trim();
+  const override = env.SiriClawInstruct_CONFIG_PATH?.trim() || env.SIRICLAW_CONFIG_PATH?.trim();
   if (override) {
     return resolveUserPath(override, env, envHomedir(env));
   }
@@ -134,7 +134,7 @@ export function resolveConfigPathCandidate(
   env: NodeJS.ProcessEnv = process.env,
   homedir: () => string = envHomedir(env),
 ): string {
-  if (env.SiriClaw-Instruct_TEST_FAST === "1") {
+  if (env.SiriClawInstruct_TEST_FAST === "1") {
     return resolveCanonicalConfigPath(env, resolveStateDir(env, homedir));
   }
   const candidates = resolveDefaultConfigCandidates(env, homedir);
@@ -159,14 +159,14 @@ export function resolveConfigPath(
   stateDir: string = resolveStateDir(env, envHomedir(env)),
   homedir: () => string = envHomedir(env),
 ): string {
-  const override = env.SiriClaw-Instruct_CONFIG_PATH?.trim();
+  const override = env.SiriClawInstruct_CONFIG_PATH?.trim();
   if (override) {
     return resolveUserPath(override, env, homedir);
   }
-  if (env.SiriClaw-Instruct_TEST_FAST === "1") {
+  if (env.SiriClawInstruct_TEST_FAST === "1") {
     return path.join(stateDir, CONFIG_FILENAME);
   }
-  const stateOverride = env.SiriClaw-Instruct_STATE_DIR?.trim();
+  const stateOverride = env.SiriClawInstruct_STATE_DIR?.trim();
   const candidates = [
     path.join(stateDir, CONFIG_FILENAME),
     ...LEGACY_CONFIG_FILENAMES.map((name) => path.join(stateDir, name)),
@@ -202,15 +202,15 @@ export function resolveDefaultConfigCandidates(
   homedir: () => string = envHomedir(env),
 ): string[] {
   const effectiveHomedir = () => resolveRequiredHomeDir(env, homedir);
-  const explicit = env.SiriClaw-Instruct_CONFIG_PATH?.trim() || env.SIRICLAW_CONFIG_PATH?.trim();
+  const explicit = env.SiriClawInstruct_CONFIG_PATH?.trim() || env.SIRICLAW_CONFIG_PATH?.trim();
   if (explicit) {
     return [resolveUserPath(explicit, env, effectiveHomedir)];
   }
 
   const candidates: string[] = [];
-  const SiriClaw-InstructStateDir = env.SiriClaw-Instruct_STATE_DIR?.trim() || env.SIRICLAW_STATE_DIR?.trim();
-  if (SiriClaw-InstructStateDir) {
-    const resolved = resolveUserPath(SiriClaw-InstructStateDir, env, effectiveHomedir);
+  const SiriClawInstructStateDir = env.SiriClawInstruct_STATE_DIR?.trim() || env.SIRICLAW_STATE_DIR?.trim();
+  if (SiriClawInstructStateDir) {
+    const resolved = resolveUserPath(SiriClawInstructStateDir, env, effectiveHomedir);
     candidates.push(path.join(resolved, CONFIG_FILENAME));
     candidates.push(...LEGACY_CONFIG_FILENAMES.map((name) => path.join(resolved, name)));
   }
@@ -227,12 +227,12 @@ export const DEFAULT_GATEWAY_PORT = 18789;
 
 /**
  * Gateway lock directory (ephemeral).
- * Default: os.tmpdir()/SiriClaw-Instruct-<uid> (uid suffix when available).
+ * Default: os.tmpdir()/SiriClawInstruct-<uid> (uid suffix when available).
  */
 export function resolveGatewayLockDir(tmpdir: () => string = os.tmpdir): string {
   const base = tmpdir();
   const uid = typeof process.getuid === "function" ? process.getuid() : undefined;
-  const suffix = uid != null ? `SiriClaw-Instruct-${uid}` : "SiriClaw-Instruct";
+  const suffix = uid != null ? `SiriClawInstruct-${uid}` : "SiriClawInstruct";
   return path.join(base, suffix);
 }
 
@@ -242,14 +242,14 @@ const OAUTH_FILENAME = "oauth.json";
  * OAuth credentials storage directory.
  *
  * Precedence:
- * - `SiriClaw-Instruct_OAUTH_DIR` (explicit override)
+ * - `SiriClawInstruct_OAUTH_DIR` (explicit override)
  * - `$*_STATE_DIR/credentials` (canonical server/default)
  */
 export function resolveOAuthDir(
   env: NodeJS.ProcessEnv = process.env,
   stateDir: string = resolveStateDir(env, envHomedir(env)),
 ): string {
-  const override = env.SiriClaw-Instruct_OAUTH_DIR?.trim();
+  const override = env.SiriClawInstruct_OAUTH_DIR?.trim();
   if (override) {
     return resolveUserPath(override, env, envHomedir(env));
   }
@@ -264,10 +264,10 @@ export function resolveOAuthPath(
 }
 
 export function resolveGatewayPort(
-  cfg?: SiriClaw-InstructConfig,
+  cfg?: SiriClawInstructConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): number {
-  const envRaw = env.SiriClaw-Instruct_GATEWAY_PORT?.trim() || env.SIRICLAW_GATEWAY_PORT?.trim();
+  const envRaw = env.SiriClawInstruct_GATEWAY_PORT?.trim() || env.SIRICLAW_GATEWAY_PORT?.trim();
   if (envRaw) {
     const parsed = Number.parseInt(envRaw, 10);
     if (Number.isFinite(parsed) && parsed > 0) {
@@ -282,3 +282,4 @@ export function resolveGatewayPort(
   }
   return DEFAULT_GATEWAY_PORT;
 }
+

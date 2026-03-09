@@ -1,6 +1,6 @@
 import os from "node:os";
 import { resolveGatewayPort } from "../config/paths.js";
-import type { SiriClaw-InstructConfig } from "../config/types.js";
+import type { SiriClawInstructConfig } from "../config/types.js";
 import {
   hasConfiguredSecretInput,
   normalizeSecretInputString,
@@ -96,7 +96,7 @@ function normalizeUrl(raw: string, schemeFallback: "ws" | "wss"): string | null 
 }
 
 function resolveScheme(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   opts?: {
     forceSecure?: boolean;
   },
@@ -155,16 +155,16 @@ function pickTailnetIPv4(
 }
 
 function resolveGatewayTokenFromEnv(env: NodeJS.ProcessEnv): string | undefined {
-  return env.SiriClaw-Instruct_GATEWAY_TOKEN?.trim() || env.SIRICLAW_GATEWAY_TOKEN?.trim() || undefined;
+  return env.SiriClawInstruct_GATEWAY_TOKEN?.trim() || env.SIRICLAW_GATEWAY_TOKEN?.trim() || undefined;
 }
 
 function resolveGatewayPasswordFromEnv(env: NodeJS.ProcessEnv): string | undefined {
   return (
-    env.SiriClaw-Instruct_GATEWAY_PASSWORD?.trim() || env.SIRICLAW_GATEWAY_PASSWORD?.trim() || undefined
+    env.SiriClawInstruct_GATEWAY_PASSWORD?.trim() || env.SIRICLAW_GATEWAY_PASSWORD?.trim() || undefined
   );
 }
 
-function resolveAuth(cfg: SiriClaw-InstructConfig, env: NodeJS.ProcessEnv): ResolveAuthResult {
+function resolveAuth(cfg: SiriClawInstructConfig, env: NodeJS.ProcessEnv): ResolveAuthResult {
   const mode = cfg.gateway?.auth?.mode;
   const defaults = cfg.secrets?.defaults;
   const tokenRef = resolveSecretInputRef({
@@ -205,9 +205,9 @@ function resolveAuth(cfg: SiriClaw-InstructConfig, env: NodeJS.ProcessEnv): Reso
 }
 
 async function resolveGatewayTokenSecretRef(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   env: NodeJS.ProcessEnv,
-): Promise<SiriClaw-InstructConfig> {
+): Promise<SiriClawInstructConfig> {
   const hasTokenEnvCandidate = Boolean(resolveGatewayTokenFromEnv(env));
   if (hasTokenEnvCandidate) {
     return cfg;
@@ -218,7 +218,7 @@ async function resolveGatewayTokenSecretRef(
   }
   if (mode !== "token") {
     const hasPasswordEnvCandidate = Boolean(
-      env.SiriClaw-Instruct_GATEWAY_PASSWORD?.trim() || env.SIRICLAW_GATEWAY_PASSWORD?.trim(),
+      env.SiriClawInstruct_GATEWAY_PASSWORD?.trim() || env.SIRICLAW_GATEWAY_PASSWORD?.trim(),
     );
     if (hasPasswordEnvCandidate) {
       return cfg;
@@ -246,9 +246,9 @@ async function resolveGatewayTokenSecretRef(
 }
 
 async function resolveGatewayPasswordSecretRef(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   env: NodeJS.ProcessEnv,
-): Promise<SiriClaw-InstructConfig> {
+): Promise<SiriClawInstructConfig> {
   const hasPasswordEnvCandidate = Boolean(resolveGatewayPasswordFromEnv(env));
   if (hasPasswordEnvCandidate) {
     return cfg;
@@ -287,7 +287,7 @@ async function resolveGatewayPasswordSecretRef(
 }
 
 async function resolveGatewayUrl(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   opts: {
     env: NodeJS.ProcessEnv;
     publicUrl?: string;
@@ -355,7 +355,7 @@ export function encodePairingSetupCode(payload: PairingSetupPayload): string {
 }
 
 export async function resolvePairingSetupFromConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   options: ResolvePairingSetupOptions = {},
 ): Promise<PairingSetupResolution> {
   assertExplicitGatewayAuthModeWhenBothConfigured(cfg);
@@ -395,3 +395,4 @@ export async function resolvePairingSetupFromConfig(
     urlSource: urlResult.source ?? "unknown",
   };
 }
+

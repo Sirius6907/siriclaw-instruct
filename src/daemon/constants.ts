@@ -1,13 +1,13 @@
 // Default service labels (canonical + legacy compatibility)
-export const GATEWAY_LAUNCH_AGENT_LABEL = "ai.SiriClaw-Instruct.gateway";
-export const GATEWAY_SYSTEMD_SERVICE_NAME = "SiriClaw-Instruct-gateway";
-export const GATEWAY_WINDOWS_TASK_NAME = "SiriClaw-Instruct Gateway";
-export const GATEWAY_SERVICE_MARKER = "SiriClaw-Instruct";
+export const GATEWAY_LAUNCH_AGENT_LABEL = "ai.SiriClawInstruct.gateway";
+export const GATEWAY_SYSTEMD_SERVICE_NAME = "SiriClawInstruct-gateway";
+export const GATEWAY_WINDOWS_TASK_NAME = "SiriClawInstruct Gateway";
+export const GATEWAY_SERVICE_MARKER = "SiriClawInstruct";
 export const GATEWAY_SERVICE_KIND = "gateway";
-export const NODE_LAUNCH_AGENT_LABEL = "ai.SiriClaw-Instruct.node";
-export const NODE_SYSTEMD_SERVICE_NAME = "SiriClaw-Instruct-node";
-export const NODE_WINDOWS_TASK_NAME = "SiriClaw-Instruct Node";
-export const NODE_SERVICE_MARKER = "SiriClaw-Instruct";
+export const NODE_LAUNCH_AGENT_LABEL = "ai.SiriClawInstruct.node";
+export const NODE_SYSTEMD_SERVICE_NAME = "SiriClawInstruct-node";
+export const NODE_WINDOWS_TASK_NAME = "SiriClawInstruct Node";
+export const NODE_SERVICE_MARKER = "SiriClawInstruct";
 export const NODE_SERVICE_KIND = "node";
 export const NODE_WINDOWS_TASK_SCRIPT_NAME = "node.cmd";
 export const LEGACY_GATEWAY_LAUNCH_AGENT_LABELS: string[] = [];
@@ -35,7 +35,7 @@ export function resolveGatewayLaunchAgentLabel(profile?: string): string {
   if (!normalized) {
     return GATEWAY_LAUNCH_AGENT_LABEL;
   }
-  return `ai.SiriClaw-Instruct.${normalized}`;
+  return `ai.SiriClawInstruct.${normalized}`;
 }
 
 export function resolveLegacyGatewayLaunchAgentLabels(profile?: string): string[] {
@@ -48,7 +48,7 @@ export function resolveGatewaySystemdServiceName(profile?: string): string {
   if (!suffix) {
     return GATEWAY_SYSTEMD_SERVICE_NAME;
   }
-  return `SiriClaw-Instruct-gateway${suffix}`;
+  return `SiriClawInstruct-gateway${suffix}`;
 }
 
 export function resolveGatewayWindowsTaskName(profile?: string): string {
@@ -56,7 +56,7 @@ export function resolveGatewayWindowsTaskName(profile?: string): string {
   if (!normalized) {
     return GATEWAY_WINDOWS_TASK_NAME;
   }
-  return `SiriClaw-Instruct Gateway (${normalized})`;
+  return `SiriClawInstruct Gateway (${normalized})`;
 }
 
 export function formatGatewayServiceDescription(params?: {
@@ -73,9 +73,9 @@ export function formatGatewayServiceDescription(params?: {
     parts.push(`v${version}`);
   }
   if (parts.length === 0) {
-    return "SiriClaw-Instruct Gateway";
+    return "SiriClawInstruct Gateway";
   }
-  return `SiriClaw-Instruct Gateway (${parts.join(", ")})`;
+  return `SiriClawInstruct Gateway (${parts.join(", ")})`;
 }
 
 export function resolveGatewayServiceDescription(params: {
@@ -86,8 +86,8 @@ export function resolveGatewayServiceDescription(params: {
   return (
     params.description ??
     formatGatewayServiceDescription({
-      profile: params.env.SiriClaw-Instruct_PROFILE,
-      version: params.environment?.SiriClaw-Instruct_SERVICE_VERSION ?? params.env.SiriClaw-Instruct_SERVICE_VERSION,
+      profile: params.env.SiriClawInstruct_PROFILE,
+      version: params.environment?.SiriClawInstruct_SERVICE_VERSION ?? params.env.SiriClawInstruct_SERVICE_VERSION,
     })
   );
 }
@@ -107,7 +107,8 @@ export function resolveNodeWindowsTaskName(): string {
 export function formatNodeServiceDescription(params?: { version?: string }): string {
   const version = params?.version?.trim();
   if (!version) {
-    return "SiriClaw-Instruct Node Host";
+    return "SiriClawInstruct Node Host";
   }
-  return `SiriClaw-Instruct Node Host (v${version})`;
+  return `SiriClawInstruct Node Host (v${version})`;
 }
+

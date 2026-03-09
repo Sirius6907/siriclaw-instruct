@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveAgentWorkspaceDir } from "./agent-scope.js";
 
 export function decodeStrictBase64(value: string, maxDecodedBytes: number): Buffer | null {
@@ -66,7 +66,7 @@ export type MaterializeSubagentAttachmentsResult =
   | { status: "forbidden"; error: string }
   | { status: "error"; error: string };
 
-function resolveAttachmentLimits(config: SiriClaw-InstructConfig): AttachmentLimits {
+function resolveAttachmentLimits(config: SiriClawInstructConfig): AttachmentLimits {
   const attachmentsCfg = (
     config as unknown as {
       tools?: { sessions_spawn?: { attachments?: Record<string, unknown> } };
@@ -93,7 +93,7 @@ function resolveAttachmentLimits(config: SiriClaw-InstructConfig): AttachmentLim
 }
 
 export async function materializeSubagentAttachments(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   targetAgentId: string;
   attachments?: SubagentInlineAttachment[];
   mountPathHint?: string;
@@ -120,8 +120,8 @@ export async function materializeSubagentAttachments(params: {
 
   const attachmentId = crypto.randomUUID();
   const childWorkspaceDir = resolveAgentWorkspaceDir(params.config, params.targetAgentId);
-  const absRootDir = path.join(childWorkspaceDir, ".SiriClaw-Instruct", "attachments");
-  const relDir = path.posix.join(".SiriClaw-Instruct", "attachments", attachmentId);
+  const absRootDir = path.join(childWorkspaceDir, ".SiriClawInstruct", "attachments");
+  const relDir = path.posix.join(".SiriClawInstruct", "attachments", attachmentId);
   const absDir = path.join(absRootDir, attachmentId);
 
   const fail = (error: string): never => {
@@ -243,3 +243,4 @@ export async function materializeSubagentAttachments(params: {
     };
   }
 }
+

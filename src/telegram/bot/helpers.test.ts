@@ -455,3 +455,4 @@ describe("expandTextLinks", () => {
     expect(expandTextLinks(text, entities)).toBe(" [Hello](https://example.com) world");
   });
 });
+

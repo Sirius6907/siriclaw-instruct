@@ -1,10 +1,10 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { ensureAuthProfileStore, listProfilesForProvider } from "../auth-profiles.js";
 import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.js";
 import { resolveEnvApiKey } from "../model-auth.js";
 import { resolveConfiguredModelRef } from "../model-selection.js";
 
-export function resolveDefaultModelRef(cfg?: SiriClaw-InstructConfig): { provider: string; model: string } {
+export function resolveDefaultModelRef(cfg?: SiriClawInstructConfig): { provider: string; model: string } {
   if (cfg) {
     const resolved = resolveConfiguredModelRef({
       cfg,
@@ -25,3 +25,4 @@ export function hasAuthForProvider(params: { provider: string; agentDir: string 
   });
   return listProfilesForProvider(store, params.provider).length > 0;
 }
+

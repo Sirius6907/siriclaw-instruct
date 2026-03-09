@@ -1,6 +1,6 @@
 import Contacts
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 
 final class ContactsService: ContactsServicing {
     private static var payloadKeys: [CNKeyDescriptor] {
@@ -208,3 +208,4 @@ final class ContactsService: ContactsServicing {
     }
 #endif
 }
+

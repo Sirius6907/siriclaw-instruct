@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Testing
 @testable import SiriClaw-Instruct
 
@@ -28,3 +28,4 @@ import Testing
         } catch {}
     }
 }
+

@@ -123,3 +123,4 @@ final class LiveActivityManager {
             startedAt: self.activityStartDate)
     }
 }
+

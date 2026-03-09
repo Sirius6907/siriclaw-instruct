@@ -12,7 +12,7 @@ describe("media store", () => {
   let tempHome: TempHomeEnv;
 
   beforeAll(async () => {
-    tempHome = await createTempHomeEnv("SiriClaw-Instruct-test-home-");
+    tempHome = await createTempHomeEnv("SiriClawInstruct-test-home-");
     home = tempHome.home;
     store = await import("./store.js");
   });
@@ -39,7 +39,7 @@ describe("media store", () => {
     await withTempStore(async (store, home) => {
       const dir = await store.ensureMediaDir();
       expect(isPathWithinBase(home, dir)).toBe(true);
-      expect(path.normalize(dir)).toContain(`${path.sep}.SiriClaw-Instruct${path.sep}media`);
+      expect(path.normalize(dir)).toContain(`${path.sep}.SiriClawInstruct${path.sep}media`);
       const stat = await fs.stat(dir);
       expect(stat.isDirectory()).toBe(true);
     });
@@ -454,3 +454,4 @@ describe("media store", () => {
     });
   });
 });
+

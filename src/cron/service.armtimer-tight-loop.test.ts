@@ -7,7 +7,7 @@ import { armTimer, onTimer } from "./service/timer.js";
 import type { CronJob } from "./types.js";
 
 const noopLogger = createNoopLogger();
-const { makeStorePath } = createCronStoreHarness({ prefix: "SiriClaw-Instruct-cron-tight-loop-" });
+const { makeStorePath } = createCronStoreHarness({ prefix: "SiriClawInstruct-cron-tight-loop-" });
 
 /**
  * Create a cron job that is past-due AND has a stuck `runningAtMs` marker.
@@ -185,3 +185,4 @@ describe("CronService - armTimer tight loop prevention", () => {
     await store.cleanup();
   });
 });
+

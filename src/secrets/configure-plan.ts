@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from "node:util";
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   resolveSecretInputRef,
   type SecretProviderConfig,
@@ -18,7 +18,7 @@ export type ConfigureCandidate = {
   path: string;
   pathSegments: string[];
   label: string;
-  configFile: "SiriClaw-Instruct.json" | "auth-profiles.json";
+  configFile: "SiriClawInstruct.json" | "auth-profiles.json";
   expectedResolvedValue: "string" | "string-or-object";
   existingRef?: SecretRef;
   isDerived?: boolean;
@@ -37,14 +37,14 @@ export type ConfigureProviderChanges = {
   deletes: string[];
 };
 
-function getSecretProviders(config: SiriClaw-InstructConfig): Record<string, SecretProviderConfig> {
+function getSecretProviders(config: SiriClawInstructConfig): Record<string, SecretProviderConfig> {
   if (!isRecord(config.secrets?.providers)) {
     return {};
   }
   return config.secrets.providers;
 }
 
-export function buildConfigureCandidates(config: SiriClaw-InstructConfig): ConfigureCandidate[] {
+export function buildConfigureCandidates(config: SiriClawInstructConfig): ConfigureCandidate[] {
   return buildConfigureCandidatesForScope({ config });
 }
 
@@ -53,7 +53,7 @@ function configureCandidateSortKey(candidate: ConfigureCandidate): string {
     const agentId = candidate.agentId ?? "";
     return `auth-profiles:${agentId}:${candidate.path}`;
   }
-  return `SiriClaw-Instruct:${candidate.path}`;
+  return `SiriClawInstruct:${candidate.path}`;
 }
 
 function resolveAuthProfileProvider(
@@ -73,19 +73,19 @@ function resolveAuthProfileProvider(
 }
 
 export function buildConfigureCandidatesForScope(params: {
-  config: SiriClaw-InstructConfig;
-  authoredSiriClaw-InstructConfig?: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
+  authoredSiriClawInstructConfig?: SiriClawInstructConfig;
   authProfiles?: {
     agentId: string;
     store: AuthProfileStore;
   };
 }): ConfigureCandidate[] {
-  const authoredConfig = params.authoredSiriClaw-InstructConfig ?? params.config;
+  const authoredConfig = params.authoredSiriClawInstructConfig ?? params.config;
 
   const hasPathInAuthoredConfig = (pathSegments: string[]): boolean =>
     hasPath(authoredConfig, pathSegments);
 
-  const SiriClaw-InstructCandidates = discoverConfigSecretTargets(params.config)
+  const SiriClawInstructCandidates = discoverConfigSecretTargets(params.config)
     .filter((entry) => entry.entry.includeInConfigure)
     .map((entry) => {
       const resolved = resolveSecretInputRef({
@@ -102,7 +102,7 @@ export function buildConfigureCandidatesForScope(params: {
         path: entry.path,
         pathSegments: [...entry.pathSegments],
         label: entry.path,
-        configFile: "SiriClaw-Instruct.json" as const,
+        configFile: "SiriClawInstruct.json" as const,
         expectedResolvedValue: entry.entry.expectedResolvedValue,
         ...(resolved.ref ? { existingRef: resolved.ref } : {}),
         ...(pathExists || refPathExists ? {} : { isDerived: true }),
@@ -143,7 +143,7 @@ export function buildConfigureCandidatesForScope(params: {
             };
           });
 
-  return [...SiriClaw-InstructCandidates, ...authCandidates].toSorted((a, b) =>
+  return [...SiriClawInstructCandidates, ...authCandidates].toSorted((a, b) =>
     configureCandidateSortKey(a).localeCompare(configureCandidateSortKey(b)),
   );
 }
@@ -184,8 +184,8 @@ function hasPath(root: unknown, segments: string[]): boolean {
 }
 
 export function collectConfigureProviderChanges(params: {
-  original: SiriClaw-InstructConfig;
-  next: SiriClaw-InstructConfig;
+  original: SiriClawInstructConfig;
+  next: SiriClawInstructConfig;
 }): ConfigureProviderChanges {
   const originalProviders = getSecretProviders(params.original);
   const nextProviders = getSecretProviders(params.next);
@@ -233,7 +233,7 @@ export function buildSecretsConfigurePlan(params: {
     version: 1,
     protocolVersion: 1,
     generatedAt: params.generatedAt ?? new Date().toISOString(),
-    generatedBy: "SiriClaw-Instruct secrets configure",
+    generatedBy: "SiriClawInstruct secrets configure",
     targets: [...params.selectedTargets.values()].map((entry) => ({
       type: entry.type,
       path: entry.path,
@@ -257,3 +257,4 @@ export function buildSecretsConfigurePlan(params: {
     },
   };
 }
+

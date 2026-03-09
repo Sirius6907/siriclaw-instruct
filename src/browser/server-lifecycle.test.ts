@@ -36,7 +36,7 @@ describe("ensureExtensionRelayForProfiles", () => {
       if (name === "chrome") {
         return { driver: "extension", cdpUrl: "http://127.0.0.1:18888" };
       }
-      return { driver: "SiriClaw-Instruct", cdpUrl: "http://127.0.0.1:18889" };
+      return { driver: "SiriClawInstruct", cdpUrl: "http://127.0.0.1:18889" };
     });
     ensureChromeExtensionRelayServerMock.mockResolvedValue(undefined);
 
@@ -44,7 +44,7 @@ describe("ensureExtensionRelayForProfiles", () => {
       resolved: {
         profiles: {
           chrome: {},
-          SiriClaw-Instruct: {},
+          SiriClawInstruct: {},
         },
       } as never,
       onWarn: vi.fn(),
@@ -79,9 +79,9 @@ describe("stopKnownBrowserProfiles", () => {
   });
 
   it("stops all known profiles and ignores per-profile failures", async () => {
-    listKnownProfileNamesMock.mockReturnValue(["SiriClaw-Instruct", "chrome"]);
+    listKnownProfileNamesMock.mockReturnValue(["SiriClawInstruct", "chrome"]);
     const stopMap: Record<string, ReturnType<typeof vi.fn>> = {
-      SiriClaw-Instruct: vi.fn(async () => {}),
+      SiriClawInstruct: vi.fn(async () => {}),
       chrome: vi.fn(async () => {
         throw new Error("profile stop failed");
       }),
@@ -99,7 +99,7 @@ describe("stopKnownBrowserProfiles", () => {
       onWarn,
     });
 
-    expect(stopMap.SiriClaw-Instruct).toHaveBeenCalledTimes(1);
+    expect(stopMap.SiriClawInstruct).toHaveBeenCalledTimes(1);
     expect(stopMap.chrome).toHaveBeenCalledTimes(1);
     expect(onWarn).not.toHaveBeenCalled();
   });
@@ -118,6 +118,7 @@ describe("stopKnownBrowserProfiles", () => {
       onWarn,
     });
 
-    expect(onWarn).toHaveBeenCalledWith("SiriClaw-Instruct browser stop failed: Error: oops");
+    expect(onWarn).toHaveBeenCalledWith("SiriClawInstruct browser stop failed: Error: oops");
   });
 });
+

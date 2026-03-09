@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AcpRuntimeError } from "../../acp/runtime/errors.js";
 import type { AcpSessionStoreEntry } from "../../acp/runtime/session-meta.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { SessionBindingRecord } from "../../infra/outbound/session-binding-service.js";
 import type { ReplyDispatcher } from "./reply-dispatcher.js";
 import { buildTestCtx } from "./test-ctx.js";
@@ -17,8 +17,8 @@ const managerMocks = vi.hoisted(() => ({
 }));
 
 const policyMocks = vi.hoisted(() => ({
-  resolveAcpDispatchPolicyError: vi.fn<(cfg: SiriClaw-InstructConfig) => AcpRuntimeError | null>(() => null),
-  resolveAcpAgentPolicyError: vi.fn<(cfg: SiriClaw-InstructConfig, agent: string) => AcpRuntimeError | null>(
+  resolveAcpDispatchPolicyError: vi.fn<(cfg: SiriClawInstructConfig) => AcpRuntimeError | null>(() => null),
+  resolveAcpAgentPolicyError: vi.fn<(cfg: SiriClawInstructConfig, agent: string) => AcpRuntimeError | null>(
     () => null,
   ),
 }));
@@ -36,12 +36,12 @@ const ttsMocks = vi.hoisted(() => ({
     const params = paramsUnknown as { payload: unknown };
     return params.payload;
   }),
-  resolveTtsConfig: vi.fn((_cfg: SiriClaw-InstructConfig) => ({ mode: "final" })),
+  resolveTtsConfig: vi.fn((_cfg: SiriClawInstructConfig) => ({ mode: "final" })),
 }));
 
 const sessionMetaMocks = vi.hoisted(() => ({
   readAcpSessionEntry: vi.fn<
-    (params: { sessionKey: string; cfg?: SiriClaw-InstructConfig }) => AcpSessionStoreEntry | null
+    (params: { sessionKey: string; cfg?: SiriClawInstructConfig }) => AcpSessionStoreEntry | null
   >(() => null),
 }));
 
@@ -54,9 +54,9 @@ vi.mock("../../acp/control-plane/manager.js", () => ({
 }));
 
 vi.mock("../../acp/policy.js", () => ({
-  resolveAcpDispatchPolicyError: (cfg: SiriClaw-InstructConfig) =>
+  resolveAcpDispatchPolicyError: (cfg: SiriClawInstructConfig) =>
     policyMocks.resolveAcpDispatchPolicyError(cfg),
-  resolveAcpAgentPolicyError: (cfg: SiriClaw-InstructConfig, agent: string) =>
+  resolveAcpAgentPolicyError: (cfg: SiriClawInstructConfig, agent: string) =>
     policyMocks.resolveAcpAgentPolicyError(cfg, agent),
 }));
 
@@ -70,11 +70,11 @@ vi.mock("../../infra/outbound/message-action-runner.js", () => ({
 
 vi.mock("../../tts/tts.js", () => ({
   maybeApplyTtsToPayload: (params: unknown) => ttsMocks.maybeApplyTtsToPayload(params),
-  resolveTtsConfig: (cfg: SiriClaw-InstructConfig) => ttsMocks.resolveTtsConfig(cfg),
+  resolveTtsConfig: (cfg: SiriClawInstructConfig) => ttsMocks.resolveTtsConfig(cfg),
 }));
 
 vi.mock("../../acp/runtime/session-meta.js", () => ({
-  readAcpSessionEntry: (params: { sessionKey: string; cfg?: SiriClaw-InstructConfig }) =>
+  readAcpSessionEntry: (params: { sessionKey: string; cfg?: SiriClawInstructConfig }) =>
     sessionMetaMocks.readAcpSessionEntry(params),
 }));
 
@@ -111,7 +111,7 @@ function setReadyAcpResolution() {
   });
 }
 
-function createAcpConfigWithVisibleToolTags(): SiriClaw-InstructConfig {
+function createAcpConfigWithVisibleToolTags(): SiriClawInstructConfig {
   return createAcpTestConfig({
     acp: {
       enabled: true,
@@ -127,7 +127,7 @@ function createAcpConfigWithVisibleToolTags(): SiriClaw-InstructConfig {
 
 async function runDispatch(params: {
   bodyForAgent: string;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   dispatcher?: ReplyDispatcher;
   shouldRouteToOriginating?: boolean;
   onReplyStart?: () => void;
@@ -373,3 +373,4 @@ describe("tryDispatchAcpReply", () => {
     );
   });
 });
+

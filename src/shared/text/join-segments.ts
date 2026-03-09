@@ -32,3 +32,4 @@ export function joinPresentTextSegments(
   }
   return values.length > 0 ? values.join(separator) : undefined;
 }
+

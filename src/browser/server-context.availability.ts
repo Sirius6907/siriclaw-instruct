@@ -6,8 +6,8 @@ import {
 import {
   isChromeCdpReady,
   isChromeReachable,
-  launchSiriClaw-InstructChrome,
-  stopSiriClaw-InstructChrome,
+  launchSiriClawInstructChrome,
+  stopSiriClawInstructChrome,
 } from "./chrome.js";
 import type { ResolvedBrowserProfile } from "./config.js";
 import {
@@ -81,7 +81,7 @@ export function createProfileAvailability({
   };
 
   const waitForCdpReadyAfterLaunch = async (): Promise<void> => {
-    // launchSiriClaw-InstructChrome() can return before Chrome is fully ready to serve /json/version + CDP WS.
+    // launchSiriClawInstructChrome() can return before Chrome is fully ready to serve /json/version + CDP WS.
     // If a follow-up call races ahead, we can hit PortInUseError trying to launch again on the same port.
     const deadlineMs = Date.now() + CDP_READY_AFTER_LAUNCH_WINDOW_MS;
     while (Date.now() < deadlineMs) {
@@ -143,12 +143,12 @@ export function createProfileAvailability({
             : `Browser attachOnly is enabled and profile "${profile.name}" is not running.`,
         );
       }
-      const launched = await launchSiriClaw-InstructChrome(current.resolved, profile);
+      const launched = await launchSiriClawInstructChrome(current.resolved, profile);
       attachRunning(launched);
       try {
         await waitForCdpReadyAfterLaunch();
       } catch (err) {
-        await stopSiriClaw-InstructChrome(launched).catch(() => {});
+        await stopSiriClawInstructChrome(launched).catch(() => {});
         setProfileRunning(null);
         throw err;
       }
@@ -179,15 +179,15 @@ export function createProfileAvailability({
     // HTTP responds but WebSocket fails - port in use by something else.
     if (!profileState.running) {
       throw new Error(
-        `Port ${profile.cdpPort} is in use for profile "${profile.name}" but not by SiriClaw-Instruct. ` +
+        `Port ${profile.cdpPort} is in use for profile "${profile.name}" but not by SiriClawInstruct. ` +
           `Run action=reset-profile profile=${profile.name} to kill the process.`,
       );
     }
 
-    await stopSiriClaw-InstructChrome(profileState.running);
+    await stopSiriClawInstructChrome(profileState.running);
     setProfileRunning(null);
 
-    const relaunched = await launchSiriClaw-InstructChrome(current.resolved, profile);
+    const relaunched = await launchSiriClawInstructChrome(current.resolved, profile);
     attachRunning(relaunched);
 
     if (!(await isReachable(PROFILE_POST_RESTART_WS_TIMEOUT_MS))) {
@@ -208,7 +208,7 @@ export function createProfileAvailability({
     if (!profileState.running) {
       return { stopped: false };
     }
-    await stopSiriClaw-InstructChrome(profileState.running);
+    await stopSiriClawInstructChrome(profileState.running);
     setProfileRunning(null);
     return { stopped: true };
   };
@@ -220,3 +220,4 @@ export function createProfileAvailability({
     stopRunningBrowser,
   };
 }
+

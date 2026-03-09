@@ -120,7 +120,7 @@ function createAsyncReplySpy() {
 describe("createFollowupRunner compaction", () => {
   it("adds verbose auto-compaction notice and tracks count", async () => {
     const storePath = path.join(
-      await fs.mkdtemp(path.join(tmpdir(), "SiriClaw-Instruct-compaction-")),
+      await fs.mkdtemp(path.join(tmpdir(), "SiriClawInstruct-compaction-")),
       "sessions.json",
     );
     const sessionEntry: SessionEntry = {
@@ -375,7 +375,7 @@ describe("createFollowupRunner messaging tool dedupe", () => {
 
   it("persists usage even when replies are suppressed", async () => {
     const storePath = path.join(
-      await fs.mkdtemp(path.join(tmpdir(), "SiriClaw-Instruct-followup-usage-")),
+      await fs.mkdtemp(path.join(tmpdir(), "SiriClawInstruct-followup-usage-")),
       "sessions.json",
     );
     const sessionKey = "main";
@@ -578,3 +578,4 @@ describe("createFollowupRunner agentDir forwarding", () => {
     expect(call?.agentDir).toBe(agentDir);
   });
 });
+

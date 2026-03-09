@@ -275,3 +275,4 @@ describe("group mentions (line)", () => {
     ).toBe(false);
   });
 });
+

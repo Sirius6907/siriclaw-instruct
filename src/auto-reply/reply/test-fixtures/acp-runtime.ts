@@ -1,7 +1,7 @@
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import type { SessionAcpMeta } from "../../../config/sessions/types.js";
 
-export function createAcpTestConfig(overrides?: Partial<SiriClaw-InstructConfig>): SiriClaw-InstructConfig {
+export function createAcpTestConfig(overrides?: Partial<SiriClawInstructConfig>): SiriClawInstructConfig {
   return {
     acp: {
       enabled: true,
@@ -11,7 +11,7 @@ export function createAcpTestConfig(overrides?: Partial<SiriClaw-InstructConfig>
       },
     },
     ...overrides,
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 export function createAcpSessionMeta(overrides?: Partial<SessionAcpMeta>): SessionAcpMeta {
@@ -31,3 +31,4 @@ export function createAcpSessionMeta(overrides?: Partial<SessionAcpMeta>): Sessi
     ...overrides,
   };
 }
+

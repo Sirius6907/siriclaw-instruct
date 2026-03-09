@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   resolveChannelGroupRequireMention,
   resolveChannelGroupToolsPolicy,
@@ -41,7 +41,7 @@ function parseTelegramGroupId(value?: string | null) {
 }
 
 function resolveTelegramRequireMention(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   chatId?: string;
   topicId?: string;
 }): boolean | undefined {
@@ -355,3 +355,4 @@ export function resolveLineGroupToolPolicy(
   }
   return resolveChannelToolPolicyForSender(params, "line");
 }
+

@@ -35,11 +35,11 @@ export function registerSecurityCli(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["SiriClaw-Instruct security audit", "Run a local security audit."],
-          ["SiriClaw-Instruct security audit --deep", "Include best-effort live Gateway probe checks."],
-          ["SiriClaw-Instruct security audit --fix", "Apply safe remediations and file-permission fixes."],
-          ["SiriClaw-Instruct security audit --json", "Output machine-readable JSON."],
-        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/security", "docs.SiriClaw-Instruct.ai/cli/security")}\n`,
+          ["SiriClawInstruct security audit", "Run a local security audit."],
+          ["SiriClawInstruct security audit --deep", "Include best-effort live Gateway probe checks."],
+          ["SiriClawInstruct security audit --fix", "Apply safe remediations and file-permission fixes."],
+          ["SiriClawInstruct security audit --json", "Output machine-readable JSON."],
+        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/security", "docs.SiriClawInstruct.ai/cli/security")}\n`,
     );
 
   security
@@ -71,12 +71,12 @@ export function registerSecurityCli(program: Command) {
       const muted = (text: string) => (rich ? theme.muted(text) : text);
 
       const lines: string[] = [];
-      lines.push(heading("SiriClaw-Instruct security audit"));
+      lines.push(heading("SiriClawInstruct security audit"));
       lines.push(muted(`Summary: ${formatSummary(report.summary)}`));
-      lines.push(muted(`Run deeper: ${formatCliCommand("SiriClaw-Instruct security audit --deep")}`));
+      lines.push(muted(`Run deeper: ${formatCliCommand("SiriClawInstruct security audit --deep")}`));
 
       if (opts.fix) {
-        lines.push(muted(`Fix: ${formatCliCommand("SiriClaw-Instruct security audit --fix")}`));
+        lines.push(muted(`Fix: ${formatCliCommand("SiriClawInstruct security audit --fix")}`));
         if (!fixResult) {
           lines.push(muted("Fixes: failed to apply (unexpected error)"));
         } else if (
@@ -162,3 +162,4 @@ export function registerSecurityCli(program: Command) {
       defaultRuntime.log(lines.join("\n"));
     });
 }
+

@@ -10,15 +10,15 @@ import { hasExplicitOptions } from "../command-options.js";
 export function registerSetupCommand(program: Command) {
   program
     .command("setup")
-    .description("Initialize ~/.SiriClaw-Instruct/SiriClaw-Instruct.json and the agent workspace")
+    .description("Initialize ~/.SiriClawInstruct/SiriClawInstruct.json and the agent workspace")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/setup", "docs.SiriClaw-Instruct.ai/cli/setup")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/setup", "docs.SiriClawInstruct.ai/cli/setup")}\n`,
     )
     .option(
       "--workspace <dir>",
-      "Agent workspace directory (default: ~/.SiriClaw-Instruct/workspace; stored as agents.defaults.workspace)",
+      "Agent workspace directory (default: ~/.SiriClawInstruct/workspace; stored as agents.defaults.workspace)",
     )
     .option("--wizard", "Run the interactive onboarding wizard", false)
     .option("--non-interactive", "Run the wizard without prompts", false)
@@ -51,3 +51,4 @@ export function registerSetupCommand(program: Command) {
       });
     });
 }
+

@@ -1,6 +1,6 @@
 export { getApiKeyForModel, requireApiKey } from "../model-auth.js";
 export { runWithImageModelFallback } from "../model-fallback.js";
-export { ensureSiriClaw-InstructModelsJson } from "../models-config.js";
+export { ensureSiriClawInstructModelsJson } from "../models-config.js";
 export { discoverAuthStorage, discoverModels } from "../pi-model-discovery.js";
 export {
   createSandboxBridgeReadFile,
@@ -11,3 +11,4 @@ export type { SandboxFsBridge } from "../sandbox/fs-bridge.js";
 export type { ToolFsPolicy } from "../tool-fs-policy.js";
 export { normalizeWorkspaceDir } from "../workspace-dir.js";
 export type { AnyAgentTool } from "./common.js";
+

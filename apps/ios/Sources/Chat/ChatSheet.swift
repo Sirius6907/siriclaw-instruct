@@ -1,5 +1,5 @@
 import SiriClaw-InstructChatUI
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import SwiftUI
 
 struct ChatSheet: View {
@@ -45,3 +45,4 @@ struct ChatSheet: View {
         return "Chat (\(trimmed))"
     }
 }
+

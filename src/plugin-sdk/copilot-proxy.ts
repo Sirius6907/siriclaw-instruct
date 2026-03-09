@@ -3,7 +3,8 @@
 
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 export type {
-  SiriClaw-InstructPluginApi,
+  SiriClawInstructPluginApi,
   ProviderAuthContext,
   ProviderAuthResult,
 } from "../plugins/types.js";
+

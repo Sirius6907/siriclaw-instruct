@@ -8,7 +8,7 @@ import {
   resolveBootstrapMaxChars,
   resolveBootstrapTotalMaxChars,
 } from "../agents/pi-embedded-helpers.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { note } from "../terminal/note.js";
 
 function formatInt(value: number): string {
@@ -30,7 +30,7 @@ function formatCauses(causes: Array<"per-file-limit" | "total-limit">): string {
   return causes.map((cause) => (cause === "per-file-limit" ? "max/file" : "max/total")).join(", ");
 }
 
-export async function noteBootstrapFileSize(cfg: SiriClaw-InstructConfig) {
+export async function noteBootstrapFileSize(cfg: SiriClawInstructConfig) {
   const workspaceDir = resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg));
   const bootstrapMaxChars = resolveBootstrapMaxChars(cfg);
   const bootstrapTotalMaxChars = resolveBootstrapTotalMaxChars(cfg);
@@ -99,3 +99,4 @@ export async function noteBootstrapFileSize(cfg: SiriClaw-InstructConfig) {
   note(lines.join("\n"), "Bootstrap file size");
   return analysis;
 }
+

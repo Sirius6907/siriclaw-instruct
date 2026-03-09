@@ -53,24 +53,24 @@ export function registerAgentCommands(program: Command, args: { agentChannelOpti
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['SiriClaw-Instruct agent --to +15555550123 --message "status update"', "Start a new session."],
-  ['SiriClaw-Instruct agent --agent ops --message "Summarize logs"', "Use a specific agent."],
+  ['SiriClawInstruct agent --to +15555550123 --message "status update"', "Start a new session."],
+  ['SiriClawInstruct agent --agent ops --message "Summarize logs"', "Use a specific agent."],
   [
-    'SiriClaw-Instruct agent --session-id 1234 --message "Summarize inbox" --thinking medium',
+    'SiriClawInstruct agent --session-id 1234 --message "Summarize inbox" --thinking medium',
     "Target a session with explicit thinking level.",
   ],
   [
-    'SiriClaw-Instruct agent --to +15555550123 --message "Trace logs" --verbose on --json',
+    'SiriClawInstruct agent --to +15555550123 --message "Trace logs" --verbose on --json',
     "Enable verbose logging and JSON output.",
   ],
-  ['SiriClaw-Instruct agent --to +15555550123 --message "Summon reply" --deliver', "Deliver reply."],
+  ['SiriClawInstruct agent --to +15555550123 --message "Summon reply" --deliver', "Deliver reply."],
   [
-    'SiriClaw-Instruct agent --agent ops --message "Generate report" --deliver --reply-channel slack --reply-to "#reports"',
+    'SiriClawInstruct agent --agent ops --message "Generate report" --deliver --reply-channel slack --reply-to "#reports"',
     "Send reply to a different channel/target.",
   ],
 ])}
 
-${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.SiriClaw-Instruct.ai/cli/agent")}`,
+${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.SiriClawInstruct.ai/cli/agent")}`,
     )
     .action(async (opts) => {
       const verboseLevel = typeof opts.verbose === "string" ? opts.verbose.toLowerCase() : "";
@@ -88,7 +88,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.SiriClaw-Instruct.a
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/agents", "docs.SiriClaw-Instruct.ai/cli/agents")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/agents", "docs.SiriClawInstruct.ai/cli/agents")}\n`,
     );
 
   agents
@@ -219,14 +219,14 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.SiriClaw-Instruct.a
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['SiriClaw-Instruct agents set-identity --agent main --name "SiriClaw-Instruct" --emoji "🦞"', "Set name + emoji."],
-  ["SiriClaw-Instruct agents set-identity --agent main --avatar avatars/SiriClaw-Instruct.png", "Set avatar path."],
+  ['SiriClawInstruct agents set-identity --agent main --name "SiriClawInstruct" --emoji "🦞"', "Set name + emoji."],
+  ["SiriClawInstruct agents set-identity --agent main --avatar avatars/SiriClawInstruct.png", "Set avatar path."],
   [
-    "SiriClaw-Instruct agents set-identity --workspace ~/.SiriClaw-Instruct/workspace --from-identity",
+    "SiriClawInstruct agents set-identity --workspace ~/.SiriClawInstruct/workspace --from-identity",
     "Load from IDENTITY.md.",
   ],
   [
-    "SiriClaw-Instruct agents set-identity --identity-file ~/.SiriClaw-Instruct/workspace/IDENTITY.md --agent main",
+    "SiriClawInstruct agents set-identity --identity-file ~/.SiriClawInstruct/workspace/IDENTITY.md --agent main",
     "Use a specific IDENTITY.md.",
   ],
 ])}
@@ -275,3 +275,4 @@ ${formatHelpExamples([
     });
   });
 }
+

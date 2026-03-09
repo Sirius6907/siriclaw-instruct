@@ -1,5 +1,5 @@
 import { createSubsystemLogger } from "../logging/subsystem.js";
-import { loadSiriClaw-InstructPlugins, type PluginLoadOptions } from "./loader.js";
+import { loadSiriClawInstructPlugins, type PluginLoadOptions } from "./loader.js";
 import { createPluginLoaderLogger } from "./logger.js";
 import type { ProviderPlugin } from "./types.js";
 
@@ -9,7 +9,7 @@ export function resolvePluginProviders(params: {
   config?: PluginLoadOptions["config"];
   workspaceDir?: string;
 }): ProviderPlugin[] {
-  const registry = loadSiriClaw-InstructPlugins({
+  const registry = loadSiriClawInstructPlugins({
     config: params.config,
     workspaceDir: params.workspaceDir,
     logger: createPluginLoaderLogger(log),
@@ -17,3 +17,4 @@ export function resolvePluginProviders(params: {
 
   return registry.providers.map((entry) => entry.provider);
 }
+

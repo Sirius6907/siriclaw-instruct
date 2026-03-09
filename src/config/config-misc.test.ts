@@ -6,34 +6,34 @@ import {
   unsetConfigValueAtPath,
 } from "./config-paths.js";
 import { readConfigFileSnapshot, validateConfigObject } from "./config.js";
-import { buildWebSearchProviderConfig, withTempHome, writeSiriClaw-InstructConfig } from "./test-helpers.js";
-import { SiriClaw-InstructSchema } from "./zod-schema.js";
+import { buildWebSearchProviderConfig, withTempHome, writeSiriClawInstructConfig } from "./test-helpers.js";
+import { SiriClawInstructSchema } from "./zod-schema.js";
 
 describe("$schema key in config (#14998)", () => {
   it("accepts config with $schema string", () => {
-    const result = SiriClaw-InstructSchema.safeParse({
-      $schema: "https://SiriClaw-Instruct.ai/config.json",
+    const result = SiriClawInstructSchema.safeParse({
+      $schema: "https://SiriClawInstruct.ai/config.json",
     });
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.$schema).toBe("https://SiriClaw-Instruct.ai/config.json");
+      expect(result.data.$schema).toBe("https://SiriClawInstruct.ai/config.json");
     }
   });
 
   it("accepts config without $schema", () => {
-    const result = SiriClaw-InstructSchema.safeParse({});
+    const result = SiriClawInstructSchema.safeParse({});
     expect(result.success).toBe(true);
   });
 
   it("rejects non-string $schema", () => {
-    const result = SiriClaw-InstructSchema.safeParse({ $schema: 123 });
+    const result = SiriClawInstructSchema.safeParse({ $schema: 123 });
     expect(result.success).toBe(false);
   });
 });
 
 describe("plugins.slots.contextEngine", () => {
   it("accepts a contextEngine slot id", () => {
-    const result = SiriClaw-InstructSchema.safeParse({
+    const result = SiriClawInstructSchema.safeParse({
       plugins: {
         slots: {
           contextEngine: "my-context-engine",
@@ -63,7 +63,7 @@ describe("ui.seamColor", () => {
 
 describe("plugins.entries.*.hooks.allowPromptInjection", () => {
   it("accepts boolean values", () => {
-    const result = SiriClaw-InstructSchema.safeParse({
+    const result = SiriClawInstructSchema.safeParse({
       plugins: {
         entries: {
           "voice-call": {
@@ -78,7 +78,7 @@ describe("plugins.entries.*.hooks.allowPromptInjection", () => {
   });
 
   it("rejects non-boolean values", () => {
-    const result = SiriClaw-InstructSchema.safeParse({
+    const result = SiriClawInstructSchema.safeParse({
       plugins: {
         entries: {
           "voice-call": {
@@ -216,7 +216,7 @@ describe("gateway.channelHealthCheckMinutes", () => {
 
 describe("cron webhook schema", () => {
   it("accepts cron.webhookToken and legacy cron.webhook", () => {
-    const res = SiriClaw-InstructSchema.safeParse({
+    const res = SiriClawInstructSchema.safeParse({
       cron: {
         enabled: true,
         webhook: "https://example.invalid/legacy-cron-webhook",
@@ -228,7 +228,7 @@ describe("cron webhook schema", () => {
   });
 
   it("accepts cron.webhookToken SecretRef values", () => {
-    const res = SiriClaw-InstructSchema.safeParse({
+    const res = SiriClawInstructSchema.safeParse({
       cron: {
         webhook: "https://example.invalid/legacy-cron-webhook",
         webhookToken: {
@@ -243,7 +243,7 @@ describe("cron webhook schema", () => {
   });
 
   it("rejects non-http cron.webhook URLs", () => {
-    const res = SiriClaw-InstructSchema.safeParse({
+    const res = SiriClawInstructSchema.safeParse({
       cron: {
         webhook: "ftp://example.invalid/legacy-cron-webhook",
       },
@@ -253,7 +253,7 @@ describe("cron webhook schema", () => {
   });
 
   it("accepts cron.retry config", () => {
-    const res = SiriClaw-InstructSchema.safeParse({
+    const res = SiriClawInstructSchema.safeParse({
       cron: {
         retry: {
           maxAttempts: 5,
@@ -362,7 +362,7 @@ describe("config strict validation", () => {
 
   it("flags legacy config entries without auto-migrating", async () => {
     await withTempHome(async (home) => {
-      await writeSiriClaw-InstructConfig(home, {
+      await writeSiriClawInstructConfig(home, {
         agents: { list: [{ id: "pi" }] },
         routing: { allowFrom: ["+15555550123"] },
       });
@@ -376,12 +376,12 @@ describe("config strict validation", () => {
 
   it("does not mark resolved-only gateway.bind aliases as auto-migratable legacy", async () => {
     await withTempHome(async (home) => {
-      await writeSiriClaw-InstructConfig(home, {
-        gateway: { bind: "${SiriClaw-Instruct_BIND}" },
+      await writeSiriClawInstructConfig(home, {
+        gateway: { bind: "${SiriClawInstruct_BIND}" },
       });
 
-      const prev = process.env.SiriClaw-Instruct_BIND;
-      process.env.SiriClaw-Instruct_BIND = "0.0.0.0";
+      const prev = process.env.SiriClawInstruct_BIND;
+      process.env.SiriClawInstruct_BIND = "0.0.0.0";
       try {
         const snap = await readConfigFileSnapshot();
         expect(snap.valid).toBe(false);
@@ -389,9 +389,9 @@ describe("config strict validation", () => {
         expect(snap.issues.some((issue) => issue.path === "gateway.bind")).toBe(true);
       } finally {
         if (prev === undefined) {
-          delete process.env.SiriClaw-Instruct_BIND;
+          delete process.env.SiriClawInstruct_BIND;
         } else {
-          process.env.SiriClaw-Instruct_BIND = prev;
+          process.env.SiriClawInstruct_BIND = prev;
         }
       }
     });
@@ -399,7 +399,7 @@ describe("config strict validation", () => {
 
   it("still marks literal gateway.bind host aliases as legacy", async () => {
     await withTempHome(async (home) => {
-      await writeSiriClaw-InstructConfig(home, {
+      await writeSiriClawInstructConfig(home, {
         gateway: { bind: "0.0.0.0" },
       });
 
@@ -409,3 +409,4 @@ describe("config strict validation", () => {
     });
   });
 });
+

@@ -1,6 +1,6 @@
 import Foundation
 import Network
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import os
 
 extension NodeAppModel {
@@ -57,3 +57,4 @@ extension NodeAppModel {
             queueLabel: "a2ui.preflight")
     }
 }
+

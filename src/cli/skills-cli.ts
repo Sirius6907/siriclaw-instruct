@@ -44,7 +44,7 @@ export function registerSkillsCli(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/skills", "docs.SiriClaw-Instruct.ai/cli/skills")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/skills", "docs.SiriClawInstruct.ai/cli/skills")}\n`,
     );
 
   skills
@@ -79,3 +79,4 @@ export function registerSkillsCli(program: Command) {
     await runSkillsAction((report) => formatSkillsList(report, {}));
   });
 }
+

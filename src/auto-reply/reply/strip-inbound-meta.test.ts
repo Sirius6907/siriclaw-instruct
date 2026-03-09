@@ -135,3 +135,4 @@ describe("extractInboundSenderLabel", () => {
     expect(extractInboundSenderLabel("Hello from user")).toBeNull();
   });
 });
+

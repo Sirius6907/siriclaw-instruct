@@ -1,8 +1,8 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { resolveGatewayCredentialsFromConfig } from "../../gateway/credentials.js";
 
 export function resolveGatewayTokenForDriftCheck(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   env?: NodeJS.ProcessEnv;
 }) {
   return resolveGatewayCredentialsFromConfig({
@@ -14,3 +14,4 @@ export function resolveGatewayTokenForDriftCheck(params: {
     localTokenPrecedence: "config-first",
   }).token;
 }
+

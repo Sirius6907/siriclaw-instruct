@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   findNormalizedProviderValue,
   normalizeProviderId,
@@ -28,7 +28,7 @@ export type AuthProfileEligibility = {
 };
 
 export function resolveAuthProfileEligibility(params: {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   store: AuthProfileStore;
   provider: string;
   profileId: string;
@@ -65,7 +65,7 @@ export function resolveAuthProfileEligibility(params: {
 }
 
 export function resolveAuthProfileOrder(params: {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   store: AuthProfileStore;
   provider: string;
   preferredProfile?: string;
@@ -206,3 +206,4 @@ function orderProfilesByMode(order: string[], store: AuthProfileStore): string[]
 
   return [...sorted, ...cooldownSorted];
 }
+

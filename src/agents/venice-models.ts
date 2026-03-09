@@ -471,7 +471,7 @@ export function buildVeniceModelDefinition(entry: VeniceCatalogEntry): ModelDefi
     contextWindow: entry.contextWindow,
     maxTokens: entry.maxTokens,
     // Avoid usage-only streaming chunks that can break OpenAI-compatible parsers.
-    // See: https://github.com/SiriClaw-Instruct/SiriClaw-Instruct/issues/15819
+    // See: https://github.com/SiriClawInstruct/SiriClawInstruct/issues/15819
     compat: {
       supportsUsageInStreaming: false,
       ...("supportsTools" in entry && !entry.supportsTools ? { supportsTools: false } : {}),
@@ -707,3 +707,4 @@ export async function discoverVeniceModels(): Promise<ModelDefinitionConfig[]> {
     return staticVeniceModelDefinitions();
   }
 }
+

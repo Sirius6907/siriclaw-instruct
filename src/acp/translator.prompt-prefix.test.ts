@@ -10,9 +10,9 @@ import { createAcpConnection, createAcpGateway } from "./translator.test-helpers
 describe("acp prompt cwd prefix", () => {
   async function runPromptWithCwd(cwd: string) {
     const pinnedHome = os.homedir();
-    const previousSiriClaw-InstructHome = process.env.SiriClaw-Instruct_HOME;
+    const previousSiriClawInstructHome = process.env.SiriClawInstruct_HOME;
     const previousHome = process.env.HOME;
-    delete process.env.SiriClaw-Instruct_HOME;
+    delete process.env.SiriClawInstruct_HOME;
     process.env.HOME = pinnedHome;
 
     const sessionStore = createInMemorySessionStore();
@@ -47,10 +47,10 @@ describe("acp prompt cwd prefix", () => {
       ).rejects.toThrow("stop-after-send");
       return requestSpy;
     } finally {
-      if (previousSiriClaw-InstructHome === undefined) {
-        delete process.env.SiriClaw-Instruct_HOME;
+      if (previousSiriClawInstructHome === undefined) {
+        delete process.env.SiriClawInstruct_HOME;
       } else {
-        process.env.SiriClaw-Instruct_HOME = previousSiriClaw-InstructHome;
+        process.env.SiriClawInstruct_HOME = previousSiriClawInstructHome;
       }
       if (previousHome === undefined) {
         delete process.env.HOME;
@@ -61,24 +61,25 @@ describe("acp prompt cwd prefix", () => {
   }
 
   it("redacts home directory in prompt prefix", async () => {
-    const requestSpy = await runPromptWithCwd(path.join(os.homedir(), "SiriClaw-Instruct-test"));
+    const requestSpy = await runPromptWithCwd(path.join(os.homedir(), "SiriClawInstruct-test"));
     expect(requestSpy).toHaveBeenCalledWith(
       "chat.send",
       expect.objectContaining({
-        message: expect.stringMatching(/\[Working directory: ~[\\/]SiriClaw-Instruct-test\]/),
+        message: expect.stringMatching(/\[Working directory: ~[\\/]SiriClawInstruct-test\]/),
       }),
       { expectFinal: true },
     );
   });
 
   it("keeps backslash separators when cwd uses them", async () => {
-    const requestSpy = await runPromptWithCwd(`${os.homedir()}\\SiriClaw-Instruct-test`);
+    const requestSpy = await runPromptWithCwd(`${os.homedir()}\\SiriClawInstruct-test`);
     expect(requestSpy).toHaveBeenCalledWith(
       "chat.send",
       expect.objectContaining({
-        message: expect.stringContaining("[Working directory: ~\\SiriClaw-Instruct-test]"),
+        message: expect.stringContaining("[Working directory: ~\\SiriClawInstruct-test]"),
       }),
       { expectFinal: true },
     );
   });
 });
+

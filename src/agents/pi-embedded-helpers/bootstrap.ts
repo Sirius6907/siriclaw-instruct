@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { truncateUtf16Safe } from "../../utils.js";
 import type { WorkspaceBootstrapFile } from "../workspace.js";
 import type { EmbeddedContextFile } from "./types.js";
@@ -96,7 +96,7 @@ type TrimBootstrapResult = {
   originalLength: number;
 };
 
-export function resolveBootstrapMaxChars(cfg?: SiriClaw-InstructConfig): number {
+export function resolveBootstrapMaxChars(cfg?: SiriClawInstructConfig): number {
   const raw = cfg?.agents?.defaults?.bootstrapMaxChars;
   if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) {
     return Math.floor(raw);
@@ -104,7 +104,7 @@ export function resolveBootstrapMaxChars(cfg?: SiriClaw-InstructConfig): number 
   return DEFAULT_BOOTSTRAP_MAX_CHARS;
 }
 
-export function resolveBootstrapTotalMaxChars(cfg?: SiriClaw-InstructConfig): number {
+export function resolveBootstrapTotalMaxChars(cfg?: SiriClawInstructConfig): number {
   const raw = cfg?.agents?.defaults?.bootstrapTotalMaxChars;
   if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) {
     return Math.floor(raw);
@@ -113,7 +113,7 @@ export function resolveBootstrapTotalMaxChars(cfg?: SiriClaw-InstructConfig): nu
 }
 
 export function resolveBootstrapPromptTruncationWarningMode(
-  cfg?: SiriClaw-InstructConfig,
+  cfg?: SiriClawInstructConfig,
 ): "off" | "once" | "always" {
   const raw = cfg?.agents?.defaults?.bootstrapPromptTruncationWarning;
   if (raw === "off" || raw === "once" || raw === "always") {
@@ -282,3 +282,4 @@ export function sanitizeGoogleTurnOrdering(messages: AgentMessage[]): AgentMessa
 
   return [bootstrap, ...messages];
 }
+

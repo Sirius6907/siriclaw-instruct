@@ -8,7 +8,7 @@ import {
   resolveDefaultModelForAgent,
   resolveModelRefFromString,
 } from "../../agents/model-selection.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions.js";
 import {
   buildModelsKeyboard,
@@ -35,7 +35,7 @@ export type ModelsProviderData = {
  * Exported for reuse by callback handlers.
  */
 export async function buildModelsProviderData(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   agentId?: string,
 ): Promise<ModelsProviderData> {
   const resolvedDefault = resolveDefaultModelForAgent({
@@ -184,7 +184,7 @@ function parseModelsArgs(raw: string): {
 
 function resolveProviderLabel(params: {
   provider: string;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentDir?: string;
   sessionEntry?: SessionEntry;
 }): string {
@@ -203,7 +203,7 @@ function resolveProviderLabel(params: {
 export function formatModelsAvailableHeader(params: {
   provider: string;
   total: number;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentDir?: string;
   sessionEntry?: SessionEntry;
 }): string {
@@ -217,7 +217,7 @@ export function formatModelsAvailableHeader(params: {
 }
 
 export async function resolveModelsCommandReply(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   commandBodyNormalized: string;
   surface?: string;
   currentModel?: string;
@@ -397,3 +397,4 @@ export const handleModelsCommand: CommandHandler = async (params, allowTextComma
   }
   return { reply, shouldContinue: false };
 };
+

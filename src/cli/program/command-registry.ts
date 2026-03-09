@@ -193,7 +193,7 @@ const coreEntries: CoreCliEntry[] = [
     commands: [
       {
         name: "browser",
-        description: "Manage SiriClaw-Instruct's dedicated browser (Chrome/Chromium)",
+        description: "Manage SiriClawInstruct's dedicated browser (Chrome/Chromium)",
         hasSubcommands: true,
       },
     ],
@@ -302,3 +302,4 @@ export function registerProgramCommands(
   registerCoreCliCommands(program, ctx, argv);
   registerSubCliCommands(program, argv);
 }
+

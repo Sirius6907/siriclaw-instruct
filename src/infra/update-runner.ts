@@ -85,7 +85,7 @@ const DEFAULT_TIMEOUT_MS = 20 * 60_000;
 const MAX_LOG_CHARS = 8000;
 const PREFLIGHT_MAX_COMMITS = 10;
 const START_DIRS = ["cwd", "argv1", "process"];
-const DEFAULT_PACKAGE_NAME = "SiriClaw-Instruct";
+const DEFAULT_PACKAGE_NAME = "SiriClawInstruct";
 const CORE_PACKAGE_NAMES = new Set([DEFAULT_PACKAGE_NAME]);
 
 function normalizeDir(value?: string | null) {
@@ -314,7 +314,7 @@ function managerInstallArgs(manager: "pnpm" | "bun" | "npm") {
 }
 
 function normalizeTag(tag?: string) {
-  return normalizePackageTagInput(tag, ["SiriClaw-Instruct", DEFAULT_PACKAGE_NAME]) ?? "latest";
+  return normalizePackageTagInput(tag, ["SiriClawInstruct", DEFAULT_PACKAGE_NAME]) ?? "latest";
 }
 
 export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<UpdateRunResult> {
@@ -366,7 +366,7 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
       status: "error",
       mode: "unknown",
       root: gitRoot,
-      reason: "not-SiriClaw-Instruct-root",
+      reason: "not-SiriClawInstruct-root",
       steps: [],
       durationMs: Date.now() - startedAt,
     };
@@ -529,7 +529,7 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
       }
 
       const manager = await detectPackageManager(gitRoot);
-      const preflightRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-update-preflight-"));
+      const preflightRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-update-preflight-"));
       const worktreeDir = path.join(preflightRoot, "worktree");
       const worktreeStep = await runStep(
         step(
@@ -740,14 +740,14 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
       };
     }
 
-    const doctorEntry = path.join(gitRoot, "SiriClaw-Instruct.mjs");
+    const doctorEntry = path.join(gitRoot, "SiriClawInstruct.mjs");
     const doctorEntryExists = await fs
       .stat(doctorEntry)
       .then(() => true)
       .catch(() => false);
     if (!doctorEntryExists) {
       steps.push({
-        name: "SiriClaw-Instruct doctor entry",
+        name: "SiriClawInstruct doctor entry",
         command: `verify ${doctorEntry}`,
         cwd: gitRoot,
         durationMs: 0,
@@ -770,7 +770,7 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
     const doctorNodePath = await resolveStableNodePath(process.execPath);
     const doctorArgv = [doctorNodePath, doctorEntry, "doctor", "--non-interactive", "--fix"];
     const doctorStep = await runStep(
-      step("SiriClaw-Instruct doctor", doctorArgv, gitRoot, { SiriClaw-Instruct_UPDATE_IN_PROGRESS: "1" }),
+      step("SiriClawInstruct doctor", doctorArgv, gitRoot, { SiriClawInstruct_UPDATE_IN_PROGRESS: "1" }),
     );
     steps.push(doctorStep);
 
@@ -924,3 +924,4 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
     durationMs: Date.now() - startedAt,
   };
 }
+

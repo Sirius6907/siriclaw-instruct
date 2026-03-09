@@ -26,7 +26,7 @@ async function createCaseDir(prefix: string): Promise<string> {
 }
 
 beforeAll(async () => {
-  fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-skills-sync-suite-"));
+  fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-skills-sync-suite-"));
   syncSourceTemplateDir = await createCaseDir("source-template");
   await writeSkill({
     dir: path.join(syncSourceTemplateDir, ".extra", "demo-skill"),
@@ -204,7 +204,7 @@ describe("buildWorkspaceSkillsPrompt", () => {
       name: "nano-banana-pro",
       description: "Generates images",
       metadata:
-        '{"SiriClaw-Instruct":{"requires":{"env":["GEMINI_API_KEY"]},"primaryEnv":"GEMINI_API_KEY"}}',
+        '{"SiriClawInstruct":{"requires":{"env":["GEMINI_API_KEY"]},"primaryEnv":"GEMINI_API_KEY"}}',
       body: "# Nano Banana\n",
     });
 
@@ -251,3 +251,4 @@ describe("buildWorkspaceSkillsPrompt", () => {
     expect(emptyPrompt).toBe("");
   });
 });
+

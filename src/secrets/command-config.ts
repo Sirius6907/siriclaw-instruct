@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { coerceSecretRef, resolveSecretInputRef } from "../config/types.secrets.js";
 import { getPath } from "./path-utils.js";
 import { isExpectedResolvedSecretValue } from "./secret-value.js";
@@ -28,8 +28,8 @@ export type AnalyzeAssignmentsFromSnapshotResult = {
 };
 
 export function analyzeCommandSecretAssignmentsFromSnapshot(params: {
-  sourceConfig: SiriClaw-InstructConfig;
-  resolvedConfig: SiriClaw-InstructConfig;
+  sourceConfig: SiriClawInstructConfig;
+  resolvedConfig: SiriClawInstructConfig;
   targetIds: ReadonlySet<string>;
   inactiveRefPaths?: ReadonlySet<string>;
   allowedPaths?: ReadonlySet<string>;
@@ -92,8 +92,8 @@ export function analyzeCommandSecretAssignmentsFromSnapshot(params: {
 }
 
 export function collectCommandSecretAssignmentsFromSnapshot(params: {
-  sourceConfig: SiriClaw-InstructConfig;
-  resolvedConfig: SiriClaw-InstructConfig;
+  sourceConfig: SiriClawInstructConfig;
+  resolvedConfig: SiriClawInstructConfig;
   commandName: string;
   targetIds: ReadonlySet<string>;
   inactiveRefPaths?: ReadonlySet<string>;
@@ -116,3 +116,4 @@ export function collectCommandSecretAssignmentsFromSnapshot(params: {
     diagnostics: analyzed.diagnostics,
   };
 }
+

@@ -50,3 +50,4 @@ enum OnboardingStateStore {
         return OnboardingConnectionMode(rawValue: raw)
     }
 }
+

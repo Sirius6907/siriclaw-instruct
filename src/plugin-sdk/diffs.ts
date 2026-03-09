@@ -1,11 +1,12 @@
 // Narrow plugin-sdk surface for the bundled diffs plugin.
 // Keep this list additive and scoped to symbols used under extensions/diffs.
 
-export type { SiriClaw-InstructConfig } from "../config/config.js";
-export { resolvePreferredSiriClaw-InstructTmpDir } from "../infra/tmp-SiriClaw-Instruct-dir.js";
+export type { SiriClawInstructConfig } from "../config/config.js";
+export { resolvePreferredSiriClawInstructTmpDir } from "../infra/tmp-siriclaw-instruct-dir.js";
 export type {
   AnyAgentTool,
-  SiriClaw-InstructPluginApi,
-  SiriClaw-InstructPluginConfigSchema,
+  SiriClawInstructPluginApi,
+  SiriClawInstructPluginConfigSchema,
   PluginLogger,
 } from "../plugins/types.js";
+

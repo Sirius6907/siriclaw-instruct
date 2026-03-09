@@ -41,24 +41,24 @@ describe("program routes", () => {
     const route = expectRoute(["health"]);
     expect(typeof route?.loadPlugins).toBe("function");
     const shouldLoad = route?.loadPlugins as (argv: string[]) => boolean;
-    expect(shouldLoad(["node", "SiriClaw-Instruct", "health"])).toBe(true);
-    expect(shouldLoad(["node", "SiriClaw-Instruct", "health", "--json"])).toBe(false);
+    expect(shouldLoad(["node", "SiriClawInstruct", "health"])).toBe(true);
+    expect(shouldLoad(["node", "SiriClawInstruct", "health", "--json"])).toBe(false);
   });
 
   it("returns false when status timeout flag value is missing", async () => {
-    await expectRunFalse(["status"], ["node", "SiriClaw-Instruct", "status", "--timeout"]);
+    await expectRunFalse(["status"], ["node", "SiriClawInstruct", "status", "--timeout"]);
   });
 
   it("returns false for sessions route when --store value is missing", async () => {
-    await expectRunFalse(["sessions"], ["node", "SiriClaw-Instruct", "sessions", "--store"]);
+    await expectRunFalse(["sessions"], ["node", "SiriClawInstruct", "sessions", "--store"]);
   });
 
   it("returns false for sessions route when --active value is missing", async () => {
-    await expectRunFalse(["sessions"], ["node", "SiriClaw-Instruct", "sessions", "--active"]);
+    await expectRunFalse(["sessions"], ["node", "SiriClawInstruct", "sessions", "--active"]);
   });
 
   it("returns false for sessions route when --agent value is missing", async () => {
-    await expectRunFalse(["sessions"], ["node", "SiriClaw-Instruct", "sessions", "--agent"]);
+    await expectRunFalse(["sessions"], ["node", "SiriClawInstruct", "sessions", "--agent"]);
   });
 
   it("does not fast-route sessions subcommands", () => {
@@ -70,11 +70,11 @@ describe("program routes", () => {
   });
 
   it("returns false for config get route when path argument is missing", async () => {
-    await expectRunFalse(["config", "get"], ["node", "SiriClaw-Instruct", "config", "get", "--json"]);
+    await expectRunFalse(["config", "get"], ["node", "SiriClawInstruct", "config", "get", "--json"]);
   });
 
   it("returns false for config unset route when path argument is missing", async () => {
-    await expectRunFalse(["config", "unset"], ["node", "SiriClaw-Instruct", "config", "unset"]);
+    await expectRunFalse(["config", "unset"], ["node", "SiriClawInstruct", "config", "unset"]);
   });
 
   it("passes config get path correctly when root option values precede command", async () => {
@@ -82,7 +82,7 @@ describe("program routes", () => {
     await expect(
       route?.run([
         "node",
-        "SiriClaw-Instruct",
+        "SiriClawInstruct",
         "--log-level",
         "debug",
         "config",
@@ -97,7 +97,7 @@ describe("program routes", () => {
   it("passes config unset path correctly when root option values precede command", async () => {
     const route = expectRoute(["config", "unset"]);
     await expect(
-      route?.run(["node", "SiriClaw-Instruct", "--profile", "work", "config", "unset", "update.channel"]),
+      route?.run(["node", "SiriClawInstruct", "--profile", "work", "config", "unset", "update.channel"]),
     ).resolves.toBe(true);
     expect(runConfigUnsetMock).toHaveBeenCalledWith({ path: "update.channel" });
   });
@@ -107,7 +107,7 @@ describe("program routes", () => {
     await expect(
       route?.run([
         "node",
-        "SiriClaw-Instruct",
+        "SiriClawInstruct",
         "config",
         "get",
         "--log-level",
@@ -122,7 +122,7 @@ describe("program routes", () => {
   it("passes config unset path when root value options appear after subcommand", async () => {
     const route = expectRoute(["config", "unset"]);
     await expect(
-      route?.run(["node", "SiriClaw-Instruct", "config", "unset", "--profile", "work", "update.channel"]),
+      route?.run(["node", "SiriClawInstruct", "config", "unset", "--profile", "work", "update.channel"]),
     ).resolves.toBe(true);
     expect(runConfigUnsetMock).toHaveBeenCalledWith({ path: "update.channel" });
   });
@@ -130,45 +130,45 @@ describe("program routes", () => {
   it("returns false for config get route when unknown option appears", async () => {
     await expectRunFalse(
       ["config", "get"],
-      ["node", "SiriClaw-Instruct", "config", "get", "--mystery", "value", "update.channel"],
+      ["node", "SiriClawInstruct", "config", "get", "--mystery", "value", "update.channel"],
     );
   });
 
   it("returns false for memory status route when --agent value is missing", async () => {
-    await expectRunFalse(["memory", "status"], ["node", "SiriClaw-Instruct", "memory", "status", "--agent"]);
+    await expectRunFalse(["memory", "status"], ["node", "SiriClawInstruct", "memory", "status", "--agent"]);
   });
 
   it("returns false for models list route when --provider value is missing", async () => {
-    await expectRunFalse(["models", "list"], ["node", "SiriClaw-Instruct", "models", "list", "--provider"]);
+    await expectRunFalse(["models", "list"], ["node", "SiriClawInstruct", "models", "list", "--provider"]);
   });
 
   it("returns false for models status route when probe flags are missing values", async () => {
     await expectRunFalse(
       ["models", "status"],
-      ["node", "SiriClaw-Instruct", "models", "status", "--probe-provider"],
+      ["node", "SiriClawInstruct", "models", "status", "--probe-provider"],
     );
     await expectRunFalse(
       ["models", "status"],
-      ["node", "SiriClaw-Instruct", "models", "status", "--probe-timeout"],
+      ["node", "SiriClawInstruct", "models", "status", "--probe-timeout"],
     );
     await expectRunFalse(
       ["models", "status"],
-      ["node", "SiriClaw-Instruct", "models", "status", "--probe-concurrency"],
+      ["node", "SiriClawInstruct", "models", "status", "--probe-concurrency"],
     );
     await expectRunFalse(
       ["models", "status"],
-      ["node", "SiriClaw-Instruct", "models", "status", "--probe-max-tokens"],
+      ["node", "SiriClawInstruct", "models", "status", "--probe-max-tokens"],
     );
     await expectRunFalse(
       ["models", "status"],
-      ["node", "SiriClaw-Instruct", "models", "status", "--probe-provider", "openai", "--agent"],
+      ["node", "SiriClawInstruct", "models", "status", "--probe-provider", "openai", "--agent"],
     );
   });
 
   it("returns false for models status route when --probe-profile has no value", async () => {
     await expectRunFalse(
       ["models", "status"],
-      ["node", "SiriClaw-Instruct", "models", "status", "--probe-profile"],
+      ["node", "SiriClawInstruct", "models", "status", "--probe-profile"],
     );
   });
 
@@ -177,7 +177,7 @@ describe("program routes", () => {
     await expect(
       route?.run([
         "node",
-        "SiriClaw-Instruct",
+        "SiriClawInstruct",
         "models",
         "status",
         "--probe-provider",
@@ -207,3 +207,4 @@ describe("program routes", () => {
     );
   });
 });
+

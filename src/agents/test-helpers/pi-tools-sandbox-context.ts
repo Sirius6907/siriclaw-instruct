@@ -22,12 +22,12 @@ export function createPiToolsSandboxContext(params: PiToolsSandboxContextParams)
     workspaceDir,
     agentWorkspaceDir: params.agentWorkspaceDir ?? workspaceDir,
     workspaceAccess: params.workspaceAccess ?? "rw",
-    containerName: params.containerName ?? "SiriClaw-Instruct-sbx-test",
+    containerName: params.containerName ?? "SiriClawInstruct-sbx-test",
     containerWorkdir: params.containerWorkdir ?? "/workspace",
     fsBridge: params.fsBridge,
     docker: {
-      image: "SiriClaw-Instruct-sandbox:bookworm-slim",
-      containerPrefix: "SiriClaw-Instruct-sbx-",
+      image: "SiriClawInstruct-sandbox:bookworm-slim",
+      containerPrefix: "SiriClawInstruct-sbx-",
       workdir: "/workspace",
       readOnlyRoot: true,
       tmpfs: [],
@@ -41,3 +41,4 @@ export function createPiToolsSandboxContext(params: PiToolsSandboxContextParams)
     browserAllowHostControl: params.browserAllowHostControl ?? false,
   };
 }
+

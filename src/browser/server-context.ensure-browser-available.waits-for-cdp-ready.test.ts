@@ -29,9 +29,9 @@ function makeBrowserState(): BrowserServerState {
       noSandbox: false,
       attachOnly: false,
       ssrfPolicy: { allowPrivateNetwork: true },
-      defaultProfile: "SiriClaw-Instruct",
+      defaultProfile: "SiriClawInstruct",
       profiles: {
-        SiriClaw-Instruct: { cdpPort: 18800, color: "#FF4500" },
+        SiriClawInstruct: { cdpPort: 18800, color: "#FF4500" },
       },
     },
     profiles: new Map(),
@@ -39,14 +39,14 @@ function makeBrowserState(): BrowserServerState {
 }
 
 function mockLaunchedChrome(
-  launchSiriClaw-InstructChrome: { mockResolvedValue: (value: RunningChrome) => unknown },
+  launchSiriClawInstructChrome: { mockResolvedValue: (value: RunningChrome) => unknown },
   pid: number,
 ) {
   const proc = new EventEmitter() as unknown as ChildProcessWithoutNullStreams;
-  launchSiriClaw-InstructChrome.mockResolvedValue({
+  launchSiriClawInstructChrome.mockResolvedValue({
     pid,
     exe: { kind: "chromium", path: "/usr/bin/chromium" },
-    userDataDir: "/tmp/SiriClaw-Instruct-test",
+    userDataDir: "/tmp/SiriClawInstruct-test",
     cdpPort: 18800,
     startedAt: Date.now(),
     proc,
@@ -56,17 +56,17 @@ function mockLaunchedChrome(
 function setupEnsureBrowserAvailableHarness() {
   vi.useFakeTimers();
 
-  const launchSiriClaw-InstructChrome = vi.mocked(chromeModule.launchSiriClaw-InstructChrome);
-  const stopSiriClaw-InstructChrome = vi.mocked(chromeModule.stopSiriClaw-InstructChrome);
+  const launchSiriClawInstructChrome = vi.mocked(chromeModule.launchSiriClawInstructChrome);
+  const stopSiriClawInstructChrome = vi.mocked(chromeModule.stopSiriClawInstructChrome);
   const isChromeReachable = vi.mocked(chromeModule.isChromeReachable);
   const isChromeCdpReady = vi.mocked(chromeModule.isChromeCdpReady);
   isChromeReachable.mockResolvedValue(false);
 
   const state = makeBrowserState();
   const ctx = createBrowserRouteContext({ getState: () => state });
-  const profile = ctx.forProfile("SiriClaw-Instruct");
+  const profile = ctx.forProfile("SiriClawInstruct");
 
-  return { launchSiriClaw-InstructChrome, stopSiriClaw-InstructChrome, isChromeCdpReady, profile };
+  return { launchSiriClawInstructChrome, stopSiriClawInstructChrome, isChromeCdpReady, profile };
 }
 
 afterEach(() => {
@@ -77,32 +77,33 @@ afterEach(() => {
 
 describe("browser server-context ensureBrowserAvailable", () => {
   it("waits for CDP readiness after launching to avoid follow-up PortInUseError races (#21149)", async () => {
-    const { launchSiriClaw-InstructChrome, stopSiriClaw-InstructChrome, isChromeCdpReady, profile } =
+    const { launchSiriClawInstructChrome, stopSiriClawInstructChrome, isChromeCdpReady, profile } =
       setupEnsureBrowserAvailableHarness();
     isChromeCdpReady.mockResolvedValueOnce(false).mockResolvedValue(true);
-    mockLaunchedChrome(launchSiriClaw-InstructChrome, 123);
+    mockLaunchedChrome(launchSiriClawInstructChrome, 123);
 
     const promise = profile.ensureBrowserAvailable();
     await vi.advanceTimersByTimeAsync(100);
     await expect(promise).resolves.toBeUndefined();
 
-    expect(launchSiriClaw-InstructChrome).toHaveBeenCalledTimes(1);
+    expect(launchSiriClawInstructChrome).toHaveBeenCalledTimes(1);
     expect(isChromeCdpReady).toHaveBeenCalled();
-    expect(stopSiriClaw-InstructChrome).not.toHaveBeenCalled();
+    expect(stopSiriClawInstructChrome).not.toHaveBeenCalled();
   });
 
   it("stops launched chrome when CDP readiness never arrives", async () => {
-    const { launchSiriClaw-InstructChrome, stopSiriClaw-InstructChrome, isChromeCdpReady, profile } =
+    const { launchSiriClawInstructChrome, stopSiriClawInstructChrome, isChromeCdpReady, profile } =
       setupEnsureBrowserAvailableHarness();
     isChromeCdpReady.mockResolvedValue(false);
-    mockLaunchedChrome(launchSiriClaw-InstructChrome, 321);
+    mockLaunchedChrome(launchSiriClawInstructChrome, 321);
 
     const promise = profile.ensureBrowserAvailable();
     const rejected = expect(promise).rejects.toThrow("not reachable after start");
     await vi.advanceTimersByTimeAsync(8100);
     await rejected;
 
-    expect(launchSiriClaw-InstructChrome).toHaveBeenCalledTimes(1);
-    expect(stopSiriClaw-InstructChrome).toHaveBeenCalledTimes(1);
+    expect(launchSiriClawInstructChrome).toHaveBeenCalledTimes(1);
+    expect(stopSiriClawInstructChrome).toHaveBeenCalledTimes(1);
   });
 });
+

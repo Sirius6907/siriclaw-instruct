@@ -1,7 +1,7 @@
 /**
  * OpenResponses HTTP Handler
  *
- * Implements the OpenResponses `/v1/responses` endpoint for SiriClaw-Instruct Gateway.
+ * Implements the OpenResponses `/v1/responses` endpoint for SiriClawInstruct Gateway.
  *
  * @see https://www.open-responses.com/
  */
@@ -517,7 +517,7 @@ export async function handleOpenResponsesHttpRequest(
               .map((p) => (typeof p.text === "string" ? p.text : ""))
               .filter(Boolean)
               .join("\n\n")
-          : "No response from SiriClaw-Instruct.";
+          : "No response from SiriClawInstruct.";
 
       const response = createResponseResource({
         id: responseId,
@@ -684,7 +684,7 @@ export async function handleOpenResponsesHttpRequest(
     if (evt.stream === "lifecycle") {
       const phase = evt.data?.phase;
       if (phase === "end" || phase === "error") {
-        const finalText = accumulatedText || "No response from SiriClaw-Instruct.";
+        const finalText = accumulatedText || "No response from SiriClawInstruct.";
         const finalStatus = phase === "error" ? "failed" : "completed";
         requestFinalize(finalStatus, finalText);
       }
@@ -795,7 +795,7 @@ export async function handleOpenResponsesHttpRequest(
                 .map((p) => (typeof p.text === "string" ? p.text : ""))
                 .filter(Boolean)
                 .join("\n\n")
-            : "No response from SiriClaw-Instruct.";
+            : "No response from SiriClawInstruct.";
 
         accumulatedText = content;
         sawAssistantDelta = true;
@@ -844,3 +844,4 @@ export async function handleOpenResponsesHttpRequest(
 
   return true;
 }
+

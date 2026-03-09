@@ -178,7 +178,7 @@ export async function agentsAddCommand(
 
   const prompter = createClackPrompter();
   try {
-    await prompter.intro("Add SiriClaw-Instruct agent");
+    await prompter.intro("Add SiriClawInstruct agent");
     const name =
       nameInput ??
       (await prompter.text({
@@ -334,7 +334,7 @@ export async function agentsAddCommand(
         await prompter.note(
           [
             "Routing unchanged. Add bindings when you're ready.",
-            "Docs: https://docs.SiriClaw-Instruct.ai/concepts/multi-agent",
+            "Docs: https://docs.SiriClawInstruct.ai/concepts/multi-agent",
           ].join("\n"),
           "Routing",
         );
@@ -366,3 +366,4 @@ export async function agentsAddCommand(
     throw err;
   }
 }
+

@@ -1,14 +1,14 @@
 import type { Command } from "commander";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { loadConfig } from "../config/config.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
-import { loadSiriClaw-InstructPlugins } from "./loader.js";
+import { loadSiriClawInstructPlugins } from "./loader.js";
 import type { PluginLogger } from "./types.js";
 
 const log = createSubsystemLogger("plugins");
 
-export function registerPluginCliCommands(program: Command, cfg?: SiriClaw-InstructConfig) {
+export function registerPluginCliCommands(program: Command, cfg?: SiriClawInstructConfig) {
   const config = cfg ?? loadConfig();
   const workspaceDir = resolveAgentWorkspaceDir(config, resolveDefaultAgentId(config));
   const logger: PluginLogger = {
@@ -17,7 +17,7 @@ export function registerPluginCliCommands(program: Command, cfg?: SiriClaw-Instr
     error: (msg: string) => log.error(msg),
     debug: (msg: string) => log.debug(msg),
   };
-  const registry = loadSiriClaw-InstructPlugins({
+  const registry = loadSiriClawInstructPlugins({
     config,
     workspaceDir,
     logger,
@@ -57,3 +57,4 @@ export function registerPluginCliCommands(program: Command, cfg?: SiriClaw-Instr
     }
   }
 }
+

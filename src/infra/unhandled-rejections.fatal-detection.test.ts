@@ -60,7 +60,7 @@ describe("installUnhandledRejectionHandler - fatal detection", () => {
       }
 
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "[SiriClaw-Instruct] FATAL unhandled rejection:",
+        "[SiriClawInstruct] FATAL unhandled rejection:",
         expect.stringContaining("Out of memory"),
       );
     });
@@ -78,7 +78,7 @@ describe("installUnhandledRejectionHandler - fatal detection", () => {
       }
 
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "[SiriClaw-Instruct] CONFIGURATION ERROR - requires fix:",
+        "[SiriClawInstruct] CONFIGURATION ERROR - requires fix:",
         expect.stringContaining("Invalid config"),
       );
     });
@@ -121,7 +121,7 @@ describe("installUnhandledRejectionHandler - fatal detection", () => {
       }
 
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        "[SiriClaw-Instruct] Non-fatal unhandled rejection (continuing):",
+        "[SiriClawInstruct] Non-fatal unhandled rejection (continuing):",
         expect.stringContaining("fetch failed"),
       );
     });
@@ -131,7 +131,7 @@ describe("installUnhandledRejectionHandler - fatal detection", () => {
 
       expectExitCodeFromUnhandled(genericErr, [1]);
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "[SiriClaw-Instruct] Unhandled promise rejection:",
+        "[SiriClawInstruct] Unhandled promise rejection:",
         expect.stringContaining("Something went wrong"),
       );
     });
@@ -153,9 +153,10 @@ describe("installUnhandledRejectionHandler - fatal detection", () => {
 
       expectExitCodeFromUnhandled(abortErr, []);
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        "[SiriClaw-Instruct] Suppressed AbortError:",
+        "[SiriClawInstruct] Suppressed AbortError:",
         expect.stringContaining("This operation was aborted"),
       );
     });
   });
 });
+

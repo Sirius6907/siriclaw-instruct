@@ -4,7 +4,7 @@ import {
   resolveCommandSecretRefsViaGateway,
 } from "../../cli/command-secret-gateway.js";
 import { getChannelsCommandSecretTargetIds } from "../../cli/command-secret-targets.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
 import { defaultRuntime, type RuntimeEnv } from "../../runtime.js";
 import { requireValidConfigSnapshot } from "../config-validation.js";
@@ -19,7 +19,7 @@ export async function requireValidConfig(
     commandName?: string;
     mode?: CommandSecretResolutionMode;
   },
-): Promise<SiriClaw-InstructConfig | null> {
+): Promise<SiriClawInstructConfig | null> {
   const cfg = await requireValidConfigSnapshot(runtime);
   if (!cfg) {
     return null;
@@ -69,3 +69,4 @@ export function formatChannelAccountLabel(params: {
 export function shouldUseWizard(params?: { hasFlags?: boolean }) {
   return params?.hasFlags === false;
 }
+

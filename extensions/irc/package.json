@@ -1,14 +1,18 @@
 {
-  "name": "@SiriClaw-Instruct/irc",
+  "name": "@siriclaw-instruct/irc",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct IRC channel plugin",
+  "description": "siriclaw-instruct IRC channel plugin",
   "type": "module",
   "dependencies": {
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

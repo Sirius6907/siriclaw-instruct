@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import "./test-helpers/fast-core-tools.js";
-import * as sessionsHarness from "./SiriClaw-Instruct-tools.subagents.sessions-spawn.test-harness.js";
+import * as sessionsHarness from "./siriclaw-instruct-tools.subagents.sessions-spawn.test-harness.js";
 import { resetSubagentRegistryForTests } from "./subagent-registry.js";
 
 const MAIN_SESSION_KEY = "agent:test:main";
@@ -58,3 +58,4 @@ describe("sessions_spawn default runTimeoutSeconds", () => {
     expect(getSubagentTimeout(gateway.calls)).toBe(300);
   });
 });
+

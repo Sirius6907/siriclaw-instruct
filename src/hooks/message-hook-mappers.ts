@@ -1,5 +1,5 @@
 import type { FinalizedMsgContext } from "../auto-reply/templating.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type {
   PluginHookMessageContext,
   PluginHookMessageReceivedEvent,
@@ -211,8 +211,8 @@ export function toInternalMessageReceivedContext(
 
 export function toInternalMessageTranscribedContext(
   canonical: CanonicalInboundMessageHookContext,
-  cfg: SiriClaw-InstructConfig,
-): MessageTranscribedHookContext & { cfg: SiriClaw-InstructConfig } {
+  cfg: SiriClawInstructConfig,
+): MessageTranscribedHookContext & { cfg: SiriClawInstructConfig } {
   const shared = toInternalInboundMessageHookContextBase(canonical);
   return {
     ...shared,
@@ -223,8 +223,8 @@ export function toInternalMessageTranscribedContext(
 
 export function toInternalMessagePreprocessedContext(
   canonical: CanonicalInboundMessageHookContext,
-  cfg: SiriClaw-InstructConfig,
-): MessagePreprocessedHookContext & { cfg: SiriClaw-InstructConfig } {
+  cfg: SiriClawInstructConfig,
+): MessagePreprocessedHookContext & { cfg: SiriClawInstructConfig } {
   const shared = toInternalInboundMessageHookContextBase(canonical);
   return {
     ...shared,
@@ -271,3 +271,4 @@ export function toInternalMessageSentContext(
     ...(canonical.groupId ? { groupId: canonical.groupId } : {}),
   };
 }
+

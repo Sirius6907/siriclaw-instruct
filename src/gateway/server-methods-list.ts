@@ -126,3 +126,4 @@ export const GATEWAY_EVENTS = [
   "exec.approval.resolved",
   GATEWAY_EVENT_UPDATE_AVAILABLE,
 ];
+

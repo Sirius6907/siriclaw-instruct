@@ -925,9 +925,9 @@ function summarizeKnownExec(words: string[]): string {
     return `run ${bin} ${script}`;
   }
 
-  if (bin === "SiriClaw-Instruct") {
+  if (bin === "SiriClawInstruct") {
     const sub = firstPositional(words, 1);
-    return sub ? `run SiriClaw-Instruct ${sub}` : "run SiriClaw-Instruct";
+    return sub ? `run SiriClawInstruct ${sub}` : "run SiriClawInstruct";
   }
 
   const arg = firstPositional(words, 1);
@@ -1008,7 +1008,7 @@ const KNOWN_SUMMARY_PREFIXES = [
   "run build",
   "start app",
   "run lint",
-  "run SiriClaw-Instruct",
+  "run SiriClawInstruct",
   "run node script",
   "run node ",
   "run python",
@@ -1232,3 +1232,4 @@ export function formatToolDetailText(
   }
   return opts.prefixWithWith ? `with ${normalized}` : normalized;
 }
+

@@ -122,3 +122,4 @@ describe("telegram bot message processor", () => {
     expect(runtimeError).toHaveBeenCalledWith(expect.stringContaining("dispatch exploded"));
   });
 });
+

@@ -1,9 +1,9 @@
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import type { RuntimeEnv } from "../../../runtime.js";
 import type { OnboardOptions } from "../../onboard-types.js";
 
 export function applyNonInteractiveSkillsConfig(params: {
-  nextConfig: SiriClaw-InstructConfig;
+  nextConfig: SiriClawInstructConfig;
   opts: OnboardOptions;
   runtime: RuntimeEnv;
 }) {
@@ -29,3 +29,4 @@ export function applyNonInteractiveSkillsConfig(params: {
     },
   };
 }
+

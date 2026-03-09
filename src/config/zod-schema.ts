@@ -159,7 +159,7 @@ const PluginEntrySchema = z
   })
   .strict();
 
-export const SiriClaw-InstructSchema = z
+export const SiriClawInstructSchema = z
   .object({
     $schema: z.string().optional(),
     meta: z
@@ -316,7 +316,7 @@ export const SiriClaw-InstructSchema = z
                 cdpPort: z.number().int().min(1).max(65535).optional(),
                 cdpUrl: z.string().optional(),
                 driver: z
-                  .union([z.literal("SiriClaw-Instruct"), z.literal("clawd"), z.literal("extension")])
+                  .union([z.literal("SiriClawInstruct"), z.literal("clawd"), z.literal("extension")])
                   .optional(),
                 attachOnly: z.boolean().optional(),
                 color: HexColorSchema,
@@ -889,3 +889,4 @@ export const SiriClaw-InstructSchema = z
       }
     }
   });
+

@@ -24,3 +24,4 @@ describe("model auth markers", () => {
     expect(isNonSecretApiKeyMarker("OPENAI_API_KEY", { includeEnvVarName: false })).toBe(false);
   });
 });
+

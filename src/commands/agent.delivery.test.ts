@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { CliDeps } from "../cli/deps.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { SessionEntry } from "../config/sessions.js";
 import type { RuntimeEnv } from "../runtime.js";
 
@@ -53,7 +53,7 @@ describe("deliverAgentCommandResult", () => {
     runtime?: RuntimeEnv;
     resultText?: string;
   }) {
-    const cfg = {} as SiriClaw-InstructConfig;
+    const cfg = {} as SiriClawInstructConfig;
     const deps = {} as CliDeps;
     const runtime = params.runtime ?? createRuntime();
     const result = createResult(params.resultText);
@@ -285,3 +285,4 @@ describe("deliverAgentCommandResult", () => {
     expect(line).toContain("ANNOUNCE_SKIP");
   });
 });
+

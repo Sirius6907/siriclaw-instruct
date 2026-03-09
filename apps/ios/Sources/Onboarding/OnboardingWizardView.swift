@@ -1,6 +1,6 @@
 import CoreImage
 import Combine
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import PhotosUI
 import SwiftUI
 import UIKit
@@ -882,3 +882,4 @@ private struct OnboardingModeRow: View {
         .buttonStyle(.plain)
     }
 }
+

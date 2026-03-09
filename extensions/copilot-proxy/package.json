@@ -1,12 +1,16 @@
 {
-  "name": "@SiriClaw-Instruct/copilot-proxy",
+  "name": "@siriclaw-instruct/copilot-proxy",
   "version": "2026.3.8",
   "private": true,
-  "description": "SiriClaw-Instruct Copilot Proxy provider plugin",
+  "description": "siriclaw-instruct Copilot Proxy provider plugin",
   "type": "module",
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

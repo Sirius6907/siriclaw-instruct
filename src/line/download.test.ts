@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { resolvePreferredSiriClaw-InstructTmpDir } from "../infra/tmp-SiriClaw-Instruct-dir.js";
+import { resolvePreferredSiriClawInstructTmpDir } from "../infra/tmp-siriclaw-instruct-dir.js";
 
 const getMessageContentMock = vi.hoisted(() => vi.fn());
 
@@ -54,7 +54,7 @@ describe("downloadLineMedia", () => {
     expect(writtenPath).not.toContain(messageId);
     expect(writtenPath).not.toContain("..");
 
-    const tmpRoot = path.resolve(resolvePreferredSiriClaw-InstructTmpDir());
+    const tmpRoot = path.resolve(resolvePreferredSiriClawInstructTmpDir());
     const rel = path.relative(tmpRoot, path.resolve(writtenPath));
     expect(rel === ".." || rel.startsWith(`..${path.sep}`)).toBe(false);
   });
@@ -95,3 +95,4 @@ describe("downloadLineMedia", () => {
     expect(result.path).toMatch(/\.mp4$/);
   });
 });
+

@@ -80,7 +80,7 @@ describe("buildGatewayAuthConfig", () => {
     const tokenRef = {
       source: "env",
       provider: "default",
-      id: "SiriClaw-Instruct_GATEWAY_TOKEN",
+      id: "SiriClawInstruct_GATEWAY_TOKEN",
     } as const;
     const result = buildGatewayAuthConfig({
       mode: "token",
@@ -183,3 +183,4 @@ describe("buildGatewayAuthConfig", () => {
     expect(result).not.toHaveProperty("password");
   });
 });
+

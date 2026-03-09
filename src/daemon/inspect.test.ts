@@ -44,12 +44,12 @@ describe("findExtraGatewayServices (win32)", () => {
     expect(result).toEqual([]);
   });
 
-  it("collects only non-SiriClaw-Instruct marker tasks from schtasks output", async () => {
+  it("collects only non-SiriClawInstruct marker tasks from schtasks output", async () => {
     execSchtasksMock.mockResolvedValueOnce({
       code: 0,
       stdout: [
-        "TaskName: SiriClaw-Instruct Gateway",
-        "Task To Run: C:\\Program Files\\SiriClaw-Instruct\\SiriClaw-Instruct.exe gateway run",
+        "TaskName: SiriClawInstruct Gateway",
+        "Task To Run: C:\\Program Files\\SiriClawInstruct\\SiriClawInstruct.exe gateway run",
         "",
         "TaskName: Clawdbot Legacy",
         "Task To Run: C:\\clawdbot\\clawdbot.exe run",
@@ -85,3 +85,4 @@ describe("findExtraGatewayServices (win32)", () => {
     ]);
   });
 });
+

@@ -1,5 +1,5 @@
 import { isDeepStrictEqual } from "node:util";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { isRecord } from "./shared.js";
 
 function isArrayIndexSegment(segment: string): boolean {
@@ -89,7 +89,7 @@ export function getPath(root: unknown, segments: string[]): unknown {
 }
 
 export function setPathCreateStrict(
-  root: SiriClaw-InstructConfig,
+  root: SiriClawInstructConfig,
   segments: string[],
   value: unknown,
 ): boolean {
@@ -153,7 +153,7 @@ export function setPathCreateStrict(
 }
 
 export function setPathExistingStrict(
-  root: SiriClaw-InstructConfig,
+  root: SiriClawInstructConfig,
   segments: string[],
   value: unknown,
 ): boolean {
@@ -184,7 +184,7 @@ export function setPathExistingStrict(
   return false;
 }
 
-export function deletePathStrict(root: SiriClaw-InstructConfig, segments: string[]): boolean {
+export function deletePathStrict(root: SiriClawInstructConfig, segments: string[]): boolean {
   const cursor = traverseToLeafParent({ root, segments, requireExistingSegment: false });
 
   const leaf = segments[segments.length - 1] ?? "";
@@ -206,3 +206,4 @@ export function deletePathStrict(root: SiriClaw-InstructConfig, segments: string
   delete cursor[leaf];
   return true;
 }
+

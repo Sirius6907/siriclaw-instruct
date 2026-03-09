@@ -4,7 +4,7 @@ import {
   resolveControlUiDistIndexHealth,
   resolveControlUiDistIndexPathForRoot,
 } from "../infra/control-ui-assets.js";
-import { resolveSiriClaw-InstructPackageRoot } from "../infra/SiriClaw-Instruct-root.js";
+import { resolveSiriClawInstructPackageRoot } from "../infra/siriclaw-instruct-root.js";
 import { runCommandWithTimeout } from "../process/exec.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { note } from "../terminal/note.js";
@@ -14,7 +14,7 @@ export async function maybeRepairUiProtocolFreshness(
   _runtime: RuntimeEnv,
   prompter: DoctorPrompter,
 ) {
-  const root = await resolveSiriClaw-InstructPackageRoot({
+  const root = await resolveSiriClawInstructPackageRoot({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),
@@ -152,3 +152,4 @@ export async function maybeRepairUiProtocolFreshness(
     // runtime.debug(`UI freshness check failed: ${String(err)}`);
   }
 }
+

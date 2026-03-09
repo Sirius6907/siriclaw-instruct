@@ -2,8 +2,9 @@
 // Keep this list additive and scoped to symbols used under extensions/phone-control.
 
 export type {
-  SiriClaw-InstructPluginApi,
-  SiriClaw-InstructPluginCommandDefinition,
-  SiriClaw-InstructPluginService,
+  SiriClawInstructPluginApi,
+  SiriClawInstructPluginCommandDefinition,
+  SiriClawInstructPluginService,
   PluginCommandContext,
 } from "../plugins/types.js";
+

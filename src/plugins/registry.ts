@@ -20,19 +20,19 @@ import {
   stripPromptMutationFieldsFromLegacyHookResult,
 } from "./types.js";
 import type {
-  SiriClaw-InstructPluginApi,
-  SiriClaw-InstructPluginChannelRegistration,
-  SiriClaw-InstructPluginCliRegistrar,
-  SiriClaw-InstructPluginCommandDefinition,
-  SiriClaw-InstructPluginHttpRouteAuth,
-  SiriClaw-InstructPluginHttpRouteMatch,
-  SiriClaw-InstructPluginHttpRouteHandler,
-  SiriClaw-InstructPluginHttpRouteParams,
-  SiriClaw-InstructPluginHookOptions,
+  SiriClawInstructPluginApi,
+  SiriClawInstructPluginChannelRegistration,
+  SiriClawInstructPluginCliRegistrar,
+  SiriClawInstructPluginCommandDefinition,
+  SiriClawInstructPluginHttpRouteAuth,
+  SiriClawInstructPluginHttpRouteMatch,
+  SiriClawInstructPluginHttpRouteHandler,
+  SiriClawInstructPluginHttpRouteParams,
+  SiriClawInstructPluginHookOptions,
   ProviderPlugin,
-  SiriClaw-InstructPluginService,
-  SiriClaw-InstructPluginToolContext,
-  SiriClaw-InstructPluginToolFactory,
+  SiriClawInstructPluginService,
+  SiriClawInstructPluginToolContext,
+  SiriClawInstructPluginToolFactory,
   PluginConfigUiHint,
   PluginDiagnostic,
   PluginLogger,
@@ -45,7 +45,7 @@ import type {
 
 export type PluginToolRegistration = {
   pluginId: string;
-  factory: SiriClaw-InstructPluginToolFactory;
+  factory: SiriClawInstructPluginToolFactory;
   names: string[];
   optional: boolean;
   source: string;
@@ -53,7 +53,7 @@ export type PluginToolRegistration = {
 
 export type PluginCliRegistration = {
   pluginId: string;
-  register: SiriClaw-InstructPluginCliRegistrar;
+  register: SiriClawInstructPluginCliRegistrar;
   commands: string[];
   source: string;
 };
@@ -61,9 +61,9 @@ export type PluginCliRegistration = {
 export type PluginHttpRouteRegistration = {
   pluginId?: string;
   path: string;
-  handler: SiriClaw-InstructPluginHttpRouteHandler;
-  auth: SiriClaw-InstructPluginHttpRouteAuth;
-  match: SiriClaw-InstructPluginHttpRouteMatch;
+  handler: SiriClawInstructPluginHttpRouteHandler;
+  auth: SiriClawInstructPluginHttpRouteAuth;
+  match: SiriClawInstructPluginHttpRouteMatch;
   source?: string;
 };
 
@@ -89,13 +89,13 @@ export type PluginHookRegistration = {
 
 export type PluginServiceRegistration = {
   pluginId: string;
-  service: SiriClaw-InstructPluginService;
+  service: SiriClawInstructPluginService;
   source: string;
 };
 
 export type PluginCommandRegistration = {
   pluginId: string;
-  command: SiriClaw-InstructPluginCommandDefinition;
+  command: SiriClawInstructPluginCommandDefinition;
   source: string;
 };
 
@@ -192,13 +192,13 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerTool = (
     record: PluginRecord,
-    tool: AnyAgentTool | SiriClaw-InstructPluginToolFactory,
+    tool: AnyAgentTool | SiriClawInstructPluginToolFactory,
     opts?: { name?: string; names?: string[]; optional?: boolean },
   ) => {
     const names = opts?.names ?? (opts?.name ? [opts.name] : []);
     const optional = opts?.optional === true;
-    const factory: SiriClaw-InstructPluginToolFactory =
-      typeof tool === "function" ? tool : (_ctx: SiriClaw-InstructPluginToolContext) => tool;
+    const factory: SiriClawInstructPluginToolFactory =
+      typeof tool === "function" ? tool : (_ctx: SiriClawInstructPluginToolContext) => tool;
 
     if (typeof tool !== "function") {
       names.push(tool.name);
@@ -221,8 +221,8 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     record: PluginRecord,
     events: string | string[],
     handler: Parameters<typeof registerInternalHook>[1],
-    opts: SiriClaw-InstructPluginHookOptions | undefined,
-    config: SiriClaw-InstructPluginApi["config"],
+    opts: SiriClawInstructPluginHookOptions | undefined,
+    config: SiriClawInstructPluginApi["config"],
   ) => {
     const eventList = Array.isArray(events) ? events : [events];
     const normalizedEvents = eventList.map((event) => event.trim()).filter(Boolean);
@@ -246,7 +246,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
             ...entry.hook,
             name,
             description,
-            source: "SiriClaw-Instruct-plugin",
+            source: "SiriClawInstruct-plugin",
             pluginId: record.id,
           },
           metadata: {
@@ -258,7 +258,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
           hook: {
             name,
             description,
-            source: "SiriClaw-Instruct-plugin",
+            source: "SiriClawInstruct-plugin",
             pluginId: record.id,
             filePath: record.source,
             baseDir: path.dirname(record.source),
@@ -315,7 +315,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     return `${plugin} (${source})`;
   };
 
-  const registerHttpRoute = (record: PluginRecord, params: SiriClaw-InstructPluginHttpRouteParams) => {
+  const registerHttpRoute = (record: PluginRecord, params: SiriClawInstructPluginHttpRouteParams) => {
     const normalizedPath = normalizePluginHttpPath(params.path);
     if (!normalizedPath) {
       pushDiagnostic({
@@ -401,11 +401,11 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerChannel = (
     record: PluginRecord,
-    registration: SiriClaw-InstructPluginChannelRegistration | ChannelPlugin,
+    registration: SiriClawInstructPluginChannelRegistration | ChannelPlugin,
   ) => {
     const normalized =
-      typeof (registration as SiriClaw-InstructPluginChannelRegistration).plugin === "object"
-        ? (registration as SiriClaw-InstructPluginChannelRegistration)
+      typeof (registration as SiriClawInstructPluginChannelRegistration).plugin === "object"
+        ? (registration as SiriClawInstructPluginChannelRegistration)
         : { plugin: registration as ChannelPlugin };
     const plugin = normalized.plugin;
     const id = typeof plugin?.id === "string" ? plugin.id.trim() : String(plugin?.id ?? "").trim();
@@ -458,7 +458,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
 
   const registerCli = (
     record: PluginRecord,
-    registrar: SiriClaw-InstructPluginCliRegistrar,
+    registrar: SiriClawInstructPluginCliRegistrar,
     opts?: { commands?: string[] },
   ) => {
     const commands = (opts?.commands ?? []).map((cmd) => cmd.trim()).filter(Boolean);
@@ -471,7 +471,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     });
   };
 
-  const registerService = (record: PluginRecord, service: SiriClaw-InstructPluginService) => {
+  const registerService = (record: PluginRecord, service: SiriClawInstructPluginService) => {
     const id = service.id.trim();
     if (!id) {
       return;
@@ -484,7 +484,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     });
   };
 
-  const registerCommand = (record: PluginRecord, command: SiriClaw-InstructPluginCommandDefinition) => {
+  const registerCommand = (record: PluginRecord, command: SiriClawInstructPluginCommandDefinition) => {
     const name = command.name.trim();
     if (!name) {
       pushDiagnostic({
@@ -575,11 +575,11 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
   const createApi = (
     record: PluginRecord,
     params: {
-      config: SiriClaw-InstructPluginApi["config"];
+      config: SiriClawInstructPluginApi["config"];
       pluginConfig?: Record<string, unknown>;
       hookPolicy?: PluginTypedHookPolicy;
     },
-  ): SiriClaw-InstructPluginApi => {
+  ): SiriClawInstructPluginApi => {
     return {
       id: record.id,
       name: record.name,
@@ -622,3 +622,4 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     registerTypedHook,
   };
 }
+

@@ -4,13 +4,13 @@
 export { buildChannelConfigSchema } from "../channels/plugins/config-schema.js";
 export { formatPairingApproveHint } from "../channels/plugins/helpers.js";
 export type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-export type { SiriClaw-InstructConfig } from "../config/config.js";
+export type { SiriClawInstructConfig } from "../config/config.js";
 export { MarkdownConfigSchema } from "../config/zod-schema.core.js";
 export { readJsonBodyWithLimit, requestBodyErrorToText } from "../infra/http-body.js";
 export { isBlockedHostnameOrIp } from "../infra/net/ssrf.js";
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 export type { PluginRuntime } from "../plugins/runtime/types.js";
-export type { SiriClaw-InstructPluginApi } from "../plugins/types.js";
+export type { SiriClawInstructPluginApi } from "../plugins/types.js";
 export { DEFAULT_ACCOUNT_ID } from "../routing/session-key.js";
 export {
   collectStatusIssuesFromLastError,
@@ -18,3 +18,4 @@ export {
 } from "./status-helpers.js";
 export { createFixedWindowRateLimiter } from "./webhook-memory-guards.js";
 export { mapAllowFromEntries } from "./channel-config-helpers.js";
+

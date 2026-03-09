@@ -6,7 +6,7 @@
 termux-toast "Syncing SiriClaw-Instruct auth..."
 
 # Run sync on l36 server
-SERVER="${SiriClaw-Instruct_SERVER:-${SIRICLAW_SERVER:-l36}}"
+SERVER="${SIRICLAW_SERVER:-${SIRICLAW_SERVER:-l36}}"
 RESULT=$(ssh "$SERVER" '/home/admin/SiriClaw-Instruct/scripts/sync-claude-code-auth.sh' 2>&1)
 EXIT_CODE=$?
 

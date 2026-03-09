@@ -8,8 +8,8 @@ type HomeEnvSnapshot = {
   USERPROFILE: string | undefined;
   HOMEDRIVE: string | undefined;
   HOMEPATH: string | undefined;
-  SiriClaw-Instruct_STATE_DIR: string | undefined;
-  SiriClaw-Instruct_AGENT_DIR: string | undefined;
+  SiriClawInstruct_STATE_DIR: string | undefined;
+  SiriClawInstruct_AGENT_DIR: string | undefined;
   PI_CODING_AGENT_DIR: string | undefined;
 };
 
@@ -19,8 +19,8 @@ function snapshotHomeEnv(): HomeEnvSnapshot {
     USERPROFILE: process.env.USERPROFILE,
     HOMEDRIVE: process.env.HOMEDRIVE,
     HOMEPATH: process.env.HOMEPATH,
-    SiriClaw-Instruct_STATE_DIR: process.env.SiriClaw-Instruct_STATE_DIR,
-    SiriClaw-Instruct_AGENT_DIR: process.env.SiriClaw-Instruct_AGENT_DIR,
+    SiriClawInstruct_STATE_DIR: process.env.SiriClawInstruct_STATE_DIR,
+    SiriClawInstruct_AGENT_DIR: process.env.SiriClawInstruct_AGENT_DIR,
     PI_CODING_AGENT_DIR: process.env.PI_CODING_AGENT_DIR,
   };
 }
@@ -52,13 +52,13 @@ export function createTempHomeHarness(options: { prefix: string; beforeEachCase?
 
   async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
     const home = path.join(fixtureRoot, `case-${++caseId}`);
-    await fs.mkdir(path.join(home, ".SiriClaw-Instruct", "agents", "main", "sessions"), { recursive: true });
+    await fs.mkdir(path.join(home, ".SiriClawInstruct", "agents", "main", "sessions"), { recursive: true });
     const envSnapshot = snapshotHomeEnv();
     process.env.HOME = home;
     process.env.USERPROFILE = home;
-    process.env.SiriClaw-Instruct_STATE_DIR = path.join(home, ".SiriClaw-Instruct");
-    process.env.SiriClaw-Instruct_AGENT_DIR = path.join(home, ".SiriClaw-Instruct", "agent");
-    process.env.PI_CODING_AGENT_DIR = path.join(home, ".SiriClaw-Instruct", "agent");
+    process.env.SiriClawInstruct_STATE_DIR = path.join(home, ".SiriClawInstruct");
+    process.env.SiriClawInstruct_AGENT_DIR = path.join(home, ".SiriClawInstruct", "agent");
+    process.env.PI_CODING_AGENT_DIR = path.join(home, ".SiriClawInstruct", "agent");
 
     if (process.platform === "win32") {
       const match = home.match(/^([A-Za-z]:)(.*)$/);
@@ -84,7 +84,7 @@ export function makeReplyConfig(home: string) {
     agents: {
       defaults: {
         model: "anthropic/claude-opus-4-5",
-        workspace: path.join(home, "SiriClaw-Instruct"),
+        workspace: path.join(home, "SiriClawInstruct"),
       },
     },
     channels: {
@@ -95,3 +95,4 @@ export function makeReplyConfig(home: string) {
     session: { store: path.join(home, "sessions.json") },
   };
 }
+

@@ -9,7 +9,7 @@ import {
   TUI,
 } from "@mariozechner/pi-tui";
 import { resolveAgentIdByWorkspacePath, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { loadConfig, type SiriClaw-InstructConfig } from "../config/config.js";
+import { loadConfig, type SiriClawInstructConfig } from "../config/config.js";
 import {
   buildAgentMainSessionKey,
   normalizeAgentId,
@@ -209,7 +209,7 @@ export function resolveTuiSessionKey(params: {
 }
 
 export function resolveInitialTuiAgentId(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   fallbackAgentId: string;
   initialSessionInput?: string;
   cwd?: string;
@@ -239,9 +239,9 @@ export function resolveGatewayDisconnectState(reason?: string): {
   if (/pairing required/i.test(reasonLabel)) {
     return {
       connectionStatus: `gateway disconnected: ${reasonLabel}`,
-      activityStatus: "pairing required: run SiriClaw-Instruct devices list",
+      activityStatus: "pairing required: run SiriClawInstruct devices list",
       pairingHint:
-        "Pairing required. Run `SiriClaw-Instruct devices list`, approve your request ID, then reconnect.",
+        "Pairing required. Run `SiriClawInstruct devices list`, approve your request ID, then reconnect.",
     };
   }
   return {
@@ -570,7 +570,7 @@ export async function runTui(opts: TuiOptions) {
     const agentLabel = formatAgentLabel(currentAgentId);
     header.setText(
       theme.header(
-        `SiriClaw-Instruct tui - ${client.connection.url} - agent ${agentLabel} - session ${sessionLabel}`,
+        `SiriClawInstruct tui - ${client.connection.url} - agent ${agentLabel} - session ${sessionLabel}`,
       ),
     );
   };
@@ -988,3 +988,4 @@ export async function runTui(opts: TuiOptions) {
     process.once("exit", finish);
   });
 }
+

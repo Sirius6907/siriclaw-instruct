@@ -2,7 +2,7 @@ import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
 import { resolveConfiguredModelRef } from "../agents/model-selection.js";
 import type { SkillCommandSpec } from "../agents/skills.js";
 import { isCommandFlagEnabled } from "../config/commands.js";
-import type { SiriClaw-InstructConfig } from "../config/types.js";
+import type { SiriClawInstructConfig } from "../config/types.js";
 import { escapeRegExp } from "../utils.js";
 import { getChatCommands, getNativeCommandSurfaces } from "./commands-registry.data.js";
 import type {
@@ -95,7 +95,7 @@ export function listChatCommands(params?: {
   return [...commands, ...buildSkillCommandDefinitions(params.skillCommands)];
 }
 
-export function isCommandEnabled(cfg: SiriClaw-InstructConfig, commandKey: string): boolean {
+export function isCommandEnabled(cfg: SiriClawInstructConfig, commandKey: string): boolean {
   if (commandKey === "config") {
     return isCommandFlagEnabled(cfg, "config");
   }
@@ -109,7 +109,7 @@ export function isCommandEnabled(cfg: SiriClaw-InstructConfig, commandKey: strin
 }
 
 export function listChatCommandsForConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   params?: { skillCommands?: SkillCommandSpec[] },
 ): ChatCommandDefinition[] {
   const base = getChatCommands().filter((command) => isCommandEnabled(cfg, command.key));
@@ -172,7 +172,7 @@ export function listNativeCommandSpecs(params?: {
 }
 
 export function listNativeCommandSpecsForConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   params?: { skillCommands?: SkillCommandSpec[]; provider?: string },
 ): NativeCommandSpec[] {
   return listNativeSpecsFromCommands(listChatCommandsForConfig(cfg, params), params?.provider);
@@ -290,12 +290,12 @@ export function buildCommandTextFromArgs(
   return buildCommandText(commandName, serializeCommandArgs(command, args));
 }
 
-function resolveDefaultCommandContext(cfg?: SiriClaw-InstructConfig): {
+function resolveDefaultCommandContext(cfg?: SiriClawInstructConfig): {
   provider: string;
   model: string;
 } {
   const resolved = resolveConfiguredModelRef({
-    cfg: cfg ?? ({} as SiriClaw-InstructConfig),
+    cfg: cfg ?? ({} as SiriClawInstructConfig),
     defaultProvider: DEFAULT_PROVIDER,
     defaultModel: DEFAULT_MODEL,
   });
@@ -310,7 +310,7 @@ export type ResolvedCommandArgChoice = { value: string; label: string };
 export function resolveCommandArgChoices(params: {
   command: ChatCommandDefinition;
   arg: CommandArgDefinition;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   provider?: string;
   model?: string;
 }): ResolvedCommandArgChoice[] {
@@ -340,7 +340,7 @@ export function resolveCommandArgChoices(params: {
 export function resolveCommandArgMenu(params: {
   command: ChatCommandDefinition;
   args?: CommandArgs;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
 }): { arg: CommandArgDefinition; choices: ResolvedCommandArgChoice[]; title?: string } | null {
   const { command, args, cfg } = params;
   if (!command.args || !command.argsMenu) {
@@ -431,7 +431,7 @@ export function isCommandMessage(raw: string): boolean {
   return trimmed.startsWith("/");
 }
 
-export function getCommandDetection(_cfg?: SiriClaw-InstructConfig): CommandDetection {
+export function getCommandDetection(_cfg?: SiriClawInstructConfig): CommandDetection {
   const commands = getChatCommands();
   if (cachedDetection && cachedDetectionCommands === commands) {
     return cachedDetection;
@@ -464,7 +464,7 @@ export function getCommandDetection(_cfg?: SiriClaw-InstructConfig): CommandDete
   return cachedDetection;
 }
 
-export function maybeResolveTextAlias(raw: string, cfg?: SiriClaw-InstructConfig) {
+export function maybeResolveTextAlias(raw: string, cfg?: SiriClawInstructConfig) {
   const trimmed = normalizeCommandBody(raw).trim();
   if (!trimmed.startsWith("/")) {
     return null;
@@ -487,7 +487,7 @@ export function maybeResolveTextAlias(raw: string, cfg?: SiriClaw-InstructConfig
 
 export function resolveTextCommand(
   raw: string,
-  cfg?: SiriClaw-InstructConfig,
+  cfg?: SiriClawInstructConfig,
 ): {
   command: ChatCommandDefinition;
   args?: string;
@@ -528,3 +528,4 @@ export function shouldHandleTextCommands(params: ShouldHandleTextCommandsParams)
   }
   return !isNativeCommandSurface(params.surface);
 }
+

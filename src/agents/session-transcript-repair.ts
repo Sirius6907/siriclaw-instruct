@@ -90,7 +90,7 @@ function redactSessionsSpawnAttachmentsArgs(value: unknown): unknown {
       return item;
     }
     const { content: _content, ...rest } = a;
-    return { ...rest, content: "__SiriClaw-Instruct_REDACTED__" };
+    return { ...rest, content: "__SiriClawInstruct_REDACTED__" };
   });
   return { ...rec, attachments: next };
 }
@@ -143,7 +143,7 @@ function makeMissingToolResult(params: {
     content: [
       {
         type: "text",
-        text: "[SiriClaw-Instruct] missing tool result in session history; inserted synthetic error result for transcript repair.",
+        text: "[SiriClawInstruct] missing tool result in session history; inserted synthetic error result for transcript repair.",
       },
     ],
     isError: true,
@@ -395,7 +395,7 @@ export function repairToolUseResultPairing(messages: AgentMessage[]): ToolUseRep
     // (e.g., partialJson: true) and should not have synthetic tool_results created.
     // Creating synthetic results for incomplete tool calls causes API 400 errors:
     // "unexpected tool_use_id found in tool_result blocks"
-    // See: https://github.com/SiriClaw-Instruct/SiriClaw-Instruct/issues/4597
+    // See: https://github.com/SiriClawInstruct/SiriClawInstruct/issues/4597
     const stopReason = (assistant as { stopReason?: string }).stopReason;
     if (stopReason === "error" || stopReason === "aborted") {
       out.push(msg);
@@ -500,3 +500,4 @@ export function repairToolUseResultPairing(messages: AgentMessage[]): ToolUseRep
     moved: changedOrMoved,
   };
 }
+

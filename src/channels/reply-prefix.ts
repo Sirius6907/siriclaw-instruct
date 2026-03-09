@@ -4,7 +4,7 @@ import {
   type ResponsePrefixContext,
 } from "../auto-reply/reply/response-prefix-template.js";
 import type { GetReplyOptions } from "../auto-reply/types.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 type ModelSelectionContext = Parameters<NonNullable<GetReplyOptions["onModelSelected"]>>[0];
 
@@ -21,7 +21,7 @@ export type ReplyPrefixOptions = Pick<
 >;
 
 export function createReplyPrefixContext(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentId: string;
   channel?: string;
   accountId?: string;
@@ -51,7 +51,7 @@ export function createReplyPrefixContext(params: {
 }
 
 export function createReplyPrefixOptions(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentId: string;
   channel?: string;
   accountId?: string;
@@ -60,3 +60,4 @@ export function createReplyPrefixOptions(params: {
     createReplyPrefixContext(params);
   return { responsePrefix, responsePrefixContextProvider, onModelSelected };
 }
+

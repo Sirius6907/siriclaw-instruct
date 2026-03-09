@@ -77,7 +77,7 @@ vi.mock("../../terminal/health-style.js", () => ({
 }));
 
 vi.mock("../../terminal/links.js", () => ({
-  formatDocsLink: () => "docs.SiriClaw-Instruct.ai/cli/gateway",
+  formatDocsLink: () => "docs.SiriClawInstruct.ai/cli/gateway",
 }));
 
 vi.mock("../../terminal/theme.js", () => ({
@@ -155,3 +155,4 @@ describe("gateway register option collisions", () => {
     );
   });
 });
+

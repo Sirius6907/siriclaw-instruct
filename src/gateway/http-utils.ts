@@ -25,8 +25,8 @@ export function getBearerToken(req: IncomingMessage): string | undefined {
 
 export function resolveAgentIdFromHeader(req: IncomingMessage): string | undefined {
   const raw =
-    getHeader(req, "x-SiriClaw-Instruct-agent-id")?.trim() ||
-    getHeader(req, "x-SiriClaw-Instruct-agent")?.trim() ||
+    getHeader(req, "x-SiriClawInstruct-agent-id")?.trim() ||
+    getHeader(req, "x-SiriClawInstruct-agent")?.trim() ||
     "";
   if (!raw) {
     return undefined;
@@ -41,7 +41,7 @@ export function resolveAgentIdFromModel(model: string | undefined): string | und
   }
 
   const m =
-    raw.match(/^SiriClaw-Instruct[:/](?<agentId>[a-z0-9][a-z0-9_-]{0,63})$/i) ??
+    raw.match(/^SiriClawInstruct[:/](?<agentId>[a-z0-9][a-z0-9_-]{0,63})$/i) ??
     raw.match(/^agent:(?<agentId>[a-z0-9][a-z0-9_-]{0,63})$/i);
   const agentId = m?.groups?.agentId;
   if (!agentId) {
@@ -69,7 +69,7 @@ export function resolveSessionKey(params: {
   user?: string | undefined;
   prefix: string;
 }): string {
-  const explicit = getHeader(params.req, "x-SiriClaw-Instruct-session-key")?.trim();
+  const explicit = getHeader(params.req, "x-SiriClawInstruct-session-key")?.trim();
   if (explicit) {
     return explicit;
   }
@@ -96,9 +96,10 @@ export function resolveGatewayRequestContext(params: {
   });
 
   const messageChannel = params.useMessageChannelHeader
-    ? (normalizeMessageChannel(getHeader(params.req, "x-SiriClaw-Instruct-message-channel")) ??
+    ? (normalizeMessageChannel(getHeader(params.req, "x-SiriClawInstruct-message-channel")) ??
       params.defaultMessageChannel)
     : params.defaultMessageChannel;
 
   return { agentId, sessionKey, messageChannel };
 }
+

@@ -55,21 +55,21 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["SiriClaw-Instruct status", "Show channel health + session summary."],
-          ["SiriClaw-Instruct status --all", "Full diagnosis (read-only)."],
-          ["SiriClaw-Instruct status --json", "Machine-readable output."],
-          ["SiriClaw-Instruct status --usage", "Show model provider usage/quota snapshots."],
+          ["SiriClawInstruct status", "Show channel health + session summary."],
+          ["SiriClawInstruct status --all", "Full diagnosis (read-only)."],
+          ["SiriClawInstruct status --json", "Machine-readable output."],
+          ["SiriClawInstruct status --usage", "Show model provider usage/quota snapshots."],
           [
-            "SiriClaw-Instruct status --deep",
+            "SiriClawInstruct status --deep",
             "Run channel probes (WA + Telegram + Discord + Slack + Signal).",
           ],
-          ["SiriClaw-Instruct status --deep --timeout 5000", "Tighten probe timeout."],
+          ["SiriClawInstruct status --deep --timeout 5000", "Tighten probe timeout."],
         ])}`,
     )
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/status", "docs.SiriClaw-Instruct.ai/cli/status")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/status", "docs.SiriClawInstruct.ai/cli/status")}\n`,
     )
     .action(async (opts) => {
       await runWithVerboseAndTimeout(opts, async ({ verbose, timeoutMs }) => {
@@ -97,7 +97,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/health", "docs.SiriClaw-Instruct.ai/cli/health")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/health", "docs.SiriClawInstruct.ai/cli/health")}\n`,
     )
     .action(async (opts) => {
       await runWithVerboseAndTimeout(opts, async ({ verbose, timeoutMs }) => {
@@ -125,12 +125,12 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["SiriClaw-Instruct sessions", "List all sessions."],
-          ["SiriClaw-Instruct sessions --agent work", "List sessions for one agent."],
-          ["SiriClaw-Instruct sessions --all-agents", "Aggregate sessions across agents."],
-          ["SiriClaw-Instruct sessions --active 120", "Only last 2 hours."],
-          ["SiriClaw-Instruct sessions --json", "Machine-readable output."],
-          ["SiriClaw-Instruct sessions --store ./tmp/sessions.json", "Use a specific session store."],
+          ["SiriClawInstruct sessions", "List all sessions."],
+          ["SiriClawInstruct sessions --agent work", "List sessions for one agent."],
+          ["SiriClawInstruct sessions --all-agents", "Aggregate sessions across agents."],
+          ["SiriClawInstruct sessions --active 120", "Only last 2 hours."],
+          ["SiriClawInstruct sessions --json", "Machine-readable output."],
+          ["SiriClawInstruct sessions --store ./tmp/sessions.json", "Use a specific session store."],
         ])}\n\n${theme.muted(
           "Shows token usage per session when the agent reports it; set agents.defaults.contextTokens to cap the window and show %.",
         )}`,
@@ -138,7 +138,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sessions", "docs.SiriClaw-Instruct.ai/cli/sessions")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sessions", "docs.SiriClawInstruct.ai/cli/sessions")}\n`,
     )
     .action(async (opts) => {
       setVerbose(Boolean(opts.verbose));
@@ -174,16 +174,16 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["SiriClaw-Instruct sessions cleanup --dry-run", "Preview stale/cap cleanup."],
+          ["SiriClawInstruct sessions cleanup --dry-run", "Preview stale/cap cleanup."],
           [
-            "SiriClaw-Instruct sessions cleanup --dry-run --fix-missing",
+            "SiriClawInstruct sessions cleanup --dry-run --fix-missing",
             "Also preview pruning entries with missing transcript files.",
           ],
-          ["SiriClaw-Instruct sessions cleanup --enforce", "Apply maintenance now."],
-          ["SiriClaw-Instruct sessions cleanup --agent work --dry-run", "Preview one agent store."],
-          ["SiriClaw-Instruct sessions cleanup --all-agents --dry-run", "Preview all agent stores."],
+          ["SiriClawInstruct sessions cleanup --enforce", "Apply maintenance now."],
+          ["SiriClawInstruct sessions cleanup --agent work --dry-run", "Preview one agent store."],
+          ["SiriClawInstruct sessions cleanup --all-agents --dry-run", "Preview all agent stores."],
           [
-            "SiriClaw-Instruct sessions cleanup --enforce --store ./tmp/sessions.json",
+            "SiriClawInstruct sessions cleanup --enforce --store ./tmp/sessions.json",
             "Use a specific store.",
           ],
         ])}`,
@@ -214,3 +214,4 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       });
     });
 }
+

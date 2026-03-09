@@ -7,7 +7,7 @@ describe("createAnthropicPayloadLogger", () => {
   it("redacts image base64 payload data before writing logs", async () => {
     const lines: string[] = [];
     const logger = createAnthropicPayloadLogger({
-      env: { SiriClaw-Instruct_ANTHROPIC_PAYLOAD_LOG: "1" },
+      env: { SiriClawInstruct_ANTHROPIC_PAYLOAD_LOG: "1" },
       writer: {
         filePath: "memory",
         write: (line) => lines.push(line),
@@ -47,3 +47,4 @@ describe("createAnthropicPayloadLogger", () => {
     expect(event.payloadDigest).toBeDefined();
   });
 });
+

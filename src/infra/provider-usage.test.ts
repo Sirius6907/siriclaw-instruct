@@ -237,7 +237,7 @@ describe("provider usage loading", () => {
     await withTempHome(
       async (tempHome) => {
         const agentDir = path.join(
-          process.env.SiriClaw-Instruct_STATE_DIR ?? path.join(tempHome, ".SiriClaw-Instruct"),
+          process.env.SiriClawInstruct_STATE_DIR ?? path.join(tempHome, ".SiriClawInstruct"),
           "agents",
           "main",
           "agent",
@@ -295,9 +295,9 @@ describe("provider usage loading", () => {
       },
       {
         env: {
-          SiriClaw-Instruct_STATE_DIR: (home) => path.join(home, ".SiriClaw-Instruct"),
+          SiriClawInstruct_STATE_DIR: (home) => path.join(home, ".SiriClawInstruct"),
         },
-        prefix: "SiriClaw-Instruct-provider-usage-",
+        prefix: "SiriClawInstruct-provider-usage-",
       },
     );
   });
@@ -451,3 +451,4 @@ describe("provider usage loading", () => {
     }
   });
 });
+

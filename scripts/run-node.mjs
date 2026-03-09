@@ -128,7 +128,7 @@ const hasSourceMtimeChanged = (stampMtime, deps) => {
 };
 
 const shouldBuild = (deps) => {
-  if (deps.env.SiriClaw-Instruct_FORCE_BUILD === "1") {
+  if (deps.env.SIRICLAW_FORCE_BUILD === "1") {
     return true;
   }
   const stamp = readBuildStamp(deps);
@@ -170,7 +170,7 @@ const shouldBuild = (deps) => {
 };
 
 const logRunner = (message, deps) => {
-  if (deps.env.SiriClaw-Instruct_RUNNER_LOG === "0") {
+  if (deps.env.SIRICLAW_RUNNER_LOG === "0") {
     return;
   }
   deps.stderr.write(`[SiriClaw-Instruct] ${message}\n`);

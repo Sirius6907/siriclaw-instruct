@@ -164,3 +164,4 @@ describe("isSafeToRetrySendError", () => {
     expect(isSafeToRetrySendError(wrapped)).toBe(true);
   });
 });
+

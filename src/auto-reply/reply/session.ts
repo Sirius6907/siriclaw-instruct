@@ -7,7 +7,7 @@ import {
 import { resolveSessionAgentId } from "../../agents/agent-scope.js";
 import { clearBootstrapSnapshotOnSessionRollover } from "../../agents/bootstrap-cache.js";
 import { normalizeChatType } from "../../channels/chat-type.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   DEFAULT_RESET_TRIGGERS,
   deriveSessionMetaPatch,
@@ -169,7 +169,7 @@ function resolveAcpResetBindingContext(ctx: MsgContext): {
 }
 
 function resolveBoundAcpSessionForReset(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   ctx: MsgContext;
 }): string | undefined {
   const activeSessionKey = normalizeSessionText(params.ctx.SessionKey);
@@ -189,7 +189,7 @@ function resolveBoundAcpSessionForReset(params: {
 
 export async function initSessionState(params: {
   ctx: MsgContext;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   commandAuthorized: boolean;
 }): Promise<SessionInitResult> {
   const { ctx, cfg, commandAuthorized } = params;
@@ -292,7 +292,7 @@ export async function initSessionState(params: {
       if (shouldBypassAcpResetForTrigger(triggerLower)) {
         // ACP-bound conversations handle /new and /reset in command handling
         // so the bound ACP runtime can be reset in place without rotating the
-        // normal SiriClaw-Instruct session/transcript.
+        // normal SiriClawInstruct session/transcript.
         break;
       }
       isNewSession = true;
@@ -639,3 +639,4 @@ export async function initSessionState(params: {
     triggerBodyNormalized,
   };
 }
+

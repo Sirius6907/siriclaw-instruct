@@ -1,4 +1,4 @@
-export type SecretTargetConfigFile = "SiriClaw-Instruct.json" | "auth-profiles.json"; // pragma: allowlist secret
+export type SecretTargetConfigFile = "SiriClawInstruct.json" | "auth-profiles.json"; // pragma: allowlist secret
 export type SecretTargetShape = "secret_input" | "sibling_ref"; // pragma: allowlist secret
 export type SecretTargetExpected = "string" | "string-or-object"; // pragma: allowlist secret
 export type AuthProfileType = "api_key" | "token";
@@ -40,3 +40,4 @@ export type DiscoveredConfigSecretTarget = {
   providerId?: string;
   accountId?: string;
 };
+

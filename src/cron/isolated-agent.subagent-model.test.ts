@@ -6,16 +6,16 @@ import { withTempHome as withTempHomeHelper } from "../../test/helpers/temp-home
 import { loadModelCatalog } from "../agents/model-catalog.js";
 import { runEmbeddedPiAgent } from "../agents/pi-embedded.js";
 import type { CliDeps } from "../cli/deps.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { runCronIsolatedAgentTurn } from "./isolated-agent.js";
 import type { CronJob } from "./types.js";
 
 async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
-  return withTempHomeHelper(fn, { prefix: "SiriClaw-Instruct-cron-submodel-" });
+  return withTempHomeHelper(fn, { prefix: "SiriClawInstruct-cron-submodel-" });
 }
 
 async function writeSessionStore(home: string) {
-  const dir = path.join(home, ".SiriClaw-Instruct", "sessions");
+  const dir = path.join(home, ".SiriClawInstruct", "sessions");
   await fs.mkdir(dir, { recursive: true });
   const storePath = path.join(dir, "sessions.json");
   await fs.writeFile(
@@ -40,17 +40,17 @@ async function writeSessionStore(home: string) {
 function makeCfg(
   home: string,
   storePath: string,
-  overrides: Partial<SiriClaw-InstructConfig> = {},
-): SiriClaw-InstructConfig {
-  const base: SiriClaw-InstructConfig = {
+  overrides: Partial<SiriClawInstructConfig> = {},
+): SiriClawInstructConfig {
+  const base: SiriClawInstructConfig = {
     agents: {
       defaults: {
         model: "anthropic/claude-sonnet-4-5",
-        workspace: path.join(home, "SiriClaw-Instruct"),
+        workspace: path.join(home, "SiriClawInstruct"),
       },
     },
     session: { store: storePath, mainKey: "main" },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
   return { ...base, ...overrides };
 }
 
@@ -93,7 +93,7 @@ function mockEmbeddedAgent() {
 
 async function runSubagentModelCase(params: {
   home: string;
-  cfgOverrides?: Partial<SiriClaw-InstructConfig>;
+  cfgOverrides?: Partial<SiriClawInstructConfig>;
   jobModelOverride?: string;
 }) {
   const storePath = await writeSessionStore(params.home);
@@ -131,7 +131,7 @@ describe("runCronIsolatedAgentTurn: subagent model resolution (#11461)", () => {
             subagents: { model: "ollama/llama3.2:3b" },
           },
         },
-      } satisfies Partial<SiriClaw-InstructConfig>,
+      } satisfies Partial<SiriClawInstructConfig>,
       expectedProvider: "ollama",
       expectedModel: "llama3.2:3b",
     },
@@ -150,7 +150,7 @@ describe("runCronIsolatedAgentTurn: subagent model resolution (#11461)", () => {
             subagents: { model: { primary: "google/gemini-2.5-flash" } },
           },
         },
-      } satisfies Partial<SiriClaw-InstructConfig>,
+      } satisfies Partial<SiriClawInstructConfig>,
       expectedProvider: "google",
       expectedModel: "gemini-2.5-flash",
     },
@@ -163,10 +163,10 @@ describe("runCronIsolatedAgentTurn: subagent model resolution (#11461)", () => {
               agents: {
                 defaults: {
                   ...cfgOverrides.agents?.defaults,
-                  workspace: path.join(home, "SiriClaw-Instruct"),
+                  workspace: path.join(home, "SiriClawInstruct"),
                 },
               },
-            } satisfies Partial<SiriClaw-InstructConfig>);
+            } satisfies Partial<SiriClawInstructConfig>);
       const call = await runSubagentModelCase({ home, cfgOverrides: resolvedCfg });
       expect(call?.provider).toBe(expectedProvider);
       expect(call?.model).toBe(expectedModel);
@@ -181,7 +181,7 @@ describe("runCronIsolatedAgentTurn: subagent model resolution (#11461)", () => {
           agents: {
             defaults: {
               model: "anthropic/claude-sonnet-4-5",
-              workspace: path.join(home, "SiriClaw-Instruct"),
+              workspace: path.join(home, "SiriClawInstruct"),
               subagents: { model: "ollama/llama3.2:3b" },
             },
           },
@@ -193,3 +193,4 @@ describe("runCronIsolatedAgentTurn: subagent model resolution (#11461)", () => {
     });
   });
 });
+

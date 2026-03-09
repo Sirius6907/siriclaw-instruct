@@ -71,3 +71,4 @@ describe("resolveProviderAuthOverview", () => {
     expect(overview.effective.detail).not.toContain("OPENAI_API_KEY");
   });
 });
+

@@ -13,3 +13,4 @@ export function resolveThreadBindingConversationIdFromBindingId(params: {
   const conversationId = bindingId.slice(prefix.length).trim();
   return conversationId || undefined;
 }
+

@@ -1,6 +1,6 @@
 import path from "node:path";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { note } from "../terminal/note.js";
 
 const TLS_CERT_ERROR_CODES = new Set([
@@ -20,7 +20,7 @@ const TLS_CERT_ERROR_PATTERNS = [
 ];
 
 const OPENAI_AUTH_PROBE_URL =
-  "https://auth.openai.com/oauth/authorize?response_type=code&client_id=SiriClaw-Instruct-preflight&redirect_uri=http%3A%2F%2Flocalhost%3A1455%2Fauth%2Fcallback&scope=openid+profile+email";
+  "https://auth.openai.com/oauth/authorize?response_type=code&client_id=SiriClawInstruct-preflight&redirect_uri=http%3A%2F%2Flocalhost%3A1455%2Fauth%2Fcallback&scope=openid+profile+email";
 
 type PreflightFailureKind = "tls-cert" | "network";
 
@@ -79,7 +79,7 @@ function resolveCertBundlePath(): string | null {
   return path.join(prefix, "etc", "openssl@3", "cert.pem");
 }
 
-function hasOpenAICodexOAuthProfile(cfg: SiriClaw-InstructConfig): boolean {
+function hasOpenAICodexOAuthProfile(cfg: SiriClawInstructConfig): boolean {
   const profiles = cfg.auth?.profiles;
   if (!profiles) {
     return false;
@@ -90,7 +90,7 @@ function hasOpenAICodexOAuthProfile(cfg: SiriClaw-InstructConfig): boolean {
 }
 
 function shouldRunOpenAIOAuthTlsPrerequisites(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   deep?: boolean;
 }): boolean {
   if (params.deep === true) {
@@ -150,7 +150,7 @@ export function formatOpenAIOAuthTlsPreflightFix(
 }
 
 export async function noteOpenAIOAuthTlsPrerequisites(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   deep?: boolean;
 }): Promise<void> {
   if (!shouldRunOpenAIOAuthTlsPrerequisites(params)) {
@@ -162,3 +162,4 @@ export async function noteOpenAIOAuthTlsPrerequisites(params: {
   }
   note(formatOpenAIOAuthTlsPreflightFix(result), "OAuth TLS prerequisites");
 }
+

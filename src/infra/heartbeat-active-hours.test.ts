@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { isWithinActiveHours } from "./heartbeat-active-hours.js";
 
-function cfgWithUserTimezone(userTimezone = "UTC"): SiriClaw-InstructConfig {
+function cfgWithUserTimezone(userTimezone = "UTC"): SiriClawInstructConfig {
   return {
     agents: {
       defaults: {
@@ -84,3 +84,4 @@ describe("isWithinActiveHours", () => {
     expect(isWithinActiveHours(cfg, heartbeat, Date.UTC(2025, 0, 1, 11, 0, 0))).toBe(false);
   });
 });
+

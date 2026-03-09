@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 export type DiagnosticSessionState = "idle" | "processing" | "waiting";
 
@@ -176,19 +176,19 @@ type DiagnosticEventsGlobalState = {
 
 function getDiagnosticEventsState(): DiagnosticEventsGlobalState {
   const globalStore = globalThis as typeof globalThis & {
-    __SiriClaw-InstructDiagnosticEventsState?: DiagnosticEventsGlobalState;
+    __SiriClawInstructDiagnosticEventsState?: DiagnosticEventsGlobalState;
   };
-  if (!globalStore.__SiriClaw-InstructDiagnosticEventsState) {
-    globalStore.__SiriClaw-InstructDiagnosticEventsState = {
+  if (!globalStore.__SiriClawInstructDiagnosticEventsState) {
+    globalStore.__SiriClawInstructDiagnosticEventsState = {
       seq: 0,
       listeners: new Set<(evt: DiagnosticEventPayload) => void>(),
       dispatchDepth: 0,
     };
   }
-  return globalStore.__SiriClaw-InstructDiagnosticEventsState;
+  return globalStore.__SiriClawInstructDiagnosticEventsState;
 }
 
-export function isDiagnosticsEnabled(config?: SiriClaw-InstructConfig): boolean {
+export function isDiagnosticsEnabled(config?: SiriClawInstructConfig): boolean {
   return config?.diagnostics?.enabled === true;
 }
 
@@ -240,3 +240,4 @@ export function resetDiagnosticEventsForTest(): void {
   state.listeners.clear();
   state.dispatchDepth = 0;
 }
+

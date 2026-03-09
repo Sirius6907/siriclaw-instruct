@@ -2,7 +2,7 @@
  * Detects obfuscated or encoded commands that could bypass allowlist-based
  * security filters.
  *
- * Addresses: https://github.com/SiriClaw-Instruct/SiriClaw-Instruct/issues/8592
+ * Addresses: https://github.com/SiriClawInstruct/SiriClawInstruct/issues/8592
  */
 
 export type ObfuscationDetection = {
@@ -149,3 +149,4 @@ export function detectCommandObfuscation(command: string): ObfuscationDetection 
     matchedPatterns,
   };
 }
+

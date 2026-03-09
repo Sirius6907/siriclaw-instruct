@@ -1,5 +1,5 @@
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 
 @MainActor
 final class GatewayHealthMonitor {
@@ -83,3 +83,4 @@ final class GatewayHealthMonitor {
         }
     }
 }
+

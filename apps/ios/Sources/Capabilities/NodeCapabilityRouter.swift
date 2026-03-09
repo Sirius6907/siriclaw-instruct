@@ -1,5 +1,5 @@
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 
 @MainActor
 final class NodeCapabilityRouter {
@@ -23,3 +23,4 @@ final class NodeCapabilityRouter {
         return try await handler(request)
     }
 }
+

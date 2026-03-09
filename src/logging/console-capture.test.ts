@@ -130,7 +130,7 @@ describe("enableConsoleCapture", () => {
 });
 
 function tempLogPath() {
-  return path.join(os.tmpdir(), `SiriClaw-Instruct-log-${crypto.randomUUID()}.log`);
+  return path.join(os.tmpdir(), `SiriClawInstruct-log-${crypto.randomUUID()}.log`);
 }
 
 function eioError() {
@@ -138,3 +138,4 @@ function eioError() {
   err.code = "EIO";
   return err;
 }
+

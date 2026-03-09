@@ -134,7 +134,7 @@ export async function buildStatusAllReportLines(params: {
   });
 
   const lines: string[] = [];
-  lines.push(heading("SiriClaw-Instruct status --all"));
+  lines.push(heading("SiriClawInstruct status --all"));
   lines.push("");
   lines.push(heading("Overview"));
   lines.push(overview.trimEnd());
@@ -183,3 +183,4 @@ export async function buildStatusAllReportLines(params: {
 
   return lines;
 }
+

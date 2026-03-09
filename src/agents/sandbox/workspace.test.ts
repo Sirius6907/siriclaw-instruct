@@ -8,7 +8,7 @@ import { ensureSandboxWorkspace } from "./workspace.js";
 const tempRoots: string[] = [];
 
 async function makeTempRoot(): Promise<string> {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-sandbox-workspace-"));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-sandbox-workspace-"));
   tempRoots.push(root);
   return root;
 }
@@ -74,3 +74,4 @@ describe("ensureSandboxWorkspace", () => {
     ).rejects.toBeDefined();
   });
 });
+

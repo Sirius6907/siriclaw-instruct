@@ -1,6 +1,6 @@
 import CoreMotion
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 
 final class MotionService: MotionServicing {
     func activities(params: SiriClaw-InstructMotionActivityParams) async throws -> SiriClaw-InstructMotionActivityPayload {
@@ -98,3 +98,4 @@ final class MotionService: MotionServicing {
         }
     }
 }
+

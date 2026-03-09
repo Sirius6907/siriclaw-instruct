@@ -14,7 +14,7 @@ export type ExtraGatewayService = {
   label: string;
   detail: string;
   scope: "user" | "system";
-  marker?: "SiriClaw-Instruct" | "clawdbot" | "moltbot";
+  marker?: "SiriClawInstruct" | "clawdbot" | "moltbot";
   legacy?: boolean;
 };
 
@@ -22,12 +22,12 @@ export type FindExtraGatewayServicesOptions = {
   deep?: boolean;
 };
 
-const EXTRA_MARKERS = ["SiriClaw-Instruct", "clawdbot", "moltbot"] as const;
+const EXTRA_MARKERS = ["SiriClawInstruct", "clawdbot", "moltbot"] as const;
 
 export function renderGatewayServiceCleanupHints(
   env: Record<string, string | undefined> = process.env as Record<string, string | undefined>,
 ): string[] {
-  const profile = env.SiriClaw-Instruct_PROFILE;
+  const profile = env.SiriClawInstruct_PROFILE;
   switch (process.platform) {
     case "darwin": {
       const label = resolveGatewayLaunchAgentLabel(profile);
@@ -71,8 +71,8 @@ function detectMarker(content: string): Marker | null {
 
 function hasGatewayServiceMarker(content: string): boolean {
   const lower = content.toLowerCase();
-  const markerKeys = ["SiriClaw-Instruct_service_marker"];
-  const kindKeys = ["SiriClaw-Instruct_service_kind"];
+  const markerKeys = ["SiriClawInstruct_service_marker"];
+  const kindKeys = ["SiriClawInstruct_service_kind"];
   const markerValues = [GATEWAY_SERVICE_MARKER.toLowerCase()];
   const hasMarkerKey = markerKeys.some((key) => lower.includes(key));
   const hasKindKey = kindKeys.some((key) => lower.includes(key));
@@ -85,7 +85,7 @@ function hasGatewayServiceMarker(content: string): boolean {
   );
 }
 
-function isSiriClaw-InstructGatewayLaunchdService(label: string, contents: string): boolean {
+function isSiriClawInstructGatewayLaunchdService(label: string, contents: string): boolean {
   if (hasGatewayServiceMarker(contents)) {
     return true;
   }
@@ -93,26 +93,26 @@ function isSiriClaw-InstructGatewayLaunchdService(label: string, contents: strin
   if (!lowerContents.includes("gateway")) {
     return false;
   }
-  return label.startsWith("ai.SiriClaw-Instruct.");
+  return label.startsWith("ai.SiriClawInstruct.");
 }
 
-function isSiriClaw-InstructGatewaySystemdService(name: string, contents: string): boolean {
+function isSiriClawInstructGatewaySystemdService(name: string, contents: string): boolean {
   if (hasGatewayServiceMarker(contents)) {
     return true;
   }
-  if (!name.startsWith("SiriClaw-Instruct-gateway")) {
+  if (!name.startsWith("SiriClawInstruct-gateway")) {
     return false;
   }
   return contents.toLowerCase().includes("gateway");
 }
 
-function isSiriClaw-InstructGatewayTaskName(name: string): boolean {
+function isSiriClawInstructGatewayTaskName(name: string): boolean {
   const normalized = name.trim().toLowerCase();
   if (!normalized) {
     return false;
   }
   const defaultName = resolveGatewayWindowsTaskName().toLowerCase();
-  return normalized === defaultName || normalized.startsWith("SiriClaw-Instruct gateway");
+  return normalized === defaultName || normalized.startsWith("SiriClawInstruct gateway");
 }
 
 function tryExtractPlistLabel(contents: string): string | null {
@@ -216,7 +216,7 @@ async function scanLaunchdDir(params: {
     if (isIgnoredLaunchdLabel(label)) {
       continue;
     }
-    if (marker === "SiriClaw-Instruct" && isSiriClaw-InstructGatewayLaunchdService(label, contents)) {
+    if (marker === "SiriClawInstruct" && isSiriClawInstructGatewayLaunchdService(label, contents)) {
       continue;
     }
     results.push({
@@ -225,7 +225,7 @@ async function scanLaunchdDir(params: {
       detail: `plist: ${fullPath}`,
       scope: params.scope,
       marker,
-      legacy: marker !== "SiriClaw-Instruct" || isLegacyLabel(label),
+      legacy: marker !== "SiriClawInstruct" || isLegacyLabel(label),
     });
   }
 
@@ -248,7 +248,7 @@ async function scanSystemdDir(params: {
     if (!marker) {
       continue;
     }
-    if (marker === "SiriClaw-Instruct" && isSiriClaw-InstructGatewaySystemdService(name, contents)) {
+    if (marker === "SiriClawInstruct" && isSiriClawInstructGatewaySystemdService(name, contents)) {
       continue;
     }
     results.push({
@@ -257,7 +257,7 @@ async function scanSystemdDir(params: {
       detail: `unit: ${fullPath}`,
       scope: params.scope,
       marker,
-      legacy: marker !== "SiriClaw-Instruct",
+      legacy: marker !== "SiriClawInstruct",
     });
   }
 
@@ -401,7 +401,7 @@ export async function findExtraGatewayServices(
       if (!name) {
         continue;
       }
-      if (isSiriClaw-InstructGatewayTaskName(name)) {
+      if (isSiriClawInstructGatewayTaskName(name)) {
         continue;
       }
       const lowerName = name.toLowerCase();
@@ -422,7 +422,7 @@ export async function findExtraGatewayServices(
         detail: task.taskToRun ? `task: ${name}, run: ${task.taskToRun}` : name,
         scope: "system",
         marker,
-        legacy: marker !== "SiriClaw-Instruct",
+        legacy: marker !== "SiriClawInstruct",
       });
     }
     return results;
@@ -430,3 +430,4 @@ export async function findExtraGatewayServices(
 
   return results;
 }
+

@@ -1,5 +1,5 @@
 import path from "node:path";
-import { resolveSiriClaw-InstructAgentDir } from "../../agents/agent-paths.js";
+import { resolveSiriClawInstructAgentDir } from "../../agents/agent-paths.js";
 import {
   resolveAgentDir,
   resolveAgentExplicitModelPrimary,
@@ -79,7 +79,7 @@ export async function modelsStatusCommand(
   }
   const cfg = await loadModelsConfig({ commandName: "models status", runtime });
   const agentId = resolveKnownAgentId({ cfg, rawAgentId: opts.agent });
-  const agentDir = agentId ? resolveAgentDir(cfg, agentId) : resolveSiriClaw-InstructAgentDir();
+  const agentDir = agentId ? resolveAgentDir(cfg, agentId) : resolveSiriClawInstructAgentDir();
   const agentModelPrimary = agentId ? resolveAgentExplicitModelPrimary(cfg, agentId) : undefined;
   const agentFallbacksOverride = agentId
     ? resolveAgentModelFallbacksOverride(cfg, agentId)
@@ -537,8 +537,8 @@ export async function modelsStatusCommand(
     for (const provider of missingProvidersInUse) {
       const hint =
         provider === "anthropic"
-          ? `Run \`claude setup-token\`, then \`${formatCliCommand("SiriClaw-Instruct models auth setup-token")}\` or \`${formatCliCommand("SiriClaw-Instruct configure")}\`.`
-          : `Run \`${formatCliCommand("SiriClaw-Instruct configure")}\` or set an API key env var.`;
+          ? `Run \`claude setup-token\`, then \`${formatCliCommand("SiriClawInstruct models auth setup-token")}\` or \`${formatCliCommand("SiriClawInstruct configure")}\`.`
+          : `Run \`${formatCliCommand("SiriClawInstruct configure")}\` or set an API key env var.`;
       runtime.log(`- ${theme.heading(provider)} ${hint}`);
     }
   }
@@ -684,3 +684,4 @@ export async function modelsStatusCommand(
     runtime.exit(checkStatus);
   }
 }
+

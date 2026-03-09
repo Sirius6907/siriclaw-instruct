@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { ResolvedAgentRoute } from "../routing/resolve-route.js";
 import { deriveLastRoutePolicy } from "../routing/resolve-route.js";
 import { resolveAgentIdFromSessionKey } from "../routing/session-key.js";
@@ -10,7 +10,7 @@ import {
 } from "./persistent-bindings.js";
 
 export function resolveConfiguredAcpRoute(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   route: ResolvedAgentRoute;
   channel: ConfiguredAcpBindingChannel;
   accountId: string;
@@ -61,7 +61,7 @@ export function resolveConfiguredAcpRoute(params: {
 }
 
 export async function ensureConfiguredAcpRouteReady(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   configuredBinding: ResolvedConfiguredAcpBinding | null;
 }): Promise<{ ok: true } | { ok: false; error: string }> {
   if (!params.configuredBinding) {
@@ -79,3 +79,4 @@ export async function ensureConfiguredAcpRouteReady(params: {
     error: ensured.error ?? "unknown error",
   };
 }
+

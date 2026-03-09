@@ -121,13 +121,13 @@ function parseNumber(value: string | undefined, fallback: number): number {
 }
 
 function resolveStateDir(): string {
-  const override = process.env.SiriClaw-Instruct_STATE_DIR?.trim() || process.env.SIRICLAW_STATE_DIR?.trim();
+  const override = process.env.SIRICLAW_STATE_DIR?.trim() || process.env.SIRICLAW_STATE_DIR?.trim();
   if (override) {
     return override.startsWith("~")
       ? path.resolve(process.env.HOME || "", override.slice(1))
       : path.resolve(override);
   }
-  const home = process.env.SiriClaw-Instruct_HOME?.trim() || process.env.HOME || "";
+  const home = process.env.SIRICLAW_HOME?.trim() || process.env.HOME || "";
   return path.join(home, ".SiriClaw-Instruct");
 }
 
@@ -172,30 +172,30 @@ function usage(): string {
     "  --json                       Emit JSON output\n" +
     "\n" +
     "Environment fallbacks:\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_CHANNEL_ID\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_DRIVER\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_DRIVER_TOKEN\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_DRIVER_TOKEN_PREFIX\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_BOT_TOKEN\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_BOT_TOKEN_PREFIX\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_AGENT\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_MENTION_USER_ID\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_TIMEOUT_MS\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_POLL_MS\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_THREAD_BINDINGS_PATH\n" +
-    "  SiriClaw-Instruct_DISCORD_SMOKE_SiriClaw-Instruct_BIN"
+    "  SIRICLAW_DISCORD_SMOKE_CHANNEL_ID\n" +
+    "  SIRICLAW_DISCORD_SMOKE_DRIVER\n" +
+    "  SIRICLAW_DISCORD_SMOKE_DRIVER_TOKEN\n" +
+    "  SIRICLAW_DISCORD_SMOKE_DRIVER_TOKEN_PREFIX\n" +
+    "  SIRICLAW_DISCORD_SMOKE_BOT_TOKEN\n" +
+    "  SIRICLAW_DISCORD_SMOKE_BOT_TOKEN_PREFIX\n" +
+    "  SIRICLAW_DISCORD_SMOKE_AGENT\n" +
+    "  SIRICLAW_DISCORD_SMOKE_MENTION_USER_ID\n" +
+    "  SIRICLAW_DISCORD_SMOKE_TIMEOUT_MS\n" +
+    "  SIRICLAW_DISCORD_SMOKE_POLL_MS\n" +
+    "  SIRICLAW_DISCORD_SMOKE_THREAD_BINDINGS_PATH\n" +
+    "  SIRICLAW_DISCORD_SMOKE_SIRICLAW_BIN"
   );
 }
 
 function parseArgs(): Args {
   const channelId =
     resolveArg("--channel") ||
-    process.env.SiriClaw-Instruct_DISCORD_SMOKE_CHANNEL_ID ||
+    process.env.SIRICLAW_DISCORD_SMOKE_CHANNEL_ID ||
     process.env.SIRICLAW_DISCORD_SMOKE_CHANNEL_ID ||
     "";
   const driverModeRaw =
     resolveArg("--driver") ||
-    process.env.SiriClaw-Instruct_DISCORD_SMOKE_DRIVER ||
+    process.env.SIRICLAW_DISCORD_SMOKE_DRIVER ||
     process.env.SIRICLAW_DISCORD_SMOKE_DRIVER ||
     "token";
   const normalizedDriverMode = driverModeRaw.trim().toLowerCase();
@@ -209,51 +209,51 @@ function parseArgs(): Args {
           : "token";
   const driverToken =
     resolveArg("--token") ||
-    process.env.SiriClaw-Instruct_DISCORD_SMOKE_DRIVER_TOKEN ||
+    process.env.SIRICLAW_DISCORD_SMOKE_DRIVER_TOKEN ||
     process.env.SIRICLAW_DISCORD_SMOKE_DRIVER_TOKEN ||
     "";
   const driverTokenPrefix =
-    resolveArg("--token-prefix") || process.env.SiriClaw-Instruct_DISCORD_SMOKE_DRIVER_TOKEN_PREFIX || "Bot";
+    resolveArg("--token-prefix") || process.env.SIRICLAW_DISCORD_SMOKE_DRIVER_TOKEN_PREFIX || "Bot";
   const botToken =
     resolveArg("--bot-token") ||
-    process.env.SiriClaw-Instruct_DISCORD_SMOKE_BOT_TOKEN ||
+    process.env.SIRICLAW_DISCORD_SMOKE_BOT_TOKEN ||
     process.env.SIRICLAW_DISCORD_SMOKE_BOT_TOKEN ||
     process.env.DISCORD_BOT_TOKEN ||
     "";
   const botTokenPrefix =
     resolveArg("--bot-token-prefix") ||
-    process.env.SiriClaw-Instruct_DISCORD_SMOKE_BOT_TOKEN_PREFIX ||
+    process.env.SIRICLAW_DISCORD_SMOKE_BOT_TOKEN_PREFIX ||
     "Bot";
   const targetAgent =
     resolveArg("--agent") ||
-    process.env.SiriClaw-Instruct_DISCORD_SMOKE_AGENT ||
+    process.env.SIRICLAW_DISCORD_SMOKE_AGENT ||
     process.env.SIRICLAW_DISCORD_SMOKE_AGENT ||
     "codex";
   const mentionUserId =
     resolveArg("--mention") ||
-    process.env.SiriClaw-Instruct_DISCORD_SMOKE_MENTION_USER_ID ||
+    process.env.SIRICLAW_DISCORD_SMOKE_MENTION_USER_ID ||
     process.env.SIRICLAW_DISCORD_SMOKE_MENTION_USER_ID ||
     undefined;
   const instruction =
     resolveArg("--instruction") ||
-    process.env.SiriClaw-Instruct_DISCORD_SMOKE_INSTRUCTION ||
+    process.env.SIRICLAW_DISCORD_SMOKE_INSTRUCTION ||
     process.env.SIRICLAW_DISCORD_SMOKE_INSTRUCTION ||
     undefined;
   const timeoutMs = parseNumber(
-    resolveArg("--timeout-ms") || process.env.SiriClaw-Instruct_DISCORD_SMOKE_TIMEOUT_MS,
+    resolveArg("--timeout-ms") || process.env.SIRICLAW_DISCORD_SMOKE_TIMEOUT_MS,
     240_000,
   );
   const pollMs = parseNumber(
-    resolveArg("--poll-ms") || process.env.SiriClaw-Instruct_DISCORD_SMOKE_POLL_MS,
+    resolveArg("--poll-ms") || process.env.SIRICLAW_DISCORD_SMOKE_POLL_MS,
     1_500,
   );
   const defaultBindingsPath = path.join(resolveStateDir(), "discord", "thread-bindings.json");
   const threadBindingsPath =
     resolveArg("--thread-bindings-path") ||
-    process.env.SiriClaw-Instruct_DISCORD_SMOKE_THREAD_BINDINGS_PATH ||
+    process.env.SIRICLAW_DISCORD_SMOKE_THREAD_BINDINGS_PATH ||
     defaultBindingsPath;
   const SiriClaw-InstructBin =
-    resolveArg("--SiriClaw-Instruct-bin") || process.env.SiriClaw-Instruct_DISCORD_SMOKE_SiriClaw-Instruct_BIN || "SiriClaw-Instruct";
+    resolveArg("--SiriClaw-Instruct-bin") || process.env.SIRICLAW_DISCORD_SMOKE_SIRICLAW_BIN || "SiriClaw-Instruct";
   const json = hasFlag("--json");
 
   if (!channelId) {

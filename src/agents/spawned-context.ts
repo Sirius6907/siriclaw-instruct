@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { normalizeAgentId, parseAgentSessionKey } from "../routing/session-key.js";
 import { resolveAgentWorkspaceDir } from "./agent-scope.js";
 
@@ -57,7 +57,7 @@ export function mapToolContextToSpawnedRunMetadata(
 }
 
 export function resolveSpawnedWorkspaceInheritance(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   requesterSessionKey?: string;
   explicitWorkspaceDir?: string | null;
 }): string | undefined {
@@ -79,3 +79,4 @@ export function resolveIngressWorkspaceOverrideForSpawnedRun(
   const normalized = normalizeSpawnedRunMetadata(metadata);
   return normalized.spawnedBy ? normalized.workspaceDir : undefined;
 }
+

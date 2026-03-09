@@ -51,8 +51,8 @@ export function registerAuthModesSuite(): void {
     let prevToken: string | undefined;
 
     beforeAll(async () => {
-      prevToken = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-      process.env.SiriClaw-Instruct_GATEWAY_TOKEN = "secret";
+      prevToken = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+      process.env.SiriClawInstruct_GATEWAY_TOKEN = "secret";
       port = await getFreePort();
       server = await startGatewayServer(port);
     });
@@ -107,8 +107,8 @@ export function registerAuthModesSuite(): void {
     let prevToken: string | undefined;
 
     beforeAll(async () => {
-      prevToken = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-      delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+      prevToken = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+      delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
       testState.gatewayAuth = { mode: "none" };
       port = await getFreePort();
       server = await startGatewayServer(port);
@@ -169,3 +169,4 @@ export function registerAuthModesSuite(): void {
     });
   });
 }
+

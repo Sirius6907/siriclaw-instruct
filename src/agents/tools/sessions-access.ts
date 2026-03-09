@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { isSubagentSessionKey, resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
 import {
   listSpawnedSessionKeys,
@@ -20,7 +20,7 @@ export type SessionAccessResult =
   | { allowed: true }
   | { allowed: false; error: string; status: "forbidden" };
 
-export function resolveSessionToolsVisibility(cfg: SiriClaw-InstructConfig): SessionToolsVisibility {
+export function resolveSessionToolsVisibility(cfg: SiriClawInstructConfig): SessionToolsVisibility {
   const raw = (cfg.tools as { sessions?: { visibility?: unknown } } | undefined)?.sessions
     ?.visibility;
   const value = typeof raw === "string" ? raw.trim().toLowerCase() : "";
@@ -31,7 +31,7 @@ export function resolveSessionToolsVisibility(cfg: SiriClaw-InstructConfig): Ses
 }
 
 export function resolveEffectiveSessionToolsVisibility(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   sandboxed: boolean;
 }): SessionToolsVisibility {
   const visibility = resolveSessionToolsVisibility(params.cfg);
@@ -45,12 +45,12 @@ export function resolveEffectiveSessionToolsVisibility(params: {
   return visibility;
 }
 
-export function resolveSandboxSessionToolsVisibility(cfg: SiriClaw-InstructConfig): "spawned" | "all" {
+export function resolveSandboxSessionToolsVisibility(cfg: SiriClawInstructConfig): "spawned" | "all" {
   return cfg.agents?.defaults?.sandbox?.sessionToolsVisibility ?? "spawned";
 }
 
 export function resolveSandboxedSessionToolContext(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentSessionKey?: string;
   sandboxed?: boolean;
 }): {
@@ -87,7 +87,7 @@ export function resolveSandboxedSessionToolContext(params: {
   };
 }
 
-export function createAgentToAgentPolicy(cfg: SiriClaw-InstructConfig): AgentToAgentPolicy {
+export function createAgentToAgentPolicy(cfg: SiriClawInstructConfig): AgentToAgentPolicy {
   const routingA2A = cfg.tools?.agentToAgent;
   const enabled = routingA2A?.enabled === true;
   const allowPatterns = Array.isArray(routingA2A?.allow) ? routingA2A.allow : [];
@@ -238,3 +238,4 @@ export async function createSessionVisibilityGuard(params: {
 
   return { check };
 }
+

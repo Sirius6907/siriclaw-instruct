@@ -1,6 +1,6 @@
-import type { SiriClaw-InstructConfig } from "./config.js";
+import type { SiriClawInstructConfig } from "./config.js";
 
-export function ensurePluginAllowlisted(cfg: SiriClaw-InstructConfig, pluginId: string): SiriClaw-InstructConfig {
+export function ensurePluginAllowlisted(cfg: SiriClawInstructConfig, pluginId: string): SiriClawInstructConfig {
   const allow = cfg.plugins?.allow;
   if (!Array.isArray(allow) || allow.includes(pluginId)) {
     return cfg;
@@ -13,3 +13,4 @@ export function ensurePluginAllowlisted(cfg: SiriClaw-InstructConfig, pluginId: 
     },
   };
 }
+

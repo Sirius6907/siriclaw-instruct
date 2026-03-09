@@ -4,8 +4,8 @@ import type { SandboxDockerConfig } from "./types.js";
 
 function createDockerConfig(overrides?: Partial<SandboxDockerConfig>): SandboxDockerConfig {
   return {
-    image: "SiriClaw-Instruct-sandbox:test",
-    containerPrefix: "SiriClaw-Instruct-sbx-",
+    image: "SiriClawInstruct-sandbox:test",
+    containerPrefix: "SiriClawInstruct-sbx-",
     workdir: "/workspace",
     readOnlyRoot: true,
     tmpfs: ["/tmp", "/var/tmp", "/run"],
@@ -188,3 +188,4 @@ describe("computeSandboxBrowserConfigHash", () => {
     expect(left).not.toBe(right);
   });
 });
+

@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import { hasConfiguredSecretInput } from "../../../config/types.secrets.js";
 import { DEFAULT_ACCOUNT_ID } from "../../../routing/session-key.js";
 import { inspectSlackAccount } from "../../../slack/account-inspect.js";
@@ -31,11 +31,11 @@ import {
 const channel = "slack" as const;
 
 function buildSlackManifest(botName: string) {
-  const safeName = botName.trim() || "SiriClaw-Instruct";
+  const safeName = botName.trim() || "SiriClawInstruct";
   const manifest = {
     display_information: {
       name: safeName,
-      description: `${safeName} connector for SiriClaw-Instruct`,
+      description: `${safeName} connector for SiriClawInstruct`,
     },
     features: {
       bot_user: {
@@ -48,8 +48,8 @@ function buildSlackManifest(botName: string) {
       },
       slash_commands: [
         {
-          command: "/SiriClaw-Instruct",
-          description: "Send a message to SiriClaw-Instruct",
+          command: "/SiriClawInstruct",
+          description: "Send a message to SiriClawInstruct",
           should_escape: false,
         },
       ],
@@ -119,10 +119,10 @@ async function noteSlackTokenHelp(prompter: WizardPrompter, botName: string): Pr
 }
 
 function setSlackChannelAllowlist(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   accountId: string,
   channelKeys: string[],
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const channels = Object.fromEntries(channelKeys.map((key) => [key, { allow: true }]));
   return patchChannelConfigForAccount({
     cfg,
@@ -133,10 +133,10 @@ function setSlackChannelAllowlist(
 }
 
 async function promptSlackAllowFrom(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<SiriClaw-InstructConfig> {
+}): Promise<SiriClawInstructConfig> {
   const accountId = resolveOnboardingAccountId({
     accountId: params.accountId,
     defaultAccountId: resolveDefaultSlackAccountId(params.cfg),
@@ -251,7 +251,7 @@ export const slackOnboardingAdapter: ChannelOnboardingAdapter = {
     const slackBotName = String(
       await prompter.text({
         message: "Slack bot display name (used for manifest)",
-        initialValue: "SiriClaw-Instruct",
+        initialValue: "SiriClawInstruct",
       }),
     ).trim();
     if (!accountConfigured) {
@@ -369,3 +369,4 @@ export const slackOnboardingAdapter: ChannelOnboardingAdapter = {
   dmPolicy,
   disable: (cfg) => setOnboardingChannelEnabled(cfg, channel, false),
 };
+

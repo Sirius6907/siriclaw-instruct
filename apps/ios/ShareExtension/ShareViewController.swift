@@ -1,5 +1,5 @@
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import os
 import UIKit
 import UniformTypeIdentifiers
@@ -546,3 +546,4 @@ final class ShareViewController: UIViewController {
         }
     }
 }
+

@@ -40,3 +40,4 @@ export function parseStrictNonNegativeInteger(value: unknown): number | undefine
   const parsed = parseStrictInteger(value);
   return parsed !== undefined && parsed >= 0 ? parsed : undefined;
 }
+

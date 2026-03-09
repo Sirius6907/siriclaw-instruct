@@ -49,7 +49,7 @@ async function createAdapterHarness(params?: {
 }
 
 describe("createChildAdapter", () => {
-  const originalServiceMarker = process.env.SiriClaw-Instruct_SERVICE_MARKER;
+  const originalServiceMarker = process.env.SiriClawInstruct_SERVICE_MARKER;
 
   beforeAll(async () => {
     ({ createChildAdapter } = await import("./child.js"));
@@ -59,9 +59,9 @@ describe("createChildAdapter", () => {
     spawnWithFallbackMock.mockClear();
     killProcessTreeMock.mockClear();
     if (originalServiceMarker === undefined) {
-      delete process.env.SiriClaw-Instruct_SERVICE_MARKER;
+      delete process.env.SiriClawInstruct_SERVICE_MARKER;
     } else {
-      process.env.SiriClaw-Instruct_SERVICE_MARKER = originalServiceMarker;
+      process.env.SiriClawInstruct_SERVICE_MARKER = originalServiceMarker;
     }
   });
 
@@ -98,7 +98,7 @@ describe("createChildAdapter", () => {
   });
 
   it("disables detached mode in service-managed runtime", async () => {
-    process.env.SiriClaw-Instruct_SERVICE_MARKER = "SiriClaw-Instruct";
+    process.env.SiriClawInstruct_SERVICE_MARKER = "SiriClawInstruct";
 
     await createAdapterHarness({ pid: 7777 });
 
@@ -135,3 +135,4 @@ describe("createChildAdapter", () => {
     expect(spawnArgs.options?.env).toEqual({ FOO: "bar", COUNT: "12" });
   });
 });
+

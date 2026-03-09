@@ -17,17 +17,17 @@ type NodeListNode = NonNullable<NodeListPayload["nodes"]>[number];
 
 const { get: getArg, has: hasFlag } = createArgReader();
 
-const urlRaw = getArg("--url") ?? process.env.SiriClaw-Instruct_GATEWAY_URL;
-const token = getArg("--token") ?? process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+const urlRaw = getArg("--url") ?? process.env.SIRICLAW_GATEWAY_URL;
+const token = getArg("--token") ?? process.env.SIRICLAW_GATEWAY_TOKEN;
 const nodeHint = getArg("--node");
-const dangerous = hasFlag("--dangerous") || process.env.SiriClaw-Instruct_RUN_DANGEROUS === "1";
+const dangerous = hasFlag("--dangerous") || process.env.SIRICLAW_RUN_DANGEROUS === "1";
 const jsonOut = hasFlag("--json");
 
 if (!urlRaw || !token) {
   // eslint-disable-next-line no-console
   console.error(
     "Usage: bun scripts/dev/ios-node-e2e.ts --url <wss://host[:port]> --token <gateway.auth.token> [--node <id|name-substring>] [--dangerous] [--json]\n" +
-      "Or set env: SiriClaw-Instruct_GATEWAY_URL / SiriClaw-Instruct_GATEWAY_TOKEN",
+      "Or set env: SIRICLAW_GATEWAY_URL / SIRICLAW_GATEWAY_TOKEN",
   );
   process.exit(1);
 }

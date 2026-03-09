@@ -46,16 +46,16 @@ async function getServerModule() {
 const GATEWAY_TEST_ENV_KEYS = [
   "HOME",
   "USERPROFILE",
-  "SiriClaw-Instruct_STATE_DIR",
-  "SiriClaw-Instruct_CONFIG_PATH",
-  "SiriClaw-Instruct_SKIP_BROWSER_CONTROL_SERVER",
-  "SiriClaw-Instruct_SKIP_GMAIL_WATCHER",
-  "SiriClaw-Instruct_SKIP_CANVAS_HOST",
-  "SiriClaw-Instruct_BUNDLED_PLUGINS_DIR",
-  "SiriClaw-Instruct_SKIP_CHANNELS",
-  "SiriClaw-Instruct_SKIP_PROVIDERS",
-  "SiriClaw-Instruct_SKIP_CRON",
-  "SiriClaw-Instruct_TEST_MINIMAL_GATEWAY",
+  "SiriClawInstruct_STATE_DIR",
+  "SiriClawInstruct_CONFIG_PATH",
+  "SiriClawInstruct_SKIP_BROWSER_CONTROL_SERVER",
+  "SiriClawInstruct_SKIP_GMAIL_WATCHER",
+  "SiriClawInstruct_SKIP_CANVAS_HOST",
+  "SiriClawInstruct_BUNDLED_PLUGINS_DIR",
+  "SiriClawInstruct_SKIP_CHANNELS",
+  "SiriClawInstruct_SKIP_PROVIDERS",
+  "SiriClawInstruct_SKIP_CRON",
+  "SiriClawInstruct_TEST_MINIMAL_GATEWAY",
 ] as const;
 
 let gatewayEnvSnapshot: ReturnType<typeof captureEnv> | undefined;
@@ -93,24 +93,24 @@ export async function writeSessionStore(params: {
 
 async function setupGatewayTestHome() {
   gatewayEnvSnapshot = captureEnv([...GATEWAY_TEST_ENV_KEYS]);
-  tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-gateway-home-"));
+  tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-gateway-home-"));
   process.env.HOME = tempHome;
   process.env.USERPROFILE = tempHome;
-  process.env.SiriClaw-Instruct_STATE_DIR = path.join(tempHome, ".SiriClaw-Instruct");
-  delete process.env.SiriClaw-Instruct_CONFIG_PATH;
+  process.env.SiriClawInstruct_STATE_DIR = path.join(tempHome, ".SiriClawInstruct");
+  delete process.env.SiriClawInstruct_CONFIG_PATH;
 }
 
 function applyGatewaySkipEnv() {
-  process.env.SiriClaw-Instruct_SKIP_BROWSER_CONTROL_SERVER = "1";
-  process.env.SiriClaw-Instruct_SKIP_GMAIL_WATCHER = "1";
-  process.env.SiriClaw-Instruct_SKIP_CANVAS_HOST = "1";
-  process.env.SiriClaw-Instruct_SKIP_CHANNELS = "1";
-  process.env.SiriClaw-Instruct_SKIP_PROVIDERS = "1";
-  process.env.SiriClaw-Instruct_SKIP_CRON = "1";
-  process.env.SiriClaw-Instruct_TEST_MINIMAL_GATEWAY = "1";
-  process.env.SiriClaw-Instruct_BUNDLED_PLUGINS_DIR = tempHome
-    ? path.join(tempHome, "SiriClaw-Instruct-test-no-bundled-extensions")
-    : "SiriClaw-Instruct-test-no-bundled-extensions";
+  process.env.SiriClawInstruct_SKIP_BROWSER_CONTROL_SERVER = "1";
+  process.env.SiriClawInstruct_SKIP_GMAIL_WATCHER = "1";
+  process.env.SiriClawInstruct_SKIP_CANVAS_HOST = "1";
+  process.env.SiriClawInstruct_SKIP_CHANNELS = "1";
+  process.env.SiriClawInstruct_SKIP_PROVIDERS = "1";
+  process.env.SiriClawInstruct_SKIP_CRON = "1";
+  process.env.SiriClawInstruct_TEST_MINIMAL_GATEWAY = "1";
+  process.env.SiriClawInstruct_BUNDLED_PLUGINS_DIR = tempHome
+    ? path.join(tempHome, "SiriClawInstruct-test-no-bundled-extensions")
+    : "SiriClawInstruct-test-no-bundled-extensions";
 }
 
 async function resetGatewayTestState(options: { uniqueConfigRoot: boolean }) {
@@ -122,13 +122,13 @@ async function resetGatewayTestState(options: { uniqueConfigRoot: boolean }) {
   }
   applyGatewaySkipEnv();
   if (options.uniqueConfigRoot) {
-    const suiteRoot = path.join(tempHome, ".SiriClaw-Instruct-test-suite");
+    const suiteRoot = path.join(tempHome, ".SiriClawInstruct-test-suite");
     await fs.mkdir(suiteRoot, { recursive: true });
     tempConfigRoot = path.join(suiteRoot, `case-${suiteConfigRootSeq++}`);
     await fs.rm(tempConfigRoot, { recursive: true, force: true });
     await fs.mkdir(tempConfigRoot, { recursive: true });
   } else {
-    tempConfigRoot = path.join(tempHome, ".SiriClaw-Instruct-test");
+    tempConfigRoot = path.join(tempHome, ".SiriClawInstruct-test");
     await fs.rm(tempConfigRoot, { recursive: true, force: true });
     await fs.mkdir(tempConfigRoot, { recursive: true });
   }
@@ -250,8 +250,8 @@ type GatewayTestMessage = {
   [key: string]: unknown;
 };
 
-const CONNECT_CHALLENGE_NONCE_KEY = "__SiriClaw-InstructTestConnectChallengeNonce";
-const CONNECT_CHALLENGE_TRACKED_KEY = "__SiriClaw-InstructTestConnectChallengeTracked";
+const CONNECT_CHALLENGE_NONCE_KEY = "__SiriClawInstructTestConnectChallengeNonce";
+const CONNECT_CHALLENGE_TRACKED_KEY = "__SiriClawInstructTestConnectChallengeTracked";
 type TrackedWs = WebSocket & Record<string, unknown>;
 
 export function getTrackedConnectChallengeNonce(ws: WebSocket): string | undefined {
@@ -428,8 +428,8 @@ export async function startServerWithClient(
 ) {
   const { wsHeaders, ...gatewayOpts } = opts ?? {};
   let port = await getFreePort();
-  const envSnapshot = captureEnv(["SiriClaw-Instruct_GATEWAY_TOKEN"]);
-  const prev = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+  const envSnapshot = captureEnv(["SiriClawInstruct_GATEWAY_TOKEN"]);
+  const prev = process.env.SiriClawInstruct_GATEWAY_TOKEN;
   if (typeof token === "string") {
     testState.gatewayAuth = { mode: "token", token };
   }
@@ -439,9 +439,9 @@ export async function startServerWithClient(
       ? (testState.gatewayAuth as { token?: string }).token
       : undefined);
   if (fallbackToken === undefined) {
-    delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+    delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
   } else {
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = fallbackToken;
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = fallbackToken;
   }
 
   const started = await startGatewayServerWithRetries({ port, opts: gatewayOpts });
@@ -480,7 +480,7 @@ function resolveDefaultTestDeviceIdentityPath(params: {
     `${params.clientId}-${params.clientMode}-${params.platform}-${params.deviceFamily ?? "none"}-${params.role}`
       .replace(/[^a-zA-Z0-9._-]+/g, "_")
       .toLowerCase();
-  const suiteRoot = process.env.SiriClaw-Instruct_STATE_DIR ?? process.env.HOME ?? os.tmpdir();
+  const suiteRoot = process.env.SiriClawInstruct_STATE_DIR ?? process.env.HOME ?? os.tmpdir();
   return path.join(suiteRoot, "test-device-identities", `${safe}.json`);
 }
 
@@ -560,13 +560,13 @@ export async function connectReq(
       ? undefined
       : typeof (testState.gatewayAuth as { token?: unknown } | undefined)?.token === "string"
         ? ((testState.gatewayAuth as { token?: string }).token ?? undefined)
-        : process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+        : process.env.SiriClawInstruct_GATEWAY_TOKEN;
   const defaultPassword =
     opts?.skipDefaultAuth === true
       ? undefined
       : typeof (testState.gatewayAuth as { password?: unknown } | undefined)?.password === "string"
         ? ((testState.gatewayAuth as { password?: string }).password ?? undefined)
-        : process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+        : process.env.SiriClawInstruct_GATEWAY_PASSWORD;
   const token = opts?.token ?? defaultToken;
   const deviceToken = opts?.deviceToken?.trim() || undefined;
   const password = opts?.password ?? defaultPassword;
@@ -743,3 +743,4 @@ export async function waitForSystemEvent(timeoutMs = 2000) {
   }
   throw new Error("timeout waiting for system event");
 }
+

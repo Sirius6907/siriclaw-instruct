@@ -5,7 +5,7 @@ import type { RuntimeEnv } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { isRich, theme } from "../terminal/theme.js";
 
-const SEARCH_TOOL = "https://docs.SiriClaw-Instruct.ai/mcp.SearchSiriClaw-Instruct";
+const SEARCH_TOOL = "https://docs.SiriClawInstruct.ai/mcp.SearchSiriClawInstruct";
 const SEARCH_TIMEOUT_MS = 30_000;
 const DEFAULT_SNIPPET_MAX = 220;
 
@@ -160,13 +160,13 @@ async function renderMarkdown(markdown: string, runtime: RuntimeEnv) {
 export async function docsSearchCommand(queryParts: string[], runtime: RuntimeEnv) {
   const query = queryParts.join(" ").trim();
   if (!query) {
-    const docs = formatDocsLink("/", "docs.SiriClaw-Instruct.ai");
+    const docs = formatDocsLink("/", "docs.SiriClawInstruct.ai");
     if (isRich()) {
       runtime.log(`${theme.muted("Docs:")} ${docs}`);
-      runtime.log(`${theme.muted("Search:")} ${formatCliCommand('SiriClaw-Instruct docs "your query"')}`);
+      runtime.log(`${theme.muted("Search:")} ${formatCliCommand('SiriClawInstruct docs "your query"')}`);
     } else {
-      runtime.log("Docs: https://docs.SiriClaw-Instruct.ai/");
-      runtime.log(`Search: ${formatCliCommand('SiriClaw-Instruct docs "your query"')}`);
+      runtime.log("Docs: https://docs.SiriClawInstruct.ai/");
+      runtime.log(`Search: ${formatCliCommand('SiriClawInstruct docs "your query"')}`);
     }
     return;
   }
@@ -193,3 +193,4 @@ export async function docsSearchCommand(queryParts: string[], runtime: RuntimeEn
   const markdown = buildMarkdown(query, results);
   await renderMarkdown(markdown, runtime);
 }
+

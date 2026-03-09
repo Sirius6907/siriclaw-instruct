@@ -1,4 +1,4 @@
-import { discoverSiriClaw-InstructPlugins } from "./discovery.js";
+import { discoverSiriClawInstructPlugins } from "./discovery.js";
 import { loadPluginManifest } from "./manifest.js";
 
 export type BundledPluginSource = {
@@ -14,7 +14,7 @@ export type BundledPluginLookup =
 export function resolveBundledPluginSources(params: {
   workspaceDir?: string;
 }): Map<string, BundledPluginSource> {
-  const discovery = discoverSiriClaw-InstructPlugins({ workspaceDir: params.workspaceDir });
+  const discovery = discoverSiriClawInstructPlugins({ workspaceDir: params.workspaceDir });
   const bundled = new Map<string, BundledPluginSource>();
 
   for (const candidate of discovery.candidates) {
@@ -64,3 +64,4 @@ export function findBundledPluginSource(params: {
   }
   return undefined;
 }
+

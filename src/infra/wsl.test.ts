@@ -99,3 +99,4 @@ describe("wsl detection", () => {
     expect(readFileMock).not.toHaveBeenCalled();
   });
 });
+

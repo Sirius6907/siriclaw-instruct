@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { SiriClaw-InstructSchema } from "./zod-schema.js";
+import { SiriClawInstructSchema } from "./zod-schema.js";
 
-describe("SiriClaw-InstructSchema logging levels", () => {
+describe("SiriClawInstructSchema logging levels", () => {
   it("accepts valid logging level values for level and consoleLevel", () => {
     expect(() =>
-      SiriClaw-InstructSchema.parse({
+      SiriClawInstructSchema.parse({
         logging: {
           level: "debug",
           consoleLevel: "warn",
@@ -15,14 +15,14 @@ describe("SiriClaw-InstructSchema logging levels", () => {
 
   it("rejects invalid logging level values", () => {
     expect(() =>
-      SiriClaw-InstructSchema.parse({
+      SiriClawInstructSchema.parse({
         logging: {
           level: "loud",
         },
       }),
     ).toThrow();
     expect(() =>
-      SiriClaw-InstructSchema.parse({
+      SiriClawInstructSchema.parse({
         logging: {
           consoleLevel: "verbose",
         },
@@ -30,3 +30,4 @@ describe("SiriClaw-InstructSchema logging levels", () => {
     ).toThrow();
   });
 });
+

@@ -22,7 +22,7 @@ function makeEntry(params: {
     skill: {
       name: params.name,
       description: `desc:${params.name}`,
-      source: params.source ?? "SiriClaw-Instruct-workspace",
+      source: params.source ?? "SiriClawInstruct-workspace",
       filePath: `/tmp/${params.name}/SKILL.md`,
       baseDir: `/tmp/${params.name}`,
       disableModelInvocation: false,
@@ -93,7 +93,7 @@ describe("buildWorkspaceSkillStatus", () => {
   it("marks bundled skills blocked by allowlist", async () => {
     const entry = makeEntry({
       name: "peekaboo",
-      source: "SiriClaw-Instruct-bundled",
+      source: "SiriClawInstruct-bundled",
     });
 
     const report = buildWorkspaceSkillStatus("/tmp/ws", {
@@ -155,3 +155,4 @@ describe("buildWorkspaceSkillStatus", () => {
     }
   });
 });
+

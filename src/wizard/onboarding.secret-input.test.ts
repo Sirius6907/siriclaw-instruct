@@ -1,25 +1,25 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveOnboardingSecretInputString } from "./onboarding.secret-input.js";
 
-function makeConfig(): SiriClaw-InstructConfig {
+function makeConfig(): SiriClawInstructConfig {
   return {
     secrets: {
       providers: {
         default: { source: "env" },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 describe("resolveOnboardingSecretInputString", () => {
   it("resolves env-template SecretInput strings", async () => {
     const resolved = await resolveOnboardingSecretInputString({
       config: makeConfig(),
-      value: "${SiriClaw-Instruct_GATEWAY_PASSWORD}",
+      value: "${SiriClawInstruct_GATEWAY_PASSWORD}",
       path: "gateway.auth.password",
       env: {
-        SiriClaw-Instruct_GATEWAY_PASSWORD: "gateway-secret", // pragma: allowlist secret
+        SiriClawInstruct_GATEWAY_PASSWORD: "gateway-secret", // pragma: allowlist secret
       },
     });
 
@@ -40,12 +40,13 @@ describe("resolveOnboardingSecretInputString", () => {
     await expect(
       resolveOnboardingSecretInputString({
         config: makeConfig(),
-        value: "${SiriClaw-Instruct_GATEWAY_PASSWORD}",
+        value: "${SiriClawInstruct_GATEWAY_PASSWORD}",
         path: "gateway.auth.password",
         env: {},
       }),
     ).rejects.toThrow(
-      'gateway.auth.password: failed to resolve SecretRef "env:default:SiriClaw-Instruct_GATEWAY_PASSWORD"',
+      'gateway.auth.password: failed to resolve SecretRef "env:default:SiriClawInstruct_GATEWAY_PASSWORD"',
     );
   });
 });
+

@@ -122,3 +122,4 @@ if [[ -n "$BASELINE_JSON" ]]; then
   delta_pct="$(awk -v a="$median_ms" -v b="$base_median" 'BEGIN { if (b==0) { print "nan" } else { printf "%.2f", ((a-b)/b)*100 } }')"
   echo "baseline_median_ms=$base_median delta_ms=$delta_ms delta_pct=$delta_pct%"
 fi
+

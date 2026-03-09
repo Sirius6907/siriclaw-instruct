@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 
-const loadConfig = vi.hoisted(() => vi.fn(() => ({}) as SiriClaw-InstructConfig));
+const loadConfig = vi.hoisted(() => vi.fn(() => ({}) as SiriClawInstructConfig));
 const resolveDefaultAgentId = vi.hoisted(() => vi.fn(() => "main"));
 const getMemorySearchManager = vi.hoisted(() => vi.fn());
 
@@ -110,3 +110,4 @@ describe("doctor.memory.status", () => {
     expect(close).toHaveBeenCalled();
   });
 });
+

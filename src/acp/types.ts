@@ -28,7 +28,8 @@ export type AcpServerOptions = {
 };
 
 export const ACP_AGENT_INFO = {
-  name: "SiriClaw-Instruct-acp",
-  title: "SiriClaw-Instruct ACP Gateway",
+  name: "SiriClawInstruct-acp",
+  title: "SiriClawInstruct ACP Gateway",
   version: VERSION,
 };
+

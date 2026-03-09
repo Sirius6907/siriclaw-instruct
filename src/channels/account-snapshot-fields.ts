@@ -215,3 +215,4 @@ export function projectSafeChannelAccountSnapshotFields(
     ...(readNumber(record, "port") !== undefined ? { port: readNumber(record, "port") } : {}),
   };
 }
+

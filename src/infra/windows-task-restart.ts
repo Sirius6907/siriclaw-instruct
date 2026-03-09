@@ -5,17 +5,17 @@ import path from "node:path";
 import { quoteCmdScriptArg } from "../daemon/cmd-argv.js";
 import { resolveGatewayWindowsTaskName } from "../daemon/constants.js";
 import type { RestartAttempt } from "./restart.js";
-import { resolvePreferredSiriClaw-InstructTmpDir } from "./tmp-SiriClaw-Instruct-dir.js";
+import { resolvePreferredSiriClawInstructTmpDir } from "./tmp-siriclaw-instruct-dir.js";
 
 const TASK_RESTART_RETRY_LIMIT = 12;
 const TASK_RESTART_RETRY_DELAY_SEC = 1;
 
 function resolveWindowsTaskName(env: NodeJS.ProcessEnv): string {
-  const override = env.SiriClaw-Instruct_WINDOWS_TASK_NAME?.trim();
+  const override = env.SiriClawInstruct_WINDOWS_TASK_NAME?.trim();
   if (override) {
     return override;
   }
-  return resolveGatewayWindowsTaskName(env.SiriClaw-Instruct_PROFILE);
+  return resolveGatewayWindowsTaskName(env.SiriClawInstruct_PROFILE);
 }
 
 function buildScheduledTaskRestartScript(taskName: string): string {
@@ -39,8 +39,8 @@ function buildScheduledTaskRestartScript(taskName: string): string {
 export function relaunchGatewayScheduledTask(env: NodeJS.ProcessEnv = process.env): RestartAttempt {
   const taskName = resolveWindowsTaskName(env);
   const scriptPath = path.join(
-    resolvePreferredSiriClaw-InstructTmpDir(),
-    `SiriClaw-Instruct-schtasks-restart-${randomUUID()}.cmd`,
+    resolvePreferredSiriClawInstructTmpDir(),
+    `SiriClawInstruct-schtasks-restart-${randomUUID()}.cmd`,
   );
   const quotedScriptPath = quoteCmdScriptArg(scriptPath);
   try {
@@ -70,3 +70,4 @@ export function relaunchGatewayScheduledTask(env: NodeJS.ProcessEnv = process.en
     };
   }
 }
+

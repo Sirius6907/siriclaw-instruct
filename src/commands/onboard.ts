@@ -57,8 +57,8 @@ export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv =
     runtime.error(
       [
         "Non-interactive onboarding requires explicit risk acknowledgement.",
-        "Read: https://docs.SiriClaw-Instruct.ai/security",
-        `Re-run with: ${formatCliCommand("SiriClaw-Instruct onboard --non-interactive --accept-risk ...")}`,
+        "Read: https://docs.SiriClawInstruct.ai/security",
+        `Re-run with: ${formatCliCommand("SiriClawInstruct onboard --non-interactive --accept-risk ...")}`,
       ].join("\n"),
     );
     runtime.exit(1);
@@ -77,10 +77,10 @@ export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv =
   if (process.platform === "win32") {
     runtime.log(
       [
-        "Windows detected — SiriClaw-Instruct runs great on WSL2!",
+        "Windows detected — SiriClawInstruct runs great on WSL2!",
         "Native Windows might be trickier.",
         "Quick setup: wsl --install (one command, one reboot)",
-        "Guide: https://docs.SiriClaw-Instruct.ai/windows",
+        "Guide: https://docs.SiriClawInstruct.ai/windows",
       ].join("\n"),
     );
   }
@@ -94,3 +94,4 @@ export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv =
 }
 
 export type { OnboardOptions } from "./onboard-types.js";
+

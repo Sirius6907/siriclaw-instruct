@@ -20,7 +20,7 @@ import {
 } from "../hooks/internal-hooks.js";
 import { loadInternalHooks } from "../hooks/loader.js";
 import { isTruthyEnvValue } from "../infra/env.js";
-import type { loadSiriClaw-InstructPlugins } from "../plugins/loader.js";
+import type { loadSiriClawInstructPlugins } from "../plugins/loader.js";
 import { type PluginServicesHandle, startPluginServices } from "../plugins/services.js";
 import { startBrowserControlServerIfEnabled } from "./server-browser.js";
 import {
@@ -33,7 +33,7 @@ const SESSION_LOCK_STALE_MS = 30 * 60 * 1000;
 
 export async function startGatewaySidecars(params: {
   cfg: ReturnType<typeof loadConfig>;
-  pluginRegistry: ReturnType<typeof loadSiriClaw-InstructPlugins>;
+  pluginRegistry: ReturnType<typeof loadSiriClawInstructPlugins>;
   defaultWorkspaceDir: string;
   deps: CliDeps;
   startChannels: () => Promise<void>;
@@ -61,7 +61,7 @@ export async function startGatewaySidecars(params: {
     params.log.warn(`session lock cleanup failed on startup: ${String(err)}`);
   }
 
-  // Start SiriClaw-Instruct browser control server (unless disabled via config).
+  // Start SiriClawInstruct browser control server (unless disabled via config).
   let browserControl: Awaited<ReturnType<typeof startBrowserControlServerIfEnabled>> = null;
   try {
     browserControl = await startBrowserControlServerIfEnabled();
@@ -123,10 +123,10 @@ export async function startGatewaySidecars(params: {
   }
 
   // Launch configured channels so gateway replies via the surface the message came from.
-  // Tests can opt out via SiriClaw-Instruct_SKIP_CHANNELS (or legacy SiriClaw-Instruct_SKIP_PROVIDERS).
+  // Tests can opt out via SiriClawInstruct_SKIP_CHANNELS (or legacy SiriClawInstruct_SKIP_PROVIDERS).
   const skipChannels =
-    isTruthyEnvValue(process.env.SiriClaw-Instruct_SKIP_CHANNELS) ||
-    isTruthyEnvValue(process.env.SiriClaw-Instruct_SKIP_PROVIDERS);
+    isTruthyEnvValue(process.env.SiriClawInstruct_SKIP_CHANNELS) ||
+    isTruthyEnvValue(process.env.SiriClawInstruct_SKIP_PROVIDERS);
   if (!skipChannels) {
     try {
       await params.startChannels();
@@ -135,7 +135,7 @@ export async function startGatewaySidecars(params: {
     }
   } else {
     params.logChannels.info(
-      "skipping channel start (SiriClaw-Instruct_SKIP_CHANNELS=1 or SiriClaw-Instruct_SKIP_PROVIDERS=1)",
+      "skipping channel start (SiriClawInstruct_SKIP_CHANNELS=1 or SiriClawInstruct_SKIP_PROVIDERS=1)",
     );
   }
 
@@ -189,3 +189,4 @@ export async function startGatewaySidecars(params: {
 
   return { browserControl, pluginServices };
 }
+

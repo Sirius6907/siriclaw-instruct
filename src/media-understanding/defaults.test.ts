@@ -36,3 +36,4 @@ describe("DEFAULT_IMAGE_MODELS", () => {
     expect(DEFAULT_IMAGE_MODELS["minimax-portal"]).toBe("MiniMax-VL-01");
   });
 });
+

@@ -5,7 +5,7 @@ const env = {
 };
 
 function buildInputOptions(options: { onLog?: unknown; [key: string]: unknown }) {
-  if (process.env.SiriClaw-Instruct_BUILD_VERBOSE === "1") {
+  if (process.env.SIRICLAW_BUILD_VERBOSE === "1") {
     return undefined;
   }
 

@@ -235,13 +235,13 @@ describe("registerAgentCommands", () => {
       "/tmp/ws/IDENTITY.md",
       "--from-identity",
       "--name",
-      "SiriClaw-Instruct",
+      "SiriClawInstruct",
       "--theme",
       "ops",
       "--emoji",
       ":lobster:",
       "--avatar",
-      "https://example.com/SiriClaw-Instruct.png",
+      "https://example.com/SiriClawInstruct.png",
       "--json",
     ]);
     expect(agentsSetIdentityCommandMock).toHaveBeenCalledWith(
@@ -250,10 +250,10 @@ describe("registerAgentCommands", () => {
         workspace: "/tmp/ws",
         identityFile: "/tmp/ws/IDENTITY.md",
         fromIdentity: true,
-        name: "SiriClaw-Instruct",
+        name: "SiriClawInstruct",
         theme: "ops",
         emoji: ":lobster:",
-        avatar: "https://example.com/SiriClaw-Instruct.png",
+        avatar: "https://example.com/SiriClawInstruct.png",
         json: true,
       },
       runtime,
@@ -278,3 +278,4 @@ describe("registerAgentCommands", () => {
     expect(runtime.exit).toHaveBeenCalledWith(1);
   });
 });
+

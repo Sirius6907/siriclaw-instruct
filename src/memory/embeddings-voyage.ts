@@ -80,3 +80,4 @@ export async function resolveVoyageEmbeddingClient(
   const model = normalizeVoyageModel(options.model);
   return { baseUrl, headers, ssrfPolicy, model };
 }
+

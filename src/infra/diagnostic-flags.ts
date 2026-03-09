@@ -1,6 +1,6 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
-const DIAGNOSTICS_ENV = "SiriClaw-Instruct_DIAGNOSTICS";
+const DIAGNOSTICS_ENV = "SiriClawInstruct_DIAGNOSTICS";
 
 function normalizeFlag(value: string): string {
   return value.trim().toLowerCase();
@@ -42,7 +42,7 @@ function uniqueFlags(flags: string[]): string[] {
 }
 
 export function resolveDiagnosticFlags(
-  cfg?: SiriClaw-InstructConfig,
+  cfg?: SiriClawInstructConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): string[] {
   const configFlags = Array.isArray(cfg?.diagnostics?.flags) ? cfg?.diagnostics?.flags : [];
@@ -84,9 +84,10 @@ export function matchesDiagnosticFlag(flag: string, enabledFlags: string[]): boo
 
 export function isDiagnosticFlagEnabled(
   flag: string,
-  cfg?: SiriClaw-InstructConfig,
+  cfg?: SiriClawInstructConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
   const flags = resolveDiagnosticFlags(cfg, env);
   return matchesDiagnosticFlag(flag, flags);
 }
+

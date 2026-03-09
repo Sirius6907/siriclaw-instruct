@@ -1,5 +1,5 @@
 import { listAcpBindings } from "../config/bindings.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { AgentAcpBinding } from "../config/types.js";
 import { pickFirstExistingAgentId } from "../routing/resolve-route.js";
 import {
@@ -66,7 +66,7 @@ function parseConfiguredBindingSessionKey(params: {
   };
 }
 
-function resolveAgentRuntimeAcpDefaults(params: { cfg: SiriClaw-InstructConfig; ownerAgentId: string }): {
+function resolveAgentRuntimeAcpDefaults(params: { cfg: SiriClawInstructConfig; ownerAgentId: string }): {
   acpAgentId?: string;
   mode?: string;
   cwd?: string;
@@ -87,7 +87,7 @@ function resolveAgentRuntimeAcpDefaults(params: { cfg: SiriClaw-InstructConfig; 
 }
 
 function toConfiguredBindingSpec(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: ConfiguredAcpBindingChannel;
   accountId: string;
   conversationId: string;
@@ -118,7 +118,7 @@ function toConfiguredBindingSpec(params: {
 }
 
 export function resolveConfiguredAcpBindingSpecBySessionKey(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   sessionKey: string;
 }): ConfiguredAcpBindingSpec | null {
   const sessionKey = params.sessionKey.trim();
@@ -191,7 +191,7 @@ export function resolveConfiguredAcpBindingSpecBySessionKey(params: {
 }
 
 export function resolveConfiguredAcpBindingRecord(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   accountId: string;
   conversationId: string;
@@ -339,3 +339,4 @@ export function resolveConfiguredAcpBindingRecord(params: {
 
   return null;
 }
+

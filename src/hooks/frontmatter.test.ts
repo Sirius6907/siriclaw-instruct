@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   parseFrontmatter,
-  resolveSiriClaw-InstructMetadata,
+  resolveSiriClawInstructMetadata,
   resolveHookInvocationPolicy,
 } from "./frontmatter.js";
 
@@ -41,7 +41,7 @@ name: session-memory
 description: "Save session context"
 metadata:
   {
-    "SiriClaw-Instruct": {
+    "SiriClawInstruct": {
       "emoji": "💾",
       "events": ["command:new"]
     }
@@ -58,8 +58,8 @@ metadata:
 
     // Verify the metadata is valid JSON
     const parsed = JSON.parse(result.metadata);
-    expect(parsed.SiriClaw-Instruct.emoji).toBe("💾");
-    expect(parsed.SiriClaw-Instruct.events).toEqual(["command:new"]);
+    expect(parsed.SiriClawInstruct.emoji).toBe("💾");
+    expect(parsed.SiriClawInstruct.events).toEqual(["command:new"]);
   });
 
   it("parses multi-line metadata with complex nested structure", () => {
@@ -68,7 +68,7 @@ name: command-logger
 description: "Log all command events"
 metadata:
   {
-    "SiriClaw-Instruct":
+    "SiriClawInstruct":
       {
         "emoji": "📝",
         "events": ["command"],
@@ -83,21 +83,21 @@ metadata:
     expect(result.metadata).toBeDefined();
 
     const parsed = JSON.parse(result.metadata);
-    expect(parsed.SiriClaw-Instruct.emoji).toBe("📝");
-    expect(parsed.SiriClaw-Instruct.events).toEqual(["command"]);
-    expect(parsed.SiriClaw-Instruct.requires.config).toEqual(["workspace.dir"]);
-    expect(parsed.SiriClaw-Instruct.install[0].kind).toBe("bundled");
+    expect(parsed.SiriClawInstruct.emoji).toBe("📝");
+    expect(parsed.SiriClawInstruct.events).toEqual(["command"]);
+    expect(parsed.SiriClawInstruct.requires.config).toEqual(["workspace.dir"]);
+    expect(parsed.SiriClawInstruct.install[0].kind).toBe("bundled");
   });
 
   it("handles single-line metadata (inline JSON)", () => {
     const content = `---
 name: simple-hook
-metadata: {"SiriClaw-Instruct": {"events": ["test"]}}
+metadata: {"SiriClawInstruct": {"events": ["test"]}}
 ---
 `;
     const result = parseFrontmatter(content);
     expect(result.name).toBe("simple-hook");
-    expect(result.metadata).toBe('{"SiriClaw-Instruct": {"events": ["test"]}}');
+    expect(result.metadata).toBe('{"SiriClawInstruct": {"events": ["test"]}}');
   });
 
   it("handles mixed single-line and multi-line values", () => {
@@ -107,7 +107,7 @@ description: "A hook with mixed values"
 homepage: https://example.com
 metadata:
   {
-    "SiriClaw-Instruct": {
+    "SiriClawInstruct": {
       "events": ["command:new"]
     }
   }
@@ -148,12 +148,12 @@ description: 'single-quoted'
   });
 });
 
-describe("resolveSiriClaw-InstructMetadata", () => {
-  it("extracts SiriClaw-Instruct metadata from parsed frontmatter", () => {
+describe("resolveSiriClawInstructMetadata", () => {
+  it("extracts SiriClawInstruct metadata from parsed frontmatter", () => {
     const frontmatter = {
       name: "test-hook",
       metadata: JSON.stringify({
-        SiriClaw-Instruct: {
+        SiriClawInstruct: {
           emoji: "🔥",
           events: ["command:new", "command:reset"],
           requires: {
@@ -164,7 +164,7 @@ describe("resolveSiriClaw-InstructMetadata", () => {
       }),
     };
 
-    const result = resolveSiriClaw-InstructMetadata(frontmatter);
+    const result = resolveSiriClawInstructMetadata(frontmatter);
     expect(result).toBeDefined();
     expect(result?.emoji).toBe("🔥");
     expect(result?.events).toEqual(["command:new", "command:reset"]);
@@ -174,15 +174,15 @@ describe("resolveSiriClaw-InstructMetadata", () => {
 
   it("returns undefined when metadata is missing", () => {
     const frontmatter = { name: "no-metadata" };
-    const result = resolveSiriClaw-InstructMetadata(frontmatter);
+    const result = resolveSiriClawInstructMetadata(frontmatter);
     expect(result).toBeUndefined();
   });
 
-  it("returns undefined when SiriClaw-Instruct key is missing", () => {
+  it("returns undefined when SiriClawInstruct key is missing", () => {
     const frontmatter = {
       metadata: JSON.stringify({ other: "data" }),
     };
-    const result = resolveSiriClaw-InstructMetadata(frontmatter);
+    const result = resolveSiriClawInstructMetadata(frontmatter);
     expect(result).toBeUndefined();
   });
 
@@ -190,41 +190,41 @@ describe("resolveSiriClaw-InstructMetadata", () => {
     const frontmatter = {
       metadata: "not valid json {",
     };
-    const result = resolveSiriClaw-InstructMetadata(frontmatter);
+    const result = resolveSiriClawInstructMetadata(frontmatter);
     expect(result).toBeUndefined();
   });
 
   it("handles install specs", () => {
     const frontmatter = {
       metadata: JSON.stringify({
-        SiriClaw-Instruct: {
+        SiriClawInstruct: {
           events: ["command"],
           install: [
-            { id: "bundled", kind: "bundled", label: "Bundled with SiriClaw-Instruct" },
-            { id: "npm", kind: "npm", package: "@SiriClaw-Instruct/hook" },
+            { id: "bundled", kind: "bundled", label: "Bundled with SiriClawInstruct" },
+            { id: "npm", kind: "npm", package: "@SiriClawInstruct/hook" },
           ],
         },
       }),
     };
 
-    const result = resolveSiriClaw-InstructMetadata(frontmatter);
+    const result = resolveSiriClawInstructMetadata(frontmatter);
     expect(result?.install).toHaveLength(2);
     expect(result?.install?.[0].kind).toBe("bundled");
     expect(result?.install?.[1].kind).toBe("npm");
-    expect(result?.install?.[1].package).toBe("@SiriClaw-Instruct/hook");
+    expect(result?.install?.[1].package).toBe("@SiriClawInstruct/hook");
   });
 
   it("handles os restrictions", () => {
     const frontmatter = {
       metadata: JSON.stringify({
-        SiriClaw-Instruct: {
+        SiriClawInstruct: {
           events: ["command"],
           os: ["darwin", "linux"],
         },
       }),
     };
 
-    const result = resolveSiriClaw-InstructMetadata(frontmatter);
+    const result = resolveSiriClawInstructMetadata(frontmatter);
     expect(result?.os).toEqual(["darwin", "linux"]);
   });
 
@@ -233,15 +233,15 @@ describe("resolveSiriClaw-InstructMetadata", () => {
     const content = `---
 name: session-memory
 description: "Save session context to memory when /new or /reset command is issued"
-homepage: https://docs.SiriClaw-Instruct.ai/automation/hooks#session-memory
+homepage: https://docs.SiriClawInstruct.ai/automation/hooks#session-memory
 metadata:
   {
-    "SiriClaw-Instruct":
+    "SiriClawInstruct":
       {
         "emoji": "💾",
         "events": ["command:new", "command:reset"],
         "requires": { "config": ["workspace.dir"] },
-        "install": [{ "id": "bundled", "kind": "bundled", "label": "Bundled with SiriClaw-Instruct" }],
+        "install": [{ "id": "bundled", "kind": "bundled", "label": "Bundled with SiriClawInstruct" }],
       },
   }
 ---
@@ -253,28 +253,28 @@ metadata:
     expect(frontmatter.name).toBe("session-memory");
     expect(frontmatter.metadata).toBeDefined();
 
-    const SiriClaw-Instruct = resolveSiriClaw-InstructMetadata(frontmatter);
-    expect(SiriClaw-Instruct).toBeDefined();
-    expect(SiriClaw-Instruct?.emoji).toBe("💾");
-    expect(SiriClaw-Instruct?.events).toEqual(["command:new", "command:reset"]);
-    expect(SiriClaw-Instruct?.requires?.config).toEqual(["workspace.dir"]);
-    expect(SiriClaw-Instruct?.install?.[0].kind).toBe("bundled");
+    const SiriClawInstruct = resolveSiriClawInstructMetadata(frontmatter);
+    expect(SiriClawInstruct).toBeDefined();
+    expect(SiriClawInstruct?.emoji).toBe("💾");
+    expect(SiriClawInstruct?.events).toEqual(["command:new", "command:reset"]);
+    expect(SiriClawInstruct?.requires?.config).toEqual(["workspace.dir"]);
+    expect(SiriClawInstruct?.install?.[0].kind).toBe("bundled");
   });
 
   it("parses YAML metadata map", () => {
     const content = `---
 name: yaml-metadata
 metadata:
-  SiriClaw-Instruct:
+  SiriClawInstruct:
     emoji: disk
     events:
       - command:new
 ---
 `;
     const frontmatter = parseFrontmatter(content);
-    const SiriClaw-Instruct = resolveSiriClaw-InstructMetadata(frontmatter);
-    expect(SiriClaw-Instruct?.emoji).toBe("disk");
-    expect(SiriClaw-Instruct?.events).toEqual(["command:new"]);
+    const SiriClawInstruct = resolveSiriClawInstructMetadata(frontmatter);
+    expect(SiriClawInstruct?.emoji).toBe("disk");
+    expect(SiriClawInstruct?.events).toEqual(["command:new"]);
   });
 });
 
@@ -288,3 +288,4 @@ describe("resolveHookInvocationPolicy", () => {
     expect(resolveHookInvocationPolicy({ enabled: "on" }).enabled).toBe(true);
   });
 });
+

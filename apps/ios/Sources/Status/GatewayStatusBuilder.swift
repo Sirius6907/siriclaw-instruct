@@ -19,3 +19,4 @@ enum GatewayStatusBuilder {
         return .disconnected
     }
 }
+

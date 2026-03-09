@@ -150,7 +150,7 @@ export async function getTailnetHostname(exec: typeof runExec = runExec, detecte
 let cachedTailscaleBinary: string | null = null;
 
 export async function getTailscaleBinary(): Promise<string> {
-  const forcedBinary = process.env.SiriClaw-Instruct_TEST_TAILSCALE_BINARY?.trim();
+  const forcedBinary = process.env.SiriClawInstruct_TEST_TAILSCALE_BINARY?.trim();
   if (forcedBinary) {
     cachedTailscaleBinary = forcedBinary;
     return forcedBinary;
@@ -372,7 +372,7 @@ export async function ensureFunnel(
     runtime.error("Failed to enable Tailscale Funnel. Is it allowed on your tailnet?");
     runtime.error(
       info(
-        `Tip: Funnel is optional for SiriClaw-Instruct. You can keep running the web gateway without it: \`${formatCliCommand("SiriClaw-Instruct gateway")}\``,
+        `Tip: Funnel is optional for SiriClawInstruct. You can keep running the web gateway without it: \`${formatCliCommand("SiriClawInstruct gateway")}\``,
       ),
     );
     if (shouldLogVerbose()) {
@@ -498,3 +498,4 @@ export async function readTailscaleWhoisIdentity(
     return null;
   }
 }
+

@@ -98,7 +98,7 @@ export type MsgContext = {
   StickerMediaIncluded?: boolean;
   OutputDir?: string;
   OutputBase?: string;
-  /** Remote host for SCP when media lives on a different machine (e.g., SiriClaw-Instruct@192.168.64.3). */
+  /** Remote host for SCP when media lives on a different machine (e.g., SiriClawInstruct@192.168.64.3). */
   MediaRemoteHost?: string;
   Transcript?: string;
   MediaUnderstanding?: MediaUnderstandingOutput[];
@@ -235,3 +235,4 @@ export function applyTemplate(str: string | undefined, ctx: TemplateContext) {
     return formatTemplateValue(value);
   });
 }
+

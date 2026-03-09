@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 
 vi.mock("../../config/sessions.js", () => ({
   loadSessionStore: vi.fn().mockReturnValue({}),
@@ -27,15 +27,15 @@ import { readChannelAllowFromStoreSync } from "../../pairing/pairing-store.js";
 import { resolveWhatsAppAccount } from "../../web/accounts.js";
 import { resolveDeliveryTarget } from "./delivery-target.js";
 
-function makeCfg(overrides?: Partial<SiriClaw-InstructConfig>): SiriClaw-InstructConfig {
+function makeCfg(overrides?: Partial<SiriClawInstructConfig>): SiriClawInstructConfig {
   return {
     bindings: [],
     channels: {},
     ...overrides,
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
-function makeTelegramBoundCfg(accountId = "account-b"): SiriClaw-InstructConfig {
+function makeTelegramBoundCfg(accountId = "account-b"): SiriClawInstructConfig {
   return makeCfg({
     bindings: [
       {
@@ -70,7 +70,7 @@ function setStoredWhatsAppAllowFrom(allowFrom: string[]) {
 }
 
 async function resolveForAgent(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   target?: { channel?: "last" | "telegram"; to?: string };
 }) {
   const channel = params.target ? params.target.channel : DEFAULT_TARGET.channel;
@@ -331,3 +331,4 @@ describe("resolveDeliveryTarget", () => {
     expect(result.accountId).toBe("explicit");
   });
 });
+

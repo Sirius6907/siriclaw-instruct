@@ -8,7 +8,7 @@ import {
   resolveActiveTalkProviderConfig,
   resolveTalkApiKey,
 } from "./talk.js";
-import type { SiriClaw-InstructConfig } from "./types.js";
+import type { SiriClawInstructConfig } from "./types.js";
 import type { ModelDefinitionConfig } from "./types.models.js";
 import { hasConfiguredSecretInput } from "./types.secrets.js";
 
@@ -71,7 +71,7 @@ function resolveModelCost(
   };
 }
 
-function resolveAnthropicDefaultAuthMode(cfg: SiriClaw-InstructConfig): AnthropicAuthDefaultsMode | null {
+function resolveAnthropicDefaultAuthMode(cfg: SiriClawInstructConfig): AnthropicAuthDefaultsMode | null {
   const profiles = cfg.auth?.profiles ?? {};
   const anthropicProfiles = Object.entries(profiles).filter(
     ([, profile]) => profile?.provider === "anthropic",
@@ -128,7 +128,7 @@ export type SessionDefaultsOptions = {
   warnState?: WarnState;
 };
 
-export function applyMessageDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyMessageDefaults(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const messages = cfg.messages;
   const hasAckScope = messages?.ackReactionScope !== undefined;
   if (hasAckScope) {
@@ -144,9 +144,9 @@ export function applyMessageDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-Ins
 }
 
 export function applySessionDefaults(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   options: SessionDefaultsOptions = {},
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const session = cfg.session;
   if (!session || session.mainKey === undefined) {
     return cfg;
@@ -156,7 +156,7 @@ export function applySessionDefaults(
   const warn = options.warn ?? console.warn;
   const warnState = options.warnState ?? defaultWarnState;
 
-  const next: SiriClaw-InstructConfig = {
+  const next: SiriClawInstructConfig = {
     ...cfg,
     session: { ...session, mainKey: "main" },
   };
@@ -169,7 +169,7 @@ export function applySessionDefaults(
   return next;
 }
 
-export function applyTalkApiKey(config: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyTalkApiKey(config: SiriClawInstructConfig): SiriClawInstructConfig {
   const normalized = normalizeTalkConfig(config);
   const resolved = resolveTalkApiKey();
   if (!resolved) {
@@ -206,11 +206,11 @@ export function applyTalkApiKey(config: SiriClaw-InstructConfig): SiriClaw-Instr
   };
 }
 
-export function applyTalkConfigNormalization(config: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyTalkConfigNormalization(config: SiriClawInstructConfig): SiriClawInstructConfig {
   return normalizeTalkConfig(config);
 }
 
-export function applyModelDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyModelDefaults(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   let mutated = false;
   let nextCfg = cfg;
 
@@ -346,7 +346,7 @@ export function applyModelDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-Instr
   };
 }
 
-export function applyAgentDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyAgentDefaults(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const agents = cfg.agents;
   const defaults = agents?.defaults;
   const hasMax =
@@ -387,7 +387,7 @@ export function applyAgentDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-Instr
   };
 }
 
-export function applyLoggingDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyLoggingDefaults(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const logging = cfg.logging;
   if (!logging) {
     return cfg;
@@ -404,7 +404,7 @@ export function applyLoggingDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-Ins
   };
 }
 
-export function applyContextPruningDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyContextPruningDefaults(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const defaults = cfg.agents?.defaults;
   if (!defaults) {
     return cfg;
@@ -506,7 +506,7 @@ export function applyContextPruningDefaults(cfg: SiriClaw-InstructConfig): SiriC
   };
 }
 
-export function applyCompactionDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyCompactionDefaults(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const defaults = cfg.agents?.defaults;
   if (!defaults) {
     return cfg;
@@ -534,3 +534,4 @@ export function applyCompactionDefaults(cfg: SiriClaw-InstructConfig): SiriClaw-
 export function resetSessionDefaultsWarningForTests() {
   defaultWarnState = { warned: false };
 }
+

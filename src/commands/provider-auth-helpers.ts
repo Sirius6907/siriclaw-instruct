@@ -1,5 +1,5 @@
 import { normalizeProviderId } from "../agents/model-selection.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { ProviderAuthMethod, ProviderPlugin } from "../plugins/types.js";
 
 export function resolveProviderMatch(
@@ -58,7 +58,7 @@ export function mergeConfigPatch<T>(base: T, patch: unknown): T {
   return next as T;
 }
 
-export function applyDefaultModel(cfg: SiriClaw-InstructConfig, model: string): SiriClaw-InstructConfig {
+export function applyDefaultModel(cfg: SiriClawInstructConfig, model: string): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[model] = models[model] ?? {};
 
@@ -80,3 +80,4 @@ export function applyDefaultModel(cfg: SiriClaw-InstructConfig, model: string): 
     },
   };
 }
+

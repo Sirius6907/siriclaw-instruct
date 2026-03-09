@@ -1,7 +1,7 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 export function resolveChannelAccountConfigBasePath(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channelKey: string;
   accountId: string;
 }): string {
@@ -13,3 +13,4 @@ export function resolveChannelAccountConfigBasePath(params: {
     ? `channels.${params.channelKey}.accounts.${params.accountId}.`
     : `channels.${params.channelKey}.`;
 }
+

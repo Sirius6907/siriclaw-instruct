@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ReplyPayload } from "../../auto-reply/types.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { typedCases } from "../../test-utils/typed-cases.js";
 import {
   ackDelivery,
@@ -45,7 +45,7 @@ describe("delivery-queue", () => {
   let fixtureCount = 0;
 
   beforeAll(() => {
-    fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-dq-suite-"));
+    fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-dq-suite-"));
   });
 
   beforeEach(() => {
@@ -619,7 +619,7 @@ describe("delivery-queue", () => {
 });
 
 describe("DirectoryCache", () => {
-  const cfg = {} as SiriClaw-InstructConfig;
+  const cfg = {} as SiriClawInstructConfig;
 
   afterEach(() => {
     vi.useRealTimers();
@@ -870,13 +870,13 @@ const slackConfig = {
       appToken: "xapp-test",
     },
   },
-} as SiriClaw-InstructConfig;
+} as SiriClawInstructConfig;
 
 const discordConfig = {
   channels: {
     discord: {},
   },
-} as SiriClaw-InstructConfig;
+} as SiriClawInstructConfig;
 
 describe("outbound policy", () => {
   it("allows cross-provider sends when enabled", () => {
@@ -885,7 +885,7 @@ describe("outbound policy", () => {
       tools: {
         message: { crossContext: { allowAcrossProviders: true } },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     expect(() =>
       enforceCrossContextPolicy({
@@ -921,10 +921,10 @@ describe("outbound policy", () => {
 });
 
 describe("resolveOutboundSessionRoute", () => {
-  const baseConfig = {} as SiriClaw-InstructConfig;
+  const baseConfig = {} as SiriClawInstructConfig;
 
   it("resolves provider-specific session routes", async () => {
-    const perChannelPeerCfg = { session: { dmScope: "per-channel-peer" } } as SiriClaw-InstructConfig;
+    const perChannelPeerCfg = { session: { dmScope: "per-channel-peer" } } as SiriClawInstructConfig;
     const identityLinksCfg = {
       session: {
         dmScope: "per-peer",
@@ -932,7 +932,7 @@ describe("resolveOutboundSessionRoute", () => {
           alice: ["discord:123"],
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const slackMpimCfg = {
       channels: {
         slack: {
@@ -941,10 +941,10 @@ describe("resolveOutboundSessionRoute", () => {
           },
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const cases: Array<{
       name: string;
-      cfg: SiriClaw-InstructConfig;
+      cfg: SiriClawInstructConfig;
       channel: string;
       target: string;
       replyToId?: string;
@@ -1123,7 +1123,7 @@ describe("resolveOutboundSessionRoute", () => {
 
   it("uses resolved Discord user targets to route bare numeric ids as DMs", async () => {
     const route = await resolveOutboundSessionRoute({
-      cfg: { session: { dmScope: "per-channel-peer" } } as SiriClaw-InstructConfig,
+      cfg: { session: { dmScope: "per-channel-peer" } } as SiriClawInstructConfig,
       channel: "discord",
       agentId: "main",
       target: "123",
@@ -1145,7 +1145,7 @@ describe("resolveOutboundSessionRoute", () => {
   it("rejects bare numeric Discord targets when the caller has no kind hint", async () => {
     await expect(
       resolveOutboundSessionRoute({
-        cfg: { session: { dmScope: "per-channel-peer" } } as SiriClaw-InstructConfig,
+        cfg: { session: { dmScope: "per-channel-peer" } } as SiriClawInstructConfig,
         channel: "discord",
         agentId: "main",
         target: "123",
@@ -1275,3 +1275,4 @@ describe("formatOutboundPayloadLog", () => {
 });
 
 runResolveOutboundTargetCoreTests();
+

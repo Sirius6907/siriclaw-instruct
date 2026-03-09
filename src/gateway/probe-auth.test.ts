@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   resolveGatewayProbeAuthSafe,
   resolveGatewayProbeAuthWithSecretInputs,
@@ -14,7 +14,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
             token: "token-value",
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       mode: "local",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -41,7 +41,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
             default: { source: "env" },
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       mode: "local",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -69,7 +69,7 @@ describe("resolveGatewayProbeAuthSafe", () => {
             default: { source: "env" },
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       mode: "remote",
       env: {} as NodeJS.ProcessEnv,
     });
@@ -98,7 +98,7 @@ describe("resolveGatewayProbeAuthWithSecretInputs", () => {
             default: { source: "env" },
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       mode: "local",
       env: {
         DAEMON_GATEWAY_TOKEN: "resolved-daemon-token",
@@ -111,3 +111,4 @@ describe("resolveGatewayProbeAuthWithSecretInputs", () => {
     });
   });
 });
+

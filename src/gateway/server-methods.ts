@@ -153,3 +153,4 @@ export async function handleGatewayRequest(
   // during tool execution) can dispatch back into the gateway.
   await withPluginRuntimeGatewayRequestScope({ context, isWebchatConnect }, invokeHandler);
 }
+

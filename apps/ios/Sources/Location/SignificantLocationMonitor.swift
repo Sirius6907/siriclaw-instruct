@@ -1,6 +1,6 @@
 import CoreLocation
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 
 /// Monitors significant location changes and pushes `location.update`
 /// events to the gateway so the severance hook can determine whether
@@ -40,3 +40,4 @@ enum SignificantLocationMonitor {
         }
     }
 }
+

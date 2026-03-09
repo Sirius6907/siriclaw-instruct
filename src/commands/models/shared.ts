@@ -8,7 +8,7 @@ import {
 } from "../../agents/model-selection.js";
 import { formatCliCommand } from "../../cli/command-format.js";
 import {
-  type SiriClaw-InstructConfig,
+  type SiriClawInstructConfig,
   readConfigFileSnapshot,
   writeConfigFile,
 } from "../../config/config.js";
@@ -62,7 +62,7 @@ export const isLocalBaseUrl = (baseUrl: string) => {
   }
 };
 
-export async function loadValidConfigOrThrow(): Promise<SiriClaw-InstructConfig> {
+export async function loadValidConfigOrThrow(): Promise<SiriClawInstructConfig> {
   const snapshot = await readConfigFileSnapshot();
   if (!snapshot.valid) {
     const issues = formatConfigIssueLines(snapshot.issues, "-").join("\n");
@@ -72,15 +72,15 @@ export async function loadValidConfigOrThrow(): Promise<SiriClaw-InstructConfig>
 }
 
 export async function updateConfig(
-  mutator: (cfg: SiriClaw-InstructConfig) => SiriClaw-InstructConfig,
-): Promise<SiriClaw-InstructConfig> {
+  mutator: (cfg: SiriClawInstructConfig) => SiriClawInstructConfig,
+): Promise<SiriClawInstructConfig> {
   const config = await loadValidConfigOrThrow();
   const next = mutator(config);
   await writeConfigFile(next);
   return next;
 }
 
-export function resolveModelTarget(params: { raw: string; cfg: SiriClaw-InstructConfig }): {
+export function resolveModelTarget(params: { raw: string; cfg: SiriClawInstructConfig }): {
   provider: string;
   model: string;
 } {
@@ -100,7 +100,7 @@ export function resolveModelTarget(params: { raw: string; cfg: SiriClaw-Instruct
 }
 
 export function resolveModelKeysFromEntries(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   entries: readonly string[];
 }): string[] {
   const aliasIndex = buildModelAliasIndex({
@@ -119,7 +119,7 @@ export function resolveModelKeysFromEntries(params: {
     .map((entry) => modelKey(entry.ref.provider, entry.ref.model));
 }
 
-export function buildAllowlistSet(cfg: SiriClaw-InstructConfig): Set<string> {
+export function buildAllowlistSet(cfg: SiriClawInstructConfig): Set<string> {
   const allowed = new Set<string>();
   const models = cfg.agents?.defaults?.models ?? {};
   for (const raw of Object.keys(models)) {
@@ -144,7 +144,7 @@ export function normalizeAlias(alias: string): string {
 }
 
 export function resolveKnownAgentId(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   rawAgentId?: string | null;
 }): string | undefined {
   const raw = params.rawAgentId?.trim();
@@ -155,7 +155,7 @@ export function resolveKnownAgentId(params: {
   const knownAgents = listAgentIds(params.cfg);
   if (!knownAgents.includes(agentId)) {
     throw new Error(
-      `Unknown agent id "${raw}". Use "${formatCliCommand("SiriClaw-Instruct agents list")}" to see configured agents.`,
+      `Unknown agent id "${raw}". Use "${formatCliCommand("SiriClawInstruct agents list")}" to see configured agents.`,
     );
   }
   return agentId;
@@ -179,10 +179,10 @@ export function mergePrimaryFallbackConfig(
 }
 
 export function applyDefaultModelPrimaryUpdate(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   modelRaw: string;
   field: "model" | "imageModel";
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const resolved = resolveModelTarget({ raw: params.modelRaw, cfg: params.cfg });
   const key = `${resolved.provider}/${resolved.model}`;
 
@@ -221,3 +221,4 @@ export { DEFAULT_MODEL, DEFAULT_PROVIDER };
  * For providers with hierarchical model IDs (e.g., OpenRouter), the model ID may include
  * sub-providers (e.g., "moonshotai/kimi-k2"), resulting in a key like "openrouter/moonshotai/kimi-k2".
  */
+

@@ -1,13 +1,13 @@
 export type {
   AnyAgentTool,
-  SiriClaw-InstructPluginApi,
-  SiriClaw-InstructPluginService,
+  SiriClawInstructPluginApi,
+  SiriClawInstructPluginService,
   ProviderAuthContext,
   ProviderAuthResult,
 } from "../plugins/types.js";
 export type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
 export type { PluginRuntime } from "../plugins/runtime/types.js";
-export type { SiriClaw-InstructConfig } from "../config/config.js";
+export type { SiriClawInstructConfig } from "../config/config.js";
 export type { GatewayRequestHandlerOptions } from "../gateway/server-methods/types.js";
 
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
@@ -24,7 +24,7 @@ export {
   type PluginCommandRunOptions,
   type PluginCommandRunResult,
 } from "./run-command.js";
-export { resolvePreferredSiriClaw-InstructTmpDir } from "../infra/tmp-SiriClaw-Instruct-dir.js";
+export { resolvePreferredSiriClawInstructTmpDir } from "../infra/tmp-siriclaw-instruct-dir.js";
 
 export { resolveGatewayBindUrl } from "../shared/gateway-bind-url.js";
 export type { GatewayBindUrlResult } from "../shared/gateway-bind-url.js";

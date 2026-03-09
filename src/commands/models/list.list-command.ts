@@ -141,3 +141,4 @@ export async function modelsListCommand(
 
   printModelTable(rows, runtime, opts);
 }
+

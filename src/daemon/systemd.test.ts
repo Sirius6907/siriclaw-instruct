@@ -135,7 +135,7 @@ describe("isSystemdServiceEnabled", () => {
       err.code = "EACCES";
       cb(err, "", "");
     });
-    const result = await isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClaw-Instruct-test-home" } });
+    const result = await isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClawInstruct-test-home" } });
     expect(result).toBe(false);
   });
 
@@ -145,7 +145,7 @@ describe("isSystemdServiceEnabled", () => {
     err.code = "ENOENT";
     vi.spyOn(fs, "access").mockRejectedValueOnce(err);
 
-    const result = await isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClaw-Instruct-test-home" } });
+    const result = await isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClawInstruct-test-home" } });
 
     expect(result).toBe(false);
     expect(execFileMock).not.toHaveBeenCalled();
@@ -155,10 +155,10 @@ describe("isSystemdServiceEnabled", () => {
     const { isSystemdServiceEnabled } = await import("./systemd.js");
     mockManagedUnitPresent();
     execFileMock.mockImplementationOnce((_cmd, args, _opts, cb) => {
-      expect(args).toEqual(["--user", "is-enabled", "SiriClaw-Instruct-gateway.service"]);
+      expect(args).toEqual(["--user", "is-enabled", "SiriClawInstruct-gateway.service"]);
       cb(null, "enabled", "");
     });
-    const result = await isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClaw-Instruct-test-home" } });
+    const result = await isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClawInstruct-test-home" } });
     expect(result).toBe(true);
   });
 
@@ -170,7 +170,7 @@ describe("isSystemdServiceEnabled", () => {
       err.code = 1;
       cb(err, "disabled", "");
     });
-    const result = await isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClaw-Instruct-test-home" } });
+    const result = await isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClawInstruct-test-home" } });
     expect(result).toBe(false);
   });
 
@@ -178,18 +178,18 @@ describe("isSystemdServiceEnabled", () => {
     const { isSystemdServiceEnabled } = await import("./systemd.js");
     mockManagedUnitPresent();
     execFileMock.mockImplementationOnce((_cmd, args, _opts, cb) => {
-      expect(args).toEqual(["--user", "is-enabled", "SiriClaw-Instruct-gateway.service"]);
+      expect(args).toEqual(["--user", "is-enabled", "SiriClawInstruct-gateway.service"]);
       const err = new Error(
-        "Command failed: systemctl --user is-enabled SiriClaw-Instruct-gateway.service",
+        "Command failed: systemctl --user is-enabled SiriClawInstruct-gateway.service",
       ) as Error & { code?: number };
       err.code = 1;
       cb(err, "", "");
     });
 
     await expect(
-      isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClaw-Instruct-test-home" } }),
+      isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClawInstruct-test-home" } }),
     ).rejects.toThrow(
-      "systemctl is-enabled unavailable: Command failed: systemctl --user is-enabled SiriClaw-Instruct-gateway.service",
+      "systemctl is-enabled unavailable: Command failed: systemctl --user is-enabled SiriClawInstruct-gateway.service",
     );
   });
 
@@ -200,7 +200,7 @@ describe("isSystemdServiceEnabled", () => {
       throw new Error("no user info");
     });
     execFileMock.mockImplementationOnce((_cmd, args, _opts, cb) => {
-      expect(args).toEqual(["--user", "is-enabled", "SiriClaw-Instruct-gateway.service"]);
+      expect(args).toEqual(["--user", "is-enabled", "SiriClawInstruct-gateway.service"]);
       cb(
         createExecFileError("Failed to connect to bus", { stderr: "Failed to connect to bus" }),
         "",
@@ -210,7 +210,7 @@ describe("isSystemdServiceEnabled", () => {
 
     await expect(
       isSystemdServiceEnabled({
-        env: { HOME: "/tmp/SiriClaw-Instruct-test-home", USER: "", LOGNAME: "" },
+        env: { HOME: "/tmp/SiriClawInstruct-test-home", USER: "", LOGNAME: "" },
       }),
     ).rejects.toThrow("systemctl is-enabled unavailable: Failed to connect to bus");
   });
@@ -220,7 +220,7 @@ describe("isSystemdServiceEnabled", () => {
     mockManagedUnitPresent();
     execFileMock
       .mockImplementationOnce((_cmd, args, _opts, cb) => {
-        expect(args).toEqual(["--user", "is-enabled", "SiriClaw-Instruct-gateway.service"]);
+        expect(args).toEqual(["--user", "is-enabled", "SiriClawInstruct-gateway.service"]);
         cb(
           createExecFileError("Failed to connect to bus", { stderr: "Failed to connect to bus" }),
           "",
@@ -233,7 +233,7 @@ describe("isSystemdServiceEnabled", () => {
           "debian@",
           "--user",
           "is-enabled",
-          "SiriClaw-Instruct-gateway.service",
+          "SiriClawInstruct-gateway.service",
         ]);
         cb(
           createExecFileError("Failed to connect to user scope bus via local transport", {
@@ -247,7 +247,7 @@ describe("isSystemdServiceEnabled", () => {
 
     await expect(
       isSystemdServiceEnabled({
-        env: { HOME: "/tmp/SiriClaw-Instruct-test-home", USER: "debian" },
+        env: { HOME: "/tmp/SiriClawInstruct-test-home", USER: "debian" },
       }),
     ).rejects.toThrow("systemctl is-enabled unavailable: Failed to connect to user scope bus");
   });
@@ -256,16 +256,16 @@ describe("isSystemdServiceEnabled", () => {
     const { isSystemdServiceEnabled } = await import("./systemd.js");
     mockManagedUnitPresent();
     execFileMock.mockImplementationOnce((_cmd, args, _opts, cb) => {
-      expect(args).toEqual(["--user", "is-enabled", "SiriClaw-Instruct-gateway.service"]);
+      expect(args).toEqual(["--user", "is-enabled", "SiriClawInstruct-gateway.service"]);
       const err = new Error(
-        "Command failed: systemctl --user is-enabled SiriClaw-Instruct-gateway.service",
+        "Command failed: systemctl --user is-enabled SiriClawInstruct-gateway.service",
       ) as Error & { code?: number };
       err.code = 1;
       cb(err, "", "read-only file system");
     });
 
     await expect(
-      isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClaw-Instruct-test-home" } }),
+      isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClawInstruct-test-home" } }),
     ).rejects.toThrow("systemctl is-enabled unavailable: read-only file system");
   });
 
@@ -274,7 +274,7 @@ describe("isSystemdServiceEnabled", () => {
     mockManagedUnitPresent();
     execFileMock
       .mockImplementationOnce((_cmd, args, _opts, cb) => {
-        expect(args).toEqual(["--user", "is-enabled", "SiriClaw-Instruct-gateway.service"]);
+        expect(args).toEqual(["--user", "is-enabled", "SiriClawInstruct-gateway.service"]);
         const err = new Error("Failed to connect to bus") as Error & { code?: number };
         err.code = 1;
         cb(err, "", "Failed to connect to bus");
@@ -282,13 +282,13 @@ describe("isSystemdServiceEnabled", () => {
       .mockImplementationOnce((_cmd, args, _opts, cb) => {
         expect(args[0]).toBe("--machine");
         expect(String(args[1])).toMatch(/^[^@]+@$/);
-        expect(args.slice(2)).toEqual(["--user", "is-enabled", "SiriClaw-Instruct-gateway.service"]);
+        expect(args.slice(2)).toEqual(["--user", "is-enabled", "SiriClawInstruct-gateway.service"]);
         const err = new Error("permission denied") as Error & { code?: number };
         err.code = 1;
         cb(err, "", "permission denied");
       });
     await expect(
-      isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClaw-Instruct-test-home" } }),
+      isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClawInstruct-test-home" } }),
     ).rejects.toThrow("systemctl is-enabled unavailable: permission denied");
   });
 
@@ -299,12 +299,12 @@ describe("isSystemdServiceEnabled", () => {
       // On Ubuntu 24.04, `systemctl --user is-enabled <unit>` exits with
       // code 4 and prints "not-found" to stdout when the unit doesn't exist.
       const err = new Error(
-        "Command failed: systemctl --user is-enabled SiriClaw-Instruct-gateway.service",
+        "Command failed: systemctl --user is-enabled SiriClawInstruct-gateway.service",
       ) as Error & { code?: number };
       err.code = 4;
       cb(err, "not-found\n", "");
     });
-    const result = await isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClaw-Instruct-test-home" } });
+    const result = await isSystemdServiceEnabled({ env: { HOME: "/tmp/SiriClawInstruct-test-home" } });
     expect(result).toBe(false);
   });
 });
@@ -313,7 +313,7 @@ describe("isNonFatalSystemdInstallProbeError", () => {
   it("matches wrapper-only WSL install probe failures", () => {
     expect(
       isNonFatalSystemdInstallProbeError(
-        new Error("Command failed: systemctl --user is-enabled SiriClaw-Instruct-gateway.service"),
+        new Error("Command failed: systemctl --user is-enabled SiriClawInstruct-gateway.service"),
       ),
     ).toBe(true);
   });
@@ -371,37 +371,37 @@ describe("systemd runtime parsing", () => {
 describe("resolveSystemdUserUnitPath", () => {
   it.each([
     {
-      name: "uses default service name when SiriClaw-Instruct_PROFILE is unset",
+      name: "uses default service name when SiriClawInstruct_PROFILE is unset",
       env: { HOME: "/home/test" },
-      expected: "/home/test/.config/systemd/user/SiriClaw-Instruct-gateway.service",
+      expected: "/home/test/.config/systemd/user/SiriClawInstruct-gateway.service",
     },
     {
-      name: "uses profile-specific service name when SiriClaw-Instruct_PROFILE is set to a custom value",
-      env: { HOME: "/home/test", SiriClaw-Instruct_PROFILE: "jbphoenix" },
-      expected: "/home/test/.config/systemd/user/SiriClaw-Instruct-gateway-jbphoenix.service",
+      name: "uses profile-specific service name when SiriClawInstruct_PROFILE is set to a custom value",
+      env: { HOME: "/home/test", SiriClawInstruct_PROFILE: "jbphoenix" },
+      expected: "/home/test/.config/systemd/user/SiriClawInstruct-gateway-jbphoenix.service",
     },
     {
-      name: "prefers SiriClaw-Instruct_SYSTEMD_UNIT over SiriClaw-Instruct_PROFILE",
+      name: "prefers SiriClawInstruct_SYSTEMD_UNIT over SiriClawInstruct_PROFILE",
       env: {
         HOME: "/home/test",
-        SiriClaw-Instruct_PROFILE: "jbphoenix",
-        SiriClaw-Instruct_SYSTEMD_UNIT: "custom-unit",
+        SiriClawInstruct_PROFILE: "jbphoenix",
+        SiriClawInstruct_SYSTEMD_UNIT: "custom-unit",
       },
       expected: "/home/test/.config/systemd/user/custom-unit.service",
     },
     {
-      name: "handles SiriClaw-Instruct_SYSTEMD_UNIT with .service suffix",
+      name: "handles SiriClawInstruct_SYSTEMD_UNIT with .service suffix",
       env: {
         HOME: "/home/test",
-        SiriClaw-Instruct_SYSTEMD_UNIT: "custom-unit.service",
+        SiriClawInstruct_SYSTEMD_UNIT: "custom-unit.service",
       },
       expected: "/home/test/.config/systemd/user/custom-unit.service",
     },
     {
-      name: "trims whitespace from SiriClaw-Instruct_SYSTEMD_UNIT",
+      name: "trims whitespace from SiriClawInstruct_SYSTEMD_UNIT",
       env: {
         HOME: "/home/test",
-        SiriClaw-Instruct_SYSTEMD_UNIT: "  custom-unit  ",
+        SiriClawInstruct_SYSTEMD_UNIT: "  custom-unit  ",
       },
       expected: "/home/test/.config/systemd/user/custom-unit.service",
     },
@@ -412,8 +412,8 @@ describe("resolveSystemdUserUnitPath", () => {
 
 describe("splitArgsPreservingQuotes", () => {
   it("splits on whitespace outside quotes", () => {
-    expect(splitArgsPreservingQuotes('/usr/bin/SiriClaw-Instruct gateway start --name "My Bot"')).toEqual([
-      "/usr/bin/SiriClaw-Instruct",
+    expect(splitArgsPreservingQuotes('/usr/bin/SiriClawInstruct gateway start --name "My Bot"')).toEqual([
+      "/usr/bin/SiriClawInstruct",
       "gateway",
       "start",
       "--name",
@@ -423,32 +423,32 @@ describe("splitArgsPreservingQuotes", () => {
 
   it("supports systemd-style backslash escaping", () => {
     expect(
-      splitArgsPreservingQuotes('SiriClaw-Instruct --name "My \\"Bot\\"" --foo bar', {
+      splitArgsPreservingQuotes('SiriClawInstruct --name "My \\"Bot\\"" --foo bar', {
         escapeMode: "backslash",
       }),
-    ).toEqual(["SiriClaw-Instruct", "--name", 'My "Bot"', "--foo", "bar"]);
+    ).toEqual(["SiriClawInstruct", "--name", 'My "Bot"', "--foo", "bar"]);
   });
 
   it("supports schtasks-style escaped quotes while preserving other backslashes", () => {
     expect(
-      splitArgsPreservingQuotes('SiriClaw-Instruct --path "C:\\\\Program Files\\\\SiriClaw-Instruct"', {
+      splitArgsPreservingQuotes('SiriClawInstruct --path "C:\\\\Program Files\\\\SiriClawInstruct"', {
         escapeMode: "backslash-quote-only",
       }),
-    ).toEqual(["SiriClaw-Instruct", "--path", "C:\\\\Program Files\\\\SiriClaw-Instruct"]);
+    ).toEqual(["SiriClawInstruct", "--path", "C:\\\\Program Files\\\\SiriClawInstruct"]);
 
     expect(
-      splitArgsPreservingQuotes('SiriClaw-Instruct --label "My \\"Quoted\\" Name"', {
+      splitArgsPreservingQuotes('SiriClawInstruct --label "My \\"Quoted\\" Name"', {
         escapeMode: "backslash-quote-only",
       }),
-    ).toEqual(["SiriClaw-Instruct", "--label", 'My "Quoted" Name']);
+    ).toEqual(["SiriClawInstruct", "--label", 'My "Quoted" Name']);
   });
 });
 
 describe("parseSystemdExecStart", () => {
   it("preserves quoted arguments", () => {
-    const execStart = '/usr/bin/SiriClaw-Instruct gateway start --name "My Bot"';
+    const execStart = '/usr/bin/SiriClawInstruct gateway start --name "My Bot"';
     expect(parseSystemdExecStart(execStart)).toEqual([
-      "/usr/bin/SiriClaw-Instruct",
+      "/usr/bin/SiriClawInstruct",
       "gateway",
       "start",
       "--name",
@@ -462,156 +462,156 @@ describe("readSystemdServiceExecStart", () => {
     vi.restoreAllMocks();
   });
 
-  it("loads SiriClaw-Instruct_GATEWAY_TOKEN from EnvironmentFile", async () => {
+  it("loads SiriClawInstruct_GATEWAY_TOKEN from EnvironmentFile", async () => {
     const readFileSpy = vi.spyOn(fs, "readFile").mockImplementation(async (pathname) => {
       const pathValue = pathLikeToString(pathname);
-      if (pathValue.endsWith("/SiriClaw-Instruct-gateway.service")) {
+      if (pathValue.endsWith("/SiriClawInstruct-gateway.service")) {
         return [
           "[Service]",
-          "ExecStart=/usr/bin/SiriClaw-Instruct gateway run",
-          "EnvironmentFile=%h/.SiriClaw-Instruct/.env",
+          "ExecStart=/usr/bin/SiriClawInstruct gateway run",
+          "EnvironmentFile=%h/.SiriClawInstruct/.env",
         ].join("\n");
       }
-      if (pathValue === "/home/test/.SiriClaw-Instruct/.env") {
-        return "SiriClaw-Instruct_GATEWAY_TOKEN=env-file-token\n";
+      if (pathValue === "/home/test/.SiriClawInstruct/.env") {
+        return "SiriClawInstruct_GATEWAY_TOKEN=env-file-token\n";
       }
       throw new Error(`unexpected readFile path: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
-    expect(command?.environment?.SiriClaw-Instruct_GATEWAY_TOKEN).toBe("env-file-token");
+    expect(command?.environment?.SiriClawInstruct_GATEWAY_TOKEN).toBe("env-file-token");
     expect(readFileSpy).toHaveBeenCalledTimes(2);
   });
 
   it("lets EnvironmentFile override inline Environment values", async () => {
     vi.spyOn(fs, "readFile").mockImplementation(async (pathname) => {
       const pathValue = pathLikeToString(pathname);
-      if (pathValue.endsWith("/SiriClaw-Instruct-gateway.service")) {
+      if (pathValue.endsWith("/SiriClawInstruct-gateway.service")) {
         return [
           "[Service]",
-          "ExecStart=/usr/bin/SiriClaw-Instruct gateway run",
-          "EnvironmentFile=%h/.SiriClaw-Instruct/.env",
-          'Environment="SiriClaw-Instruct_GATEWAY_TOKEN=inline-token"',
+          "ExecStart=/usr/bin/SiriClawInstruct gateway run",
+          "EnvironmentFile=%h/.SiriClawInstruct/.env",
+          'Environment="SiriClawInstruct_GATEWAY_TOKEN=inline-token"',
         ].join("\n");
       }
-      if (pathValue === "/home/test/.SiriClaw-Instruct/.env") {
-        return "SiriClaw-Instruct_GATEWAY_TOKEN=env-file-token\n";
+      if (pathValue === "/home/test/.SiriClawInstruct/.env") {
+        return "SiriClawInstruct_GATEWAY_TOKEN=env-file-token\n";
       }
       throw new Error(`unexpected readFile path: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
-    expect(command?.environment?.SiriClaw-Instruct_GATEWAY_TOKEN).toBe("env-file-token");
-    expect(command?.environmentValueSources?.SiriClaw-Instruct_GATEWAY_TOKEN).toBe("file");
+    expect(command?.environment?.SiriClawInstruct_GATEWAY_TOKEN).toBe("env-file-token");
+    expect(command?.environmentValueSources?.SiriClawInstruct_GATEWAY_TOKEN).toBe("file");
   });
 
   it("ignores missing optional EnvironmentFile entries", async () => {
     vi.spyOn(fs, "readFile").mockImplementation(async (pathname) => {
       const pathValue = pathLikeToString(pathname);
-      if (pathValue.endsWith("/SiriClaw-Instruct-gateway.service")) {
+      if (pathValue.endsWith("/SiriClawInstruct-gateway.service")) {
         return [
           "[Service]",
-          "ExecStart=/usr/bin/SiriClaw-Instruct gateway run",
-          "EnvironmentFile=-%h/.SiriClaw-Instruct/missing.env",
+          "ExecStart=/usr/bin/SiriClawInstruct gateway run",
+          "EnvironmentFile=-%h/.SiriClawInstruct/missing.env",
         ].join("\n");
       }
       throw new Error(`missing: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
-    expect(command?.programArguments).toEqual(["/usr/bin/SiriClaw-Instruct", "gateway", "run"]);
+    expect(command?.programArguments).toEqual(["/usr/bin/SiriClawInstruct", "gateway", "run"]);
     expect(command?.environment).toBeUndefined();
   });
 
   it("keeps parsing when non-optional EnvironmentFile entries are missing", async () => {
     vi.spyOn(fs, "readFile").mockImplementation(async (pathname) => {
       const pathValue = pathLikeToString(pathname);
-      if (pathValue.endsWith("/SiriClaw-Instruct-gateway.service")) {
+      if (pathValue.endsWith("/SiriClawInstruct-gateway.service")) {
         return [
           "[Service]",
-          "ExecStart=/usr/bin/SiriClaw-Instruct gateway run",
-          "EnvironmentFile=%h/.SiriClaw-Instruct/missing.env",
+          "ExecStart=/usr/bin/SiriClawInstruct gateway run",
+          "EnvironmentFile=%h/.SiriClawInstruct/missing.env",
         ].join("\n");
       }
       throw new Error(`missing: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
-    expect(command?.programArguments).toEqual(["/usr/bin/SiriClaw-Instruct", "gateway", "run"]);
+    expect(command?.programArguments).toEqual(["/usr/bin/SiriClawInstruct", "gateway", "run"]);
     expect(command?.environment).toBeUndefined();
   });
 
   it("supports multiple EnvironmentFile entries and quoted paths", async () => {
     vi.spyOn(fs, "readFile").mockImplementation(async (pathname) => {
       const pathValue = pathLikeToString(pathname);
-      if (pathValue.endsWith("/SiriClaw-Instruct-gateway.service")) {
+      if (pathValue.endsWith("/SiriClawInstruct-gateway.service")) {
         return [
           "[Service]",
-          "ExecStart=/usr/bin/SiriClaw-Instruct gateway run",
-          'EnvironmentFile=%h/.SiriClaw-Instruct/first.env "%h/.SiriClaw-Instruct/second env.env"',
+          "ExecStart=/usr/bin/SiriClawInstruct gateway run",
+          'EnvironmentFile=%h/.SiriClawInstruct/first.env "%h/.SiriClawInstruct/second env.env"',
         ].join("\n");
       }
-      if (pathValue === "/home/test/.SiriClaw-Instruct/first.env") {
-        return "SiriClaw-Instruct_GATEWAY_TOKEN=first-token\n"; // pragma: allowlist secret
+      if (pathValue === "/home/test/.SiriClawInstruct/first.env") {
+        return "SiriClawInstruct_GATEWAY_TOKEN=first-token\n"; // pragma: allowlist secret
       }
-      if (pathValue === "/home/test/.SiriClaw-Instruct/second env.env") {
-        return 'SiriClaw-Instruct_GATEWAY_PASSWORD="second password"\n'; // pragma: allowlist secret
+      if (pathValue === "/home/test/.SiriClawInstruct/second env.env") {
+        return 'SiriClawInstruct_GATEWAY_PASSWORD="second password"\n'; // pragma: allowlist secret
       }
       throw new Error(`unexpected readFile path: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
     expect(command?.environment).toEqual({
-      SiriClaw-Instruct_GATEWAY_TOKEN: "first-token",
-      SiriClaw-Instruct_GATEWAY_PASSWORD: "second password", // pragma: allowlist secret
+      SiriClawInstruct_GATEWAY_TOKEN: "first-token",
+      SiriClawInstruct_GATEWAY_PASSWORD: "second password", // pragma: allowlist secret
     });
   });
 
   it("resolves relative EnvironmentFile paths from the unit directory", async () => {
     vi.spyOn(fs, "readFile").mockImplementation(async (pathname) => {
       const pathValue = pathLikeToString(pathname);
-      if (pathValue.endsWith("/SiriClaw-Instruct-gateway.service")) {
+      if (pathValue.endsWith("/SiriClawInstruct-gateway.service")) {
         return [
           "[Service]",
-          "ExecStart=/usr/bin/SiriClaw-Instruct gateway run",
+          "ExecStart=/usr/bin/SiriClawInstruct gateway run",
           "EnvironmentFile=./gateway.env ./override.env",
         ].join("\n");
       }
       if (pathValue.endsWith("/.config/systemd/user/gateway.env")) {
         return [
-          "SiriClaw-Instruct_GATEWAY_TOKEN=relative-token", // pragma: allowlist secret
-          "SiriClaw-Instruct_GATEWAY_PASSWORD=relative-password", // pragma: allowlist secret
+          "SiriClawInstruct_GATEWAY_TOKEN=relative-token", // pragma: allowlist secret
+          "SiriClawInstruct_GATEWAY_PASSWORD=relative-password", // pragma: allowlist secret
         ].join("\n");
       }
       if (pathValue.endsWith("/.config/systemd/user/override.env")) {
-        return "SiriClaw-Instruct_GATEWAY_TOKEN=override-token\n"; // pragma: allowlist secret
+        return "SiriClawInstruct_GATEWAY_TOKEN=override-token\n"; // pragma: allowlist secret
       }
       throw new Error(`unexpected readFile path: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
     expect(command?.environment).toEqual({
-      SiriClaw-Instruct_GATEWAY_TOKEN: "override-token",
-      SiriClaw-Instruct_GATEWAY_PASSWORD: "relative-password", // pragma: allowlist secret
+      SiriClawInstruct_GATEWAY_TOKEN: "override-token",
+      SiriClawInstruct_GATEWAY_PASSWORD: "relative-password", // pragma: allowlist secret
     });
   });
 
   it("parses EnvironmentFile content with comments and quoted values", async () => {
     vi.spyOn(fs, "readFile").mockImplementation(async (pathname) => {
       const pathValue = pathLikeToString(pathname);
-      if (pathValue.endsWith("/SiriClaw-Instruct-gateway.service")) {
+      if (pathValue.endsWith("/SiriClawInstruct-gateway.service")) {
         return [
           "[Service]",
-          "ExecStart=/usr/bin/SiriClaw-Instruct gateway run",
-          "EnvironmentFile=%h/.SiriClaw-Instruct/gateway.env",
+          "ExecStart=/usr/bin/SiriClawInstruct gateway run",
+          "EnvironmentFile=%h/.SiriClawInstruct/gateway.env",
         ].join("\n");
       }
-      if (pathValue === "/home/test/.SiriClaw-Instruct/gateway.env") {
+      if (pathValue === "/home/test/.SiriClawInstruct/gateway.env") {
         return [
           "# comment",
           "; another comment",
-          'SiriClaw-Instruct_GATEWAY_TOKEN="quoted token"', // pragma: allowlist secret
-          "SiriClaw-Instruct_GATEWAY_PASSWORD=quoted-password", // pragma: allowlist secret
+          'SiriClawInstruct_GATEWAY_TOKEN="quoted token"', // pragma: allowlist secret
+          "SiriClawInstruct_GATEWAY_PASSWORD=quoted-password", // pragma: allowlist secret
         ].join("\n");
       }
       throw new Error(`unexpected readFile path: ${pathValue}`);
@@ -619,19 +619,19 @@ describe("readSystemdServiceExecStart", () => {
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
     expect(command?.environment).toEqual({
-      SiriClaw-Instruct_GATEWAY_TOKEN: "quoted token",
-      SiriClaw-Instruct_GATEWAY_PASSWORD: "quoted-password", // pragma: allowlist secret
+      SiriClawInstruct_GATEWAY_TOKEN: "quoted token",
+      SiriClawInstruct_GATEWAY_PASSWORD: "quoted-password", // pragma: allowlist secret
     });
     expect(command?.environmentValueSources).toEqual({
-      SiriClaw-Instruct_GATEWAY_TOKEN: "file",
-      SiriClaw-Instruct_GATEWAY_PASSWORD: "file", // pragma: allowlist secret
+      SiriClawInstruct_GATEWAY_TOKEN: "file",
+      SiriClawInstruct_GATEWAY_PASSWORD: "file", // pragma: allowlist secret
     });
   });
 });
 
 describe("systemd service control", () => {
   const assertMachineRestartArgs = (args: string[]) => {
-    expect(args).toEqual(["--machine", "debian@", "--user", "restart", "SiriClaw-Instruct-gateway.service"]);
+    expect(args).toEqual(["--machine", "debian@", "--user", "restart", "SiriClawInstruct-gateway.service"]);
   };
 
   beforeEach(() => {
@@ -642,7 +642,7 @@ describe("systemd service control", () => {
     execFileMock
       .mockImplementationOnce((_cmd, _args, _opts, cb) => cb(null, "", ""))
       .mockImplementationOnce((_cmd, args, _opts, cb) => {
-        expect(args).toEqual(["--user", "stop", "SiriClaw-Instruct-gateway.service"]);
+        expect(args).toEqual(["--user", "stop", "SiriClawInstruct-gateway.service"]);
         cb(null, "", "");
       });
     const write = vi.fn();
@@ -664,7 +664,7 @@ describe("systemd service control", () => {
         ),
       )
       .mockImplementationOnce((_cmd, args, _opts, cb) => {
-        expect(args).toEqual(["--user", "stop", "SiriClaw-Instruct-gateway.service"]);
+        expect(args).toEqual(["--user", "stop", "SiriClawInstruct-gateway.service"]);
         cb(null, "", "");
       });
 
@@ -678,10 +678,10 @@ describe("systemd service control", () => {
     execFileMock
       .mockImplementationOnce((_cmd, _args, _opts, cb) => cb(null, "", ""))
       .mockImplementationOnce((_cmd, args, _opts, cb) => {
-        expect(args).toEqual(["--user", "restart", "SiriClaw-Instruct-gateway-work.service"]);
+        expect(args).toEqual(["--user", "restart", "SiriClawInstruct-gateway-work.service"]);
         cb(null, "", "");
       });
-    await assertRestartSuccess({ SiriClaw-Instruct_PROFILE: "work" });
+    await assertRestartSuccess({ SiriClawInstruct_PROFILE: "work" });
   });
 
   it("surfaces stop failures with systemctl detail", async () => {
@@ -741,7 +741,7 @@ describe("systemd service control", () => {
         cb(null, "", "");
       })
       .mockImplementationOnce((_cmd, args, _opts, cb) => {
-        expect(args).toEqual(["--user", "restart", "SiriClaw-Instruct-gateway.service"]);
+        expect(args).toEqual(["--user", "restart", "SiriClawInstruct-gateway.service"]);
         cb(null, "", "");
       });
     await assertRestartSuccess({ SUDO_USER: "root", USER: "root" });
@@ -762,7 +762,7 @@ describe("systemd service control", () => {
         cb(null, "", "");
       })
       .mockImplementationOnce((_cmd, args, _opts, cb) => {
-        expect(args).toEqual(["--user", "restart", "SiriClaw-Instruct-gateway.service"]);
+        expect(args).toEqual(["--user", "restart", "SiriClawInstruct-gateway.service"]);
         const err = createExecFileError("Failed to connect to user scope bus", {
           stderr: "Failed to connect to user scope bus",
         });
@@ -775,3 +775,4 @@ describe("systemd service control", () => {
     await assertRestartSuccess({ USER: "debian" });
   });
 });
+

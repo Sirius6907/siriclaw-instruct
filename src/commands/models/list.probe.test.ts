@@ -21,3 +21,4 @@ describe("mapFailoverReasonToProbeStatus", () => {
     expect(mapFailoverReasonToProbeStatus("model_not_found")).toBe("unknown");
   });
 });
+

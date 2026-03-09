@@ -152,3 +152,4 @@ clean_csv "$symbols_csv" | tail -n +2 | awk -F'|' 'NR<=20 {printf "  %s  %s :: %
 echo
 echo "app_path_clues_children:"
 rg 'androidx\.compose|MainActivity|NodeRuntime|NodeForegroundService|SecurePrefs|WebView|libwebviewchromium' "$children_txt" | awk 'NR<=20 {print}' || true
+

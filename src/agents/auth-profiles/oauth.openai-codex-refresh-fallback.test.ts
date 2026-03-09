@@ -50,8 +50,8 @@ function createExpiredOauthStore(params: {
 
 describe("resolveApiKeyForProfile openai-codex refresh fallback", () => {
   const envSnapshot = captureEnv([
-    "SiriClaw-Instruct_STATE_DIR",
-    "SiriClaw-Instruct_AGENT_DIR",
+    "SiriClawInstruct_STATE_DIR",
+    "SiriClawInstruct_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
   ]);
   let tempRoot = "";
@@ -60,11 +60,11 @@ describe("resolveApiKeyForProfile openai-codex refresh fallback", () => {
   beforeEach(async () => {
     getOAuthApiKeyMock.mockClear();
     clearRuntimeAuthProfileStoreSnapshots();
-    tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-codex-refresh-fallback-"));
+    tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-codex-refresh-fallback-"));
     agentDir = path.join(tempRoot, "agents", "main", "agent");
     await fs.mkdir(agentDir, { recursive: true });
-    process.env.SiriClaw-Instruct_STATE_DIR = tempRoot;
-    process.env.SiriClaw-Instruct_AGENT_DIR = agentDir;
+    process.env.SiriClawInstruct_STATE_DIR = tempRoot;
+    process.env.SiriClawInstruct_AGENT_DIR = agentDir;
     process.env.PI_CODING_AGENT_DIR = agentDir;
   });
 
@@ -139,3 +139,4 @@ describe("resolveApiKeyForProfile openai-codex refresh fallback", () => {
     ).rejects.toThrow(/OAuth token refresh failed for openai-codex/);
   });
 });
+

@@ -3,15 +3,15 @@ import { describe, expect, it } from "vitest";
 import { expandHomePrefix, resolveEffectiveHomeDir, resolveRequiredHomeDir } from "./home-dir.js";
 
 describe("resolveEffectiveHomeDir", () => {
-  it("prefers SiriClaw-Instruct_HOME over HOME and USERPROFILE", () => {
+  it("prefers SiriClawInstruct_HOME over HOME and USERPROFILE", () => {
     const env = {
-      SiriClaw-Instruct_HOME: "/srv/SiriClaw-Instruct-home",
+      SiriClawInstruct_HOME: "/srv/SiriClawInstruct-home",
       HOME: "/home/other",
       USERPROFILE: "C:/Users/other",
     } as NodeJS.ProcessEnv;
 
     expect(resolveEffectiveHomeDir(env, () => "/fallback")).toBe(
-      path.resolve("/srv/SiriClaw-Instruct-home"),
+      path.resolve("/srv/SiriClawInstruct-home"),
     );
   });
 
@@ -27,9 +27,9 @@ describe("resolveEffectiveHomeDir", () => {
     );
   });
 
-  it("expands SiriClaw-Instruct_HOME when set to ~", () => {
+  it("expands SiriClawInstruct_HOME when set to ~", () => {
     const env = {
-      SiriClaw-Instruct_HOME: "~/svc",
+      SiriClawInstruct_HOME: "~/svc",
       HOME: "/home/alice",
     } as NodeJS.ProcessEnv;
 
@@ -46,17 +46,17 @@ describe("resolveRequiredHomeDir", () => {
     ).toBe(process.cwd());
   });
 
-  it("returns a fully resolved path for SiriClaw-Instruct_HOME", () => {
+  it("returns a fully resolved path for SiriClawInstruct_HOME", () => {
     const result = resolveRequiredHomeDir(
-      { SiriClaw-Instruct_HOME: "/custom/home" } as NodeJS.ProcessEnv,
+      { SiriClawInstruct_HOME: "/custom/home" } as NodeJS.ProcessEnv,
       () => "/fallback",
     );
     expect(result).toBe(path.resolve("/custom/home"));
   });
 
-  it("returns cwd when SiriClaw-Instruct_HOME is tilde-only and no fallback home exists", () => {
+  it("returns cwd when SiriClawInstruct_HOME is tilde-only and no fallback home exists", () => {
     expect(
-      resolveRequiredHomeDir({ SiriClaw-Instruct_HOME: "~" } as NodeJS.ProcessEnv, () => {
+      resolveRequiredHomeDir({ SiriClawInstruct_HOME: "~" } as NodeJS.ProcessEnv, () => {
         throw new Error("no home");
       }),
     ).toBe(process.cwd());
@@ -66,12 +66,13 @@ describe("resolveRequiredHomeDir", () => {
 describe("expandHomePrefix", () => {
   it("expands tilde using effective home", () => {
     const value = expandHomePrefix("~/x", {
-      env: { SiriClaw-Instruct_HOME: "/srv/SiriClaw-Instruct-home" } as NodeJS.ProcessEnv,
+      env: { SiriClawInstruct_HOME: "/srv/SiriClawInstruct-home" } as NodeJS.ProcessEnv,
     });
-    expect(value).toBe(`${path.resolve("/srv/SiriClaw-Instruct-home")}/x`);
+    expect(value).toBe(`${path.resolve("/srv/SiriClawInstruct-home")}/x`);
   });
 
   it("keeps non-tilde values unchanged", () => {
     expect(expandHomePrefix("/tmp/x")).toBe("/tmp/x");
   });
 });
+

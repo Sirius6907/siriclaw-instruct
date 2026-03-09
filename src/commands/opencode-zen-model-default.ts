@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { applyAgentDefaultPrimaryModel } from "./model-default.js";
 
 export const OPENCODE_ZEN_DEFAULT_MODEL = "opencode/claude-opus-4-6";
@@ -7,8 +7,8 @@ const LEGACY_OPENCODE_ZEN_DEFAULT_MODELS = new Set([
   "opencode-zen/claude-opus-4-5",
 ]);
 
-export function applyOpencodeZenModelDefault(cfg: SiriClaw-InstructConfig): {
-  next: SiriClaw-InstructConfig;
+export function applyOpencodeZenModelDefault(cfg: SiriClawInstructConfig): {
+  next: SiriClawInstructConfig;
   changed: boolean;
 } {
   return applyAgentDefaultPrimaryModel({
@@ -17,3 +17,4 @@ export function applyOpencodeZenModelDefault(cfg: SiriClaw-InstructConfig): {
     legacyModels: LEGACY_OPENCODE_ZEN_DEFAULT_MODELS,
   });
 }
+

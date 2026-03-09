@@ -27,13 +27,13 @@ export function registerNodeCli(program: Command) {
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
           [
-            "SiriClaw-Instruct node run --host 127.0.0.1 --port 18789",
+            "SiriClawInstruct node run --host 127.0.0.1 --port 18789",
             "Run the node host in the foreground.",
           ],
-          ["SiriClaw-Instruct node status", "Check node host service status."],
-          ["SiriClaw-Instruct node install", "Install the node host service."],
-          ["SiriClaw-Instruct node restart", "Restart the installed node host service."],
-        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/node", "docs.SiriClaw-Instruct.ai/cli/node")}\n`,
+          ["SiriClawInstruct node status", "Check node host service status."],
+          ["SiriClawInstruct node install", "Install the node host service."],
+          ["SiriClawInstruct node restart", "Restart the installed node host service."],
+        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/node", "docs.SiriClawInstruct.ai/cli/node")}\n`,
     );
 
   node
@@ -108,3 +108,4 @@ export function registerNodeCli(program: Command) {
       await runNodeDaemonRestart(opts);
     });
 }
+

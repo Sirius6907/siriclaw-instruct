@@ -6,11 +6,11 @@ import {
 
 describe("resolveGatewayDevMode", () => {
   it("detects src ts entrypoints", () => {
-    expect(resolveGatewayDevMode(["node", "/Users/me/SiriClaw-Instruct/src/cli/index.ts"])).toBe(true);
-    expect(resolveGatewayDevMode(["node", "C:\\Users\\me\\SiriClaw-Instruct\\src\\cli\\index.ts"])).toBe(
+    expect(resolveGatewayDevMode(["node", "/Users/me/SiriClawInstruct/src/cli/index.ts"])).toBe(true);
+    expect(resolveGatewayDevMode(["node", "C:\\Users\\me\\SiriClawInstruct\\src\\cli\\index.ts"])).toBe(
       true,
     );
-    expect(resolveGatewayDevMode(["node", "/Users/me/SiriClaw-Instruct/dist/cli/index.js"])).toBe(false);
+    expect(resolveGatewayDevMode(["node", "/Users/me/SiriClawInstruct/dist/cli/index.js"])).toBe(false);
   });
 });
 
@@ -29,3 +29,4 @@ describe("resolveDaemonInstallRuntimeInputs", () => {
     });
   });
 });
+

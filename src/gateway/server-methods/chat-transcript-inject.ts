@@ -49,12 +49,12 @@ export function appendInjectedAssistantMessageToTranscript(params: {
     usage,
     // Make these explicit so downstream tooling never treats this as model output.
     api: "openai-responses",
-    provider: "SiriClaw-Instruct",
+    provider: "SiriClawInstruct",
     model: "gateway-injected",
     ...(params.idempotencyKey ? { idempotencyKey: params.idempotencyKey } : {}),
     ...(params.abortMeta
       ? {
-          SiriClaw-InstructAbort: {
+          SiriClawInstructAbort: {
             aborted: true,
             origin: params.abortMeta.origin,
             runId: params.abortMeta.runId,
@@ -73,3 +73,4 @@ export function appendInjectedAssistantMessageToTranscript(params: {
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
   }
 }
+

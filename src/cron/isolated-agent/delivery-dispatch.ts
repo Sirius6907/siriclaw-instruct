@@ -3,7 +3,7 @@ import { countActiveDescendantRuns } from "../../agents/subagent-registry.js";
 import { SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.js";
 import type { ReplyPayload } from "../../auto-reply/types.js";
 import { createOutboundSendDeps, type CliDeps } from "../../cli/outbound-send-deps.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { resolveAgentMainSessionKey } from "../../config/sessions.js";
 import { deliverOutboundPayloads } from "../../infra/outbound/deliver.js";
 import { resolveAgentOutboundIdentity } from "../../infra/outbound/identity.js";
@@ -72,7 +72,7 @@ export function resolveCronDeliveryBestEffort(job: CronJob): boolean {
 }
 
 async function resolveCronAnnounceSessionKey(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentId: string;
   fallbackSessionKey: string;
   delivery: {
@@ -121,8 +121,8 @@ async function resolveCronAnnounceSessionKey(params: {
 export type SuccessfulDeliveryTarget = Extract<DeliveryTargetResolution, { ok: true }>;
 
 type DispatchCronDeliveryParams = {
-  cfg: SiriClaw-InstructConfig;
-  cfgWithAgentDefaults: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
+  cfgWithAgentDefaults: SiriClawInstructConfig;
   deps: CliDeps;
   job: CronJob;
   agentId: string;
@@ -551,3 +551,4 @@ export async function dispatchCronDelivery(
     deliveryPayloads,
   };
 }
+

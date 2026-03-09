@@ -181,7 +181,7 @@ vi.mock("../pairing/pairing-store.js", () => ({
 }));
 
 vi.mock("../config/sessions.js", () => ({
-  resolveStorePath: vi.fn(() => "/tmp/SiriClaw-Instruct-sessions.json"),
+  resolveStorePath: vi.fn(() => "/tmp/SiriClawInstruct-sessions.json"),
   updateLastRoute: (...args: unknown[]) => slackTestState.updateLastRouteMock(...args),
   resolveSessionKey: vi.fn(),
   readSessionUpdatedAt: vi.fn(() => undefined),
@@ -231,3 +231,4 @@ vi.mock("@slack/bolt", () => {
   }
   return { App, HTTPReceiver, default: { App, HTTPReceiver } };
 });
+

@@ -18,10 +18,10 @@ test("exec supports pty output", async () => {
   expect(text).toContain("ok");
 });
 
-test("exec sets SiriClaw-Instruct_SHELL in pty mode", async () => {
+test("exec sets SiriClawInstruct_SHELL in pty mode", async () => {
   const tool = createExecTool({ allowBackground: false, security: "full", ask: "off" });
-  const result = await tool.execute("toolcall-SiriClaw-Instruct-shell", {
-    command: "node -e \"process.stdout.write(process.env.SiriClaw-Instruct_SHELL || '')\"",
+  const result = await tool.execute("toolcall-SiriClawInstruct-shell", {
+    command: "node -e \"process.stdout.write(process.env.SiriClawInstruct_SHELL || '')\"",
     pty: true,
   });
 
@@ -29,3 +29,4 @@ test("exec sets SiriClaw-Instruct_SHELL in pty mode", async () => {
   const text = result.content?.find((item) => item.type === "text")?.text ?? "";
   expect(text).toContain("exec");
 });
+

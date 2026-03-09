@@ -1,20 +1,24 @@
 {
-  "name": "@SiriClaw-Instruct/memory-core",
+  "name": "@siriclaw-instruct/memory-core",
   "version": "2026.3.8",
   "private": true,
-  "description": "SiriClaw-Instruct core memory search plugin",
+  "description": "siriclaw-instruct core memory search plugin",
   "type": "module",
   "peerDependencies": {
-    "SiriClaw-Instruct": ">=2026.3.2"
+    "siriclaw-instruct": "workspace:*"
   },
   "peerDependenciesMeta": {
-    "SiriClaw-Instruct": {
+    "siriclaw-instruct": {
       "optional": true
     }
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

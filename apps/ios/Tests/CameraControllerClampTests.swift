@@ -22,3 +22,4 @@ import Testing
         #expect(CameraController.clampDurationMs(60001) == 60000)
     }
 }
+

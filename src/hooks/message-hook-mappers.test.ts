@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { FinalizedMsgContext } from "../auto-reply/templating.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   buildCanonicalSentMessageHookContext,
   deriveInboundMessageHookContext,
@@ -100,7 +100,7 @@ describe("message hook mappers", () => {
   });
 
   it("maps transcribed and preprocessed internal payloads", () => {
-    const cfg = {} as SiriClaw-InstructConfig;
+    const cfg = {} as SiriClawInstructConfig;
     const canonical = deriveInboundMessageHookContext(makeInboundCtx({ Transcript: undefined }));
 
     const transcribed = toInternalMessageTranscribedContext(canonical, cfg);
@@ -152,3 +152,4 @@ describe("message hook mappers", () => {
     });
   });
 });
+

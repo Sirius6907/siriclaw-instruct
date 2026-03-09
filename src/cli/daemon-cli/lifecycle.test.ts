@@ -129,7 +129,7 @@ describe("runDaemonRestart health checks", () => {
     mockSpawnSync.mockReset();
 
     service.readCommand.mockResolvedValue({
-      programArguments: ["SiriClaw-Instruct", "gateway", "--port", "18789"],
+      programArguments: ["SiriClawInstruct", "gateway", "--port", "18789"],
       environment: {},
     });
 
@@ -164,14 +164,14 @@ describe("runDaemonRestart health checks", () => {
       }
       const pid = Number.parseInt(match[1] ?? "", 10);
       if ([4200, 4300].includes(pid)) {
-        return ["SiriClaw-Instruct", "gateway", "--port", "18789", ""].join("\0");
+        return ["SiriClawInstruct", "gateway", "--port", "18789", ""].join("\0");
       }
       throw new Error(`unknown pid ${pid}`);
     });
     mockSpawnSync.mockReturnValue({
       error: null,
       status: 0,
-      stdout: "SiriClaw-Instruct gateway --port 18789",
+      stdout: "SiriClawInstruct gateway --port 18789",
       stderr: "",
     });
   });
@@ -215,7 +215,7 @@ describe("runDaemonRestart health checks", () => {
 
     await expect(runDaemonRestart({ json: true })).rejects.toMatchObject({
       message: "Gateway restart timed out after 60s waiting for health checks.",
-      hints: ["SiriClaw-Instruct gateway status --deep", "SiriClaw-Instruct doctor"],
+      hints: ["SiriClawInstruct gateway status --deep", "SiriClawInstruct doctor"],
     });
     expect(terminateStaleGatewayPids).not.toHaveBeenCalled();
     expect(renderRestartDiagnostics).toHaveBeenCalledTimes(1);
@@ -229,7 +229,7 @@ describe("runDaemonRestart health checks", () => {
       error: null,
       status: 0,
       stdout:
-        'CommandLine="C:\\\\Program Files\\\\SiriClaw-Instruct\\\\SiriClaw-Instruct.exe" gateway --port 18789\r\n',
+        'CommandLine="C:\\\\Program Files\\\\SiriClawInstruct\\\\SiriClawInstruct.exe" gateway --port 18789\r\n',
       stderr: "",
     });
     runServiceStop.mockImplementation(async (params: { onNotLoaded?: () => Promise<unknown> }) => {
@@ -251,7 +251,7 @@ describe("runDaemonRestart health checks", () => {
       error: null,
       status: 0,
       stdout:
-        'CommandLine="C:\\\\Program Files\\\\SiriClaw-Instruct\\\\SiriClaw-Instruct.exe" gateway --port 18789\r\n',
+        'CommandLine="C:\\\\Program Files\\\\SiriClawInstruct\\\\SiriClawInstruct.exe" gateway --port 18789\r\n',
       stderr: "",
     });
     runServiceRestart.mockImplementation(
@@ -287,7 +287,7 @@ describe("runDaemonRestart health checks", () => {
       error: null,
       status: 0,
       stdout:
-        'CommandLine="C:\\\\Program Files\\\\SiriClaw-Instruct\\\\SiriClaw-Instruct.exe" gateway --port 18789\r\n',
+        'CommandLine="C:\\\\Program Files\\\\SiriClawInstruct\\\\SiriClawInstruct.exe" gateway --port 18789\r\n',
       stderr: "",
     });
     runServiceRestart.mockImplementation(
@@ -340,3 +340,4 @@ describe("runDaemonRestart health checks", () => {
     expect(killSpy).not.toHaveBeenCalled();
   });
 });
+

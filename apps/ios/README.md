@@ -139,3 +139,4 @@ Automatic wake/reconnect hardening:
 7. Validate background expectations:
    - repro in foreground first
    - then test background transitions and confirm reconnect on return
+

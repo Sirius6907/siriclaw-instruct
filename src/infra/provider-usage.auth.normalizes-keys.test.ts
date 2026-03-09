@@ -10,7 +10,7 @@ describe("resolveProviderAuths key normalization", () => {
   let suiteCase = 0;
 
   beforeAll(async () => {
-    suiteRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-provider-auth-suite-"));
+    suiteRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-provider-auth-suite-"));
   });
 
   afterAll(async () => {
@@ -25,15 +25,15 @@ describe("resolveProviderAuths key normalization", () => {
   ): Promise<T> {
     const base = path.join(suiteRoot, `case-${++suiteCase}`);
     await fs.mkdir(base, { recursive: true });
-    await fs.mkdir(path.join(base, ".SiriClaw-Instruct", "agents", "main", "sessions"), { recursive: true });
+    await fs.mkdir(path.join(base, ".SiriClawInstruct", "agents", "main", "sessions"), { recursive: true });
 
     const keysToRestore = new Set<string>([
       "HOME",
       "USERPROFILE",
       "HOMEDRIVE",
       "HOMEPATH",
-      "SiriClaw-Instruct_HOME",
-      "SiriClaw-Instruct_STATE_DIR",
+      "SiriClawInstruct_HOME",
+      "SiriClawInstruct_STATE_DIR",
       ...Object.keys(env),
     ]);
     const snapshot: Record<string, string | undefined> = {};
@@ -43,8 +43,8 @@ describe("resolveProviderAuths key normalization", () => {
 
     process.env.HOME = base;
     process.env.USERPROFILE = base;
-    delete process.env.SiriClaw-Instruct_HOME;
-    process.env.SiriClaw-Instruct_STATE_DIR = path.join(base, ".SiriClaw-Instruct");
+    delete process.env.SiriClawInstruct_HOME;
+    process.env.SiriClawInstruct_STATE_DIR = path.join(base, ".SiriClawInstruct");
     for (const [key, value] of Object.entries(env)) {
       if (value === undefined) {
         delete process.env[key];
@@ -66,7 +66,7 @@ describe("resolveProviderAuths key normalization", () => {
   }
 
   async function writeAuthProfiles(home: string, profiles: Record<string, unknown>) {
-    const agentDir = path.join(home, ".SiriClaw-Instruct", "agents", "main", "agent");
+    const agentDir = path.join(home, ".SiriClawInstruct", "agents", "main", "agent");
     await fs.mkdir(agentDir, { recursive: true });
     await fs.writeFile(
       path.join(agentDir, "auth-profiles.json"),
@@ -76,17 +76,17 @@ describe("resolveProviderAuths key normalization", () => {
   }
 
   async function writeConfig(home: string, config: Record<string, unknown>) {
-    const stateDir = path.join(home, ".SiriClaw-Instruct");
+    const stateDir = path.join(home, ".SiriClawInstruct");
     await fs.mkdir(stateDir, { recursive: true });
     await fs.writeFile(
-      path.join(stateDir, "SiriClaw-Instruct.json"),
+      path.join(stateDir, "SiriClawInstruct.json"),
       `${JSON.stringify(config, null, 2)}\n`,
       "utf8",
     );
   }
 
   async function writeProfileOrder(home: string, provider: string, profileIds: string[]) {
-    const agentDir = path.join(home, ".SiriClaw-Instruct", "agents", "main", "agent");
+    const agentDir = path.join(home, ".SiriClawInstruct", "agents", "main", "agent");
     const parsed = JSON.parse(
       await fs.readFile(path.join(agentDir, "auth-profiles.json"), "utf8"),
     ) as Record<string, unknown>;
@@ -453,3 +453,4 @@ describe("resolveProviderAuths key normalization", () => {
     expect(auths).toEqual([{ provider: "minimax", token: "ALLCAPS_SAMPLE" }]);
   });
 });
+

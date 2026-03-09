@@ -1,5 +1,5 @@
 {
-  "name": "SiriClaw-Instruct-control-ui",
+  "name": "siriclaw-instruct-control-ui",
   "private": true,
   "type": "module",
   "scripts": {
@@ -25,3 +25,7 @@
     "vitest": "4.0.18"
   }
 }
+
+
+
+

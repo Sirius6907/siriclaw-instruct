@@ -20,25 +20,25 @@ const ROOT_COMMANDS_HINT =
   "Hint: commands suffixed with * have subcommands. Run <command> --help for details.";
 
 const EXAMPLES = [
-  ["SiriClaw-Instruct models --help", "Show detailed help for the models command."],
+  ["SiriClawInstruct models --help", "Show detailed help for the models command."],
   [
-    "SiriClaw-Instruct channels login --verbose",
+    "SiriClawInstruct channels login --verbose",
     "Link personal WhatsApp Web and show QR + connection logs.",
   ],
   [
-    'SiriClaw-Instruct message send --target +15555550123 --message "Hi" --json',
+    'SiriClawInstruct message send --target +15555550123 --message "Hi" --json',
     "Send via your web session and print JSON result.",
   ],
-  ["SiriClaw-Instruct gateway --port 18789", "Run the WebSocket Gateway locally."],
-  ["SiriClaw-Instruct --dev gateway", "Run a dev Gateway (isolated state/config) on ws://127.0.0.1:19001."],
-  ["SiriClaw-Instruct gateway --force", "Kill anything bound to the default gateway port, then start it."],
-  ["SiriClaw-Instruct gateway ...", "Gateway control via WebSocket."],
+  ["SiriClawInstruct gateway --port 18789", "Run the WebSocket Gateway locally."],
+  ["SiriClawInstruct --dev gateway", "Run a dev Gateway (isolated state/config) on ws://127.0.0.1:19001."],
+  ["SiriClawInstruct gateway --force", "Kill anything bound to the default gateway port, then start it."],
+  ["SiriClawInstruct gateway ...", "Gateway control via WebSocket."],
   [
-    'SiriClaw-Instruct agent --to +15555550123 --message "Run summary" --deliver',
+    'SiriClawInstruct agent --to +15555550123 --message "Run summary" --deliver',
     "Talk directly to the agent using the Gateway; optionally send the WhatsApp reply.",
   ],
   [
-    'SiriClaw-Instruct message send --channel telegram --target @mychat --message "Hi"',
+    'SiriClawInstruct message send --channel telegram --target @mychat --message "Hi"',
     "Send via your Telegram bot.",
   ],
 ] as const;
@@ -50,11 +50,11 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
     .version(ctx.programVersion)
     .option(
       "--dev",
-      "Dev profile: isolate state under ~/.SiriClaw-Instruct-dev, default gateway port 19001, and shift derived ports (browser/canvas)",
+      "Dev profile: isolate state under ~/.SiriClawInstruct-dev, default gateway port 19001, and shift derived ports (browser/canvas)",
     )
     .option(
       "--profile <name>",
-      "Use a named profile (isolates SiriClaw-Instruct_STATE_DIR/SiriClaw-Instruct_CONFIG_PATH under ~/.SiriClaw-Instruct-<name>)",
+      "Use a named profile (isolates SiriClawInstruct_STATE_DIR/SiriClawInstruct_CONFIG_PATH under ~/.SiriClawInstruct-<name>)",
     )
     .option(
       "--log-level <level>",
@@ -130,7 +130,8 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
     if (command !== program) {
       return "";
     }
-    const docs = formatDocsLink("/cli", "docs.SiriClaw-Instruct.ai/cli");
+    const docs = formatDocsLink("/cli", "docs.SiriClawInstruct.ai/cli");
     return `\n${theme.heading("Examples:")}\n${fmtExamples}\n\n${theme.muted("Docs:")} ${docs}\n`;
   });
 }
+

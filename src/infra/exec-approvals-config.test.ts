@@ -17,11 +17,11 @@ import {
 describe("exec approvals wildcard agent", () => {
   it("merges wildcard allowlist entries with agent entries", () => {
     const dir = makeTempDir();
-    const prevSiriClaw-InstructHome = process.env.SiriClaw-Instruct_HOME;
+    const prevSiriClawInstructHome = process.env.SiriClawInstruct_HOME;
 
     try {
-      process.env.SiriClaw-Instruct_HOME = dir;
-      const approvalsPath = path.join(dir, ".SiriClaw-Instruct", "exec-approvals.json");
+      process.env.SiriClawInstruct_HOME = dir;
+      const approvalsPath = path.join(dir, ".SiriClawInstruct", "exec-approvals.json");
       fs.mkdirSync(path.dirname(approvalsPath), { recursive: true });
       fs.writeFileSync(
         approvalsPath,
@@ -44,10 +44,10 @@ describe("exec approvals wildcard agent", () => {
         "/usr/bin/uname",
       ]);
     } finally {
-      if (prevSiriClaw-InstructHome === undefined) {
-        delete process.env.SiriClaw-Instruct_HOME;
+      if (prevSiriClawInstructHome === undefined) {
+        delete process.env.SiriClawInstruct_HOME;
       } else {
-        process.env.SiriClaw-Instruct_HOME = prevSiriClaw-InstructHome;
+        process.env.SiriClawInstruct_HOME = prevSiriClawInstructHome;
       }
     }
   });
@@ -281,3 +281,4 @@ describe("normalizeExecApprovals handles string allowlist entries (#9790)", () =
     }
   });
 });
+

@@ -17,7 +17,7 @@ import {
   createExitThrowingRuntime,
   createWizardPrompter,
   readAuthProfilesForAgent,
-  requireSiriClaw-InstructAgentDir,
+  requireSiriClawInstructAgentDir,
   setupAuthTestEnv,
 } from "./test-wizard-helpers.js";
 
@@ -57,8 +57,8 @@ type StoredAuthProfile = {
 
 describe("applyAuthChoice", () => {
   const lifecycle = createAuthTestLifecycle([
-    "SiriClaw-Instruct_STATE_DIR",
-    "SiriClaw-Instruct_AGENT_DIR",
+    "SiriClawInstruct_STATE_DIR",
+    "SiriClawInstruct_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
     "ANTHROPIC_API_KEY",
     "OPENROUTER_API_KEY",
@@ -85,7 +85,7 @@ describe("applyAuthChoice", () => {
     if (activeStateDir) {
       await fs.rm(activeStateDir, { recursive: true, force: true });
     }
-    const env = await setupAuthTestEnv("SiriClaw-Instruct-auth-");
+    const env = await setupAuthTestEnv("SiriClawInstruct-auth-");
     activeStateDir = env.stateDir;
     lifecycle.setStateDir(env.stateDir);
   }
@@ -118,7 +118,7 @@ describe("applyAuthChoice", () => {
   async function readAuthProfiles() {
     return await readAuthProfilesForAgent<{
       profiles?: Record<string, StoredAuthProfile>;
-    }>(requireSiriClaw-InstructAgentDir());
+    }>(requireSiriClawInstructAgentDir());
   }
   async function readAuthProfile(profileId: string) {
     return (await readAuthProfiles()).profiles?.[profileId];
@@ -774,7 +774,7 @@ describe("applyAuthChoice", () => {
           providers: {
             filemain: {
               source: "file",
-              path: "/tmp/SiriClaw-Instruct-missing-secrets.json",
+              path: "/tmp/SiriClawInstruct-missing-secrets.json",
               mode: "json",
             },
           },
@@ -954,7 +954,7 @@ describe("applyAuthChoice", () => {
     await setupTempState();
     process.env.LITELLM_API_KEY = "sk-litellm-test"; // pragma: allowlist secret
 
-    const authProfilePath = authProfilePathForAgent(requireSiriClaw-InstructAgentDir());
+    const authProfilePath = authProfilePathForAgent(requireSiriClawInstructAgentDir());
     await fs.writeFile(
       authProfilePath,
       JSON.stringify(
@@ -1329,3 +1329,4 @@ describe("resolvePreferredProviderForAuthChoice", () => {
     }
   });
 });
+

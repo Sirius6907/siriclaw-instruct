@@ -57,3 +57,4 @@ describe("resolveSlackUserAllowlist", () => {
     expect(res[0]).toEqual({ input: "@missing-user", resolved: false });
   });
 });
+

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   coercePdfAssistantText,
   coercePdfModelConfig,
@@ -21,7 +21,7 @@ vi.mock("@mariozechner/pi-ai", async (importOriginal) => {
 });
 
 async function withTempAgentDir<T>(run: (agentDir: string) => Promise<T>): Promise<T> {
-  const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-pdf-"));
+  const agentDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-pdf-"));
   try {
     return await run(agentDir);
   } finally {
@@ -111,16 +111,16 @@ function resetAuthEnv() {
   vi.stubEnv("GITHUB_TOKEN", "");
 }
 
-function withDefaultModel(primary: string): SiriClaw-InstructConfig {
+function withDefaultModel(primary: string): SiriClawInstructConfig {
   return {
     agents: { defaults: { model: { primary } } },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
-function withPdfModel(primary: string): SiriClaw-InstructConfig {
+function withPdfModel(primary: string): SiriClawInstructConfig {
   return {
     agents: { defaults: { pdfModel: { primary } } },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 async function stubPdfToolInfra(
@@ -150,7 +150,7 @@ async function stubPdfToolInfra(
   vi.spyOn(modelDiscovery, "discoverModels").mockReturnValue({ find } as never);
 
   const modelsConfig = await import("../models-config.js");
-  vi.spyOn(modelsConfig, "ensureSiriClaw-InstructModelsJson").mockResolvedValue({
+  vi.spyOn(modelsConfig, "ensureSiriClawInstructModelsJson").mockResolvedValue({
     agentDir,
     wrote: false,
   });
@@ -253,7 +253,7 @@ describe("resolvePdfModelConfigForTool", () => {
 
   it("returns null without any auth", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         agents: { defaults: { model: { primary: "openai/gpt-5.2" } } },
       };
       expect(resolvePdfModelConfigForTool({ cfg, agentDir })).toBeNull();
@@ -262,14 +262,14 @@ describe("resolvePdfModelConfigForTool", () => {
 
   it("prefers explicit pdfModel config", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         agents: {
           defaults: {
             model: { primary: "openai/gpt-5.2" },
             pdfModel: { primary: "anthropic/claude-opus-4-6" },
           },
         },
-      } as SiriClaw-InstructConfig;
+      } as SiriClawInstructConfig;
       expect(resolvePdfModelConfigForTool({ cfg, agentDir })).toEqual({
         primary: "anthropic/claude-opus-4-6",
       });
@@ -278,7 +278,7 @@ describe("resolvePdfModelConfigForTool", () => {
 
   it("falls back to imageModel config when no pdfModel set", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         agents: {
           defaults: {
             model: { primary: "openai/gpt-5.2" },
@@ -337,7 +337,7 @@ describe("createPdfTool", () => {
 
   it("returns null without any auth configured", async () => {
     await withTempAgentDir(async (agentDir) => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         agents: { defaults: { model: { primary: "openai/gpt-5.2" } } },
       };
       expect(createPdfTool({ config: cfg, agentDir })).toBeNull();
@@ -376,8 +376,8 @@ describe("createPdfTool", () => {
   it("respects fsPolicy.workspaceOnly for non-sandbox pdf paths", async () => {
     await withTempAgentDir(async (agentDir) => {
       vi.stubEnv("ANTHROPIC_API_KEY", "anthropic-test");
-      const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-pdf-ws-"));
-      const outsideDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-pdf-out-"));
+      const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-pdf-ws-"));
+      const outsideDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-pdf-out-"));
       try {
         const cfg = withDefaultModel(ANTHROPIC_PDF_MODEL);
         const tool = requirePdfTool(
@@ -725,7 +725,7 @@ describe("pdf-tool.helpers", () => {
   });
 
   it("coercePdfModelConfig reads primary and fallbacks", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         defaults: {
           pdfModel: {
@@ -804,3 +804,4 @@ describe("model catalog document support", () => {
     expect(modelSupportsDocument(undefined)).toBe(false);
   });
 });
+

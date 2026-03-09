@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
-import { resolveSiriClaw-InstructPackageRoot } from "../infra/SiriClaw-Instruct-root.js";
+import { resolveSiriClawInstructPackageRoot } from "../infra/siriclaw-instruct-root.js";
 
-export async function resolveSiriClaw-InstructDocsPath(params: {
+export async function resolveSiriClawInstructDocsPath(params: {
   workspaceDir?: string;
   argv1?: string;
   cwd?: string;
@@ -16,7 +16,7 @@ export async function resolveSiriClaw-InstructDocsPath(params: {
     }
   }
 
-  const packageRoot = await resolveSiriClaw-InstructPackageRoot({
+  const packageRoot = await resolveSiriClawInstructPackageRoot({
     cwd: params.cwd,
     argv1: params.argv1,
     moduleUrl: params.moduleUrl,
@@ -28,3 +28,4 @@ export async function resolveSiriClaw-InstructDocsPath(params: {
   const packageDocs = path.join(packageRoot, "docs");
   return fs.existsSync(packageDocs) ? packageDocs : null;
 }
+

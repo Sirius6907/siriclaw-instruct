@@ -130,7 +130,7 @@ describe("fetchBrowserJson loopback auth", () => {
     }
     expect(thrown.message).toContain("Chrome CDP handshake timeout");
     expect(thrown.message).toContain("Do NOT retry the browser tool");
-    expect(thrown.message).not.toContain("Can't reach the SiriClaw-Instruct browser control service");
+    expect(thrown.message).not.toContain("Can't reach the SiriClawInstruct browser control service");
   });
 
   it("keeps absolute URL failures wrapped as reachability errors", async () => {
@@ -149,7 +149,8 @@ describe("fetchBrowserJson loopback auth", () => {
     if (!(thrown instanceof Error)) {
       throw new Error(`Expected Error, got ${String(thrown)}`);
     }
-    expect(thrown.message).toContain("Can't reach the SiriClaw-Instruct browser control service");
+    expect(thrown.message).toContain("Can't reach the SiriClawInstruct browser control service");
     expect(thrown.message).toContain("Do NOT retry the browser tool");
   });
 });
+

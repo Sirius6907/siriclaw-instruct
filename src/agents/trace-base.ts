@@ -19,3 +19,4 @@ export function buildAgentTraceBase(params: AgentTraceBase): AgentTraceBase {
     workspaceDir: params.workspaceDir,
   };
 }
+

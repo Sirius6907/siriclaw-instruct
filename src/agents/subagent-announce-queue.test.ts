@@ -121,8 +121,8 @@ describe("subagent-announce-queue", () => {
   it("uses debounce floor for retries when debounce exceeds backoff", async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-01-01T00:00:00.000Z"));
-    const previousFast = process.env.SiriClaw-Instruct_TEST_FAST;
-    delete process.env.SiriClaw-Instruct_TEST_FAST;
+    const previousFast = process.env.SiriClawInstruct_TEST_FAST;
+    delete process.env.SiriClawInstruct_TEST_FAST;
 
     try {
       const attempts: number[] = [];
@@ -159,10 +159,11 @@ describe("subagent-announce-queue", () => {
       expect(secondAttempt - firstAttempt).toBeGreaterThanOrEqual(5_000);
     } finally {
       if (previousFast === undefined) {
-        delete process.env.SiriClaw-Instruct_TEST_FAST;
+        delete process.env.SiriClawInstruct_TEST_FAST;
       } else {
-        process.env.SiriClaw-Instruct_TEST_FAST = previousFast;
+        process.env.SiriClawInstruct_TEST_FAST = previousFast;
       }
     }
   });
 });
+

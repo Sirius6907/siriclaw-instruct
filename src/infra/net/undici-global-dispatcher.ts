@@ -111,3 +111,4 @@ export function ensureGlobalUndiciStreamTimeouts(opts?: { timeoutMs?: number }):
 export function resetGlobalUndiciStreamTimeoutsForTests(): void {
   lastAppliedDispatcherKey = null;
 }
+

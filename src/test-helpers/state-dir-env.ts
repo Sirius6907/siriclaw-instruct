@@ -4,7 +4,7 @@ import path from "node:path";
 import { captureEnv } from "../test-utils/env.js";
 
 export function snapshotStateDirEnv() {
-  return captureEnv(["SiriClaw-Instruct_STATE_DIR", "SIRICLAW_STATE_DIR"]);
+  return captureEnv(["SiriClawInstruct_STATE_DIR", "SIRICLAW_STATE_DIR"]);
 }
 
 export function restoreStateDirEnv(snapshot: ReturnType<typeof snapshotStateDirEnv>): void {
@@ -12,7 +12,7 @@ export function restoreStateDirEnv(snapshot: ReturnType<typeof snapshotStateDirE
 }
 
 export function setStateDirEnv(stateDir: string): void {
-  process.env.SiriClaw-Instruct_STATE_DIR = stateDir;
+  process.env.SiriClawInstruct_STATE_DIR = stateDir;
   delete process.env.SIRICLAW_STATE_DIR;
 }
 
@@ -32,3 +32,4 @@ export async function withStateDirEnv<T>(
     await fs.rm(tempRoot, { recursive: true, force: true });
   }
 }
+

@@ -87,9 +87,9 @@ describe("cli integration: qr + dashboard token SecretRef", () => {
   beforeAll(() => {
     envSnapshot = captureEnv([
       "SHARED_GATEWAY_TOKEN",
-      "SiriClaw-Instruct_GATEWAY_TOKEN",
+      "SiriClawInstruct_GATEWAY_TOKEN",
       "SIRICLAW_GATEWAY_TOKEN",
-      "SiriClaw-Instruct_GATEWAY_PASSWORD",
+      "SiriClawInstruct_GATEWAY_PASSWORD",
       "SIRICLAW_GATEWAY_PASSWORD",
     ]);
   });
@@ -102,9 +102,9 @@ describe("cli integration: qr + dashboard token SecretRef", () => {
     runtimeLogs.length = 0;
     runtimeErrors.length = 0;
     vi.clearAllMocks();
-    delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+    delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
     delete process.env.SIRICLAW_GATEWAY_TOKEN;
-    delete process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+    delete process.env.SiriClawInstruct_GATEWAY_PASSWORD;
     delete process.env.SIRICLAW_GATEWAY_PASSWORD;
     delete process.env.SHARED_GATEWAY_TOKEN;
   });
@@ -114,7 +114,7 @@ describe("cli integration: qr + dashboard token SecretRef", () => {
     process.env.SHARED_GATEWAY_TOKEN = "shared-token-123";
     loadConfigMock.mockReturnValue(fixture);
     readConfigFileSnapshotMock.mockResolvedValue({
-      path: "/tmp/SiriClaw-Instruct.json",
+      path: "/tmp/SiriClawInstruct.json",
       exists: true,
       valid: true,
       issues: [],
@@ -146,7 +146,7 @@ describe("cli integration: qr + dashboard token SecretRef", () => {
     const fixture = createGatewayTokenRefFixture();
     loadConfigMock.mockReturnValue(fixture);
     readConfigFileSnapshotMock.mockResolvedValue({
-      path: "/tmp/SiriClaw-Instruct.json",
+      path: "/tmp/SiriClawInstruct.json",
       exists: true,
       valid: true,
       issues: [],
@@ -163,6 +163,7 @@ describe("cli integration: qr + dashboard token SecretRef", () => {
     expect(joined).toContain("Dashboard URL: http://127.0.0.1:18789/");
     expect(joined).not.toContain("#token=");
     expect(joined).toContain("Token auto-auth unavailable");
-    expect(joined).toContain("Set SiriClaw-Instruct_GATEWAY_TOKEN");
+    expect(joined).toContain("Set SiriClawInstruct_GATEWAY_TOKEN");
   });
 });
+

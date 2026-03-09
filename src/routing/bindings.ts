@@ -1,7 +1,7 @@
 import { resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { normalizeChatChannelId } from "../channels/registry.js";
 import { listRouteBindings } from "../config/bindings.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { AgentRouteBinding } from "../config/types.agents.js";
 import { normalizeAccountId, normalizeAgentId } from "./session-key.js";
 
@@ -14,7 +14,7 @@ function normalizeBindingChannelId(raw?: string | null): string | null {
   return fallback || null;
 }
 
-export function listBindings(cfg: SiriClaw-InstructConfig): AgentRouteBinding[] {
+export function listBindings(cfg: SiriClawInstructConfig): AgentRouteBinding[] {
   return listRouteBindings(cfg);
 }
 
@@ -45,7 +45,7 @@ function resolveNormalizedBindingMatch(binding: AgentRouteBinding): {
   };
 }
 
-export function listBoundAccountIds(cfg: SiriClaw-InstructConfig, channelId: string): string[] {
+export function listBoundAccountIds(cfg: SiriClawInstructConfig, channelId: string): string[] {
   const normalizedChannel = normalizeBindingChannelId(channelId);
   if (!normalizedChannel) {
     return [];
@@ -62,7 +62,7 @@ export function listBoundAccountIds(cfg: SiriClaw-InstructConfig, channelId: str
 }
 
 export function resolveDefaultAgentBoundAccountId(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   channelId: string,
 ): string | null {
   const normalizedChannel = normalizeBindingChannelId(channelId);
@@ -84,7 +84,7 @@ export function resolveDefaultAgentBoundAccountId(
   return null;
 }
 
-export function buildChannelAccountBindings(cfg: SiriClaw-InstructConfig) {
+export function buildChannelAccountBindings(cfg: SiriClawInstructConfig) {
   const map = new Map<string, Map<string, string[]>>();
   for (const binding of listBindings(cfg)) {
     const resolved = resolveNormalizedBindingMatch(binding);
@@ -112,3 +112,4 @@ export function resolvePreferredAccountId(params: {
   }
   return params.defaultAccountId;
 }
+

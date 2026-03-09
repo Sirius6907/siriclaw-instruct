@@ -10,14 +10,14 @@ import {
 
 describe("applyAuthChoiceOpenAI", () => {
   const lifecycle = createAuthTestLifecycle([
-    "SiriClaw-Instruct_STATE_DIR",
-    "SiriClaw-Instruct_AGENT_DIR",
+    "SiriClawInstruct_STATE_DIR",
+    "SiriClawInstruct_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
     "OPENAI_API_KEY",
   ]);
 
   async function setupTempState() {
-    const env = await setupAuthTestEnv("SiriClaw-Instruct-openai-");
+    const env = await setupAuthTestEnv("SiriClawInstruct-openai-");
     lifecycle.setStateDir(env.stateDir);
     return env.agentDir;
   }
@@ -114,3 +114,4 @@ describe("applyAuthChoiceOpenAI", () => {
     expect(parsed.profiles?.["openai:default"]?.keyRef).toBeUndefined();
   });
 });
+

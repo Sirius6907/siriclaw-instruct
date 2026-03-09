@@ -28,7 +28,7 @@ import {
   VENICE_DEFAULT_MODEL_REF,
   VENICE_MODEL_CATALOG,
 } from "../agents/venice-models.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { ModelApi } from "../config/types.models.js";
 import { KILOCODE_BASE_URL } from "../providers/kilocode-shared.js";
 import {
@@ -82,9 +82,9 @@ import {
 } from "./onboard-auth.models.js";
 
 export function applyZaiProviderConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   params?: { endpoint?: string; modelId?: string },
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const modelId = params?.modelId?.trim() || ZAI_DEFAULT_MODEL_ID;
   const modelRef = `zai/${modelId}`;
 
@@ -138,16 +138,16 @@ export function applyZaiProviderConfig(
 }
 
 export function applyZaiConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   params?: { endpoint?: string; modelId?: string },
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const modelId = params?.modelId?.trim() || ZAI_DEFAULT_MODEL_ID;
   const modelRef = modelId === ZAI_DEFAULT_MODEL_ID ? ZAI_DEFAULT_MODEL_REF : `zai/${modelId}`;
   const next = applyZaiProviderConfig(cfg, params);
   return applyAgentDefaultModelPrimary(next, modelRef);
 }
 
-export function applyOpenrouterProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyOpenrouterProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[OPENROUTER_DEFAULT_MODEL_REF] = {
     ...models[OPENROUTER_DEFAULT_MODEL_REF],
@@ -166,23 +166,23 @@ export function applyOpenrouterProviderConfig(cfg: SiriClaw-InstructConfig): Sir
   };
 }
 
-export function applyOpenrouterConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyOpenrouterConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyOpenrouterProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, OPENROUTER_DEFAULT_MODEL_REF);
 }
 
-export function applyMoonshotProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyMoonshotProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   return applyMoonshotProviderConfigWithBaseUrl(cfg, MOONSHOT_BASE_URL);
 }
 
-export function applyMoonshotProviderConfigCn(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyMoonshotProviderConfigCn(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   return applyMoonshotProviderConfigWithBaseUrl(cfg, MOONSHOT_CN_BASE_URL);
 }
 
 function applyMoonshotProviderConfigWithBaseUrl(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   baseUrl: string,
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[MOONSHOT_DEFAULT_MODEL_REF] = {
     ...models[MOONSHOT_DEFAULT_MODEL_REF],
@@ -201,17 +201,17 @@ function applyMoonshotProviderConfigWithBaseUrl(
   });
 }
 
-export function applyMoonshotConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyMoonshotConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyMoonshotProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, MOONSHOT_DEFAULT_MODEL_REF);
 }
 
-export function applyMoonshotConfigCn(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyMoonshotConfigCn(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyMoonshotProviderConfigCn(cfg);
   return applyAgentDefaultModelPrimary(next, MOONSHOT_DEFAULT_MODEL_REF);
 }
 
-export function applyKimiCodeProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyKimiCodeProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[KIMI_CODING_MODEL_REF] = {
     ...models[KIMI_CODING_MODEL_REF],
@@ -230,12 +230,12 @@ export function applyKimiCodeProviderConfig(cfg: SiriClaw-InstructConfig): SiriC
   });
 }
 
-export function applyKimiCodeConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyKimiCodeConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyKimiCodeProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, KIMI_CODING_MODEL_REF);
 }
 
-export function applySyntheticProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applySyntheticProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[SYNTHETIC_DEFAULT_MODEL_REF] = {
     ...models[SYNTHETIC_DEFAULT_MODEL_REF],
@@ -269,12 +269,12 @@ export function applySyntheticProviderConfig(cfg: SiriClaw-InstructConfig): Siri
   return applyOnboardAuthAgentModelsAndProviders(cfg, { agentModels: models, providers });
 }
 
-export function applySyntheticConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applySyntheticConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applySyntheticProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, SYNTHETIC_DEFAULT_MODEL_REF);
 }
 
-export function applyXiaomiProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyXiaomiProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[XIAOMI_DEFAULT_MODEL_REF] = {
     ...models[XIAOMI_DEFAULT_MODEL_REF],
@@ -292,7 +292,7 @@ export function applyXiaomiProviderConfig(cfg: SiriClaw-InstructConfig): SiriCla
   });
 }
 
-export function applyXiaomiConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyXiaomiConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyXiaomiProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, XIAOMI_DEFAULT_MODEL_REF);
 }
@@ -301,7 +301,7 @@ export function applyXiaomiConfig(cfg: SiriClaw-InstructConfig): SiriClaw-Instru
  * Apply Venice provider configuration without changing the default model.
  * Registers Venice models and sets up the provider, but preserves existing model selection.
  */
-export function applyVeniceProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyVeniceProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[VENICE_DEFAULT_MODEL_REF] = {
     ...models[VENICE_DEFAULT_MODEL_REF],
@@ -322,7 +322,7 @@ export function applyVeniceProviderConfig(cfg: SiriClaw-InstructConfig): SiriCla
  * Apply Venice provider configuration AND set Venice as the default model.
  * Use this when Venice is the primary provider choice during onboarding.
  */
-export function applyVeniceConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyVeniceConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyVeniceProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, VENICE_DEFAULT_MODEL_REF);
 }
@@ -331,7 +331,7 @@ export function applyVeniceConfig(cfg: SiriClaw-InstructConfig): SiriClaw-Instru
  * Apply Together provider configuration without changing the default model.
  * Registers Together models and sets up the provider, but preserves existing model selection.
  */
-export function applyTogetherProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyTogetherProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[TOGETHER_DEFAULT_MODEL_REF] = {
     ...models[TOGETHER_DEFAULT_MODEL_REF],
@@ -352,7 +352,7 @@ export function applyTogetherProviderConfig(cfg: SiriClaw-InstructConfig): SiriC
  * Apply Together provider configuration AND set Together as the default model.
  * Use this when Together is the primary provider choice during onboarding.
  */
-export function applyTogetherConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyTogetherConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyTogetherProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, TOGETHER_DEFAULT_MODEL_REF);
 }
@@ -360,7 +360,7 @@ export function applyTogetherConfig(cfg: SiriClaw-InstructConfig): SiriClaw-Inst
 /**
  * Apply Hugging Face (Inference Providers) provider configuration without changing the default model.
  */
-export function applyHuggingfaceProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyHuggingfaceProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[HUGGINGFACE_DEFAULT_MODEL_REF] = {
     ...models[HUGGINGFACE_DEFAULT_MODEL_REF],
@@ -380,12 +380,12 @@ export function applyHuggingfaceProviderConfig(cfg: SiriClaw-InstructConfig): Si
 /**
  * Apply Hugging Face provider configuration AND set Hugging Face as the default model.
  */
-export function applyHuggingfaceConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyHuggingfaceConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyHuggingfaceProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, HUGGINGFACE_DEFAULT_MODEL_REF);
 }
 
-export function applyXaiProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyXaiProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[XAI_DEFAULT_MODEL_REF] = {
     ...models[XAI_DEFAULT_MODEL_REF],
@@ -404,12 +404,12 @@ export function applyXaiProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-I
   });
 }
 
-export function applyXaiConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyXaiConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyXaiProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, XAI_DEFAULT_MODEL_REF);
 }
 
-export function applyMistralProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyMistralProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[MISTRAL_DEFAULT_MODEL_REF] = {
     ...models[MISTRAL_DEFAULT_MODEL_REF],
@@ -428,7 +428,7 @@ export function applyMistralProviderConfig(cfg: SiriClaw-InstructConfig): SiriCl
   });
 }
 
-export function applyMistralConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyMistralConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyMistralProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, MISTRAL_DEFAULT_MODEL_REF);
 }
@@ -439,7 +439,7 @@ export { KILOCODE_BASE_URL };
  * Apply Kilo Gateway provider configuration without changing the default model.
  * Registers Kilo Gateway and sets up the provider, but preserves existing model selection.
  */
-export function applyKilocodeProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyKilocodeProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[KILOCODE_DEFAULT_MODEL_REF] = {
     ...models[KILOCODE_DEFAULT_MODEL_REF],
@@ -461,13 +461,13 @@ export function applyKilocodeProviderConfig(cfg: SiriClaw-InstructConfig): SiriC
  * Apply Kilo Gateway provider configuration AND set Kilo Gateway as the default model.
  * Use this when Kilo Gateway is the primary provider choice during onboarding.
  */
-export function applyKilocodeConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyKilocodeConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyKilocodeProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, KILOCODE_DEFAULT_MODEL_REF);
 }
 
 export function applyAuthProfileConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   params: {
     profileId: string;
     provider: string;
@@ -475,7 +475,7 @@ export function applyAuthProfileConfig(
     email?: string;
     preferProfileFirst?: boolean;
   },
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const normalizedProvider = params.provider.toLowerCase();
   const profiles = {
     ...cfg.auth?.profiles,
@@ -538,7 +538,7 @@ export function applyAuthProfileConfig(
   };
 }
 
-export function applyQianfanProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyQianfanProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[QIANFAN_DEFAULT_MODEL_REF] = {
     ...models[QIANFAN_DEFAULT_MODEL_REF],
@@ -569,7 +569,8 @@ export function applyQianfanProviderConfig(cfg: SiriClaw-InstructConfig): SiriCl
   });
 }
 
-export function applyQianfanConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyQianfanConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyQianfanProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, QIANFAN_DEFAULT_MODEL_REF);
 }
+

@@ -396,13 +396,13 @@ function coerceRequest(val: unknown): OpenAiChatCompletionRequest {
 function resolveAgentResponseText(result: unknown): string {
   const payloads = (result as { payloads?: Array<{ text?: string }> } | null)?.payloads;
   if (!Array.isArray(payloads) || payloads.length === 0) {
-    return "No response from SiriClaw-Instruct.";
+    return "No response from SiriClawInstruct.";
   }
   const content = payloads
     .map((p) => (typeof p.text === "string" ? p.text : ""))
     .filter(Boolean)
     .join("\n\n");
-  return content || "No response from SiriClaw-Instruct.";
+  return content || "No response from SiriClawInstruct.";
 }
 
 export async function handleOpenAiHttpRequest(
@@ -428,7 +428,7 @@ export async function handleOpenAiHttpRequest(
 
   const payload = coerceRequest(handled.body);
   const stream = Boolean(payload.stream);
-  const model = typeof payload.model === "string" ? payload.model : "SiriClaw-Instruct";
+  const model = typeof payload.model === "string" ? payload.model : "SiriClawInstruct";
   const user = typeof payload.user === "string" ? payload.user : undefined;
 
   const { sessionKey, messageChannel } = resolveGatewayRequestContext({
@@ -610,3 +610,4 @@ export async function handleOpenAiHttpRequest(
 
   return true;
 }
+

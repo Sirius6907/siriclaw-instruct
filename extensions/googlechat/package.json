@@ -1,21 +1,21 @@
 {
-  "name": "@SiriClaw-Instruct/googlechat",
+  "name": "@siriclaw-instruct/googlechat",
   "version": "2026.3.8",
   "private": true,
-  "description": "SiriClaw-Instruct Google Chat channel plugin",
+  "description": "siriclaw-instruct Google Chat channel plugin",
   "type": "module",
   "dependencies": {
     "google-auth-library": "^10.6.1"
   },
   "peerDependencies": {
-    "SiriClaw-Instruct": ">=2026.3.2"
+    "siriclaw-instruct": "workspace:*"
   },
   "peerDependenciesMeta": {
-    "SiriClaw-Instruct": {
+    "siriclaw-instruct": {
       "optional": true
     }
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ],
@@ -34,9 +34,13 @@
       "order": 55
     },
     "install": {
-      "npmSpec": "@SiriClaw-Instruct/googlechat",
+      "npmSpec": "@siriclaw-instruct/googlechat",
       "localPath": "extensions/googlechat",
       "defaultChoice": "npm"
     }
   }
 }
+
+
+
+

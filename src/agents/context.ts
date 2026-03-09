@@ -2,11 +2,11 @@
 // the agent reports a model id. This includes custom models.json entries.
 
 import { loadConfig } from "../config/config.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { computeBackoff, type BackoffPolicy } from "../infra/backoff.js";
 import { consumeRootOptionToken, FLAG_TERMINATOR } from "../infra/cli-root-options.js";
-import { resolveSiriClaw-InstructAgentDir } from "./agent-paths.js";
-import { ensureSiriClaw-InstructModelsJson } from "./models-config.js";
+import { resolveSiriClawInstructAgentDir } from "./agent-paths.js";
+import { ensureSiriClawInstructModelsJson } from "./models-config.js";
 
 type ModelEntry = { id: string; contextWindow?: number };
 type ModelRegistryLike = {
@@ -75,7 +75,7 @@ export function applyConfiguredContextWindows(params: {
 
 const MODEL_CACHE = new Map<string, number>();
 let loadPromise: Promise<void> | null = null;
-let configuredConfig: SiriClaw-InstructConfig | undefined;
+let configuredConfig: SiriClawInstructConfig | undefined;
 let configLoadFailures = 0;
 let nextConfigLoadAttemptAtMs = 0;
 
@@ -108,7 +108,7 @@ function shouldSkipEagerContextWindowWarmup(argv: string[] = process.argv): bool
   return primary === "config" && secondary === "validate";
 }
 
-function primeConfiguredContextWindows(): SiriClaw-InstructConfig | undefined {
+function primeConfiguredContextWindows(): SiriClawInstructConfig | undefined {
   if (configuredConfig) {
     return configuredConfig;
   }
@@ -146,14 +146,14 @@ function ensureContextWindowCacheLoaded(): Promise<void> {
 
   loadPromise = (async () => {
     try {
-      await ensureSiriClaw-InstructModelsJson(cfg);
+      await ensureSiriClawInstructModelsJson(cfg);
     } catch {
       // Continue with best-effort discovery/overrides.
     }
 
     try {
       const { discoverAuthStorage, discoverModels } = await import("./pi-model-discovery.js");
-      const agentDir = resolveSiriClaw-InstructAgentDir();
+      const agentDir = resolveSiriClawInstructAgentDir();
       const authStorage = discoverAuthStorage(agentDir);
       const modelRegistry = discoverModels(authStorage, agentDir) as unknown as ModelRegistryLike;
       const models =
@@ -194,7 +194,7 @@ if (!shouldSkipEagerContextWindowWarmup()) {
 }
 
 function resolveConfiguredModelParams(
-  cfg: SiriClaw-InstructConfig | undefined,
+  cfg: SiriClawInstructConfig | undefined,
   provider: string,
   model: string,
 ): Record<string, unknown> | undefined {
@@ -248,7 +248,7 @@ function isAnthropic1MModel(provider: string, model: string): boolean {
 }
 
 export function resolveContextTokensForModel(params: {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   provider?: string;
   model?: string;
   contextTokensOverride?: number;
@@ -271,3 +271,4 @@ export function resolveContextTokensForModel(params: {
 
   return lookupContextTokens(params.model) ?? params.fallbackContextTokens;
 }
+

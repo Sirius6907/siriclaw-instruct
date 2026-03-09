@@ -100,7 +100,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     }
     defaultRuntime.error(
       warnText(
-        `Recommendation: run "${formatCliCommand("SiriClaw-Instruct doctor")}" (or "${formatCliCommand("SiriClaw-Instruct doctor --repair")}").`,
+        `Recommendation: run "${formatCliCommand("SiriClawInstruct doctor")}" (or "${formatCliCommand("SiriClawInstruct doctor --repair")}").`,
       ),
     );
   }
@@ -134,7 +134,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
       );
       defaultRuntime.error(
         errorText(
-          `Fix: rerun \`${formatCliCommand("SiriClaw-Instruct gateway install --force")}\` from the same --profile / SiriClaw-Instruct_STATE_DIR you expect.`,
+          `Fix: rerun \`${formatCliCommand("SiriClawInstruct gateway install --force")}\` from the same --profile / SiriClawInstruct_STATE_DIR you expect.`,
         ),
       );
     }
@@ -224,14 +224,14 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
 
   if (service.runtime?.cachedLabel) {
     const env = service.command?.environment ?? process.env;
-    const labelValue = resolveGatewayLaunchAgentLabel(env.SiriClaw-Instruct_PROFILE);
+    const labelValue = resolveGatewayLaunchAgentLabel(env.SiriClawInstruct_PROFILE);
     defaultRuntime.error(
       errorText(
         `LaunchAgent label cached but plist missing. Clear with: launchctl bootout gui/$UID/${labelValue}`,
       ),
     );
     defaultRuntime.error(
-      errorText(`Then reinstall: ${formatCliCommand("SiriClaw-Instruct gateway install")}`),
+      errorText(`Then reinstall: ${formatCliCommand("SiriClawInstruct gateway install")}`),
     );
     spacer();
   }
@@ -267,7 +267,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     }
     if (process.platform === "linux") {
       const env = service.command?.environment ?? process.env;
-      const unit = resolveGatewaySystemdServiceName(env.SiriClaw-Instruct_PROFILE);
+      const unit = resolveGatewaySystemdServiceName(env.SiriClawInstruct_PROFILE);
       defaultRuntime.error(
         errorText(`Logs: journalctl --user -u ${unit}.service -n 200 --no-pager`),
       );
@@ -304,6 +304,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     spacer();
   }
 
-  defaultRuntime.log(`${label("Troubles:")} run ${formatCliCommand("SiriClaw-Instruct status")}`);
-  defaultRuntime.log(`${label("Troubleshooting:")} https://docs.SiriClaw-Instruct.ai/troubleshooting`);
+  defaultRuntime.log(`${label("Troubles:")} run ${formatCliCommand("SiriClawInstruct status")}`);
+  defaultRuntime.log(`${label("Troubleshooting:")} https://docs.SiriClawInstruct.ai/troubleshooting`);
 }
+

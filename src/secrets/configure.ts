@@ -5,7 +5,7 @@ import { listAgentIds, resolveAgentDir, resolveDefaultAgentId } from "../agents/
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
 import { AUTH_STORE_VERSION } from "../agents/auth-profiles/constants.js";
 import { resolveAuthStorePath } from "../agents/auth-profiles/paths.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { SecretProviderConfig, SecretRef, SecretRefSource } from "../config/types.secrets.js";
 import { isSafeExecutableValue } from "../infra/exec-safety.js";
 import { normalizeAgentId } from "../routing/session-key.js";
@@ -65,7 +65,7 @@ function parseOptionalPositiveInt(value: string, max: number): number | undefine
   return parsed;
 }
 
-function getSecretProviders(config: SiriClaw-InstructConfig): Record<string, SecretProviderConfig> {
+function getSecretProviders(config: SiriClawInstructConfig): Record<string, SecretProviderConfig> {
   if (!isRecord(config.secrets?.providers)) {
     return {};
   }
@@ -73,7 +73,7 @@ function getSecretProviders(config: SiriClaw-InstructConfig): Record<string, Sec
 }
 
 function setSecretProvider(
-  config: SiriClaw-InstructConfig,
+  config: SiriClawInstructConfig,
   providerAlias: string,
   providerConfig: SecretProviderConfig,
 ): void {
@@ -84,7 +84,7 @@ function setSecretProvider(
   config.secrets.providers[providerAlias] = providerConfig;
 }
 
-function removeSecretProvider(config: SiriClaw-InstructConfig, providerAlias: string): boolean {
+function removeSecretProvider(config: SiriClawInstructConfig, providerAlias: string): boolean {
   if (!isRecord(config.secrets?.providers)) {
     return false;
   }
@@ -130,7 +130,7 @@ function providerHint(provider: SecretProviderConfig): string {
   return `exec (${provider.jsonOnly === false ? "json+text" : "json"})`;
 }
 
-function toSourceChoices(config: SiriClaw-InstructConfig): Array<{ value: SecretRefSource; label: string }> {
+function toSourceChoices(config: SiriClawInstructConfig): Array<{ value: SecretRefSource; label: string }> {
   const hasSource = (source: SecretRefSource) =>
     Object.values(config.secrets?.providers ?? {}).some((provider) => provider?.source === source);
   const choices: Array<{ value: SecretRefSource; label: string }> = [
@@ -210,14 +210,14 @@ async function promptOptionalPositiveInt(params: {
 }
 
 function configureCandidateKey(candidate: {
-  configFile: "SiriClaw-Instruct.json" | "auth-profiles.json";
+  configFile: "SiriClawInstruct.json" | "auth-profiles.json";
   path: string;
   agentId?: string;
 }): string {
   if (candidate.configFile === "auth-profiles.json") {
     return `auth-profiles:${String(candidate.agentId ?? "").trim()}:${candidate.path}`;
   }
-  return `SiriClaw-Instruct:${candidate.path}`;
+  return `SiriClawInstruct:${candidate.path}`;
 }
 
 function hasSourceChoice(
@@ -249,7 +249,7 @@ function resolveSuggestedEnvSecretId(candidate: ConfigureCandidate): string | un
   return envCandidates[0];
 }
 
-function resolveConfigureAgentId(config: SiriClaw-InstructConfig, explicitAgentId?: string): string {
+function resolveConfigureAgentId(config: SiriClawInstructConfig, explicitAgentId?: string): string {
   const knownAgentIds = new Set(listAgentIds(config));
   if (!explicitAgentId) {
     return resolveDefaultAgentId(config);
@@ -292,7 +292,7 @@ function normalizeAuthStoreForConfigure(
 }
 
 function loadAuthProfileStoreForConfigure(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   agentId: string;
 }): AuthProfileStore {
   const agentDir = resolveAgentDir(params.config, params.agentId);
@@ -629,7 +629,7 @@ async function promptProviderConfig(
   return await promptExecProvider(current?.source === "exec" ? current : undefined);
 }
 
-async function configureProvidersInteractive(config: SiriClaw-InstructConfig): Promise<void> {
+async function configureProvidersInteractive(config: SiriClawInstructConfig): Promise<void> {
   while (true) {
     const providers = getSecretProviders(config);
     const providerEntries = Object.entries(providers).toSorted(([left], [right]) =>
@@ -778,7 +778,7 @@ export async function runSecretsConfigureInteractive(
     });
     const candidates = buildConfigureCandidatesForScope({
       config: stagedConfig,
-      authoredSiriClaw-InstructConfig: snapshot.resolved,
+      authoredSiriClawInstructConfig: snapshot.resolved,
       authProfiles: {
         agentId: configureAgentId,
         store: authStore,
@@ -800,7 +800,7 @@ export async function runSecretsConfigureInteractive(
         value: configureCandidateKey(candidate),
         label: candidate.label,
         hint: [
-          candidate.configFile === "auth-profiles.json" ? "auth-profiles.json" : "SiriClaw-Instruct.json",
+          candidate.configFile === "auth-profiles.json" ? "auth-profiles.json" : "SiriClawInstruct.json",
           candidate.isDerived === true ? "derived" : undefined,
         ]
           .filter(Boolean)
@@ -975,3 +975,4 @@ export async function runSecretsConfigureInteractive(
 
   return { plan, preflight };
 }
+

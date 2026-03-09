@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { expectGeneratedTokenPersistedToGatewayAuth } from "../test-utils/auth-token-assertions.js";
 
 const mocks = vi.hoisted(() => ({
-  writeConfigFile: vi.fn(async (_cfg: SiriClaw-InstructConfig) => {}),
+  writeConfigFile: vi.fn(async (_cfg: SiriClawInstructConfig) => {}),
 }));
 
 vi.mock("../config/config.js", async (importOriginal) => {
@@ -20,7 +20,7 @@ import {
 } from "./startup-auth.js";
 
 describe("ensureGatewayStartupAuth", () => {
-  async function expectEphemeralGeneratedTokenWhenOverridden(cfg: SiriClaw-InstructConfig) {
+  async function expectEphemeralGeneratedTokenWhenOverridden(cfg: SiriClawInstructConfig) {
     const result = await ensureGatewayStartupAuth({
       cfg,
       env: {} as NodeJS.ProcessEnv,
@@ -40,7 +40,7 @@ describe("ensureGatewayStartupAuth", () => {
     mocks.writeConfigFile.mockClear();
   });
 
-  async function expectNoTokenGeneration(cfg: SiriClaw-InstructConfig, mode: string) {
+  async function expectNoTokenGeneration(cfg: SiriClawInstructConfig, mode: string) {
     const result = await ensureGatewayStartupAuth({
       cfg,
       env: {} as NodeJS.ProcessEnv,
@@ -72,7 +72,7 @@ describe("ensureGatewayStartupAuth", () => {
   });
 
   it("does not generate when token already exists", async () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       gateway: {
         auth: {
           mode: "token",
@@ -176,12 +176,12 @@ describe("ensureGatewayStartupAuth", () => {
         gateway: {
           auth: {
             mode: "token",
-            token: "${SiriClaw-Instruct_GATEWAY_TOKEN}",
+            token: "${SiriClawInstruct_GATEWAY_TOKEN}",
           },
         },
       },
       env: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "resolved-token",
+        SiriClawInstruct_GATEWAY_TOKEN: "resolved-token",
       } as NodeJS.ProcessEnv,
       persist: true,
     });
@@ -190,11 +190,11 @@ describe("ensureGatewayStartupAuth", () => {
     expect(result.persistedGeneratedToken).toBe(false);
     expect(result.auth.mode).toBe("token");
     expect(result.auth.token).toBe("resolved-token");
-    expect(result.cfg.gateway?.auth?.token).toBe("${SiriClaw-Instruct_GATEWAY_TOKEN}");
+    expect(result.cfg.gateway?.auth?.token).toBe("${SiriClawInstruct_GATEWAY_TOKEN}");
     expect(mocks.writeConfigFile).not.toHaveBeenCalled();
   });
 
-  it("uses SiriClaw-Instruct_GATEWAY_TOKEN without resolving configured token SecretRef", async () => {
+  it("uses SiriClawInstruct_GATEWAY_TOKEN without resolving configured token SecretRef", async () => {
     const result = await ensureGatewayStartupAuth({
       cfg: {
         gateway: {
@@ -210,7 +210,7 @@ describe("ensureGatewayStartupAuth", () => {
         },
       },
       env: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "token-from-env",
+        SiriClawInstruct_GATEWAY_TOKEN: "token-from-env",
       } as NodeJS.ProcessEnv,
       persist: true,
     });
@@ -263,7 +263,7 @@ describe("ensureGatewayStartupAuth", () => {
     expect(mocks.writeConfigFile).not.toHaveBeenCalled();
   });
 
-  it("uses SiriClaw-Instruct_GATEWAY_PASSWORD without resolving configured password SecretRef", async () => {
+  it("uses SiriClawInstruct_GATEWAY_PASSWORD without resolving configured password SecretRef", async () => {
     const result = await ensureGatewayStartupAuth({
       cfg: {
         gateway: {
@@ -279,7 +279,7 @@ describe("ensureGatewayStartupAuth", () => {
         },
       },
       env: {
-        SiriClaw-Instruct_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
+        SiriClawInstruct_GATEWAY_PASSWORD: "password-from-env", // pragma: allowlist secret
       } as NodeJS.ProcessEnv,
       persist: true,
     });
@@ -290,7 +290,7 @@ describe("ensureGatewayStartupAuth", () => {
   });
 
   it("does not resolve gateway.auth.password SecretRef when token mode is explicit", async () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       gateway: {
         auth: {
           mode: "token",
@@ -344,7 +344,7 @@ describe("ensureGatewayStartupAuth", () => {
   });
 
   it("treats undefined token override as no override", async () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       gateway: {
         auth: {
           mode: "token",
@@ -406,7 +406,7 @@ describe("ensureGatewayStartupAuth", () => {
           },
         },
         env: {
-          SiriClaw-Instruct_GATEWAY_TOKEN: "shared-gateway-token-1234567890",
+          SiriClawInstruct_GATEWAY_TOKEN: "shared-gateway-token-1234567890",
         } as NodeJS.ProcessEnv,
       }),
     ).rejects.toThrow(/hooks\.token must not match gateway auth token/i);
@@ -471,3 +471,4 @@ describe("assertHooksTokenSeparateFromGatewayAuth", () => {
     ).not.toThrow();
   });
 });
+

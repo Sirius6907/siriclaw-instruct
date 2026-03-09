@@ -16,10 +16,10 @@ export type {
   AcpSessionUpdateTag,
 } from "../acp/runtime/types.js";
 export type {
-  SiriClaw-InstructPluginApi,
-  SiriClaw-InstructPluginConfigSchema,
-  SiriClaw-InstructPluginService,
-  SiriClaw-InstructPluginServiceContext,
+  SiriClawInstructPluginApi,
+  SiriClawInstructPluginConfigSchema,
+  SiriClawInstructPluginService,
+  SiriClawInstructPluginServiceContext,
   PluginLogger,
 } from "../plugins/types.js";
 export type {
@@ -32,3 +32,4 @@ export {
   materializeWindowsSpawnProgram,
   resolveWindowsSpawnProgramCandidate,
 } from "./windows-spawn.js";
+

@@ -336,7 +336,7 @@ export type DiscordAccountConfig = {
    */
   inboundWorker?: {
     /**
-     * Max time (ms) a queued inbound run may execute before SiriClaw-Instruct aborts it.
+     * Max time (ms) a queued inbound run may execute before SiriClawInstruct aborts it.
      * Defaults to 1800000 (30 minutes). Set 0 to disable the worker-owned timeout.
      */
     runTimeoutMs?: number;
@@ -362,3 +362,4 @@ export type DiscordConfig = {
   /** Optional default account id when multiple accounts are configured. */
   defaultAccount?: string;
 } & DiscordAccountConfig;
+

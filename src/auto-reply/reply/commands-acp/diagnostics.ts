@@ -100,7 +100,7 @@ export async function handleAcpDoctorAction(
     lines.push("healthy: no");
     lines.push(formatAcpRuntimeErrorText(acpError));
     lines.push(`next: ${installHint}`);
-    lines.push(`next: SiriClaw-Instruct config set plugins.entries.${backendId}.enabled true`);
+    lines.push(`next: SiriClawInstruct config set plugins.entries.${backendId}.enabled true`);
     if (backendId.toLowerCase() === "acpx") {
       lines.push("next: verify acpx is installed (`acpx --help`).");
     }
@@ -122,7 +122,7 @@ export function handleAcpInstallAction(
     "-----",
     `configuredBackend: ${backendId}`,
     `run: ${installHint}`,
-    `then: SiriClaw-Instruct config set plugins.entries.${backendId}.enabled true`,
+    `then: SiriClawInstruct config set plugins.entries.${backendId}.enabled true`,
     "then: /acp doctor",
   ];
   return stopWithText(lines.join("\n"));
@@ -201,3 +201,4 @@ export function handleAcpSessionsAction(
 
   return stopWithText(["ACP sessions:", "-----", ...rows].join("\n"));
 }
+

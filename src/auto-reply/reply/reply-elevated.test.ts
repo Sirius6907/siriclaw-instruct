@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { MsgContext } from "../templating.js";
 import { resolveElevatedPermissions } from "./reply-elevated.js";
 
-function buildConfig(allowFrom: string[]): SiriClaw-InstructConfig {
+function buildConfig(allowFrom: string[]): SiriClawInstructConfig {
   return {
     tools: {
       elevated: {
@@ -12,7 +12,7 @@ function buildConfig(allowFrom: string[]): SiriClaw-InstructConfig {
         },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 function buildContext(overrides?: Partial<MsgContext>): MsgContext {
@@ -92,3 +92,4 @@ describe("resolveElevatedPermissions", () => {
     expect(result.failures).toHaveLength(0);
   });
 });
+

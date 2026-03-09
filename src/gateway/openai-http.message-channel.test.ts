@@ -22,13 +22,13 @@ async function runOpenAiMessageChannelRequest(params?: { messageChannelHeader?: 
         authorization: "Bearer secret",
       };
       if (params?.messageChannelHeader) {
-        headers["x-SiriClaw-Instruct-message-channel"] = params.messageChannelHeader;
+        headers["x-SiriClawInstruct-message-channel"] = params.messageChannelHeader;
       }
       const res = await fetch(`http://127.0.0.1:${port}/v1/chat/completions`, {
         method: "POST",
         headers,
         body: JSON.stringify({
-          model: "SiriClaw-Instruct",
+          model: "SiriClawInstruct",
           messages: [{ role: "user", content: "hi" }],
         }),
       });
@@ -45,7 +45,7 @@ async function runOpenAiMessageChannelRequest(params?: { messageChannelHeader?: 
 }
 
 describe("OpenAI HTTP message channel", () => {
-  it("passes x-SiriClaw-Instruct-message-channel through to agentCommand", async () => {
+  it("passes x-SiriClawInstruct-message-channel through to agentCommand", async () => {
     const firstCall = await runOpenAiMessageChannelRequest({
       messageChannelHeader: "custom-client-channel",
     });
@@ -57,3 +57,4 @@ describe("OpenAI HTTP message channel", () => {
     expect(firstCall?.messageChannel).toBe("webchat");
   });
 });
+

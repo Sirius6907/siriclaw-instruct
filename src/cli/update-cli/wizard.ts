@@ -24,7 +24,7 @@ import { updateCommand } from "./update-command.js";
 export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promise<void> {
   if (!process.stdin.isTTY) {
     defaultRuntime.error(
-      "Update wizard requires a TTY. Use `SiriClaw-Instruct update --channel <stable|beta|dev>` instead.",
+      "Update wizard requires a TTY. Use `SiriClawInstruct update --channel <stable|beta|dev>` instead.",
     );
     defaultRuntime.exit(1);
     return;
@@ -107,7 +107,7 @@ export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promi
         const empty = await isEmptyDir(gitDir);
         if (!empty) {
           defaultRuntime.error(
-            `SiriClaw-Instruct_GIT_DIR points at a non-git directory: ${gitDir}. Set SiriClaw-Instruct_GIT_DIR to an empty folder or an SiriClaw-Instruct checkout.`,
+            `SiriClawInstruct_GIT_DIR points at a non-git directory: ${gitDir}. Set SiriClawInstruct_GIT_DIR to an empty folder or an SiriClawInstruct checkout.`,
           );
           defaultRuntime.exit(1);
           return;
@@ -116,7 +116,7 @@ export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promi
 
       const ok = await confirm({
         message: stylePromptMessage(
-          `Create a git checkout at ${gitDir}? (override via SiriClaw-Instruct_GIT_DIR)`,
+          `Create a git checkout at ${gitDir}? (override via SiriClawInstruct_GIT_DIR)`,
         ),
         initialValue: true,
       });
@@ -149,3 +149,4 @@ export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promi
     defaultRuntime.exit(1);
   }
 }
+

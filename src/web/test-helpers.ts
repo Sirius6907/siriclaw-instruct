@@ -3,7 +3,7 @@ import type { MockBaileysSocket } from "../../test/mocks/baileys.js";
 import { createMockBaileys } from "../../test/mocks/baileys.js";
 
 // Use globalThis to store the mock config so it survives vi.mock hoisting
-const CONFIG_KEY = Symbol.for("SiriClaw-Instruct:testConfigMock");
+const CONFIG_KEY = Symbol.for("SiriClawInstruct:testConfigMock");
 const DEFAULT_CONFIG = {
   channels: {
     whatsapp: {
@@ -84,7 +84,7 @@ vi.mock("../media/store.js", async (importOriginal) => {
 
 vi.mock("@whiskeysockets/baileys", () => {
   const created = createMockBaileys();
-  (globalThis as Record<PropertyKey, unknown>)[Symbol.for("SiriClaw-Instruct:lastSocket")] =
+  (globalThis as Record<PropertyKey, unknown>)[Symbol.for("SiriClawInstruct:lastSocket")] =
     created.lastSocket;
   return created.mod;
 });
@@ -98,7 +98,7 @@ export const baileys = await import("@whiskeysockets/baileys");
 
 export function resetBaileysMocks() {
   const recreated = createMockBaileys();
-  (globalThis as Record<PropertyKey, unknown>)[Symbol.for("SiriClaw-Instruct:lastSocket")] =
+  (globalThis as Record<PropertyKey, unknown>)[Symbol.for("SiriClawInstruct:lastSocket")] =
     recreated.lastSocket;
 
   const makeWASocket = vi.mocked(baileys.makeWASocket);
@@ -134,7 +134,7 @@ export function resetBaileysMocks() {
 }
 
 export function getLastSocket(): MockBaileysSocket {
-  const getter = (globalThis as Record<PropertyKey, unknown>)[Symbol.for("SiriClaw-Instruct:lastSocket")];
+  const getter = (globalThis as Record<PropertyKey, unknown>)[Symbol.for("SiriClawInstruct:lastSocket")];
   if (typeof getter === "function") {
     return (getter as () => MockBaileysSocket)();
   }
@@ -143,3 +143,4 @@ export function getLastSocket(): MockBaileysSocket {
   }
   throw new Error("Invalid Baileys socket getter");
 }
+

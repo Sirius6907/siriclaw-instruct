@@ -1,7 +1,7 @@
 {
-  "name": "@SiriClaw-Instruct/matrix",
+  "name": "@siriclaw-instruct/matrix",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct Matrix channel plugin",
+  "description": "siriclaw-instruct Matrix channel plugin",
   "type": "module",
   "dependencies": {
     "@mariozechner/pi-agent-core": "0.55.3",
@@ -11,7 +11,7 @@
     "music-metadata": "^11.12.1",
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ],
@@ -26,9 +26,13 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@SiriClaw-Instruct/matrix",
+      "npmSpec": "@siriclaw-instruct/matrix",
       "localPath": "extensions/matrix",
       "defaultChoice": "npm"
     }
   }
 }
+
+
+
+

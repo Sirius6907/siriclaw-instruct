@@ -1,9 +1,9 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { collectConfigServiceEnvVars } from "../config/env-vars.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 
 export function shouldRequireGatewayTokenForInstall(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   _env: NodeJS.ProcessEnv,
 ): boolean {
   const mode = cfg.gateway?.auth?.mode;
@@ -26,7 +26,7 @@ export function shouldRequireGatewayTokenForInstall(
   // survive outside the invoking shell.
   const configServiceEnv = collectConfigServiceEnvVars(cfg);
   const hasConfiguredPasswordEnvCandidate = Boolean(
-    configServiceEnv.SiriClaw-Instruct_GATEWAY_PASSWORD?.trim() ||
+    configServiceEnv.SiriClawInstruct_GATEWAY_PASSWORD?.trim() ||
     configServiceEnv.SIRICLAW_GATEWAY_PASSWORD?.trim(),
   );
   if (hasConfiguredPasswordEnvCandidate) {
@@ -35,3 +35,4 @@ export function shouldRequireGatewayTokenForInstall(
 
   return true;
 }
+

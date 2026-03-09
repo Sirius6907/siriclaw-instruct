@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createJiti } from "jiti";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { GatewayRequestHandler } from "../gateway/server-methods/types.js";
 import { openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
@@ -15,7 +15,7 @@ import {
   resolveMemorySlotDecision,
   type NormalizedPluginsConfig,
 } from "./config-state.js";
-import { discoverSiriClaw-InstructPlugins } from "./discovery.js";
+import { discoverSiriClawInstructPlugins } from "./discovery.js";
 import { initializeGlobalHookRunner } from "./hook-runner-global.js";
 import { loadPluginManifestRegistry } from "./manifest-registry.js";
 import { isPathInside, safeStatSync } from "./path-safety.js";
@@ -25,8 +25,8 @@ import { createPluginRuntime, type CreatePluginRuntimeOptions } from "./runtime/
 import type { PluginRuntime } from "./runtime/types.js";
 import { validateJsonSchemaValue } from "./schema-validator.js";
 import type {
-  SiriClaw-InstructPluginDefinition,
-  SiriClaw-InstructPluginModule,
+  SiriClawInstructPluginDefinition,
+  SiriClawInstructPluginModule,
   PluginDiagnostic,
   PluginLogger,
 } from "./types.js";
@@ -34,7 +34,7 @@ import type {
 export type PluginLoadResult = PluginRegistry;
 
 export type PluginLoadOptions = {
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   workspaceDir?: string;
   logger?: PluginLogger;
   coreGatewayHandlers?: Record<string, GatewayRequestHandler>;
@@ -209,7 +209,7 @@ const resolvePluginSdkScopedAliasMap = (): Record<string, string> => {
       distFile: entry.distFile,
     });
     if (resolved) {
-      aliasMap[`SiriClaw-Instruct/plugin-sdk/${entry.subpath}`] = resolved;
+      aliasMap[`SiriClawInstruct/plugin-sdk/${entry.subpath}`] = resolved;
     }
   }
   return aliasMap;
@@ -251,8 +251,8 @@ function validatePluginConfig(params: {
 }
 
 function resolvePluginModuleExport(moduleExport: unknown): {
-  definition?: SiriClaw-InstructPluginDefinition;
-  register?: SiriClaw-InstructPluginDefinition["register"];
+  definition?: SiriClawInstructPluginDefinition;
+  register?: SiriClawInstructPluginDefinition["register"];
 } {
   const resolved =
     moduleExport &&
@@ -262,11 +262,11 @@ function resolvePluginModuleExport(moduleExport: unknown): {
       : moduleExport;
   if (typeof resolved === "function") {
     return {
-      register: resolved as SiriClaw-InstructPluginDefinition["register"],
+      register: resolved as SiriClawInstructPluginDefinition["register"],
     };
   }
   if (resolved && typeof resolved === "object") {
-    const def = resolved as SiriClaw-InstructPluginDefinition;
+    const def = resolved as SiriClawInstructPluginDefinition;
     const register = def.register ?? def.activate;
     return { definition: def, register };
   }
@@ -391,7 +391,7 @@ function matchesPathMatcher(matcher: PathMatcher, sourcePath: string): boolean {
 }
 
 function buildProvenanceIndex(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   normalizedLoadPaths: string[];
 }): PluginProvenanceIndex {
   const loadPathMatcher = createPathMatcher();
@@ -501,7 +501,7 @@ function activatePluginRegistry(registry: PluginRegistry, cacheKey: string): voi
   initializeGlobalHookRunner(registry);
 }
 
-export function loadSiriClaw-InstructPlugins(options: PluginLoadOptions = {}): PluginRegistry {
+export function loadSiriClawInstructPlugins(options: PluginLoadOptions = {}): PluginRegistry {
   // Test env: default-disable plugins unless explicitly configured.
   // This keeps unit/gateway suites fast and avoids loading heavyweight plugin deps by accident.
   const cfg = applyTestPluginDefaults(options.config ?? {}, process.env);
@@ -563,7 +563,7 @@ export function loadSiriClaw-InstructPlugins(options: PluginLoadOptions = {}): P
     coreGatewayHandlers: options.coreGatewayHandlers as Record<string, GatewayRequestHandler>,
   });
 
-  const discovery = discoverSiriClaw-InstructPlugins({
+  const discovery = discoverSiriClawInstructPlugins({
     workspaceDir: options.workspaceDir,
     extraPaths: normalized.loadPaths,
     cache: options.cache,
@@ -599,7 +599,7 @@ export function loadSiriClaw-InstructPlugins(options: PluginLoadOptions = {}): P
     }
     const pluginSdkAlias = resolvePluginSdkAlias();
     const aliasMap = {
-      ...(pluginSdkAlias ? { "SiriClaw-Instruct/plugin-sdk": pluginSdkAlias } : {}),
+      ...(pluginSdkAlias ? { "SiriClawInstruct/plugin-sdk": pluginSdkAlias } : {}),
       ...resolvePluginSdkScopedAliasMap(),
     };
     jitiLoader = createJiti(import.meta.url, {
@@ -729,9 +729,9 @@ export function loadSiriClaw-InstructPlugins(options: PluginLoadOptions = {}): P
     const safeSource = opened.path;
     fs.closeSync(opened.fd);
 
-    let mod: SiriClaw-InstructPluginModule | null = null;
+    let mod: SiriClawInstructPluginModule | null = null;
     try {
-      mod = getJiti()(safeSource) as SiriClaw-InstructPluginModule;
+      mod = getJiti()(safeSource) as SiriClawInstructPluginModule;
     } catch (err) {
       recordPluginError({
         logger,
@@ -883,3 +883,4 @@ function safeRealpathOrResolve(value: string): string {
     return path.resolve(value);
   }
 }
+

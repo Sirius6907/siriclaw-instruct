@@ -5,7 +5,7 @@ import type {
   OnboardOptions,
   ResetScope,
 } from "../commands/onboard-types.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   DEFAULT_GATEWAY_PORT,
   readConfigFileSnapshot,
@@ -32,15 +32,15 @@ async function requireRiskAcknowledgement(params: {
     [
       "Security warning — please read.",
       "",
-      "SiriClaw-Instruct is a hobby project and still in beta. Expect sharp edges.",
-      "By default, SiriClaw-Instruct is a personal agent: one trusted operator boundary.",
+      "SiriClawInstruct is a hobby project and still in beta. Expect sharp edges.",
+      "By default, SiriClawInstruct is a personal agent: one trusted operator boundary.",
       "This bot can read files and run actions if tools are enabled.",
       "A bad prompt can trick it into doing unsafe things.",
       "",
-      "SiriClaw-Instruct is not a hostile multi-tenant boundary by default.",
+      "SiriClawInstruct is not a hostile multi-tenant boundary by default.",
       "If multiple users can message one tool-enabled agent, they share that delegated tool authority.",
       "",
-      "If you’re not comfortable with security hardening and access control, don’t run SiriClaw-Instruct.",
+      "If you’re not comfortable with security hardening and access control, don’t run SiriClawInstruct.",
       "Ask someone experienced to help before enabling tools or exposing it to the internet.",
       "",
       "Recommended baseline:",
@@ -52,10 +52,10 @@ async function requireRiskAcknowledgement(params: {
       "- Use the strongest available model for any bot with tools or untrusted inboxes.",
       "",
       "Run regularly:",
-      "SiriClaw-Instruct security audit --deep",
-      "SiriClaw-Instruct security audit --fix",
+      "SiriClawInstruct security audit --deep",
+      "SiriClawInstruct security audit --fix",
       "",
-      "Must read: https://docs.SiriClaw-Instruct.ai/gateway/security",
+      "Must read: https://docs.SiriClawInstruct.ai/gateway/security",
     ].join("\n"),
     "Security",
   );
@@ -77,11 +77,11 @@ export async function runOnboardingWizard(
 ) {
   const onboardHelpers = await import("../commands/onboard-helpers.js");
   onboardHelpers.printWizardHeader(runtime);
-  await prompter.intro("SiriClaw-Instruct onboarding");
+  await prompter.intro("SiriClawInstruct onboarding");
   await requireRiskAcknowledgement({ opts, prompter });
 
   const snapshot = await readConfigFileSnapshot();
-  let baseConfig: SiriClaw-InstructConfig = snapshot.valid ? snapshot.config : {};
+  let baseConfig: SiriClawInstructConfig = snapshot.valid ? snapshot.config : {};
 
   if (snapshot.exists && !snapshot.valid) {
     await prompter.note(onboardHelpers.summarizeExistingConfig(baseConfig), "Invalid config");
@@ -90,19 +90,19 @@ export async function runOnboardingWizard(
         [
           ...snapshot.issues.map((iss) => `- ${iss.path}: ${iss.message}`),
           "",
-          "Docs: https://docs.SiriClaw-Instruct.ai/gateway/configuration",
+          "Docs: https://docs.SiriClawInstruct.ai/gateway/configuration",
         ].join("\n"),
         "Config issues",
       );
     }
     await prompter.outro(
-      `Config invalid. Run \`${formatCliCommand("SiriClaw-Instruct doctor")}\` to repair it, then re-run onboarding.`,
+      `Config invalid. Run \`${formatCliCommand("SiriClawInstruct doctor")}\` to repair it, then re-run onboarding.`,
     );
     runtime.exit(1);
     return;
   }
 
-  const quickstartHint = `Configure details later via ${formatCliCommand("SiriClaw-Instruct configure")}.`;
+  const quickstartHint = `Configure details later via ${formatCliCommand("SiriClawInstruct configure")}.`;
   const manualHint = "Configure port, network, Tailscale, and auth options.";
   const explicitFlowRaw = opts.flow?.trim();
   const normalizedExplicitFlow = explicitFlowRaw === "manual" ? "advanced" : explicitFlowRaw;
@@ -281,7 +281,7 @@ export async function runOnboardingWizard(
 
   const localPort = resolveGatewayPort(baseConfig);
   const localUrl = `ws://127.0.0.1:${localPort}`;
-  let localGatewayToken = process.env.SiriClaw-Instruct_GATEWAY_TOKEN ?? process.env.SIRICLAW_GATEWAY_TOKEN;
+  let localGatewayToken = process.env.SiriClawInstruct_GATEWAY_TOKEN ?? process.env.SIRICLAW_GATEWAY_TOKEN;
   try {
     const resolvedGatewayToken = await resolveOnboardingSecretInputString({
       config: baseConfig,
@@ -302,7 +302,7 @@ export async function runOnboardingWizard(
     );
   }
   let localGatewayPassword =
-    process.env.SiriClaw-Instruct_GATEWAY_PASSWORD ?? process.env.SIRICLAW_GATEWAY_PASSWORD;
+    process.env.SiriClawInstruct_GATEWAY_PASSWORD ?? process.env.SIRICLAW_GATEWAY_PASSWORD;
   try {
     const resolvedGatewayPassword = await resolveOnboardingSecretInputString({
       config: baseConfig,
@@ -407,7 +407,7 @@ export async function runOnboardingWizard(
   const workspaceDir = resolveUserPath(workspaceInput.trim() || onboardHelpers.DEFAULT_WORKSPACE);
 
   const { applyOnboardingLocalWorkspaceConfig } = await import("../commands/onboard-config.js");
-  let nextConfig: SiriClaw-InstructConfig = applyOnboardingLocalWorkspaceConfig(baseConfig, workspaceDir);
+  let nextConfig: SiriClawInstructConfig = applyOnboardingLocalWorkspaceConfig(baseConfig, workspaceDir);
 
   const { ensureAuthProfileStore } = await import("../agents/auth-profiles.js");
   const { promptAuthChoiceGrouped } = await import("../commands/auth-choice-prompt.js");
@@ -551,3 +551,4 @@ export async function runOnboardingWizard(
     return;
   }
 }
+

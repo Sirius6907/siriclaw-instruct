@@ -284,3 +284,4 @@ describe("sanitizeRenderableText", () => {
     expect(sanitized).toBe(input);
   });
 });
+

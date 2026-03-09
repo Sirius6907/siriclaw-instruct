@@ -1,14 +1,14 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   ensureControlUiAllowedOriginsForNonLoopbackBind,
   type GatewayNonLoopbackBindMode,
 } from "../config/gateway-control-ui-origins.js";
 
 export async function maybeSeedControlUiAllowedOriginsAtStartup(params: {
-  config: SiriClaw-InstructConfig;
-  writeConfig: (config: SiriClaw-InstructConfig) => Promise<void>;
+  config: SiriClawInstructConfig;
+  writeConfig: (config: SiriClawInstructConfig) => Promise<void>;
   log: { info: (msg: string) => void; warn: (msg: string) => void };
-}): Promise<SiriClaw-InstructConfig> {
+}): Promise<SiriClawInstructConfig> {
   const seeded = ensureControlUiAllowedOriginsForNonLoopbackBind(params.config);
   if (!seeded.seededOrigins || !seeded.bind) {
     return params.config;
@@ -31,3 +31,4 @@ function buildSeededOriginsInfoLog(origins: string[], bind: GatewayNonLoopbackBi
     "Add other origins to gateway.controlUi.allowedOrigins if needed."
   );
 }
+

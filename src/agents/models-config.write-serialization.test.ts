@@ -5,7 +5,7 @@ import {
   installModelsConfigTestHooks,
   withModelsTempHome,
 } from "./models-config.e2e-harness.js";
-import { ensureSiriClaw-InstructModelsJson } from "./models-config.js";
+import { ensureSiriClawInstructModelsJson } from "./models-config.js";
 import { readGeneratedModelsJson } from "./models-config.test-utils.js";
 
 installModelsConfigTestHooks();
@@ -40,7 +40,7 @@ describe("models-config write serialization", () => {
       });
 
       try {
-        await Promise.all([ensureSiriClaw-InstructModelsJson(first), ensureSiriClaw-InstructModelsJson(second)]);
+        await Promise.all([ensureSiriClawInstructModelsJson(first), ensureSiriClawInstructModelsJson(second)]);
       } finally {
         writeSpy.mockRestore();
       }
@@ -53,3 +53,4 @@ describe("models-config write serialization", () => {
     });
   });
 });
+

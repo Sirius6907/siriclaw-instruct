@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Foundation
 import Testing
 
@@ -153,3 +153,4 @@ private func agentAction(
             password: nil))
     }
 }
+

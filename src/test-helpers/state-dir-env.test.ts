@@ -9,19 +9,19 @@ import {
 } from "./state-dir-env.js";
 
 type EnvSnapshot = {
-  SiriClaw-Instruct?: string;
+  SiriClawInstruct?: string;
   legacy?: string;
 };
 
 function snapshotCurrentStateDirVars(): EnvSnapshot {
   return {
-    SiriClaw-Instruct: process.env.SiriClaw-Instruct_STATE_DIR,
+    SiriClawInstruct: process.env.SiriClawInstruct_STATE_DIR,
     legacy: process.env.SIRICLAW_STATE_DIR,
   };
 }
 
 function expectStateDirVars(snapshot: EnvSnapshot) {
-  expect(process.env.SiriClaw-Instruct_STATE_DIR).toBe(snapshot.SiriClaw-Instruct);
+  expect(process.env.SiriClawInstruct_STATE_DIR).toBe(snapshot.SiriClawInstruct);
   expect(process.env.SIRICLAW_STATE_DIR).toBe(snapshot.legacy);
 }
 
@@ -40,12 +40,12 @@ async function expectStateDirEnvRestored(params: {
 }
 
 describe("state-dir-env helpers", () => {
-  it("set/snapshot/restore round-trips SiriClaw-Instruct_STATE_DIR", () => {
+  it("set/snapshot/restore round-trips SiriClawInstruct_STATE_DIR", () => {
     const prev = snapshotCurrentStateDirVars();
     const snapshot = snapshotStateDirEnv();
 
-    setStateDirEnv("/tmp/SiriClaw-Instruct-state-dir-test");
-    expect(process.env.SiriClaw-Instruct_STATE_DIR).toBe("/tmp/SiriClaw-Instruct-state-dir-test");
+    setStateDirEnv("/tmp/SiriClawInstruct-state-dir-test");
+    expect(process.env.SiriClawInstruct_STATE_DIR).toBe("/tmp/SiriClawInstruct-state-dir-test");
     expect(process.env.SIRICLAW_STATE_DIR).toBeUndefined();
 
     restoreStateDirEnv(snapshot);
@@ -57,10 +57,10 @@ describe("state-dir-env helpers", () => {
 
     let capturedTempRoot = "";
     let capturedStateDir = "";
-    await withStateDirEnv("SiriClaw-Instruct-state-dir-env-", async ({ tempRoot, stateDir }) => {
+    await withStateDirEnv("SiriClawInstruct-state-dir-env-", async ({ tempRoot, stateDir }) => {
       capturedTempRoot = tempRoot;
       capturedStateDir = stateDir;
-      expect(process.env.SiriClaw-Instruct_STATE_DIR).toBe(stateDir);
+      expect(process.env.SiriClawInstruct_STATE_DIR).toBe(stateDir);
       expect(process.env.SIRICLAW_STATE_DIR).toBeUndefined();
       await fs.writeFile(path.join(stateDir, "probe.txt"), "ok", "utf8");
     });
@@ -74,7 +74,7 @@ describe("state-dir-env helpers", () => {
     let capturedTempRoot = "";
     let capturedStateDir = "";
     await expect(
-      withStateDirEnv("SiriClaw-Instruct-state-dir-env-", async ({ tempRoot, stateDir }) => {
+      withStateDirEnv("SiriClawInstruct-state-dir-env-", async ({ tempRoot, stateDir }) => {
         capturedTempRoot = tempRoot;
         capturedStateDir = stateDir;
         throw new Error("boom");
@@ -86,17 +86,17 @@ describe("state-dir-env helpers", () => {
 
   it("withStateDirEnv restores both env vars when legacy var was previously set", async () => {
     const testSnapshot = snapshotStateDirEnv();
-    process.env.SiriClaw-Instruct_STATE_DIR = "/tmp/original-SiriClaw-Instruct";
+    process.env.SiriClawInstruct_STATE_DIR = "/tmp/original-SiriClawInstruct";
     process.env.SIRICLAW_STATE_DIR = "/tmp/original-legacy";
     const prev = snapshotCurrentStateDirVars();
 
     let capturedTempRoot = "";
     let capturedStateDir = "";
     try {
-      await withStateDirEnv("SiriClaw-Instruct-state-dir-env-", async ({ tempRoot, stateDir }) => {
+      await withStateDirEnv("SiriClawInstruct-state-dir-env-", async ({ tempRoot, stateDir }) => {
         capturedTempRoot = tempRoot;
         capturedStateDir = stateDir;
-        expect(process.env.SiriClaw-Instruct_STATE_DIR).toBe(stateDir);
+        expect(process.env.SiriClawInstruct_STATE_DIR).toBe(stateDir);
         expect(process.env.SIRICLAW_STATE_DIR).toBeUndefined();
       });
 
@@ -106,3 +106,4 @@ describe("state-dir-env helpers", () => {
     }
   });
 });
+

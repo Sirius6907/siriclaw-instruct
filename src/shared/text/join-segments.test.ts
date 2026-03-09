@@ -24,3 +24,4 @@ describe("joinPresentTextSegments", () => {
     expect(joinPresentTextSegments(["  A  ", "  B  "], { trim: true })).toBe("A\n\nB");
   });
 });
+

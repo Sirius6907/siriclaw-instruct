@@ -2,7 +2,7 @@ import { EventEmitter } from "node:events";
 import path from "node:path";
 import { Readable } from "node:stream";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { createRestrictedAgentSandboxConfig } from "./test-helpers/sandbox-agent-config-fixtures.js";
 
 type SpawnCall = {
@@ -54,7 +54,7 @@ let resolveSandboxContext: typeof import("./sandbox/context.js").resolveSandboxC
 let resolveSandboxConfigForAgent: typeof import("./sandbox/config.js").resolveSandboxConfigForAgent;
 let resolveSandboxRuntimeStatus: typeof import("./sandbox/runtime-status.js").resolveSandboxRuntimeStatus;
 
-async function resolveContext(config: SiriClaw-InstructConfig, sessionKey: string, workspaceDir: string) {
+async function resolveContext(config: SiriClawInstructConfig, sessionKey: string, workspaceDir: string) {
   return resolveSandboxContext({
     config,
     sessionKey,
@@ -76,7 +76,7 @@ function expectDockerSetupCommand(command: string) {
 
 function createDefaultsSandboxConfig(
   scope: "agent" | "shared" | "session" = "agent",
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   return {
     agents: {
       defaults: {
@@ -89,7 +89,7 @@ function createDefaultsSandboxConfig(
   };
 }
 
-function createWorkSetupCommandConfig(scope: "agent" | "shared"): SiriClaw-InstructConfig {
+function createWorkSetupCommandConfig(scope: "agent" | "shared"): SiriClawInstructConfig {
   return {
     agents: {
       defaults: {
@@ -104,7 +104,7 @@ function createWorkSetupCommandConfig(scope: "agent" | "shared"): SiriClaw-Instr
       list: [
         {
           id: "work",
-          workspace: "~/SiriClaw-Instruct-work",
+          workspace: "~/SiriClawInstruct-work",
           sandbox: {
             mode: "all",
             scope,
@@ -135,19 +135,19 @@ describe("Agent-specific sandbox config", () => {
   });
 
   it("should use agent-specific workspaceRoot", async () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         defaults: {
           sandbox: {
             mode: "all",
             scope: "agent",
-            workspaceRoot: "~/.SiriClaw-Instruct/sandboxes",
+            workspaceRoot: "~/.SiriClawInstruct/sandboxes",
           },
         },
         list: [
           {
             id: "isolated",
-            workspace: "~/SiriClaw-Instruct-isolated",
+            workspace: "~/SiriClawInstruct-isolated",
             sandbox: {
               mode: "all",
               scope: "agent",
@@ -165,7 +165,7 @@ describe("Agent-specific sandbox config", () => {
   });
 
   it("should prefer agent config over global for multiple agents", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         defaults: {
           sandbox: {
@@ -176,14 +176,14 @@ describe("Agent-specific sandbox config", () => {
         list: [
           {
             id: "main",
-            workspace: "~/SiriClaw-Instruct",
+            workspace: "~/SiriClawInstruct",
             sandbox: {
               mode: "off",
             },
           },
           {
             id: "family",
-            workspace: "~/SiriClaw-Instruct-family",
+            workspace: "~/SiriClawInstruct-family",
             sandbox: {
               mode: "all",
               scope: "agent",
@@ -232,7 +232,7 @@ describe("Agent-specific sandbox config", () => {
   });
 
   it("should use global sandbox config when no agent-specific config exists", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         defaults: {
           sandbox: {
@@ -243,7 +243,7 @@ describe("Agent-specific sandbox config", () => {
         list: [
           {
             id: "main",
-            workspace: "~/SiriClaw-Instruct",
+            workspace: "~/SiriClawInstruct",
           },
         ],
       },
@@ -278,7 +278,7 @@ describe("Agent-specific sandbox config", () => {
   });
 
   it("should allow agent-specific docker settings beyond setupCommand", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         defaults: {
           sandbox: {
@@ -293,7 +293,7 @@ describe("Agent-specific sandbox config", () => {
         list: [
           {
             id: "work",
-            workspace: "~/SiriClaw-Instruct-work",
+            workspace: "~/SiriClawInstruct-work",
             sandbox: {
               mode: "all",
               scope: "agent",
@@ -326,14 +326,14 @@ describe("Agent-specific sandbox config", () => {
             list: [
               {
                 id: "main",
-                workspace: "~/SiriClaw-Instruct",
+                workspace: "~/SiriClawInstruct",
                 sandbox: {
                   mode: "off",
                 },
               },
             ],
           },
-        } satisfies SiriClaw-InstructConfig,
+        } satisfies SiriClawInstructConfig,
         sessionKey: "agent:main:main",
         assert: (runtime: ReturnType<typeof resolveSandboxRuntimeStatus>) => {
           expect(runtime.mode).toBe("off");
@@ -351,7 +351,7 @@ describe("Agent-specific sandbox config", () => {
             list: [
               {
                 id: "family",
-                workspace: "~/SiriClaw-Instruct-family",
+                workspace: "~/SiriClawInstruct-family",
                 sandbox: {
                   mode: "all",
                   scope: "agent",
@@ -359,7 +359,7 @@ describe("Agent-specific sandbox config", () => {
               },
             ],
           },
-        } satisfies SiriClaw-InstructConfig,
+        } satisfies SiriClawInstructConfig,
         sessionKey: "agent:family:whatsapp:group:123",
         assert: (runtime: ReturnType<typeof resolveSandboxRuntimeStatus>) => {
           expect(runtime.mode).toBe("all");
@@ -376,7 +376,7 @@ describe("Agent-specific sandbox config", () => {
   });
 
   it("should use agent-specific scope", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         defaults: {
           sandbox: {
@@ -387,7 +387,7 @@ describe("Agent-specific sandbox config", () => {
         list: [
           {
             id: "work",
-            workspace: "~/SiriClaw-Instruct-work",
+            workspace: "~/SiriClawInstruct-work",
             sandbox: {
               mode: "all",
               scope: "agent",
@@ -425,7 +425,7 @@ describe("Agent-specific sandbox config", () => {
               },
             },
           },
-        } satisfies SiriClaw-InstructConfig,
+        } satisfies SiriClawInstructConfig,
         expected: ["image"],
       },
     ]) {
@@ -436,3 +436,4 @@ describe("Agent-specific sandbox config", () => {
     }
   });
 });
+

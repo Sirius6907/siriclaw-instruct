@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   resolveAllowlistProviderRuntimeGroupPolicy,
   resolveDefaultGroupPolicy,
@@ -75,7 +75,7 @@ export function collectOpenGroupPolicyRestrictSendersWarnings(
 
 export function collectAllowlistProviderRestrictSendersWarnings(
   params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     providerConfigPresent: boolean;
     configuredGroupPolicy?: GroupPolicy | null;
   } & Omit<Parameters<typeof collectOpenGroupPolicyRestrictSendersWarnings>[0], "groupPolicy">,
@@ -97,7 +97,7 @@ export function collectAllowlistProviderRestrictSendersWarnings(
 }
 
 export function collectAllowlistProviderGroupPolicyWarnings(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   providerConfigPresent: boolean;
   configuredGroupPolicy?: GroupPolicy | null;
   collect: GroupPolicyWarningCollector;
@@ -112,7 +112,7 @@ export function collectAllowlistProviderGroupPolicyWarnings(params: {
 }
 
 export function collectOpenProviderGroupPolicyWarnings(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   providerConfigPresent: boolean;
   configuredGroupPolicy?: GroupPolicy | null;
   collect: GroupPolicyWarningCollector;
@@ -155,3 +155,4 @@ export function collectOpenGroupPolicyConfiguredRouteWarnings(params: {
   }
   return [buildOpenGroupPolicyWarning(params.missingRouteAllowlist)];
 }
+

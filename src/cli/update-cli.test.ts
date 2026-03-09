@@ -1,6 +1,6 @@
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig, ConfigFileSnapshot } from "../config/types.SiriClaw-Instruct.js";
+import type { SiriClawInstructConfig, ConfigFileSnapshot } from "../config/types.siriclaw-instruct.js";
 import type { UpdateRunResult } from "../infra/update-runner.js";
 import { withEnvAsync } from "../test-utils/env.js";
 
@@ -36,8 +36,8 @@ vi.mock("../infra/update-runner.js", () => ({
   runGatewayUpdate: vi.fn(),
 }));
 
-vi.mock("../infra/SiriClaw-Instruct-root.js", () => ({
-  resolveSiriClaw-InstructPackageRoot: vi.fn(),
+vi.mock("../infra/SiriClawInstruct-root.js", () => ({
+  resolveSiriClawInstructPackageRoot: vi.fn(),
 }));
 
 vi.mock("../config/config.js", () => ({
@@ -136,7 +136,7 @@ vi.mock("../runtime.js", () => ({
 }));
 
 const { runGatewayUpdate } = await import("../infra/update-runner.js");
-const { resolveSiriClaw-InstructPackageRoot } = await import("../infra/SiriClaw-Instruct-root.js");
+const { resolveSiriClawInstructPackageRoot } = await import("../infra/SiriClawInstruct-root.js");
 const { readConfigFileSnapshot, writeConfigFile } = await import("../config/config.js");
 const { checkUpdateStatus, fetchNpmTagVersion, resolveNpmChannelTag } =
   await import("../infra/update-check.js");
@@ -147,7 +147,7 @@ const { defaultRuntime } = await import("../runtime.js");
 const { updateCommand, updateStatusCommand, updateWizardCommand } = await import("./update-cli.js");
 
 describe("update-cli", () => {
-  const fixtureRoot = "/tmp/SiriClaw-Instruct-update-tests";
+  const fixtureRoot = "/tmp/SiriClawInstruct-update-tests";
   let fixtureCount = 0;
 
   const createCaseDir = (prefix: string) => {
@@ -156,9 +156,9 @@ describe("update-cli", () => {
     return dir;
   };
 
-  const baseConfig = {} as SiriClaw-InstructConfig;
+  const baseConfig = {} as SiriClawInstructConfig;
   const baseSnapshot: ConfigFileSnapshot = {
-    path: "/tmp/SiriClaw-Instruct-config.json",
+    path: "/tmp/SiriClawInstruct-config.json",
     exists: true,
     raw: "{}",
     parsed: {},
@@ -185,7 +185,7 @@ describe("update-cli", () => {
   };
 
   const mockPackageInstallStatus = (root: string) => {
-    vi.mocked(resolveSiriClaw-InstructPackageRoot).mockResolvedValue(root);
+    vi.mocked(resolveSiriClawInstructPackageRoot).mockResolvedValue(root);
     vi.mocked(checkUpdateStatus).mockResolvedValue({
       root,
       installKind: "package",
@@ -235,7 +235,7 @@ describe("update-cli", () => {
   };
 
   const setupNonInteractiveDowngrade = async () => {
-    const tempDir = createCaseDir("SiriClaw-Instruct-update");
+    const tempDir = createCaseDir("SiriClawInstruct-update");
     setTty(false);
     readPackageVersion.mockResolvedValue("2.0.0");
 
@@ -258,7 +258,7 @@ describe("update-cli", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(resolveSiriClaw-InstructPackageRoot).mockResolvedValue(process.cwd());
+    vi.mocked(resolveSiriClawInstructPackageRoot).mockResolvedValue(process.cwd());
     vi.mocked(readConfigFileSnapshot).mockResolvedValue(baseSnapshot);
     vi.mocked(fetchNpmTagVersion).mockResolvedValue({
       tag: "latest",
@@ -301,7 +301,7 @@ describe("update-cli", () => {
       killed: false,
       termination: "exit",
     });
-    readPackageName.mockResolvedValue("SiriClaw-Instruct");
+    readPackageName.mockResolvedValue("SiriClawInstruct");
     readPackageVersion.mockResolvedValue("1.0.0");
     resolveGlobalManager.mockResolvedValue("npm");
     serviceLoaded.mockResolvedValue(false);
@@ -310,12 +310,12 @@ describe("update-cli", () => {
       pid: 4242,
       state: "running",
     });
-    prepareRestartScript.mockResolvedValue("/tmp/SiriClaw-Instruct-restart-test.sh");
+    prepareRestartScript.mockResolvedValue("/tmp/SiriClawInstruct-restart-test.sh");
     runRestartScript.mockResolvedValue(undefined);
     inspectPortUsage.mockResolvedValue({
       port: 18789,
       status: "busy",
-      listeners: [{ pid: 4242, command: "SiriClaw-Instruct-gateway" }],
+      listeners: [{ pid: 4242, command: "SiriClawInstruct-gateway" }],
       hints: [],
     });
     classifyPortListener.mockReturnValue("gateway");
@@ -367,7 +367,7 @@ describe("update-cli", () => {
     await updateStatusCommand({ json: false });
 
     const logs = vi.mocked(defaultRuntime.log).mock.calls.map((call) => call[0]);
-    expect(logs.join("\n")).toContain("SiriClaw-Instruct update status");
+    expect(logs.join("\n")).toContain("SiriClawInstruct update status");
   });
 
   it("updateStatusCommand emits JSON", async () => {
@@ -393,7 +393,7 @@ describe("update-cli", () => {
       mode: "npm" as const,
       options: { yes: true },
       prepare: async () => {
-        const tempDir = createCaseDir("SiriClaw-Instruct-update");
+        const tempDir = createCaseDir("SiriClawInstruct-update");
         mockPackageInstallStatus(tempDir);
       },
       expectedChannel: "stable" as const,
@@ -406,7 +406,7 @@ describe("update-cli", () => {
       prepare: async () => {
         vi.mocked(readConfigFileSnapshot).mockResolvedValue({
           ...baseSnapshot,
-          config: { update: { channel: "beta" } } as SiriClaw-InstructConfig,
+          config: { update: { channel: "beta" } } as SiriClawInstructConfig,
         });
       },
       expectedChannel: "beta" as const,
@@ -425,12 +425,12 @@ describe("update-cli", () => {
   });
 
   it("falls back to latest when beta tag is older than release", async () => {
-    const tempDir = createCaseDir("SiriClaw-Instruct-update");
+    const tempDir = createCaseDir("SiriClawInstruct-update");
 
     mockPackageInstallStatus(tempDir);
     vi.mocked(readConfigFileSnapshot).mockResolvedValue({
       ...baseSnapshot,
-      config: { update: { channel: "beta" } } as SiriClaw-InstructConfig,
+      config: { update: { channel: "beta" } } as SiriClawInstructConfig,
     });
     vi.mocked(resolveNpmChannelTag).mockResolvedValue({
       tag: "latest",
@@ -449,9 +449,9 @@ describe("update-cli", () => {
   });
 
   it("honors --tag override", async () => {
-    const tempDir = createCaseDir("SiriClaw-Instruct-update");
+    const tempDir = createCaseDir("SiriClawInstruct-update");
 
-    vi.mocked(resolveSiriClaw-InstructPackageRoot).mockResolvedValue(tempDir);
+    vi.mocked(resolveSiriClawInstructPackageRoot).mockResolvedValue(tempDir);
     vi.mocked(runGatewayUpdate).mockResolvedValue(
       makeOkUpdateResult({
         mode: "npm",
@@ -522,7 +522,7 @@ describe("update-cli", () => {
   });
 
   it("updateCommand refreshes service env from updated install root when available", async () => {
-    const root = createCaseDir("SiriClaw-Instruct-updated-root");
+    const root = createCaseDir("SiriClawInstruct-updated-root");
     const entryPath = path.join(root, "dist", "entry.js");
     pathExists.mockImplementation(async (candidate: string) => candidate === entryPath);
 
@@ -567,7 +567,7 @@ describe("update-cli", () => {
   it("updateCommand continues after doctor sub-step and clears update flag", async () => {
     const randomSpy = vi.spyOn(Math, "random").mockReturnValue(0);
     try {
-      await withEnvAsync({ SiriClaw-Instruct_UPDATE_IN_PROGRESS: undefined }, async () => {
+      await withEnvAsync({ SiriClawInstruct_UPDATE_IN_PROGRESS: undefined }, async () => {
         vi.mocked(runGatewayUpdate).mockResolvedValue(makeOkUpdateResult());
         vi.mocked(runDaemonRestart).mockResolvedValue(true);
         vi.mocked(doctorCommand).mockResolvedValue(undefined);
@@ -579,7 +579,7 @@ describe("update-cli", () => {
           defaultRuntime,
           expect.objectContaining({ nonInteractive: true }),
         );
-        expect(process.env.SiriClaw-Instruct_UPDATE_IN_PROGRESS).toBeUndefined();
+        expect(process.env.SiriClawInstruct_UPDATE_IN_PROGRESS).toBeUndefined();
 
         const logLines = vi.mocked(defaultRuntime.log).mock.calls.map((call) => String(call[0]));
         expect(
@@ -694,8 +694,8 @@ describe("update-cli", () => {
   });
 
   it("updateWizardCommand offers dev checkout and forwards selections", async () => {
-    const tempDir = createCaseDir("SiriClaw-Instruct-update-wizard");
-    await withEnvAsync({ SiriClaw-Instruct_GIT_DIR: tempDir }, async () => {
+    const tempDir = createCaseDir("SiriClawInstruct-update-wizard");
+    await withEnvAsync({ SiriClawInstruct_GIT_DIR: tempDir }, async () => {
       setTty(true);
 
       vi.mocked(checkUpdateStatus).mockResolvedValue({
@@ -725,3 +725,4 @@ describe("update-cli", () => {
     });
   });
 });
+

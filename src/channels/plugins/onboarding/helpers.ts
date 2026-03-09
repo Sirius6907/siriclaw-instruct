@@ -2,7 +2,7 @@ import {
   promptSecretRefForOnboarding,
   resolveSecretInputModeForEnvSelection,
 } from "../../../commands/auth-choice.apply-helpers.js";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import type { DmPolicy, GroupPolicy } from "../../../config/types.js";
 import type { SecretInput } from "../../../config/types.secrets.js";
 import { promptAccountId as promptAccountIdSdk } from "../../../plugin-sdk/onboarding.js";
@@ -122,12 +122,12 @@ export function resolveOnboardingAccountId(params: {
 }
 
 export async function resolveAccountIdForConfigure(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: WizardPrompter;
   label: string;
   accountOverride?: string;
   shouldPromptAccountIds: boolean;
-  listAccountIds: (cfg: SiriClaw-InstructConfig) => string[];
+  listAccountIds: (cfg: SiriClawInstructConfig) => string[];
   defaultAccountId: string;
 }): Promise<string> {
   const override = params.accountOverride?.trim();
@@ -146,11 +146,11 @@ export async function resolveAccountIdForConfigure(params: {
 }
 
 export function setAccountAllowFromForChannel(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: "imessage" | "signal";
   accountId: string;
   allowFrom: string[];
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const { cfg, channel, accountId, allowFrom } = params;
   return patchConfigForScopedAccount({
     cfg,
@@ -162,11 +162,11 @@ export function setAccountAllowFromForChannel(params: {
 }
 
 export function setTopLevelChannelAllowFrom(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   allowFrom: string[];
   enabled?: boolean;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const channelConfig =
     (params.cfg.channels?.[params.channel] as Record<string, unknown> | undefined) ?? {};
   return {
@@ -183,11 +183,11 @@ export function setTopLevelChannelAllowFrom(params: {
 }
 
 export function setTopLevelChannelDmPolicyWithAllowFrom(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   dmPolicy: DmPolicy;
-  getAllowFrom?: (cfg: SiriClaw-InstructConfig) => Array<string | number> | undefined;
-}): SiriClaw-InstructConfig {
+  getAllowFrom?: (cfg: SiriClawInstructConfig) => Array<string | number> | undefined;
+}): SiriClawInstructConfig {
   const channelConfig =
     (params.cfg.channels?.[params.channel] as Record<string, unknown> | undefined) ?? {};
   const existingAllowFrom =
@@ -210,11 +210,11 @@ export function setTopLevelChannelDmPolicyWithAllowFrom(params: {
 }
 
 export function setTopLevelChannelGroupPolicy(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   groupPolicy: GroupPolicy;
   enabled?: boolean;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const channelConfig =
     (params.cfg.channels?.[params.channel] as Record<string, unknown> | undefined) ?? {};
   return {
@@ -231,10 +231,10 @@ export function setTopLevelChannelGroupPolicy(params: {
 }
 
 export function setChannelDmPolicyWithAllowFrom(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: "imessage" | "signal" | "telegram";
   dmPolicy: DmPolicy;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const { cfg, channel, dmPolicy } = params;
   const allowFrom =
     dmPolicy === "open" ? addWildcardAllowFrom(cfg.channels?.[channel]?.allowFrom) : undefined;
@@ -252,10 +252,10 @@ export function setChannelDmPolicyWithAllowFrom(params: {
 }
 
 export function setLegacyChannelDmPolicyWithAllowFrom(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: LegacyDmChannel;
   dmPolicy: DmPolicy;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const channelConfig = (params.cfg.channels?.[params.channel] as
     | {
         allowFrom?: Array<string | number>;
@@ -279,10 +279,10 @@ export function setLegacyChannelDmPolicyWithAllowFrom(params: {
 }
 
 export function setLegacyChannelAllowFrom(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: LegacyDmChannel;
   allowFrom: string[];
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   return patchLegacyDmChannelConfig({
     cfg: params.cfg,
     channel: params.channel,
@@ -291,11 +291,11 @@ export function setLegacyChannelAllowFrom(params: {
 }
 
 export function setAccountGroupPolicyForChannel(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: "discord" | "slack";
   accountId: string;
   groupPolicy: GroupPolicy;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   return patchChannelConfigForAccount({
     cfg: params.cfg,
     channel: params.channel,
@@ -308,10 +308,10 @@ type AccountScopedChannel = "discord" | "slack" | "telegram" | "imessage" | "sig
 type LegacyDmChannel = "discord" | "slack";
 
 export function patchLegacyDmChannelConfig(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: LegacyDmChannel;
   patch: Record<string, unknown>;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const { cfg, channel, patch } = params;
   const channelConfig = (cfg.channels?.[channel] as Record<string, unknown> | undefined) ?? {};
   const dmConfig = (channelConfig.dm as Record<string, unknown> | undefined) ?? {};
@@ -332,10 +332,10 @@ export function patchLegacyDmChannelConfig(params: {
 }
 
 export function setOnboardingChannelEnabled(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   channel: AccountScopedChannel,
   enabled: boolean,
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const channelConfig = (cfg.channels?.[channel] as Record<string, unknown> | undefined) ?? {};
   return {
     ...cfg,
@@ -350,12 +350,12 @@ export function setOnboardingChannelEnabled(
 }
 
 function patchConfigForScopedAccount(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: AccountScopedChannel;
   accountId: string;
   patch: Record<string, unknown>;
   ensureEnabled: boolean;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const { cfg, channel, accountId, patch, ensureEnabled } = params;
   const seededCfg =
     accountId === DEFAULT_ACCOUNT_ID
@@ -411,11 +411,11 @@ function patchConfigForScopedAccount(params: {
 }
 
 export function patchChannelConfigForAccount(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: AccountScopedChannel;
   accountId: string;
   patch: Record<string, unknown>;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   return patchConfigForScopedAccount({
     ...params,
     ensureEnabled: true,
@@ -423,7 +423,7 @@ export function patchChannelConfigForAccount(params: {
 }
 
 export function applySingleTokenPromptResult(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: "discord" | "telegram";
   accountId: string;
   tokenPatchKey: "token" | "botToken";
@@ -431,7 +431,7 @@ export function applySingleTokenPromptResult(params: {
     useEnv: boolean;
     token: SecretInput | null;
   };
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   let next = params.cfg;
   if (params.tokenResult.useEnv) {
     next = patchChannelConfigForAccount({
@@ -516,7 +516,7 @@ export type SingleChannelSecretInputPromptResult =
   | { action: "set"; value: SecretInput; resolvedValue: string };
 
 export async function promptSingleChannelSecretInput(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: Pick<WizardPrompter, "confirm" | "text" | "select" | "note">;
   providerHint: string;
   credentialLabel: string;
@@ -535,7 +535,7 @@ export async function promptSingleChannelSecretInput(params: {
     copy: {
       modeMessage: `How do you want to provide this ${params.credentialLabel}?`,
       plaintextLabel: `Enter ${params.credentialLabel}`,
-      plaintextHint: "Stores the credential directly in SiriClaw-Instruct config",
+      plaintextHint: "Stores the credential directly in SiriClawInstruct config",
       refLabel: "Use external secret provider",
       refHint: "Stores a reference to env or configured external secret providers",
     },
@@ -577,9 +577,9 @@ export async function promptSingleChannelSecretInput(params: {
     preferredEnvVar: params.preferredEnvVar,
     copy: {
       sourceMessage: `Where is this ${params.credentialLabel} stored?`,
-      envVarPlaceholder: params.preferredEnvVar ?? "SiriClaw-Instruct_SECRET",
+      envVarPlaceholder: params.preferredEnvVar ?? "SiriClawInstruct_SECRET",
       envVarFormatError:
-        'Use an env var name like "SiriClaw-Instruct_SECRET" (uppercase letters, numbers, underscores).',
+        'Use an env var name like "SiriClawInstruct_SECRET" (uppercase letters, numbers, underscores).',
       noProvidersMessage:
         "No file/exec secret providers are configured yet. Add one under secrets.providers, or select Environment variable.",
     },
@@ -594,7 +594,7 @@ export async function promptSingleChannelSecretInput(params: {
 type ParsedAllowFromResult = { entries: string[]; error?: string };
 
 export async function promptParsedAllowFromForScopedChannel(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: "imessage" | "signal";
   accountId?: string;
   defaultAccountId: string;
@@ -605,10 +605,10 @@ export async function promptParsedAllowFromForScopedChannel(params: {
   placeholder: string;
   parseEntries: (raw: string) => ParsedAllowFromResult;
   getExistingAllowFrom: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     accountId: string;
   }) => Array<string | number>;
-}): Promise<SiriClaw-InstructConfig> {
+}): Promise<SiriClawInstructConfig> {
   const accountId = resolveOnboardingAccountId({
     accountId: params.accountId,
     defaultAccountId: params.defaultAccountId,
@@ -731,7 +731,7 @@ export async function promptResolvedAllowFrom(params: {
 }
 
 export async function promptLegacyChannelAllowFrom(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: LegacyDmChannel;
   prompter: WizardPrompter;
   existing: Array<string | number>;
@@ -743,7 +743,7 @@ export async function promptLegacyChannelAllowFrom(params: {
   parseId: (value: string) => string | null;
   invalidWithoutTokenNote: string;
   resolveEntries: (params: { token: string; entries: string[] }) => Promise<AllowFromResolution[]>;
-}): Promise<SiriClaw-InstructConfig> {
+}): Promise<SiriClawInstructConfig> {
   await params.prompter.note(params.noteLines.join("\n"), params.noteTitle);
   const unique = await promptResolvedAllowFrom({
     prompter: params.prompter,
@@ -763,3 +763,4 @@ export async function promptLegacyChannelAllowFrom(params: {
     allowFrom: unique,
   });
 }
+

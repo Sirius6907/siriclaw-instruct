@@ -1,7 +1,7 @@
 import AVFAudio
 import Foundation
 import Observation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Speech
 import SwabbleKit
 
@@ -474,3 +474,4 @@ extension VoiceWakeManager {
     }
 }
 #endif
+

@@ -1,13 +1,13 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { resolveSiriClaw-InstructAgentDir } from "./agent-paths.js";
+import { resolveSiriClawInstructAgentDir } from "./agent-paths.js";
 import {
   CUSTOM_PROXY_MODELS_CONFIG,
   installModelsConfigTestHooks,
   withModelsTempHome as withTempHome,
 } from "./models-config.e2e-harness.js";
-import { ensureSiriClaw-InstructModelsJson } from "./models-config.js";
+import { ensureSiriClawInstructModelsJson } from "./models-config.js";
 
 installModelsConfigTestHooks();
 
@@ -17,8 +17,8 @@ describe("models-config file mode", () => {
       return;
     }
     await withTempHome(async () => {
-      await ensureSiriClaw-InstructModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
-      const modelsPath = path.join(resolveSiriClaw-InstructAgentDir(), "models.json");
+      await ensureSiriClawInstructModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
+      const modelsPath = path.join(resolveSiriClawInstructAgentDir(), "models.json");
       const stat = await fs.stat(modelsPath);
       expect(stat.mode & 0o777).toBe(0o600);
     });
@@ -29,11 +29,11 @@ describe("models-config file mode", () => {
       return;
     }
     await withTempHome(async () => {
-      await ensureSiriClaw-InstructModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
-      const modelsPath = path.join(resolveSiriClaw-InstructAgentDir(), "models.json");
+      await ensureSiriClawInstructModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
+      const modelsPath = path.join(resolveSiriClawInstructAgentDir(), "models.json");
       await fs.chmod(modelsPath, 0o644);
 
-      const result = await ensureSiriClaw-InstructModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
+      const result = await ensureSiriClawInstructModelsJson(CUSTOM_PROXY_MODELS_CONFIG);
       expect(result.wrote).toBe(false);
 
       const stat = await fs.stat(modelsPath);
@@ -41,3 +41,4 @@ describe("models-config file mode", () => {
     });
   });
 });
+

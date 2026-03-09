@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { SiriClaw-InstructSchema } from "./zod-schema.js";
+import { SiriClawInstructSchema } from "./zod-schema.js";
 
-describe("SiriClaw-InstructSchema cron retention and run-log validation", () => {
+describe("SiriClawInstructSchema cron retention and run-log validation", () => {
   it("accepts valid cron.sessionRetention and runLog values", () => {
     expect(() =>
-      SiriClaw-InstructSchema.parse({
+      SiriClawInstructSchema.parse({
         cron: {
           sessionRetention: "1h30m",
           runLog: {
@@ -18,7 +18,7 @@ describe("SiriClaw-InstructSchema cron retention and run-log validation", () => 
 
   it("rejects invalid cron.sessionRetention", () => {
     expect(() =>
-      SiriClaw-InstructSchema.parse({
+      SiriClawInstructSchema.parse({
         cron: {
           sessionRetention: "abc",
         },
@@ -28,7 +28,7 @@ describe("SiriClaw-InstructSchema cron retention and run-log validation", () => 
 
   it("rejects invalid cron.runLog.maxBytes", () => {
     expect(() =>
-      SiriClaw-InstructSchema.parse({
+      SiriClawInstructSchema.parse({
         cron: {
           runLog: {
             maxBytes: "wat",
@@ -38,3 +38,4 @@ describe("SiriClaw-InstructSchema cron retention and run-log validation", () => 
     ).toThrow(/runLog|maxBytes|size/i);
   });
 });
+

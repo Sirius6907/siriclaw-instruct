@@ -251,20 +251,20 @@ export function buildServiceEnvironment(params: {
   const { env, port, launchdLabel } = params;
   const platform = params.platform ?? process.platform;
   const sharedEnv = resolveSharedServiceEnvironmentFields(env, platform);
-  const profile = env.SiriClaw-Instruct_PROFILE;
+  const profile = env.SiriClawInstruct_PROFILE;
   const resolvedLaunchdLabel =
     launchdLabel || (platform === "darwin" ? resolveGatewayLaunchAgentLabel(profile) : undefined);
   const systemdUnit = `${resolveGatewaySystemdServiceName(profile)}.service`;
   return {
     ...buildCommonServiceEnvironment(env, sharedEnv),
-    SiriClaw-Instruct_PROFILE: profile,
-    SiriClaw-Instruct_GATEWAY_PORT: String(port),
-    SiriClaw-Instruct_LAUNCHD_LABEL: resolvedLaunchdLabel,
-    SiriClaw-Instruct_SYSTEMD_UNIT: systemdUnit,
-    SiriClaw-Instruct_WINDOWS_TASK_NAME: resolveGatewayWindowsTaskName(profile),
-    SiriClaw-Instruct_SERVICE_MARKER: GATEWAY_SERVICE_MARKER,
-    SiriClaw-Instruct_SERVICE_KIND: GATEWAY_SERVICE_KIND,
-    SiriClaw-Instruct_SERVICE_VERSION: VERSION,
+    SiriClawInstruct_PROFILE: profile,
+    SiriClawInstruct_GATEWAY_PORT: String(port),
+    SiriClawInstruct_LAUNCHD_LABEL: resolvedLaunchdLabel,
+    SiriClawInstruct_SYSTEMD_UNIT: systemdUnit,
+    SiriClawInstruct_WINDOWS_TASK_NAME: resolveGatewayWindowsTaskName(profile),
+    SiriClawInstruct_SERVICE_MARKER: GATEWAY_SERVICE_MARKER,
+    SiriClawInstruct_SERVICE_KIND: GATEWAY_SERVICE_KIND,
+    SiriClawInstruct_SERVICE_VERSION: VERSION,
   };
 }
 
@@ -276,18 +276,18 @@ export function buildNodeServiceEnvironment(params: {
   const platform = params.platform ?? process.platform;
   const sharedEnv = resolveSharedServiceEnvironmentFields(env, platform);
   const gatewayToken =
-    env.SiriClaw-Instruct_GATEWAY_TOKEN?.trim() || env.SIRICLAW_GATEWAY_TOKEN?.trim() || undefined;
+    env.SiriClawInstruct_GATEWAY_TOKEN?.trim() || env.SIRICLAW_GATEWAY_TOKEN?.trim() || undefined;
   return {
     ...buildCommonServiceEnvironment(env, sharedEnv),
-    SiriClaw-Instruct_GATEWAY_TOKEN: gatewayToken,
-    SiriClaw-Instruct_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
-    SiriClaw-Instruct_SYSTEMD_UNIT: resolveNodeSystemdServiceName(),
-    SiriClaw-Instruct_WINDOWS_TASK_NAME: resolveNodeWindowsTaskName(),
-    SiriClaw-Instruct_TASK_SCRIPT_NAME: NODE_WINDOWS_TASK_SCRIPT_NAME,
-    SiriClaw-Instruct_LOG_PREFIX: "node",
-    SiriClaw-Instruct_SERVICE_MARKER: NODE_SERVICE_MARKER,
-    SiriClaw-Instruct_SERVICE_KIND: NODE_SERVICE_KIND,
-    SiriClaw-Instruct_SERVICE_VERSION: VERSION,
+    SiriClawInstruct_GATEWAY_TOKEN: gatewayToken,
+    SiriClawInstruct_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
+    SiriClawInstruct_SYSTEMD_UNIT: resolveNodeSystemdServiceName(),
+    SiriClawInstruct_WINDOWS_TASK_NAME: resolveNodeWindowsTaskName(),
+    SiriClawInstruct_TASK_SCRIPT_NAME: NODE_WINDOWS_TASK_SCRIPT_NAME,
+    SiriClawInstruct_LOG_PREFIX: "node",
+    SiriClawInstruct_SERVICE_MARKER: NODE_SERVICE_MARKER,
+    SiriClawInstruct_SERVICE_KIND: NODE_SERVICE_KIND,
+    SiriClawInstruct_SERVICE_VERSION: VERSION,
   };
 }
 
@@ -301,8 +301,8 @@ function buildCommonServiceEnvironment(
     ...sharedEnv.proxyEnv,
     NODE_EXTRA_CA_CERTS: sharedEnv.nodeCaCerts,
     NODE_USE_SYSTEM_CA: sharedEnv.nodeUseSystemCa,
-    SiriClaw-Instruct_STATE_DIR: sharedEnv.stateDir,
-    SiriClaw-Instruct_CONFIG_PATH: sharedEnv.configPath,
+    SiriClawInstruct_STATE_DIR: sharedEnv.stateDir,
+    SiriClawInstruct_CONFIG_PATH: sharedEnv.configPath,
   };
   if (sharedEnv.minimalPath) {
     serviceEnv.PATH = sharedEnv.minimalPath;
@@ -314,8 +314,8 @@ function resolveSharedServiceEnvironmentFields(
   env: Record<string, string | undefined>,
   platform: NodeJS.Platform,
 ): SharedServiceEnvironmentFields {
-  const stateDir = env.SiriClaw-Instruct_STATE_DIR;
-  const configPath = env.SiriClaw-Instruct_CONFIG_PATH;
+  const stateDir = env.SiriClawInstruct_STATE_DIR;
+  const configPath = env.SiriClawInstruct_CONFIG_PATH;
   // Keep a usable temp directory for supervised services even when the host env omits TMPDIR.
   const tmpDir = env.TMPDIR?.trim() || os.tmpdir();
   const proxyEnv = readServiceProxyEnvironment(env);
@@ -337,3 +337,4 @@ function resolveSharedServiceEnvironmentFields(
     nodeUseSystemCa,
   };
 }
+

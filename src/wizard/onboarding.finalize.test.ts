@@ -119,8 +119,8 @@ describe("finalizeOnboardingWizard", () => {
   });
 
   it("resolves gateway password SecretRef for probe and TUI", async () => {
-    const previous = process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
-    process.env.SiriClaw-Instruct_GATEWAY_PASSWORD = "resolved-gateway-password"; // pragma: allowlist secret
+    const previous = process.env.SiriClawInstruct_GATEWAY_PASSWORD;
+    process.env.SiriClawInstruct_GATEWAY_PASSWORD = "resolved-gateway-password"; // pragma: allowlist secret
     const select = vi.fn(async (params: { message: string }) => {
       if (params.message === "How do you want to hatch your bot?") {
         return "tui";
@@ -151,7 +151,7 @@ describe("finalizeOnboardingWizard", () => {
               password: {
                 source: "env",
                 provider: "default",
-                id: "SiriClaw-Instruct_GATEWAY_PASSWORD",
+                id: "SiriClawInstruct_GATEWAY_PASSWORD",
               },
             },
           },
@@ -177,9 +177,9 @@ describe("finalizeOnboardingWizard", () => {
       });
     } finally {
       if (previous === undefined) {
-        delete process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+        delete process.env.SiriClawInstruct_GATEWAY_PASSWORD;
       } else {
-        process.env.SiriClaw-Instruct_GATEWAY_PASSWORD = previous;
+        process.env.SiriClawInstruct_GATEWAY_PASSWORD = previous;
       }
     }
 
@@ -221,7 +221,7 @@ describe("finalizeOnboardingWizard", () => {
             token: {
               source: "env",
               provider: "default",
-              id: "SiriClaw-Instruct_GATEWAY_TOKEN",
+              id: "SiriClawInstruct_GATEWAY_TOKEN",
             },
           },
         },
@@ -245,3 +245,4 @@ describe("finalizeOnboardingWizard", () => {
     expect(gatewayServiceInstall).toHaveBeenCalledTimes(1);
   });
 });
+

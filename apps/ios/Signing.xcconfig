@@ -2,19 +2,20 @@
 // Auto-selected local team overrides live in .local-signing.xcconfig (git-ignored).
 // Manual local overrides can go in LocalSigning.xcconfig (git-ignored).
 
-OPENCLAW_CODE_SIGN_STYLE = Manual
-OPENCLAW_DEVELOPMENT_TEAM = Y5PE65HELJ
+SiriClawInstruct_CODE_SIGN_STYLE = Manual
+SiriClawInstruct_DEVELOPMENT_TEAM = Y5PE65HELJ
 
-OPENCLAW_APP_BUNDLE_ID = ai.openclaw.client
-OPENCLAW_SHARE_BUNDLE_ID = ai.openclaw.client.share
-OPENCLAW_WATCH_APP_BUNDLE_ID = ai.openclaw.client.watchkitapp
-OPENCLAW_WATCH_EXTENSION_BUNDLE_ID = ai.openclaw.client.watchkitapp.extension
-OPENCLAW_ACTIVITY_WIDGET_BUNDLE_ID = ai.openclaw.client.activitywidget
+SiriClawInstruct_APP_BUNDLE_ID = ai.SiriClawInstruct.client
+SiriClawInstruct_SHARE_BUNDLE_ID = ai.SiriClawInstruct.client.share
+SiriClawInstruct_WATCH_APP_BUNDLE_ID = ai.SiriClawInstruct.client.watchkitapp
+SiriClawInstruct_WATCH_EXTENSION_BUNDLE_ID = ai.SiriClawInstruct.client.watchkitapp.extension
+SiriClawInstruct_ACTIVITY_WIDGET_BUNDLE_ID = ai.SiriClawInstruct.client.activitywidget
 
-OPENCLAW_APP_PROFILE = ai.openclaw.client Development
-OPENCLAW_SHARE_PROFILE = ai.openclaw.client.share Development
+SiriClawInstruct_APP_PROFILE = ai.SiriClawInstruct.client Development
+SiriClawInstruct_SHARE_PROFILE = ai.SiriClawInstruct.client.share Development
 
 // Keep local includes after defaults: xcconfig is evaluated top-to-bottom,
 // so later assignments in local files override the defaults above.
 #include? ".local-signing.xcconfig"
 #include? "LocalSigning.xcconfig"
+

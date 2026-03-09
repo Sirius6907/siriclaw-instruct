@@ -249,3 +249,4 @@ describe("config-only channels status output", () => {
     expect(joined).toContain("signing:config (unavailable)");
   });
 });
+

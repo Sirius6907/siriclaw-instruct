@@ -11,24 +11,24 @@ describe("resolveBundledSkillsDir", () => {
   let envSnapshot: ReturnType<typeof captureEnv>;
 
   beforeEach(() => {
-    envSnapshot = captureEnv(["SiriClaw-Instruct_BUNDLED_SKILLS_DIR"]);
+    envSnapshot = captureEnv(["SiriClawInstruct_BUNDLED_SKILLS_DIR"]);
   });
 
   afterEach(() => {
     envSnapshot.restore();
   });
 
-  it("returns SiriClaw-Instruct_BUNDLED_SKILLS_DIR override when set", async () => {
-    const overrideDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-bundled-override-"));
-    process.env.SiriClaw-Instruct_BUNDLED_SKILLS_DIR = ` ${overrideDir} `;
+  it("returns SiriClawInstruct_BUNDLED_SKILLS_DIR override when set", async () => {
+    const overrideDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-bundled-override-"));
+    process.env.SiriClawInstruct_BUNDLED_SKILLS_DIR = ` ${overrideDir} `;
     expect(resolveBundledSkillsDir()).toBe(overrideDir);
   });
 
   it("resolves bundled skills under a flattened dist layout", async () => {
-    delete process.env.SiriClaw-Instruct_BUNDLED_SKILLS_DIR;
+    delete process.env.SiriClawInstruct_BUNDLED_SKILLS_DIR;
 
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-bundled-"));
-    await fs.writeFile(path.join(root, "package.json"), JSON.stringify({ name: "SiriClaw-Instruct" }));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-bundled-"));
+    await fs.writeFile(path.join(root, "package.json"), JSON.stringify({ name: "SiriClawInstruct" }));
 
     await writeSkill({
       dir: path.join(root, "skills", "peekaboo"),
@@ -55,3 +55,4 @@ describe("resolveBundledSkillsDir", () => {
     expect(resolved).toBe(path.join(root, "skills"));
   });
 });
+

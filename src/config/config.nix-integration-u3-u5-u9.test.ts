@@ -18,7 +18,7 @@ function envWith(overrides: Record<string, string | undefined>): NodeJS.ProcessE
 
 function loadConfigForHome(home: string) {
   return createConfigIO({
-    env: envWith({ SiriClaw-Instruct_HOME: home }),
+    env: envWith({ SiriClawInstruct_HOME: home }),
     homedir: () => home,
   }).loadConfig();
 }
@@ -35,84 +35,84 @@ async function withLoadedConfigForHome(
 
 describe("Nix integration (U3, U5, U9)", () => {
   describe("U3: isNixMode env var detection", () => {
-    it("isNixMode is false when SiriClaw-Instruct_NIX_MODE is not set", () => {
-      expect(resolveIsNixMode(envWith({ SiriClaw-Instruct_NIX_MODE: undefined }))).toBe(false);
+    it("isNixMode is false when SiriClawInstruct_NIX_MODE is not set", () => {
+      expect(resolveIsNixMode(envWith({ SiriClawInstruct_NIX_MODE: undefined }))).toBe(false);
     });
 
-    it("isNixMode is false when SiriClaw-Instruct_NIX_MODE is empty", () => {
-      expect(resolveIsNixMode(envWith({ SiriClaw-Instruct_NIX_MODE: "" }))).toBe(false);
+    it("isNixMode is false when SiriClawInstruct_NIX_MODE is empty", () => {
+      expect(resolveIsNixMode(envWith({ SiriClawInstruct_NIX_MODE: "" }))).toBe(false);
     });
 
-    it("isNixMode is false when SiriClaw-Instruct_NIX_MODE is not '1'", () => {
-      expect(resolveIsNixMode(envWith({ SiriClaw-Instruct_NIX_MODE: "true" }))).toBe(false);
+    it("isNixMode is false when SiriClawInstruct_NIX_MODE is not '1'", () => {
+      expect(resolveIsNixMode(envWith({ SiriClawInstruct_NIX_MODE: "true" }))).toBe(false);
     });
 
-    it("isNixMode is true when SiriClaw-Instruct_NIX_MODE=1", () => {
-      expect(resolveIsNixMode(envWith({ SiriClaw-Instruct_NIX_MODE: "1" }))).toBe(true);
+    it("isNixMode is true when SiriClawInstruct_NIX_MODE=1", () => {
+      expect(resolveIsNixMode(envWith({ SiriClawInstruct_NIX_MODE: "1" }))).toBe(true);
     });
   });
 
   describe("U5: CONFIG_PATH and STATE_DIR env var overrides", () => {
-    it("STATE_DIR defaults to ~/.SiriClaw-Instruct when env not set", () => {
-      expect(resolveStateDir(envWith({ SiriClaw-Instruct_STATE_DIR: undefined }))).toMatch(/\.SiriClaw-Instruct$/);
+    it("STATE_DIR defaults to ~/.SiriClawInstruct when env not set", () => {
+      expect(resolveStateDir(envWith({ SiriClawInstruct_STATE_DIR: undefined }))).toMatch(/\.SiriClawInstruct$/);
     });
 
-    it("STATE_DIR respects SiriClaw-Instruct_STATE_DIR override", () => {
-      expect(resolveStateDir(envWith({ SiriClaw-Instruct_STATE_DIR: "/custom/state/dir" }))).toBe(
+    it("STATE_DIR respects SiriClawInstruct_STATE_DIR override", () => {
+      expect(resolveStateDir(envWith({ SiriClawInstruct_STATE_DIR: "/custom/state/dir" }))).toBe(
         path.resolve("/custom/state/dir"),
       );
     });
 
-    it("STATE_DIR respects SiriClaw-Instruct_HOME when state override is unset", () => {
+    it("STATE_DIR respects SiriClawInstruct_HOME when state override is unset", () => {
       const customHome = path.join(path.sep, "custom", "home");
       expect(
-        resolveStateDir(envWith({ SiriClaw-Instruct_HOME: customHome, SiriClaw-Instruct_STATE_DIR: undefined })),
-      ).toBe(path.join(path.resolve(customHome), ".SiriClaw-Instruct"));
+        resolveStateDir(envWith({ SiriClawInstruct_HOME: customHome, SiriClawInstruct_STATE_DIR: undefined })),
+      ).toBe(path.join(path.resolve(customHome), ".SiriClawInstruct"));
     });
 
-    it("CONFIG_PATH defaults to SiriClaw-Instruct_HOME/.SiriClaw-Instruct/SiriClaw-Instruct.json", () => {
+    it("CONFIG_PATH defaults to SiriClawInstruct_HOME/.SiriClawInstruct/SiriClawInstruct.json", () => {
       const customHome = path.join(path.sep, "custom", "home");
       expect(
         resolveConfigPathCandidate(
           envWith({
-            SiriClaw-Instruct_HOME: customHome,
-            SiriClaw-Instruct_CONFIG_PATH: undefined,
-            SiriClaw-Instruct_STATE_DIR: undefined,
+            SiriClawInstruct_HOME: customHome,
+            SiriClawInstruct_CONFIG_PATH: undefined,
+            SiriClawInstruct_STATE_DIR: undefined,
           }),
         ),
-      ).toBe(path.join(path.resolve(customHome), ".SiriClaw-Instruct", "SiriClaw-Instruct.json"));
+      ).toBe(path.join(path.resolve(customHome), ".SiriClawInstruct", "SiriClawInstruct.json"));
     });
 
-    it("CONFIG_PATH defaults to ~/.SiriClaw-Instruct/SiriClaw-Instruct.json when env not set", () => {
+    it("CONFIG_PATH defaults to ~/.SiriClawInstruct/SiriClawInstruct.json when env not set", () => {
       expect(
         resolveConfigPathCandidate(
-          envWith({ SiriClaw-Instruct_CONFIG_PATH: undefined, SiriClaw-Instruct_STATE_DIR: undefined }),
+          envWith({ SiriClawInstruct_CONFIG_PATH: undefined, SiriClawInstruct_STATE_DIR: undefined }),
         ),
-      ).toMatch(/\.SiriClaw-Instruct[\\/]SiriClaw-Instruct\.json$/);
+      ).toMatch(/\.SiriClawInstruct[\\/]SiriClawInstruct\.json$/);
     });
 
-    it("CONFIG_PATH respects SiriClaw-Instruct_CONFIG_PATH override", () => {
+    it("CONFIG_PATH respects SiriClawInstruct_CONFIG_PATH override", () => {
       expect(
         resolveConfigPathCandidate(
-          envWith({ SiriClaw-Instruct_CONFIG_PATH: "/nix/store/abc/SiriClaw-Instruct.json" }),
+          envWith({ SiriClawInstruct_CONFIG_PATH: "/nix/store/abc/SiriClawInstruct.json" }),
         ),
-      ).toBe(path.resolve("/nix/store/abc/SiriClaw-Instruct.json"));
+      ).toBe(path.resolve("/nix/store/abc/SiriClawInstruct.json"));
     });
 
-    it("CONFIG_PATH expands ~ in SiriClaw-Instruct_CONFIG_PATH override", async () => {
+    it("CONFIG_PATH expands ~ in SiriClawInstruct_CONFIG_PATH override", async () => {
       await withTempHome(async (home) => {
         expect(
           resolveConfigPathCandidate(
-            envWith({ SiriClaw-Instruct_HOME: home, SiriClaw-Instruct_CONFIG_PATH: "~/.SiriClaw-Instruct/custom.json" }),
+            envWith({ SiriClawInstruct_HOME: home, SiriClawInstruct_CONFIG_PATH: "~/.SiriClawInstruct/custom.json" }),
             () => home,
           ),
-        ).toBe(path.join(home, ".SiriClaw-Instruct", "custom.json"));
+        ).toBe(path.join(home, ".SiriClawInstruct", "custom.json"));
       });
     });
 
     it("CONFIG_PATH uses STATE_DIR when only state dir is overridden", () => {
-      expect(resolveConfigPathCandidate(envWith({ SiriClaw-Instruct_STATE_DIR: "/custom/state" }))).toBe(
-        path.join(path.resolve("/custom/state"), "SiriClaw-Instruct.json"),
+      expect(resolveConfigPathCandidate(envWith({ SiriClawInstruct_STATE_DIR: "/custom/state" }))).toBe(
+        path.join(path.resolve("/custom/state"), "SiriClawInstruct.json"),
       );
     });
   });
@@ -120,7 +120,7 @@ describe("Nix integration (U3, U5, U9)", () => {
   describe("U5b: tilde expansion for config paths", () => {
     it("expands ~ in common path-ish config fields", async () => {
       await withTempHome(async (home) => {
-        const configDir = path.join(home, ".SiriClaw-Instruct");
+        const configDir = path.join(home, ".SiriClawInstruct");
         await fs.mkdir(configDir, { recursive: true });
         const pluginDir = path.join(home, "plugins", "demo-plugin");
         await fs.mkdir(pluginDir, { recursive: true });
@@ -130,7 +130,7 @@ describe("Nix integration (U3, U5, U9)", () => {
           "utf-8",
         );
         await fs.writeFile(
-          path.join(pluginDir, "SiriClaw-Instruct.plugin.json"),
+          path.join(pluginDir, "SiriClawInstruct.plugin.json"),
           JSON.stringify(
             {
               id: "demo-plugin",
@@ -142,7 +142,7 @@ describe("Nix integration (U3, U5, U9)", () => {
           "utf-8",
         );
         await fs.writeFile(
-          path.join(configDir, "SiriClaw-Instruct.json"),
+          path.join(configDir, "SiriClawInstruct.json"),
           JSON.stringify(
             {
               plugins: {
@@ -156,7 +156,7 @@ describe("Nix integration (U3, U5, U9)", () => {
                   {
                     id: "main",
                     workspace: "~/ws-agent",
-                    agentDir: "~/.SiriClaw-Instruct/agents/main",
+                    agentDir: "~/.SiriClawInstruct/agents/main",
                     sandbox: { workspaceRoot: "~/sandbox-root" },
                   },
                 ],
@@ -165,7 +165,7 @@ describe("Nix integration (U3, U5, U9)", () => {
                 whatsapp: {
                   accounts: {
                     personal: {
-                      authDir: "~/.SiriClaw-Instruct/credentials/wa-personal",
+                      authDir: "~/.SiriClawInstruct/credentials/wa-personal",
                     },
                   },
                 },
@@ -183,11 +183,11 @@ describe("Nix integration (U3, U5, U9)", () => {
         expect(cfg.agents?.defaults?.workspace).toBe(path.join(home, "ws-default"));
         expect(cfg.agents?.list?.[0]?.workspace).toBe(path.join(home, "ws-agent"));
         expect(cfg.agents?.list?.[0]?.agentDir).toBe(
-          path.join(home, ".SiriClaw-Instruct", "agents", "main"),
+          path.join(home, ".SiriClawInstruct", "agents", "main"),
         );
         expect(cfg.agents?.list?.[0]?.sandbox?.workspaceRoot).toBe(path.join(home, "sandbox-root"));
         expect(cfg.channels?.whatsapp?.accounts?.personal?.authDir).toBe(
-          path.join(home, ".SiriClaw-Instruct", "credentials", "wa-personal"),
+          path.join(home, ".SiriClawInstruct", "credentials", "wa-personal"),
         );
       });
     });
@@ -195,16 +195,16 @@ describe("Nix integration (U3, U5, U9)", () => {
 
   describe("U6: gateway port resolution", () => {
     it("uses default when env and config are unset", () => {
-      expect(resolveGatewayPort({}, envWith({ SiriClaw-Instruct_GATEWAY_PORT: undefined }))).toBe(
+      expect(resolveGatewayPort({}, envWith({ SiriClawInstruct_GATEWAY_PORT: undefined }))).toBe(
         DEFAULT_GATEWAY_PORT,
       );
     });
 
-    it("prefers SiriClaw-Instruct_GATEWAY_PORT over config", () => {
+    it("prefers SiriClawInstruct_GATEWAY_PORT over config", () => {
       expect(
         resolveGatewayPort(
           { gateway: { port: 19002 } },
-          envWith({ SiriClaw-Instruct_GATEWAY_PORT: "19001" }),
+          envWith({ SiriClawInstruct_GATEWAY_PORT: "19001" }),
         ),
       ).toBe(19001);
     });
@@ -213,7 +213,7 @@ describe("Nix integration (U3, U5, U9)", () => {
       expect(
         resolveGatewayPort(
           { gateway: { port: 19003 } },
-          envWith({ SiriClaw-Instruct_GATEWAY_PORT: "nope" }),
+          envWith({ SiriClawInstruct_GATEWAY_PORT: "nope" }),
         ),
       ).toBe(19003);
     });
@@ -262,3 +262,4 @@ describe("Nix integration (U3, U5, U9)", () => {
     });
   });
 });
+

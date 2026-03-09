@@ -7,7 +7,7 @@ import type {
 import type { Client } from "@buape/carbon";
 import type { GatewayPresenceUpdate } from "discord-api-types/v10";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { DiscordAccountConfig } from "../../config/types.discord.js";
 import { buildAgentSessionKey } from "../../routing/resolve-route.js";
 import {
@@ -89,7 +89,7 @@ vi.mock("../../config/sessions.js", async (importOriginal) => {
 });
 
 describe("agent components", () => {
-  const createCfg = (): SiriClaw-InstructConfig => ({}) as SiriClaw-InstructConfig;
+  const createCfg = (): SiriClawInstructConfig => ({}) as SiriClawInstructConfig;
 
   const createBaseDmInteraction = (overrides: Record<string, unknown> = {}) => {
     const reply = vi.fn().mockResolvedValue(undefined);
@@ -223,14 +223,14 @@ describe("agent components", () => {
 });
 
 describe("discord component interactions", () => {
-  const createCfg = (): SiriClaw-InstructConfig =>
+  const createCfg = (): SiriClawInstructConfig =>
     ({
       channels: {
         discord: {
           replyToMode: "first",
         },
       },
-    }) as SiriClaw-InstructConfig;
+    }) as SiriClawInstructConfig;
 
   const createDiscordConfig = (overrides?: Partial<DiscordAccountConfig>): DiscordAccountConfig =>
     ({
@@ -340,7 +340,7 @@ describe("discord component interactions", () => {
     deliverDiscordReplyMock.mockClear();
     recordInboundSessionMock.mockClear().mockResolvedValue(undefined);
     readSessionUpdatedAtMock.mockClear().mockReturnValue(undefined);
-    resolveStorePathMock.mockClear().mockReturnValue("/tmp/SiriClaw-Instruct-sessions-test.json");
+    resolveStorePathMock.mockClear().mockReturnValue("/tmp/SiriClawInstruct-sessions-test.json");
   });
 
   it("routes button clicks with reply references", async () => {
@@ -440,7 +440,7 @@ describe("discord component interactions", () => {
         cfg: {
           commands: { useAccessGroups: true },
           channels: { discord: { replyToMode: "first" } },
-        } as SiriClaw-InstructConfig,
+        } as SiriClawInstructConfig,
         allowFrom: ["owner-1"],
       }),
     );
@@ -472,7 +472,7 @@ describe("discord component interactions", () => {
         cfg: {
           commands: { useAccessGroups: true },
           channels: { discord: { replyToMode: "first" } },
-        } as SiriClaw-InstructConfig,
+        } as SiriClawInstructConfig,
         allowFrom: ["123456789"],
       }),
     );
@@ -743,14 +743,14 @@ describe("resolveDiscordPresenceUpdate", () => {
     const presence = resolveDiscordPresenceUpdate({
       activity: "Live",
       activityType: 1,
-      activityUrl: "https://twitch.tv/SiriClaw-Instruct",
+      activityUrl: "https://twitch.tv/SiriClawInstruct",
     });
     expect(presence).not.toBeNull();
     expect(presence?.activities).toHaveLength(1);
     expect(presence?.activities[0]).toMatchObject({
       type: 1,
       name: "Live",
-      url: "https://twitch.tv/SiriClaw-Instruct",
+      url: "https://twitch.tv/SiriClawInstruct",
     });
   });
 });
@@ -1010,3 +1010,4 @@ describe("resolveDiscordAutoThreadReplyPlan", () => {
     }
   });
 });
+

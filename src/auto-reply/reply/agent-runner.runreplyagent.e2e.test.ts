@@ -95,7 +95,7 @@ beforeEach(() => {
   state.runCliAgentMock.mockClear();
   vi.mocked(enqueueFollowupRun).mockClear();
   vi.mocked(scheduleFollowupDrain).mockClear();
-  vi.stubEnv("SiriClaw-Instruct_TEST_FAST", "1");
+  vi.stubEnv("SiriClawInstruct_TEST_FAST", "1");
 });
 
 function createMinimalRun(params?: {
@@ -343,7 +343,7 @@ describe("runReplyAgent heartbeat followup guard", () => {
 describe("runReplyAgent typing (heartbeat)", () => {
   async function withTempStateDir<T>(fn: (stateDir: string) => Promise<T>): Promise<T> {
     return await withStateDirEnv(
-      "SiriClaw-Instruct-typing-heartbeat-",
+      "SiriClawInstruct-typing-heartbeat-",
       async ({ stateDir }) => await fn(stateDir),
     );
   }
@@ -1473,7 +1473,7 @@ describe("runReplyAgent memory flush", () => {
   }
 
   beforeAll(async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(tmpdir(), "SiriClaw-Instruct-memory-flush-"));
+    fixtureRoot = await fs.mkdtemp(path.join(tmpdir(), "SiriClawInstruct-memory-flush-"));
   });
 
   afterAll(async () => {
@@ -1952,3 +1952,4 @@ describe("runReplyAgent memory flush", () => {
     });
   });
 });
+

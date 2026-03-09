@@ -50,14 +50,14 @@ export function buildGatewayRuntimeHints(
     return hints;
   }
   if (runtime.cachedLabel && platform === "darwin") {
-    const label = resolveGatewayLaunchAgentLabel(env.SiriClaw-Instruct_PROFILE);
+    const label = resolveGatewayLaunchAgentLabel(env.SiriClawInstruct_PROFILE);
     hints.push(
       `LaunchAgent label cached but plist missing. Clear with: launchctl bootout gui/$UID/${label}`,
     );
-    hints.push(`Then reinstall: ${formatCliCommand("SiriClaw-Instruct gateway install", env)}`);
+    hints.push(`Then reinstall: ${formatCliCommand("SiriClawInstruct gateway install", env)}`);
   }
   if (runtime.missingUnit) {
-    hints.push(`Service not installed. Run: ${formatCliCommand("SiriClaw-Instruct gateway install", env)}`);
+    hints.push(`Service not installed. Run: ${formatCliCommand("SiriClawInstruct gateway install", env)}`);
     if (fileLog) {
       hints.push(`File logs: ${fileLog}`);
     }
@@ -72,10 +72,11 @@ export function buildGatewayRuntimeHints(
       ...buildPlatformRuntimeLogHints({
         platform,
         env,
-        systemdServiceName: resolveGatewaySystemdServiceName(env.SiriClaw-Instruct_PROFILE),
-        windowsTaskName: resolveGatewayWindowsTaskName(env.SiriClaw-Instruct_PROFILE),
+        systemdServiceName: resolveGatewaySystemdServiceName(env.SiriClawInstruct_PROFILE),
+        windowsTaskName: resolveGatewayWindowsTaskName(env.SiriClawInstruct_PROFILE),
       }),
     );
   }
   return hints;
 }
+

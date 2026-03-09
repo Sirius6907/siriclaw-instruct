@@ -371,8 +371,8 @@ describe("resolveConfigEnvVars", () => {
         },
         {
           name: "gateway auth token",
-          config: { gateway: { auth: { token: "${SiriClaw-Instruct_GATEWAY_TOKEN}" } } },
-          env: { SiriClaw-Instruct_GATEWAY_TOKEN: "secret-token" },
+          config: { gateway: { auth: { token: "${SiriClawInstruct_GATEWAY_TOKEN}" } } },
+          env: { SiriClawInstruct_GATEWAY_TOKEN: "secret-token" },
           expected: { gateway: { auth: { token: "secret-token" } } },
         },
         {
@@ -399,3 +399,4 @@ describe("resolveConfigEnvVars", () => {
     });
   });
 });
+

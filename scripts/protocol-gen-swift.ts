@@ -20,7 +20,7 @@ const outPaths = [
     repoRoot,
     "apps",
     "shared",
-    "SiriClaw-InstructKit",
+    "siriclaw-instruct-kit",
     "Sources",
     "SiriClaw-InstructProtocol",
     "GatewayModels.swift",
@@ -245,3 +245,4 @@ generate().catch((err) => {
   console.error(err);
   process.exit(1);
 });
+

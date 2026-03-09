@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { resolveGatewayTokenForDriftCheck } from "./gateway-token-drift.js";
 
 describe("resolveGatewayTokenForDriftCheck", () => {
@@ -12,9 +12,9 @@ describe("resolveGatewayTokenForDriftCheck", () => {
             token: "config-token",
           },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       env: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
+        SiriClawInstruct_GATEWAY_TOKEN: "env-token",
       } as NodeJS.ProcessEnv,
     });
 
@@ -33,14 +33,15 @@ describe("resolveGatewayTokenForDriftCheck", () => {
           gateway: {
             mode: "local",
             auth: {
-              token: { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_TOKEN" },
+              token: { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_TOKEN" },
             },
           },
-        } as SiriClaw-InstructConfig,
+        } as SiriClawInstructConfig,
         env: {
-          SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
+          SiriClawInstruct_GATEWAY_TOKEN: "env-token",
         } as NodeJS.ProcessEnv,
       }),
     ).toThrow(/gateway\.auth\.token/i);
   });
 });
+

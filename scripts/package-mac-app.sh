@@ -242,13 +242,13 @@ else
   echo "WARN: model catalog missing at $MODEL_CATALOG_SRC (continuing)" >&2
 fi
 
-echo "📦 Copying SiriClaw-InstructKit resources"
-SiriClaw-InstructKIT_BUNDLE="$(build_path_for_arch "$PRIMARY_ARCH")/$BUILD_CONFIG/SiriClaw-InstructKit_SiriClaw-InstructKit.bundle"
-if [ -d "$SiriClaw-InstructKIT_BUNDLE" ]; then
-  rm -rf "$APP_ROOT/Contents/Resources/SiriClaw-InstructKit_SiriClaw-InstructKit.bundle"
-  cp -R "$SiriClaw-InstructKIT_BUNDLE" "$APP_ROOT/Contents/Resources/SiriClaw-InstructKit_SiriClaw-InstructKit.bundle"
+echo "📦 Copying siriclaw-instruct-kit resources"
+siriclaw-instruct-kit_BUNDLE="$(build_path_for_arch "$PRIMARY_ARCH")/$BUILD_CONFIG/siriclaw-instruct-kit_siriclaw-instruct-kit.bundle"
+if [ -d "$siriclaw-instruct-kit_BUNDLE" ]; then
+  rm -rf "$APP_ROOT/Contents/Resources/siriclaw-instruct-kit_siriclaw-instruct-kit.bundle"
+  cp -R "$siriclaw-instruct-kit_BUNDLE" "$APP_ROOT/Contents/Resources/siriclaw-instruct-kit_siriclaw-instruct-kit.bundle"
 else
-  echo "WARN: SiriClaw-InstructKit resource bundle not found at $SiriClaw-InstructKIT_BUNDLE (continuing)" >&2
+  echo "WARN: siriclaw-instruct-kit resource bundle not found at $siriclaw-instruct-kit_BUNDLE (continuing)" >&2
 fi
 
 echo "📦 Copying Textual resources"
@@ -285,3 +285,4 @@ echo "🔏 Signing bundle (auto-selects signing identity if SIGN_IDENTITY is uns
 "$ROOT_DIR/scripts/codesign-mac-app.sh" "$APP_ROOT"
 
 echo "✅ Bundle ready at $APP_ROOT"
+

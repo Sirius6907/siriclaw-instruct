@@ -77,7 +77,7 @@ vi.mock("../infra/provider-usage.js", () => ({
 }));
 
 import "./test-helpers/fast-core-tools.js";
-import { createSiriClaw-InstructTools } from "./SiriClaw-Instruct-tools.js";
+import { createSiriClawInstructTools } from "./siriclaw-instruct-tools.js";
 
 function resetSessionStore(store: Record<string, unknown>) {
   loadSessionStoreMock.mockClear();
@@ -86,7 +86,7 @@ function resetSessionStore(store: Record<string, unknown>) {
 }
 
 function getSessionStatusTool(agentSessionKey = "main") {
-  const tool = createSiriClaw-InstructTools({ agentSessionKey }).find(
+  const tool = createSiriClawInstructTools({ agentSessionKey }).find(
     (candidate) => candidate.name === "session_status",
   );
   expect(tool).toBeDefined();
@@ -110,7 +110,7 @@ describe("session_status tool", () => {
     const result = await tool.execute("call1", {});
     const details = result.details as { ok?: boolean; statusText?: string };
     expect(details.ok).toBe(true);
-    expect(details.statusText).toContain("SiriClaw-Instruct");
+    expect(details.statusText).toContain("SiriClawInstruct");
     expect(details.statusText).toContain("🧠 Model:");
     expect(details.statusText).not.toContain("OAuth/token status");
   });
@@ -238,3 +238,4 @@ describe("session_status tool", () => {
     expect(saved.authProfileOverride).toBeUndefined();
   });
 });
+

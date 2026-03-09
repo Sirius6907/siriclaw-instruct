@@ -87,3 +87,4 @@ describe("wrapUntrustedPromptDataBlock", () => {
     expect(block).not.toContain("\nabcdef\n");
   });
 });
+

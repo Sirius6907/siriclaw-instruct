@@ -20,11 +20,11 @@ export function registerNodesCli(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["SiriClaw-Instruct nodes status", "List known nodes with live status."],
-          ["SiriClaw-Instruct nodes pairing pending", "Show pending node pairing requests."],
-          ['SiriClaw-Instruct nodes run --node <id> --raw "uname -a"', "Run a shell command on a node."],
-          ["SiriClaw-Instruct nodes camera snap --node <id>", "Capture a photo from a node camera."],
-        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/nodes", "docs.SiriClaw-Instruct.ai/cli/nodes")}\n`,
+          ["SiriClawInstruct nodes status", "List known nodes with live status."],
+          ["SiriClawInstruct nodes pairing pending", "Show pending node pairing requests."],
+          ['SiriClawInstruct nodes run --node <id> --raw "uname -a"', "Run a shell command on a node."],
+          ["SiriClawInstruct nodes camera snap --node <id>", "Capture a photo from a node camera."],
+        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/nodes", "docs.SiriClawInstruct.ai/cli/nodes")}\n`,
     );
 
   registerNodesStatusCommands(nodes);
@@ -37,3 +37,4 @@ export function registerNodesCli(program: Command) {
   registerNodesScreenCommands(nodes);
   registerNodesLocationCommands(nodes);
 }
+

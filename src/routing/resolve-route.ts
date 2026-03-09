@@ -1,7 +1,7 @@
 import { resolveDefaultAgentId } from "../agents/agent-scope.js";
 import type { ChatType } from "../channels/chat-type.js";
 import { normalizeChatType } from "../channels/chat-type.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { shouldLogVerbose } from "../globals.js";
 import { logDebug } from "../logger.js";
 import { listBindings } from "./bindings.js";
@@ -24,7 +24,7 @@ export type RoutePeer = {
 };
 
 export type ResolveAgentRouteInput = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   accountId?: string | null;
   peer?: RoutePeer | null;
@@ -111,20 +111,20 @@ export function buildAgentSessionKey(params: {
   });
 }
 
-function listAgents(cfg: SiriClaw-InstructConfig) {
+function listAgents(cfg: SiriClawInstructConfig) {
   const agents = cfg.agents?.list;
   return Array.isArray(agents) ? agents : [];
 }
 
 type AgentLookupCache = {
-  agentsRef: SiriClaw-InstructConfig["agents"] | undefined;
+  agentsRef: SiriClawInstructConfig["agents"] | undefined;
   byNormalizedId: Map<string, string>;
   fallbackDefaultAgentId: string;
 };
 
-const agentLookupCacheByCfg = new WeakMap<SiriClaw-InstructConfig, AgentLookupCache>();
+const agentLookupCacheByCfg = new WeakMap<SiriClawInstructConfig, AgentLookupCache>();
 
-function resolveAgentLookupCache(cfg: SiriClaw-InstructConfig): AgentLookupCache {
+function resolveAgentLookupCache(cfg: SiriClawInstructConfig): AgentLookupCache {
   const agentsRef = cfg.agents;
   const existing = agentLookupCacheByCfg.get(cfg);
   if (existing && existing.agentsRef === agentsRef) {
@@ -148,7 +148,7 @@ function resolveAgentLookupCache(cfg: SiriClaw-InstructConfig): AgentLookupCache
   return next;
 }
 
-export function pickFirstExistingAgentId(cfg: SiriClaw-InstructConfig, agentId: string): string {
+export function pickFirstExistingAgentId(cfg: SiriClawInstructConfig, agentId: string): string {
   const lookup = resolveAgentLookupCache(cfg);
   const trimmed = (agentId ?? "").trim();
   if (!trimmed) {
@@ -192,20 +192,20 @@ type BindingScope = {
 };
 
 type EvaluatedBindingsCache = {
-  bindingsRef: SiriClaw-InstructConfig["bindings"];
+  bindingsRef: SiriClawInstructConfig["bindings"];
   byChannel: Map<string, EvaluatedBindingsByChannel>;
   byChannelAccount: Map<string, EvaluatedBinding[]>;
   byChannelAccountIndex: Map<string, EvaluatedBindingsIndex>;
 };
 
-const evaluatedBindingsCacheByCfg = new WeakMap<SiriClaw-InstructConfig, EvaluatedBindingsCache>();
+const evaluatedBindingsCacheByCfg = new WeakMap<SiriClawInstructConfig, EvaluatedBindingsCache>();
 const MAX_EVALUATED_BINDINGS_CACHE_KEYS = 2000;
 const resolvedRouteCacheByCfg = new WeakMap<
-  SiriClaw-InstructConfig,
+  SiriClawInstructConfig,
   {
-    bindingsRef: SiriClaw-InstructConfig["bindings"];
-    agentsRef: SiriClaw-InstructConfig["agents"];
-    sessionRef: SiriClaw-InstructConfig["session"];
+    bindingsRef: SiriClawInstructConfig["bindings"];
+    agentsRef: SiriClawInstructConfig["agents"];
+    sessionRef: SiriClawInstructConfig["session"];
     byKey: Map<string, ResolvedAgentRoute>;
   }
 >();
@@ -233,7 +233,7 @@ function resolveAccountPatternKey(accountPattern: string): string {
 }
 
 function buildEvaluatedBindingsByChannel(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
 ): Map<string, EvaluatedBindingsByChannel> {
   const byChannel = new Map<string, EvaluatedBindingsByChannel>();
   let order = 0;
@@ -411,7 +411,7 @@ function buildEvaluatedBindingsIndex(bindings: EvaluatedBinding[]): EvaluatedBin
 }
 
 function getEvaluatedBindingsForChannelAccount(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   channel: string,
   accountId: string,
 ): EvaluatedBinding[] {
@@ -454,7 +454,7 @@ function getEvaluatedBindingsForChannelAccount(
 }
 
 function getEvaluatedBindingIndexForChannelAccount(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   channel: string,
   accountId: string,
 ): EvaluatedBindingsIndex {
@@ -505,7 +505,7 @@ function normalizeBindingMatch(
   };
 }
 
-function resolveRouteCacheForConfig(cfg: SiriClaw-InstructConfig): Map<string, ResolvedAgentRoute> {
+function resolveRouteCacheForConfig(cfg: SiriClawInstructConfig): Map<string, ResolvedAgentRoute> {
   const existing = resolvedRouteCacheByCfg.get(cfg);
   if (
     existing &&
@@ -802,3 +802,4 @@ export function resolveAgentRoute(input: ResolveAgentRouteInput): ResolvedAgentR
 
   return choose(resolveDefaultAgentId(input.cfg), "default");
 }
+

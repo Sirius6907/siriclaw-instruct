@@ -33,3 +33,4 @@ describe("normalizeOptionalSecretInput", () => {
     expect(normalizeOptionalSecretInput("  key-\u0417  ")).toBe("key-");
   });
 });
+

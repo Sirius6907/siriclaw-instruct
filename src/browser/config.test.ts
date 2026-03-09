@@ -12,15 +12,15 @@ describe("browser config", () => {
     expect(resolved.cdpHost).toBe("127.0.0.1");
     expect(resolved.cdpProtocol).toBe("http");
     const profile = resolveProfile(resolved, resolved.defaultProfile);
-    expect(profile?.name).toBe("SiriClaw-Instruct");
-    expect(profile?.driver).toBe("SiriClaw-Instruct");
+    expect(profile?.name).toBe("SiriClawInstruct");
+    expect(profile?.driver).toBe("SiriClawInstruct");
     expect(profile?.cdpPort).toBe(18800);
     expect(profile?.cdpUrl).toBe("http://127.0.0.1:18800");
 
-    const SiriClaw-Instruct = resolveProfile(resolved, "SiriClaw-Instruct");
-    expect(SiriClaw-Instruct?.driver).toBe("SiriClaw-Instruct");
-    expect(SiriClaw-Instruct?.cdpPort).toBe(18800);
-    expect(SiriClaw-Instruct?.cdpUrl).toBe("http://127.0.0.1:18800");
+    const SiriClawInstruct = resolveProfile(resolved, "SiriClawInstruct");
+    expect(SiriClawInstruct?.driver).toBe("SiriClawInstruct");
+    expect(SiriClawInstruct?.cdpPort).toBe(18800);
+    expect(SiriClawInstruct?.cdpUrl).toBe("http://127.0.0.1:18800");
     const chrome = resolveProfile(resolved, "chrome");
     expect(chrome?.driver).toBe("extension");
     expect(chrome?.cdpPort).toBe(18792);
@@ -29,8 +29,8 @@ describe("browser config", () => {
     expect(resolved.remoteCdpHandshakeTimeoutMs).toBe(3000);
   });
 
-  it("derives default ports from SiriClaw-Instruct_GATEWAY_PORT when unset", () => {
-    withEnv({ SiriClaw-Instruct_GATEWAY_PORT: "19001" }, () => {
+  it("derives default ports from SiriClawInstruct_GATEWAY_PORT when unset", () => {
+    withEnv({ SiriClawInstruct_GATEWAY_PORT: "19001" }, () => {
       const resolved = resolveBrowserConfig(undefined);
       expect(resolved.controlPort).toBe(19003);
       const chrome = resolveProfile(resolved, "chrome");
@@ -38,14 +38,14 @@ describe("browser config", () => {
       expect(chrome?.cdpPort).toBe(19004);
       expect(chrome?.cdpUrl).toBe("http://127.0.0.1:19004");
 
-      const SiriClaw-Instruct = resolveProfile(resolved, "SiriClaw-Instruct");
-      expect(SiriClaw-Instruct?.cdpPort).toBe(19012);
-      expect(SiriClaw-Instruct?.cdpUrl).toBe("http://127.0.0.1:19012");
+      const SiriClawInstruct = resolveProfile(resolved, "SiriClawInstruct");
+      expect(SiriClawInstruct?.cdpPort).toBe(19012);
+      expect(SiriClawInstruct?.cdpUrl).toBe("http://127.0.0.1:19012");
     });
   });
 
   it("derives default ports from gateway.port when env is unset", () => {
-    withEnv({ SiriClaw-Instruct_GATEWAY_PORT: undefined }, () => {
+    withEnv({ SiriClawInstruct_GATEWAY_PORT: undefined }, () => {
       const resolved = resolveBrowserConfig(undefined, { gateway: { port: 19011 } });
       expect(resolved.controlPort).toBe(19013);
       const chrome = resolveProfile(resolved, "chrome");
@@ -53,9 +53,9 @@ describe("browser config", () => {
       expect(chrome?.cdpPort).toBe(19014);
       expect(chrome?.cdpUrl).toBe("http://127.0.0.1:19014");
 
-      const SiriClaw-Instruct = resolveProfile(resolved, "SiriClaw-Instruct");
-      expect(SiriClaw-Instruct?.cdpPort).toBe(19022);
-      expect(SiriClaw-Instruct?.cdpUrl).toBe("http://127.0.0.1:19022");
+      const SiriClawInstruct = resolveProfile(resolved, "SiriClawInstruct");
+      expect(SiriClawInstruct?.cdpPort).toBe(19022);
+      expect(SiriClawInstruct?.cdpUrl).toBe("http://127.0.0.1:19022");
     });
   });
 
@@ -63,10 +63,10 @@ describe("browser config", () => {
     const resolved = resolveBrowserConfig({
       cdpPortRangeStart: 19000,
     });
-    const SiriClaw-Instruct = resolveProfile(resolved, "SiriClaw-Instruct");
+    const SiriClawInstruct = resolveProfile(resolved, "SiriClawInstruct");
     expect(resolved.cdpPortRangeStart).toBe(19000);
-    expect(SiriClaw-Instruct?.cdpPort).toBe(19000);
-    expect(SiriClaw-Instruct?.cdpUrl).toBe("http://127.0.0.1:19000");
+    expect(SiriClawInstruct?.cdpPort).toBe(19000);
+    expect(SiriClawInstruct?.cdpUrl).toBe("http://127.0.0.1:19000");
   });
 
   it("rejects cdpPortRangeStart values that overflow the CDP range window", () => {
@@ -102,7 +102,7 @@ describe("browser config", () => {
     const resolved = resolveBrowserConfig({
       cdpUrl: "http://example.com:9222",
     });
-    const profile = resolveProfile(resolved, "SiriClaw-Instruct");
+    const profile = resolveProfile(resolved, "SiriClawInstruct");
     expect(profile?.cdpIsLoopback).toBe(false);
   });
 
@@ -110,7 +110,7 @@ describe("browser config", () => {
     const resolved = resolveBrowserConfig({
       cdpUrl: "http://example.com:9222",
     });
-    const profile = resolveProfile(resolved, "SiriClaw-Instruct");
+    const profile = resolveProfile(resolved, "SiriClawInstruct");
     expect(profile?.cdpPort).toBe(9222);
     expect(profile?.cdpUrl).toBe("http://example.com:9222");
     expect(profile?.cdpIsLoopback).toBe(false);
@@ -172,11 +172,11 @@ describe("browser config", () => {
   it("does not add the built-in chrome extension profile if the derived relay port is already used", () => {
     const resolved = resolveBrowserConfig({
       profiles: {
-        SiriClaw-Instruct: { cdpPort: 18792, color: "#FF4500" },
+        SiriClawInstruct: { cdpPort: 18792, color: "#FF4500" },
       },
     });
     expect(resolveProfile(resolved, "chrome")).toBe(null);
-    expect(resolved.defaultProfile).toBe("SiriClaw-Instruct");
+    expect(resolved.defaultProfile).toBe("SiriClawInstruct");
   });
 
   it("defaults extraArgs to empty array when not provided", () => {
@@ -244,34 +244,34 @@ describe("browser config", () => {
   });
 
   describe("default profile preference", () => {
-    it("defaults to SiriClaw-Instruct profile when defaultProfile is not configured", () => {
+    it("defaults to SiriClawInstruct profile when defaultProfile is not configured", () => {
       const resolved = resolveBrowserConfig({
         headless: false,
         noSandbox: false,
       });
-      expect(resolved.defaultProfile).toBe("SiriClaw-Instruct");
+      expect(resolved.defaultProfile).toBe("SiriClawInstruct");
     });
 
-    it("keeps SiriClaw-Instruct default when headless=true", () => {
+    it("keeps SiriClawInstruct default when headless=true", () => {
       const resolved = resolveBrowserConfig({
         headless: true,
       });
-      expect(resolved.defaultProfile).toBe("SiriClaw-Instruct");
+      expect(resolved.defaultProfile).toBe("SiriClawInstruct");
     });
 
-    it("keeps SiriClaw-Instruct default when noSandbox=true", () => {
+    it("keeps SiriClawInstruct default when noSandbox=true", () => {
       const resolved = resolveBrowserConfig({
         noSandbox: true,
       });
-      expect(resolved.defaultProfile).toBe("SiriClaw-Instruct");
+      expect(resolved.defaultProfile).toBe("SiriClawInstruct");
     });
 
-    it("keeps SiriClaw-Instruct default when both headless and noSandbox are true", () => {
+    it("keeps SiriClawInstruct default when both headless and noSandbox are true", () => {
       const resolved = resolveBrowserConfig({
         headless: true,
         noSandbox: true,
       });
-      expect(resolved.defaultProfile).toBe("SiriClaw-Instruct");
+      expect(resolved.defaultProfile).toBe("SiriClawInstruct");
     });
 
     it("explicit defaultProfile config overrides defaults in headless mode", () => {
@@ -302,3 +302,4 @@ describe("browser config", () => {
     });
   });
 });
+

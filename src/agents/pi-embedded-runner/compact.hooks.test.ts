@@ -96,7 +96,7 @@ vi.mock("../pi-settings.js", () => ({
 }));
 
 vi.mock("../models-config.js", () => ({
-  ensureSiriClaw-InstructModelsJson: vi.fn(async () => {}),
+  ensureSiriClawInstructModelsJson: vi.fn(async () => {}),
 }));
 
 vi.mock("../model-auth.js", () => ({
@@ -123,7 +123,7 @@ vi.mock("../bootstrap-files.js", () => ({
 }));
 
 vi.mock("../docs-path.js", () => ({
-  resolveSiriClaw-InstructDocsPath: vi.fn(async () => undefined),
+  resolveSiriClawInstructDocsPath: vi.fn(async () => undefined),
 }));
 
 vi.mock("../channel-tools.js", () => ({
@@ -132,7 +132,7 @@ vi.mock("../channel-tools.js", () => ({
 }));
 
 vi.mock("../pi-tools.js", () => ({
-  createSiriClaw-InstructCodingTools: vi.fn(() => []),
+  createSiriClawInstructCodingTools: vi.fn(() => []),
 }));
 
 vi.mock("./google.js", () => ({
@@ -170,7 +170,7 @@ vi.mock("../skills.js", () => ({
 }));
 
 vi.mock("../agent-paths.js", () => ({
-  resolveSiriClaw-InstructAgentDir: vi.fn(() => "/tmp"),
+  resolveSiriClawInstructAgentDir: vi.fn(() => "/tmp"),
 }));
 
 vi.mock("../agent-scope.js", () => ({
@@ -416,3 +416,4 @@ describe("compactEmbeddedPiSessionDirect hooks", () => {
     expect(result.ok).toBe(true);
   });
 });
+

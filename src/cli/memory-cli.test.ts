@@ -73,7 +73,7 @@ describe("memory cli", () => {
       files: 0,
       chunks: 0,
       dirty: false,
-      workspaceDir: "/tmp/SiriClaw-Instruct",
+      workspaceDir: "/tmp/SiriClawInstruct",
       dbPath: "/tmp/memory.sqlite",
       provider: "openai",
       model: "text-embedding-3-small",
@@ -246,11 +246,11 @@ describe("memory cli", () => {
   it("documents memory help examples", () => {
     const helpText = getMemoryHelpText();
 
-    expect(helpText).toContain("SiriClaw-Instruct memory status --deep");
+    expect(helpText).toContain("SiriClawInstruct memory status --deep");
     expect(helpText).toContain("Probe embedding provider readiness.");
-    expect(helpText).toContain('SiriClaw-Instruct memory search "meeting notes"');
+    expect(helpText).toContain('SiriClawInstruct memory search "meeting notes"');
     expect(helpText).toContain("Quick search using positional query.");
-    expect(helpText).toContain('SiriClaw-Instruct memory search --query "deployment" --max-results 20');
+    expect(helpText).toContain('SiriClawInstruct memory search --query "deployment" --max-results 20');
     expect(helpText).toContain("Limit results for focused troubleshooting.");
   });
 
@@ -566,3 +566,4 @@ describe("memory cli", () => {
     expect(close).toHaveBeenCalled();
   });
 });
+

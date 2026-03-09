@@ -14,3 +14,4 @@ describe("supportsModelTools", () => {
     expect(supportsModelTools({ compat: { supportsTools: false } } as never)).toBe(false);
   });
 });
+

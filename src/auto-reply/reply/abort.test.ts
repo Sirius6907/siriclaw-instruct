@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { SubagentRunRecord } from "../../agents/subagent-registry.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   getAbortMemory,
   getAbortMemorySizeForTest,
@@ -83,14 +83,14 @@ describe("abort detection", () => {
     sessionIdsByKey?: Record<string, string>;
     nowMs?: number;
   }) {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-abort-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-abort-"));
     const storePath = path.join(root, "sessions.json");
     const cfg = {
       session: { store: storePath },
       ...(typeof params?.commandsTextEnabled === "boolean"
         ? { commands: { text: params.commandsTextEnabled } }
         : {}),
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     if (params?.sessionIdsByKey) {
       await writeSessionStore(storePath, params.sessionIdsByKey, params.nowMs);
     }
@@ -98,7 +98,7 @@ describe("abort detection", () => {
   }
 
   async function runStopCommand(params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     sessionKey: string;
     from: string;
     to: string;
@@ -126,7 +126,7 @@ describe("abort detection", () => {
 
   function enqueueQueuedFollowupRun(params: {
     root: string;
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     sessionId: string;
     sessionKey: string;
   }) {
@@ -168,9 +168,9 @@ describe("abort detection", () => {
   });
 
   it("triggerBodyNormalized extracts /stop from RawBody for abort detection", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-abort-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-abort-"));
     const storePath = path.join(root, "sessions.json");
-    const cfg = { session: { store: storePath } } as SiriClaw-InstructConfig;
+    const cfg = { session: { store: storePath } } as SiriClawInstructConfig;
 
     const groupMessageCtx = {
       Body: `[Context]\nJake: /stop\n[from: Jake]`,
@@ -197,8 +197,8 @@ describe("abort detection", () => {
       "wait",
       "exit",
       "interrupt",
-      "stop SiriClaw-Instruct",
-      "SiriClaw-Instruct stop",
+      "stop SiriClawInstruct",
+      "SiriClawInstruct stop",
       "stop action",
       "stop current action",
       "stop run",
@@ -212,8 +212,8 @@ describe("abort detection", () => {
       "do not do that",
       "please stop",
       "stop please",
-      "STOP SiriClaw-Instruct",
-      "stop SiriClaw-Instruct!!!",
+      "STOP SiriClawInstruct",
+      "stop SiriClawInstruct!!!",
       "stop don’t do anything",
       "detente",
       "detén",
@@ -254,15 +254,15 @@ describe("abort detection", () => {
     expect(isAbortRequestText("Stop")).toBe(true);
     expect(isAbortRequestText("STOP")).toBe(true);
     expect(isAbortRequestText("stop action")).toBe(true);
-    expect(isAbortRequestText("stop SiriClaw-Instruct!!!")).toBe(true);
+    expect(isAbortRequestText("stop SiriClawInstruct!!!")).toBe(true);
     expect(isAbortRequestText("やめて")).toBe(true);
     expect(isAbortRequestText("остановись")).toBe(true);
     expect(isAbortRequestText("halt")).toBe(true);
     expect(isAbortRequestText("stopp")).toBe(true);
     expect(isAbortRequestText("pare")).toBe(true);
     expect(isAbortRequestText(" توقف ")).toBe(true);
-    expect(isAbortRequestText("/stop@SiriClaw-Instruct_bot", { botUsername: "SiriClaw-Instruct_bot" })).toBe(true);
-    expect(isAbortRequestText("/Stop@SiriClaw-Instruct_bot", { botUsername: "SiriClaw-Instruct_bot" })).toBe(true);
+    expect(isAbortRequestText("/stop@SiriClawInstruct_bot", { botUsername: "SiriClawInstruct_bot" })).toBe(true);
+    expect(isAbortRequestText("/Stop@SiriClawInstruct_bot", { botUsername: "SiriClawInstruct_bot" })).toBe(true);
 
     expect(isAbortRequestText("/status")).toBe(false);
     expect(isAbortRequestText("do not do that")).toBe(true);
@@ -669,3 +669,4 @@ describe("abort detection", () => {
     );
   });
 });
+

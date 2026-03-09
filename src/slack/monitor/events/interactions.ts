@@ -10,8 +10,8 @@ import {
   type RegisterSlackModalHandler,
 } from "./interactions.modal.js";
 
-// Prefix for SiriClaw-Instruct-generated action IDs to scope our handler
-const SiriClaw-Instruct_ACTION_PREFIX = "SiriClaw-Instruct:";
+// Prefix for SiriClawInstruct-generated action IDs to scope our handler
+const SiriClawInstruct_ACTION_PREFIX = "SiriClawInstruct:";
 const SLACK_INTERACTION_EVENT_PREFIX = "Slack interaction: ";
 const REDACTED_INTERACTION_VALUE = "[redacted]";
 const SLACK_INTERACTION_EVENT_MAX_CHARS = 2400;
@@ -457,11 +457,11 @@ export function registerSlackInteractionEvents(params: { ctx: SlackMonitorContex
     return;
   }
 
-  // Handle Block Kit button clicks from SiriClaw-Instruct-generated messages
+  // Handle Block Kit button clicks from SiriClawInstruct-generated messages
   // Only matches action_ids that start with our prefix to avoid interfering
   // with other Slack integrations or future features
   ctx.app.action(
-    new RegExp(`^${SiriClaw-Instruct_ACTION_PREFIX}`),
+    new RegExp(`^${SiriClawInstruct_ACTION_PREFIX}`),
     async (args: SlackActionMiddlewareArgs) => {
       const { ack, body, action, respond } = args;
       const typedBody = body as unknown as {
@@ -640,9 +640,9 @@ export function registerSlackInteractionEvents(params: { ctx: SlackMonitorContex
   if (typeof ctx.app.view !== "function") {
     return;
   }
-  const modalMatcher = new RegExp(`^${SiriClaw-Instruct_ACTION_PREFIX}`);
+  const modalMatcher = new RegExp(`^${SiriClawInstruct_ACTION_PREFIX}`);
 
-  // Handle SiriClaw-Instruct modal submissions with callback_ids scoped by our prefix.
+  // Handle SiriClawInstruct modal submissions with callback_ids scoped by our prefix.
   registerModalLifecycleHandler({
     register: (matcher, handler) => ctx.app.view(matcher, handler),
     matcher: modalMatcher,
@@ -673,3 +673,4 @@ export function registerSlackInteractionEvents(params: { ctx: SlackMonitorContex
     formatSystemEvent: formatSlackInteractionSystemEvent,
   });
 }
+

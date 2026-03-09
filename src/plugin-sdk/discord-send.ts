@@ -31,3 +31,4 @@ export function buildDiscordSendMediaOptions(input: DiscordSendMediaOptionInput)
 export function tagDiscordChannelResult(result: DiscordSendResult) {
   return { channel: "discord" as const, ...result };
 }
+

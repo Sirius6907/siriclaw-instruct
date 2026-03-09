@@ -1,12 +1,12 @@
 import { formatCliCommand } from "../../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { normalizeProviderId } from "../model-selection.js";
 import { listProfilesForProvider } from "./profiles.js";
 import { suggestOAuthProfileIdForLegacyDefault } from "./repair.js";
 import type { AuthProfileStore } from "./types.js";
 
 export function formatAuthDoctorHint(params: {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   store: AuthProfileStore;
   provider: string;
   profileId?: string;
@@ -42,6 +42,7 @@ export function formatAuthDoctorHint(params: {
     }`,
     `- auth store oauth profiles: ${storeOauthProfiles || "(none)"}`,
     `- suggested profile: ${suggested}`,
-    `Fix: run "${formatCliCommand("SiriClaw-Instruct doctor --yes")}"`,
+    `Fix: run "${formatCliCommand("SiriClawInstruct doctor --yes")}"`,
   ].join("\n");
 }
+

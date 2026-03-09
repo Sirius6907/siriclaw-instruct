@@ -72,3 +72,4 @@ describe("createScopedAccountConfigAccessors", () => {
     expect(accessors.resolveDefaultTo).toBeUndefined();
   });
 });
+

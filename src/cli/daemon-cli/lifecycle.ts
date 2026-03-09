@@ -81,7 +81,7 @@ function isGatewayArgv(args: string[]): boolean {
   const entryCandidates = [
     "dist/index.js",
     "dist/entry.js",
-    "SiriClaw-Instruct.mjs",
+    "SiriClawInstruct.mjs",
     "scripts/run-node.mjs",
     "src/index.ts",
   ];
@@ -90,7 +90,7 @@ function isGatewayArgv(args: string[]): boolean {
   }
 
   const exe = stripExecutableExtension(normalized[0] ?? "");
-  return exe.endsWith("/SiriClaw-Instruct") || exe === "SiriClaw-Instruct" || exe.endsWith("/SiriClaw-Instruct-gateway");
+  return exe.endsWith("/SiriClawInstruct") || exe === "SiriClawInstruct" || exe.endsWith("/SiriClawInstruct-gateway");
 }
 
 function readGatewayProcessArgsSync(pid: number): string[] | null {
@@ -161,8 +161,8 @@ async function assertUnmanagedGatewayRestartEnabled(port: number): Promise<void>
   const probe = await probeGateway({
     url: `ws://127.0.0.1:${port}`,
     auth: {
-      token: process.env.SiriClaw-Instruct_GATEWAY_TOKEN?.trim() || undefined,
-      password: process.env.SiriClaw-Instruct_GATEWAY_PASSWORD?.trim() || undefined,
+      token: process.env.SiriClawInstruct_GATEWAY_TOKEN?.trim() || undefined,
+      password: process.env.SiriClawInstruct_GATEWAY_PASSWORD?.trim() || undefined,
     },
     timeoutMs: 1_000,
   }).catch(() => null);
@@ -205,7 +205,7 @@ async function restartGatewayWithoutServiceManager(port: number) {
   }
   if (pids.length > 1) {
     throw new Error(
-      `multiple gateway processes are listening on port ${port}: ${formatGatewayPidList(pids)}; use "SiriClaw-Instruct gateway status --deep" before retrying restart`,
+      `multiple gateway processes are listening on port ${port}: ${formatGatewayPidList(pids)}; use "SiriClawInstruct gateway status --deep" before retrying restart`,
     );
   }
   signalGatewayPid(pids[0], "SIGUSR1");
@@ -299,8 +299,8 @@ export async function runDaemonRestart(opts: DaemonLifecycleOptions = {}): Promi
         }
 
         fail(`Gateway restart timed out after ${restartWaitSeconds}s waiting for health checks.`, [
-          formatCliCommand("SiriClaw-Instruct gateway status --deep"),
-          formatCliCommand("SiriClaw-Instruct doctor"),
+          formatCliCommand("SiriClawInstruct gateway status --deep"),
+          formatCliCommand("SiriClawInstruct doctor"),
         ]);
       }
 
@@ -358,9 +358,10 @@ export async function runDaemonRestart(opts: DaemonLifecycleOptions = {}): Promi
       }
 
       fail(`Gateway restart timed out after ${restartWaitSeconds}s waiting for health checks.`, [
-        formatCliCommand("SiriClaw-Instruct gateway status --deep"),
-        formatCliCommand("SiriClaw-Instruct doctor"),
+        formatCliCommand("SiriClawInstruct gateway status --deep"),
+        formatCliCommand("SiriClawInstruct doctor"),
       ]);
     },
   });
 }
+

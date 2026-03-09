@@ -48,12 +48,12 @@ import { normalizeConfigPaths } from "./normalize-paths.js";
 import { resolveConfigPath, resolveDefaultConfigCandidates, resolveStateDir } from "./paths.js";
 import { isBlockedObjectKey } from "./prototype-keys.js";
 import { applyConfigOverrides } from "./runtime-overrides.js";
-import type { SiriClaw-InstructConfig, ConfigFileSnapshot, LegacyConfigIssue } from "./types.js";
+import type { SiriClawInstructConfig, ConfigFileSnapshot, LegacyConfigIssue } from "./types.js";
 import {
   validateConfigObjectRawWithPlugins,
   validateConfigObjectWithPlugins,
 } from "./validation.js";
-import { compareSiriClaw-InstructVersions } from "./version.js";
+import { compareSiriClawInstructVersions } from "./version.js";
 
 // Re-export for backwards compatibility
 export { CircularIncludeError, ConfigIncludeError } from "./includes.js";
@@ -75,8 +75,8 @@ const SHELL_ENV_EXPECTED_KEYS = [
   "DISCORD_BOT_TOKEN",
   "SLACK_BOT_TOKEN",
   "SLACK_APP_TOKEN",
-  "SiriClaw-Instruct_GATEWAY_TOKEN",
-  "SiriClaw-Instruct_GATEWAY_PASSWORD",
+  "SiriClawInstruct_GATEWAY_TOKEN",
+  "SiriClawInstruct_GATEWAY_PASSWORD",
 ];
 
 const OPEN_DM_POLICY_ALLOW_FROM_RE =
@@ -161,10 +161,10 @@ function formatConfigValidationFailure(pathLabel: string, issueMessage: string):
     `Configuration mismatch: ${policyPath} is "open", but ${allowPath} does not include "*".`,
     "",
     "Fix with:",
-    `  SiriClaw-Instruct config set ${allowPath} '["*"]'`,
+    `  SiriClawInstruct config set ${allowPath} '["*"]'`,
     "",
     "Or switch policy:",
-    `  SiriClaw-Instruct config set ${policyPath} "pairing"`,
+    `  SiriClawInstruct config set ${policyPath} "pairing"`,
   ].join("\n");
 }
 
@@ -257,9 +257,9 @@ function unsetPathForWriteAt(
 }
 
 function unsetPathForWrite(
-  root: SiriClaw-InstructConfig,
+  root: SiriClawInstructConfig,
   pathSegments: string[],
-): { changed: boolean; next: SiriClaw-InstructConfig } {
+): { changed: boolean; next: SiriClawInstructConfig } {
   if (pathSegments.length === 0) {
     return { changed: false, next: root };
   }
@@ -292,11 +292,11 @@ export function resolveConfigSnapshotHash(snapshot: {
   return hashConfigRaw(snapshot.raw);
 }
 
-function coerceConfig(value: unknown): SiriClaw-InstructConfig {
+function coerceConfig(value: unknown): SiriClawInstructConfig {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return {};
   }
-  return value as SiriClaw-InstructConfig;
+  return value as SiriClawInstructConfig;
 }
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
@@ -561,7 +561,7 @@ function warnOnConfigMiskeys(raw: unknown, logger: Pick<typeof console, "warn">)
   }
 }
 
-function stampConfigVersion(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+function stampConfigVersion(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const now = new Date().toISOString();
   return {
     ...cfg,
@@ -573,18 +573,18 @@ function stampConfigVersion(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConf
   };
 }
 
-function warnIfConfigFromFuture(cfg: SiriClaw-InstructConfig, logger: Pick<typeof console, "warn">): void {
+function warnIfConfigFromFuture(cfg: SiriClawInstructConfig, logger: Pick<typeof console, "warn">): void {
   const touched = cfg.meta?.lastTouchedVersion;
   if (!touched) {
     return;
   }
-  const cmp = compareSiriClaw-InstructVersions(VERSION, touched);
+  const cmp = compareSiriClawInstructVersions(VERSION, touched);
   if (cmp === null) {
     return;
   }
   if (cmp < 0) {
     logger.warn(
-      `Config was last written by a newer SiriClaw-Instruct (${touched}); current version is ${VERSION}.`,
+      `Config was last written by a newer SiriClawInstruct (${touched}); current version is ${VERSION}.`,
     );
   }
 }
@@ -658,7 +658,7 @@ function resolveConfigForRead(
 ): ConfigReadResolution {
   // Apply config.env to process.env BEFORE substitution so ${VAR} can reference config-defined vars.
   if (resolvedIncludes && typeof resolvedIncludes === "object" && "env" in resolvedIncludes) {
-    applyConfigEnvVars(resolvedIncludes as SiriClaw-InstructConfig, env);
+    applyConfigEnvVars(resolvedIncludes as SiriClawInstructConfig, env);
   }
 
   // Collect missing env var references as warnings instead of throwing,
@@ -688,7 +688,7 @@ export function createConfigIO(overrides: ConfigIoDeps = {}) {
   const configPath =
     candidatePaths.find((candidate) => deps.fs.existsSync(candidate)) ?? requestedConfigPath;
 
-  function loadConfig(): SiriClaw-InstructConfig {
+  function loadConfig(): SiriClawInstructConfig {
     try {
       maybeLoadDotEnvForConfig(deps.env);
       if (!deps.fs.existsSync(configPath)) {
@@ -719,7 +719,7 @@ export function createConfigIO(overrides: ConfigIoDeps = {}) {
       if (typeof resolvedConfig !== "object" || resolvedConfig === null) {
         return {};
       }
-      const preValidationDuplicates = findDuplicateAgentDirs(resolvedConfig as SiriClaw-InstructConfig, {
+      const preValidationDuplicates = findDuplicateAgentDirs(resolvedConfig as SiriClawInstructConfig, {
         env: deps.env,
         homedir: deps.homedir,
       });
@@ -1040,7 +1040,7 @@ export function createConfigIO(overrides: ConfigIoDeps = {}) {
     };
   }
 
-  async function writeConfigFile(cfg: SiriClaw-InstructConfig, options: ConfigWriteOptions = {}) {
+  async function writeConfigFile(cfg: SiriClawInstructConfig, options: ConfigWriteOptions = {}) {
     clearConfigCache();
     let persistCandidate: unknown = cfg;
     const { snapshot } = await readConfigFileSnapshotInternal();
@@ -1110,7 +1110,7 @@ export function createConfigIO(overrides: ConfigIoDeps = {}) {
             cfgToWrite,
             parsedRes.parsed,
             envForRestore,
-          ) as SiriClaw-InstructConfig;
+          ) as SiriClawInstructConfig;
         }
       }
     } catch {
@@ -1121,7 +1121,7 @@ export function createConfigIO(overrides: ConfigIoDeps = {}) {
     await deps.fs.promises.mkdir(dir, { recursive: true, mode: 0o700 });
     const outputConfigBase =
       envRefMap && changedPaths
-        ? (restoreEnvRefsFromMap(cfgToWrite, "", envRefMap, changedPaths) as SiriClaw-InstructConfig)
+        ? (restoreEnvRefsFromMap(cfgToWrite, "", envRefMap, changedPaths) as SiriClawInstructConfig)
         : cfgToWrite;
     let outputConfig = outputConfigBase;
     if (options.unsetPaths?.length) {
@@ -1162,7 +1162,7 @@ export function createConfigIO(overrides: ConfigIoDeps = {}) {
         return;
       }
       const isVitest = deps.env.VITEST === "true";
-      const shouldLogInVitest = deps.env.SiriClaw-Instruct_TEST_CONFIG_OVERWRITE_LOG === "1";
+      const shouldLogInVitest = deps.env.SiriClawInstruct_TEST_CONFIG_OVERWRITE_LOG === "1";
       if (isVitest && !shouldLogInVitest) {
         return;
       }
@@ -1178,7 +1178,7 @@ export function createConfigIO(overrides: ConfigIoDeps = {}) {
       }
       // Tests often write minimal configs (missing meta, etc); keep output quiet unless requested.
       const isVitest = deps.env.VITEST === "true";
-      const shouldLogInVitest = deps.env.SiriClaw-Instruct_TEST_CONFIG_WRITE_ANOMALY_LOG === "1";
+      const shouldLogInVitest = deps.env.SiriClawInstruct_TEST_CONFIG_WRITE_ANOMALY_LOG === "1";
       if (isVitest && !shouldLogInVitest) {
         return;
       }
@@ -1194,16 +1194,16 @@ export function createConfigIO(overrides: ConfigIoDeps = {}) {
       cwd: process.cwd(),
       argv: process.argv.slice(0, 8),
       execArgv: process.execArgv.slice(0, 8),
-      watchMode: deps.env.SiriClaw-Instruct_WATCH_MODE === "1",
+      watchMode: deps.env.SiriClawInstruct_WATCH_MODE === "1",
       watchSession:
-        typeof deps.env.SiriClaw-Instruct_WATCH_SESSION === "string" &&
-        deps.env.SiriClaw-Instruct_WATCH_SESSION.trim().length > 0
-          ? deps.env.SiriClaw-Instruct_WATCH_SESSION.trim()
+        typeof deps.env.SiriClawInstruct_WATCH_SESSION === "string" &&
+        deps.env.SiriClawInstruct_WATCH_SESSION.trim().length > 0
+          ? deps.env.SiriClawInstruct_WATCH_SESSION.trim()
           : null,
       watchCommand:
-        typeof deps.env.SiriClaw-Instruct_WATCH_COMMAND === "string" &&
-        deps.env.SiriClaw-Instruct_WATCH_COMMAND.trim().length > 0
-          ? deps.env.SiriClaw-Instruct_WATCH_COMMAND.trim()
+        typeof deps.env.SiriClawInstruct_WATCH_COMMAND === "string" &&
+        deps.env.SiriClawInstruct_WATCH_COMMAND.trim().length > 0
+          ? deps.env.SiriClawInstruct_WATCH_COMMAND.trim()
           : null,
       existsBefore: snapshot.exists,
       previousHash: previousHash ?? null,
@@ -1293,7 +1293,7 @@ export function createConfigIO(overrides: ConfigIoDeps = {}) {
 }
 
 // NOTE: These wrappers intentionally do *not* cache the resolved config path at
-// module scope. `SiriClaw-Instruct_CONFIG_PATH` (and friends) are expected to work even
+// module scope. `SiriClawInstruct_CONFIG_PATH` (and friends) are expected to work even
 // when set after the module has been imported (tests, one-off scripts, etc.).
 const DEFAULT_CONFIG_CACHE_MS = 200;
 const AUTO_OWNER_DISPLAY_SECRET_BY_PATH = new Map<string, string>();
@@ -1302,13 +1302,13 @@ const AUTO_OWNER_DISPLAY_SECRET_PERSIST_WARNED = new Set<string>();
 let configCache: {
   configPath: string;
   expiresAt: number;
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
 } | null = null;
-let runtimeConfigSnapshot: SiriClaw-InstructConfig | null = null;
-let runtimeConfigSourceSnapshot: SiriClaw-InstructConfig | null = null;
+let runtimeConfigSnapshot: SiriClawInstructConfig | null = null;
+let runtimeConfigSourceSnapshot: SiriClawInstructConfig | null = null;
 
 function resolveConfigCacheMs(env: NodeJS.ProcessEnv): number {
-  const raw = env.SiriClaw-Instruct_CONFIG_CACHE_MS?.trim();
+  const raw = env.SiriClawInstruct_CONFIG_CACHE_MS?.trim();
   if (raw === "" || raw === "0") {
     return 0;
   }
@@ -1323,7 +1323,7 @@ function resolveConfigCacheMs(env: NodeJS.ProcessEnv): number {
 }
 
 function shouldUseConfigCache(env: NodeJS.ProcessEnv): boolean {
-  if (env.SiriClaw-Instruct_DISABLE_CONFIG_CACHE?.trim()) {
+  if (env.SiriClawInstruct_DISABLE_CONFIG_CACHE?.trim()) {
     return false;
   }
   return resolveConfigCacheMs(env) > 0;
@@ -1334,8 +1334,8 @@ export function clearConfigCache(): void {
 }
 
 export function setRuntimeConfigSnapshot(
-  config: SiriClaw-InstructConfig,
-  sourceConfig?: SiriClaw-InstructConfig,
+  config: SiriClawInstructConfig,
+  sourceConfig?: SiriClawInstructConfig,
 ): void {
   runtimeConfigSnapshot = config;
   runtimeConfigSourceSnapshot = sourceConfig ?? null;
@@ -1348,15 +1348,15 @@ export function clearRuntimeConfigSnapshot(): void {
   clearConfigCache();
 }
 
-export function getRuntimeConfigSnapshot(): SiriClaw-InstructConfig | null {
+export function getRuntimeConfigSnapshot(): SiriClawInstructConfig | null {
   return runtimeConfigSnapshot;
 }
 
-export function getRuntimeConfigSourceSnapshot(): SiriClaw-InstructConfig | null {
+export function getRuntimeConfigSourceSnapshot(): SiriClawInstructConfig | null {
   return runtimeConfigSourceSnapshot;
 }
 
-export function loadConfig(): SiriClaw-InstructConfig {
+export function loadConfig(): SiriClawInstructConfig {
   if (runtimeConfigSnapshot) {
     return runtimeConfigSnapshot;
   }
@@ -1383,7 +1383,7 @@ export function loadConfig(): SiriClaw-InstructConfig {
   return config;
 }
 
-export async function readBestEffortConfig(): Promise<SiriClaw-InstructConfig> {
+export async function readBestEffortConfig(): Promise<SiriClawInstructConfig> {
   const snapshot = await readConfigFileSnapshot();
   return snapshot.valid ? loadConfig() : snapshot.config;
 }
@@ -1397,7 +1397,7 @@ export async function readConfigFileSnapshotForWrite(): Promise<ReadConfigFileSn
 }
 
 export async function writeConfigFile(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   options: ConfigWriteOptions = {},
 ): Promise<void> {
   const io = createConfigIO();
@@ -1413,3 +1413,4 @@ export async function writeConfigFile(
     unsetPaths: options.unsetPaths,
   });
 }
+

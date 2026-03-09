@@ -1,7 +1,7 @@
 import { installSkill } from "../agents/skills-install.js";
 import { buildWorkspaceSkillStatus } from "../agents/skills-status.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { normalizeSecretInput } from "../utils/normalize-secret-input.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -31,10 +31,10 @@ function formatSkillHint(skill: {
 }
 
 function upsertSkillEntry(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   skillKey: string,
   patch: { apiKey?: string },
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const entries = { ...cfg.skills?.entries };
   const existing = (entries[skillKey] as { apiKey?: string } | undefined) ?? {};
   entries[skillKey] = { ...existing, ...patch };
@@ -48,11 +48,11 @@ function upsertSkillEntry(
 }
 
 export async function setupSkills(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   workspaceDir: string,
   runtime: RuntimeEnv,
   prompter: WizardPrompter,
-): Promise<SiriClaw-InstructConfig> {
+): Promise<SiriClawInstructConfig> {
   const report = buildWorkspaceSkillStatus(workspaceDir, { config: cfg });
   const eligible = report.skills.filter((s) => s.eligible);
   const unsupportedOs = report.skills.filter(
@@ -84,7 +84,7 @@ export async function setupSkills(
   const installable = missing.filter(
     (skill) => skill.install.length > 0 && skill.missing.bins.length > 0,
   );
-  let next: SiriClaw-InstructConfig = cfg;
+  let next: SiriClawInstructConfig = cfg;
   if (installable.length > 0) {
     const toInstall = await prompter.multiselect({
       message: "Install missing skill dependencies",
@@ -192,9 +192,9 @@ export async function setupSkills(
         runtime.log(result.stdout.trim());
       }
       runtime.log(
-        `Tip: run \`${formatCliCommand("SiriClaw-Instruct doctor")}\` to review skills + requirements.`,
+        `Tip: run \`${formatCliCommand("SiriClawInstruct doctor")}\` to review skills + requirements.`,
       );
-      runtime.log("Docs: https://docs.SiriClaw-Instruct.ai/skills");
+      runtime.log("Docs: https://docs.SiriClawInstruct.ai/skills");
     }
   }
 
@@ -220,3 +220,4 @@ export async function setupSkills(
 
   return next;
 }
+

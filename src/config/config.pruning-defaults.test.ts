@@ -6,10 +6,10 @@ import { loadConfig } from "./config.js";
 import { withTempHome } from "./test-helpers.js";
 
 async function writeConfigForTest(home: string, config: unknown): Promise<void> {
-  const configDir = path.join(home, ".SiriClaw-Instruct");
+  const configDir = path.join(home, ".SiriClawInstruct");
   await fs.mkdir(configDir, { recursive: true });
   await fs.writeFile(
-    path.join(configDir, "SiriClaw-Instruct.json"),
+    path.join(configDir, "SiriClawInstruct.json"),
     JSON.stringify(config, null, 2),
     "utf-8",
   );
@@ -131,3 +131,4 @@ describe("config pruning defaults", () => {
     });
   });
 });
+

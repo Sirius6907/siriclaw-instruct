@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { RuntimeEnv } from "../../runtime.js";
 
 const mocks = vi.hoisted(() => ({
@@ -112,8 +112,8 @@ function withInteractiveStdin() {
 
 describe("modelsAuthLoginCommand", () => {
   let restoreStdin: (() => void) | null = null;
-  let currentConfig: SiriClaw-InstructConfig;
-  let lastUpdatedConfig: SiriClaw-InstructConfig | null;
+  let currentConfig: SiriClawInstructConfig;
+  let lastUpdatedConfig: SiriClawInstructConfig | null;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -130,12 +130,12 @@ describe("modelsAuthLoginCommand", () => {
     mocks.upsertAuthProfile.mockReset();
 
     mocks.resolveDefaultAgentId.mockReturnValue("main");
-    mocks.resolveAgentDir.mockReturnValue("/tmp/SiriClaw-Instruct/agents/main");
-    mocks.resolveAgentWorkspaceDir.mockReturnValue("/tmp/SiriClaw-Instruct/workspace");
-    mocks.resolveDefaultAgentWorkspaceDir.mockReturnValue("/tmp/SiriClaw-Instruct/workspace");
+    mocks.resolveAgentDir.mockReturnValue("/tmp/SiriClawInstruct/agents/main");
+    mocks.resolveAgentWorkspaceDir.mockReturnValue("/tmp/SiriClawInstruct/workspace");
+    mocks.resolveDefaultAgentWorkspaceDir.mockReturnValue("/tmp/SiriClawInstruct/workspace");
     mocks.loadValidConfigOrThrow.mockImplementation(async () => currentConfig);
     mocks.updateConfig.mockImplementation(
-      async (mutator: (cfg: SiriClaw-InstructConfig) => SiriClaw-InstructConfig) => {
+      async (mutator: (cfg: SiriClawInstructConfig) => SiriClawInstructConfig) => {
         lastUpdatedConfig = mutator(currentConfig);
         currentConfig = lastUpdatedConfig;
         return lastUpdatedConfig;
@@ -171,7 +171,7 @@ describe("modelsAuthLoginCommand", () => {
     expect(mocks.writeOAuthCredentials).toHaveBeenCalledWith(
       "openai-codex",
       expect.any(Object),
-      "/tmp/SiriClaw-Instruct/agents/main",
+      "/tmp/SiriClawInstruct/agents/main",
       { syncSiblingAgents: true },
     );
     expect(mocks.resolvePluginProviders).not.toHaveBeenCalled();
@@ -230,3 +230,4 @@ describe("modelsAuthLoginCommand", () => {
     }
   });
 });
+

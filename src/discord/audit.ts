@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { DiscordGuildChannelConfig, DiscordGuildEntry } from "../config/types.js";
 import { isRecord } from "../utils.js";
 import { inspectDiscordAccount } from "./account-inspect.js";
@@ -71,7 +71,7 @@ function listConfiguredGuildChannelKeys(
 }
 
 export function collectDiscordAuditChannelIds(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
 }) {
   const account = inspectDiscordAccount({
@@ -139,3 +139,4 @@ export async function auditDiscordChannelPermissions(params: {
     elapsedMs: Date.now() - started,
   };
 }
+

@@ -5,10 +5,10 @@ function mockContextModuleDeps(loadConfigImpl: () => unknown) {
     loadConfig: loadConfigImpl,
   }));
   vi.doMock("./models-config.js", () => ({
-    ensureSiriClaw-InstructModelsJson: vi.fn(async () => {}),
+    ensureSiriClawInstructModelsJson: vi.fn(async () => {}),
   }));
   vi.doMock("./agent-paths.js", () => ({
-    resolveSiriClaw-InstructAgentDir: () => "/tmp/SiriClaw-Instruct-agent",
+    resolveSiriClawInstructAgentDir: () => "/tmp/SiriClawInstruct-agent",
   }));
   vi.doMock("./pi-model-discovery.js", () => ({
     discoverAuthStorage: vi.fn(() => ({})),
@@ -43,7 +43,7 @@ describe("lookupContextTokens", () => {
     mockContextModuleDeps(loadConfigMock);
 
     const argvSnapshot = process.argv;
-    process.argv = ["node", "SiriClaw-Instruct", "--profile", "--", "config", "validate"];
+    process.argv = ["node", "SiriClawInstruct", "--profile", "--", "config", "validate"];
     try {
       await import("./context.js");
       expect(loadConfigMock).toHaveBeenCalledTimes(1);
@@ -72,7 +72,7 @@ describe("lookupContextTokens", () => {
     mockContextModuleDeps(loadConfigMock);
 
     const argvSnapshot = process.argv;
-    process.argv = ["node", "SiriClaw-Instruct", "config", "validate"];
+    process.argv = ["node", "SiriClawInstruct", "config", "validate"];
     try {
       const { lookupContextTokens } = await import("./context.js");
       expect(lookupContextTokens("openrouter/claude-sonnet")).toBeUndefined();
@@ -88,3 +88,4 @@ describe("lookupContextTokens", () => {
     }
   });
 });
+

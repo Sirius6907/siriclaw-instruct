@@ -47,7 +47,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function scrubLegacyStaticAuthJsonEntries(pathname: string): void {
-  if (process.env.SiriClaw-Instruct_AUTH_STORE_READONLY === "1") {
+  if (process.env.SiriClawInstruct_AUTH_STORE_READONLY === "1") {
     return;
   }
   if (!fs.existsSync(pathname)) {
@@ -150,3 +150,4 @@ export function discoverAuthStorage(agentDir: string): PiAuthStorage {
 export function discoverModels(authStorage: PiAuthStorage, agentDir: string): PiModelRegistry {
   return new PiModelRegistryClass(authStorage, path.join(agentDir, "models.json"));
 }
+

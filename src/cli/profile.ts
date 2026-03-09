@@ -94,7 +94,7 @@ function resolveProfileStateDir(
   homedir: () => string,
 ): string {
   const suffix = profile.toLowerCase() === "default" ? "" : `-${profile}`;
-  return path.join(resolveRequiredHomeDir(env as NodeJS.ProcessEnv, homedir), `.SiriClaw-Instruct${suffix}`);
+  return path.join(resolveRequiredHomeDir(env as NodeJS.ProcessEnv, homedir), `.SiriClawInstruct${suffix}`);
 }
 
 export function applyCliProfileEnv(params: {
@@ -110,18 +110,19 @@ export function applyCliProfileEnv(params: {
   }
 
   // Convenience only: fill defaults, never override explicit env values.
-  env.SiriClaw-Instruct_PROFILE = profile;
+  env.SiriClawInstruct_PROFILE = profile;
 
-  const stateDir = env.SiriClaw-Instruct_STATE_DIR?.trim() || resolveProfileStateDir(profile, env, homedir);
-  if (!env.SiriClaw-Instruct_STATE_DIR?.trim()) {
-    env.SiriClaw-Instruct_STATE_DIR = stateDir;
+  const stateDir = env.SiriClawInstruct_STATE_DIR?.trim() || resolveProfileStateDir(profile, env, homedir);
+  if (!env.SiriClawInstruct_STATE_DIR?.trim()) {
+    env.SiriClawInstruct_STATE_DIR = stateDir;
   }
 
-  if (!env.SiriClaw-Instruct_CONFIG_PATH?.trim()) {
-    env.SiriClaw-Instruct_CONFIG_PATH = path.join(stateDir, "SiriClaw-Instruct.json");
+  if (!env.SiriClawInstruct_CONFIG_PATH?.trim()) {
+    env.SiriClawInstruct_CONFIG_PATH = path.join(stateDir, "SiriClawInstruct.json");
   }
 
-  if (profile === "dev" && !env.SiriClaw-Instruct_GATEWAY_PORT?.trim()) {
-    env.SiriClaw-Instruct_GATEWAY_PORT = "19001";
+  if (profile === "dev" && !env.SiriClawInstruct_GATEWAY_PORT?.trim()) {
+    env.SiriClawInstruct_GATEWAY_PORT = "19001";
   }
 }
+

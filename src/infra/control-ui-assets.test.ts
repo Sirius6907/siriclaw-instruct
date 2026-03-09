@@ -68,9 +68,9 @@ vi.mock("node:fs", async (importOriginal) => {
   return { ...wrapped, default: wrapped };
 });
 
-vi.mock("./SiriClaw-Instruct-root.js", () => ({
-  resolveSiriClaw-InstructPackageRoot: vi.fn(async () => null),
-  resolveSiriClaw-InstructPackageRootSync: vi.fn(() => null),
+vi.mock("./SiriClawInstruct-root.js", () => ({
+  resolveSiriClawInstructPackageRoot: vi.fn(async () => null),
+  resolveSiriClawInstructPackageRootSync: vi.fn(() => null),
 }));
 
 let resolveControlUiRepoRoot: typeof import("./control-ui-assets.js").resolveControlUiRepoRoot;
@@ -78,7 +78,7 @@ let resolveControlUiDistIndexPath: typeof import("./control-ui-assets.js").resol
 let resolveControlUiDistIndexHealth: typeof import("./control-ui-assets.js").resolveControlUiDistIndexHealth;
 let resolveControlUiRootOverrideSync: typeof import("./control-ui-assets.js").resolveControlUiRootOverrideSync;
 let resolveControlUiRootSync: typeof import("./control-ui-assets.js").resolveControlUiRootSync;
-let SiriClaw-InstructRoot: typeof import("./SiriClaw-Instruct-root.js");
+let SiriClawInstructRoot: typeof import("./SiriClawInstruct-root.js");
 
 describe("control UI assets helpers (fs-mocked)", () => {
   beforeAll(async () => {
@@ -89,7 +89,7 @@ describe("control UI assets helpers (fs-mocked)", () => {
       resolveControlUiRootOverrideSync,
       resolveControlUiRootSync,
     } = await import("./control-ui-assets.js"));
-    SiriClaw-InstructRoot = await import("./SiriClaw-Instruct-root.js");
+    SiriClawInstructRoot = await import("./SiriClawInstruct-root.js");
   });
 
   beforeEach(() => {
@@ -123,29 +123,29 @@ describe("control UI assets helpers (fs-mocked)", () => {
     );
   });
 
-  it("uses resolveSiriClaw-InstructPackageRoot when available", async () => {
-    const pkgRoot = abs("fixtures/SiriClaw-Instruct");
+  it("uses resolveSiriClawInstructPackageRoot when available", async () => {
+    const pkgRoot = abs("fixtures/SiriClawInstruct");
     (
-      SiriClaw-InstructRoot.resolveSiriClaw-InstructPackageRoot as unknown as ReturnType<typeof vi.fn>
+      SiriClawInstructRoot.resolveSiriClawInstructPackageRoot as unknown as ReturnType<typeof vi.fn>
     ).mockResolvedValueOnce(pkgRoot);
 
-    await expect(resolveControlUiDistIndexPath(abs("fixtures/bin/SiriClaw-Instruct"))).resolves.toBe(
+    await expect(resolveControlUiDistIndexPath(abs("fixtures/bin/SiriClawInstruct"))).resolves.toBe(
       path.join(pkgRoot, "dist", "control-ui", "index.html"),
     );
   });
 
   it("falls back to package.json name matching when root resolution fails", async () => {
     const root = abs("fixtures/fallback");
-    setFile(path.join(root, "package.json"), JSON.stringify({ name: "SiriClaw-Instruct" }));
+    setFile(path.join(root, "package.json"), JSON.stringify({ name: "SiriClawInstruct" }));
     setFile(path.join(root, "dist", "control-ui", "index.html"), "<html></html>\n");
 
-    await expect(resolveControlUiDistIndexPath(path.join(root, "SiriClaw-Instruct.mjs"))).resolves.toBe(
+    await expect(resolveControlUiDistIndexPath(path.join(root, "SiriClawInstruct.mjs"))).resolves.toBe(
       path.join(root, "dist", "control-ui", "index.html"),
     );
   });
 
   it("returns null when fallback package name does not match", async () => {
-    const root = abs("fixtures/not-SiriClaw-Instruct");
+    const root = abs("fixtures/not-SiriClawInstruct");
     setFile(path.join(root, "package.json"), JSON.stringify({ name: "malicious-pkg" }));
     setFile(path.join(root, "dist", "control-ui", "index.html"), "<html></html>\n");
 
@@ -182,9 +182,9 @@ describe("control UI assets helpers (fs-mocked)", () => {
   });
 
   it("resolves control-ui root for dist bundle argv1 and moduleUrl candidates", async () => {
-    const pkgRoot = abs("fixtures/SiriClaw-Instruct-bundle");
+    const pkgRoot = abs("fixtures/SiriClawInstruct-bundle");
     (
-      SiriClaw-InstructRoot.resolveSiriClaw-InstructPackageRootSync as unknown as ReturnType<typeof vi.fn>
+      SiriClawInstructRoot.resolveSiriClawInstructPackageRootSync as unknown as ReturnType<typeof vi.fn>
     ).mockReturnValueOnce(pkgRoot);
 
     const uiDir = path.join(pkgRoot, "dist", "control-ui");
@@ -200,3 +200,4 @@ describe("control UI assets helpers (fs-mocked)", () => {
     expect(resolveControlUiRootSync({ moduleUrl })).toBe(uiDir);
   });
 });
+

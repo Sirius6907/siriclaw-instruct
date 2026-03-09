@@ -93,3 +93,4 @@ export type AgentsConfig = {
   defaults?: AgentDefaultsConfig;
   list?: AgentConfig[];
 };
+

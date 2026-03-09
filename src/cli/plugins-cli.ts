@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import type { Command } from "commander";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { loadConfig, writeConfigFile } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import { resolveArchiveKind } from "../infra/archive.js";
@@ -120,9 +120,9 @@ function formatPluginLine(plugin: PluginRecord, verbose = false): string {
 }
 
 function applySlotSelectionForPlugin(
-  config: SiriClaw-InstructConfig,
+  config: SiriClawInstructConfig,
   pluginId: string,
-): { config: SiriClaw-InstructConfig; warnings: string[] } {
+): { config: SiriClawInstructConfig; warnings: string[] } {
   const report = buildPluginStatusReport({ config });
   const plugin = report.plugins.find((entry) => entry.id === pluginId);
   if (!plugin) {
@@ -154,14 +154,14 @@ function logSlotWarnings(warnings: string[]) {
 }
 
 async function installBundledPluginSource(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   rawSpec: string;
   bundledSource: BundledPluginSource;
   warning: string;
 }) {
   const existing = params.config.plugins?.load?.paths ?? [];
   const mergedPaths = Array.from(new Set([...existing, params.bundledSource.localPath]));
-  let next: SiriClaw-InstructConfig = {
+  let next: SiriClawInstructConfig = {
     ...params.config,
     plugins: {
       ...params.config.plugins,
@@ -220,7 +220,7 @@ async function runPluginInstallCommand(params: {
         process.exit(1);
       }
 
-      let next: SiriClaw-InstructConfig = enablePluginInConfig(
+      let next: SiriClawInstructConfig = enablePluginInConfig(
         {
           ...cfg,
           plugins: {
@@ -364,11 +364,11 @@ async function runPluginInstallCommand(params: {
 export function registerPluginsCli(program: Command) {
   const plugins = program
     .command("plugins")
-    .description("Manage SiriClaw-Instruct plugins and extensions")
+    .description("Manage SiriClawInstruct plugins and extensions")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/plugins", "docs.SiriClaw-Instruct.ai/cli/plugins")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/plugins", "docs.SiriClawInstruct.ai/cli/plugins")}\n`,
     );
 
   plugins
@@ -554,7 +554,7 @@ export function registerPluginsCli(program: Command) {
     .action(async (id: string) => {
       const cfg = loadConfig();
       const enableResult = enablePluginInConfig(cfg, id);
-      let next: SiriClaw-InstructConfig = enableResult.config;
+      let next: SiriClawInstructConfig = enableResult.config;
       const slotResult = applySlotSelectionForPlugin(next, id);
       next = slotResult.config;
       await writeConfigFile(next);
@@ -818,9 +818,10 @@ export function registerPluginsCli(program: Command) {
           lines.push(`- ${target}${diag.message}`);
         }
       }
-      const docs = formatDocsLink("/plugin", "docs.SiriClaw-Instruct.ai/plugin");
+      const docs = formatDocsLink("/plugin", "docs.SiriClawInstruct.ai/plugin");
       lines.push("");
       lines.push(`${theme.muted("Docs:")} ${docs}`);
       defaultRuntime.log(lines.join("\n"));
     });
 }
+

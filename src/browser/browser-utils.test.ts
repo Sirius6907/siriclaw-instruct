@@ -169,25 +169,25 @@ describe("cdp.helpers", () => {
 
   it("does not add relay header for unknown loopback ports", () => {
     const headers = getHeadersWithAuth("http://127.0.0.1:19444/json/version");
-    expect(headers["x-SiriClaw-Instruct-relay-token"]).toBeUndefined();
+    expect(headers["x-SiriClawInstruct-relay-token"]).toBeUndefined();
   });
 
   it("adds relay header for known relay ports", async () => {
     const port = await getFreePort();
     const cdpUrl = `http://127.0.0.1:${port}`;
-    const prev = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = "test-gateway-token";
+    const prev = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = "test-gateway-token";
     try {
       await ensureChromeExtensionRelayServer({ cdpUrl });
       const headers = getHeadersWithAuth(`${cdpUrl}/json/version`);
-      expect(headers["x-SiriClaw-Instruct-relay-token"]).toBeTruthy();
-      expect(headers["x-SiriClaw-Instruct-relay-token"]).not.toBe("test-gateway-token");
+      expect(headers["x-SiriClawInstruct-relay-token"]).toBeTruthy();
+      expect(headers["x-SiriClawInstruct-relay-token"]).not.toBe("test-gateway-token");
     } finally {
       await stopChromeExtensionRelayServer({ cdpUrl }).catch(() => {});
       if (prev === undefined) {
-        delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+        delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
       } else {
-        process.env.SiriClaw-Instruct_GATEWAY_TOKEN = prev;
+        process.env.SiriClawInstruct_GATEWAY_TOKEN = prev;
       }
     }
   });
@@ -213,14 +213,14 @@ describe("fetchBrowserJson loopback auth (bridge auth registry)", () => {
 describe("browser server-context listKnownProfileNames", () => {
   it("includes configured and runtime-only profile names", () => {
     const resolved = resolveBrowserConfig({
-      defaultProfile: "SiriClaw-Instruct",
+      defaultProfile: "SiriClawInstruct",
       profiles: {
-        SiriClaw-Instruct: { cdpPort: 18800, color: "#FF4500" },
+        SiriClawInstruct: { cdpPort: 18800, color: "#FF4500" },
       },
     });
-    const SiriClaw-Instruct = resolveProfile(resolved, "SiriClaw-Instruct");
-    if (!SiriClaw-Instruct) {
-      throw new Error("expected SiriClaw-Instruct profile");
+    const SiriClawInstruct = resolveProfile(resolved, "SiriClawInstruct");
+    if (!SiriClawInstruct) {
+      throw new Error("expected SiriClawInstruct profile");
     }
 
     const state: BrowserServerState = {
@@ -231,7 +231,7 @@ describe("browser server-context listKnownProfileNames", () => {
         [
           "stale-removed",
           {
-            profile: { ...SiriClaw-Instruct, name: "stale-removed" },
+            profile: { ...SiriClawInstruct, name: "stale-removed" },
             running: null,
           },
         ],
@@ -240,8 +240,9 @@ describe("browser server-context listKnownProfileNames", () => {
 
     expect(listKnownProfileNames(state).toSorted()).toEqual([
       "chrome",
-      "SiriClaw-Instruct",
+      "SiriClawInstruct",
       "stale-removed",
     ]);
   });
 });
+

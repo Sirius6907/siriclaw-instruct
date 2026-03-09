@@ -25,7 +25,7 @@ async function writePluginFixture(params: {
     manifest.channels = params.channels;
   }
   await fs.writeFile(
-    path.join(params.dir, "SiriClaw-Instruct.plugin.json"),
+    path.join(params.dir, "SiriClawInstruct.plugin.json"),
     JSON.stringify(manifest, null, 2),
     "utf-8",
   );
@@ -39,14 +39,14 @@ describe("config plugin validation", () => {
   let bluebubblesPluginDir = "";
   let voiceCallSchemaPluginDir = "";
   const envSnapshot = {
-    SiriClaw-Instruct_STATE_DIR: process.env.SiriClaw-Instruct_STATE_DIR,
-    SiriClaw-Instruct_PLUGIN_MANIFEST_CACHE_MS: process.env.SiriClaw-Instruct_PLUGIN_MANIFEST_CACHE_MS,
+    SiriClawInstruct_STATE_DIR: process.env.SiriClawInstruct_STATE_DIR,
+    SiriClawInstruct_PLUGIN_MANIFEST_CACHE_MS: process.env.SiriClawInstruct_PLUGIN_MANIFEST_CACHE_MS,
   };
 
   const validateInSuite = (raw: unknown) => validateConfigObjectWithPlugins(raw);
 
   beforeAll(async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-config-plugin-validation-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-config-plugin-validation-"));
     suiteHome = path.join(fixtureRoot, "home");
     await fs.mkdir(suiteHome, { recursive: true });
     badPluginDir = path.join(suiteHome, "bad-plugin");
@@ -89,7 +89,7 @@ describe("config plugin validation", () => {
       process.cwd(),
       "extensions",
       "voice-call",
-      "SiriClaw-Instruct.plugin.json",
+      "SiriClawInstruct.plugin.json",
     );
     const voiceCallManifest = JSON.parse(await fs.readFile(voiceCallManifestPath, "utf-8")) as {
       configSchema?: Record<string, unknown>;
@@ -102,8 +102,8 @@ describe("config plugin validation", () => {
       id: "voice-call-schema-fixture",
       schema: voiceCallManifest.configSchema,
     });
-    process.env.SiriClaw-Instruct_STATE_DIR = path.join(suiteHome, ".SiriClaw-Instruct");
-    process.env.SiriClaw-Instruct_PLUGIN_MANIFEST_CACHE_MS = "10000";
+    process.env.SiriClawInstruct_STATE_DIR = path.join(suiteHome, ".SiriClawInstruct");
+    process.env.SiriClawInstruct_PLUGIN_MANIFEST_CACHE_MS = "10000";
     clearPluginManifestRegistryCache();
     // Warm the plugin manifest cache once so path-based validations can reuse
     // parsed manifests across test cases.
@@ -118,15 +118,15 @@ describe("config plugin validation", () => {
   afterAll(async () => {
     await fs.rm(fixtureRoot, { recursive: true, force: true });
     clearPluginManifestRegistryCache();
-    if (envSnapshot.SiriClaw-Instruct_STATE_DIR === undefined) {
-      delete process.env.SiriClaw-Instruct_STATE_DIR;
+    if (envSnapshot.SiriClawInstruct_STATE_DIR === undefined) {
+      delete process.env.SiriClawInstruct_STATE_DIR;
     } else {
-      process.env.SiriClaw-Instruct_STATE_DIR = envSnapshot.SiriClaw-Instruct_STATE_DIR;
+      process.env.SiriClawInstruct_STATE_DIR = envSnapshot.SiriClawInstruct_STATE_DIR;
     }
-    if (envSnapshot.SiriClaw-Instruct_PLUGIN_MANIFEST_CACHE_MS === undefined) {
-      delete process.env.SiriClaw-Instruct_PLUGIN_MANIFEST_CACHE_MS;
+    if (envSnapshot.SiriClawInstruct_PLUGIN_MANIFEST_CACHE_MS === undefined) {
+      delete process.env.SiriClawInstruct_PLUGIN_MANIFEST_CACHE_MS;
     } else {
-      process.env.SiriClaw-Instruct_PLUGIN_MANIFEST_CACHE_MS = envSnapshot.SiriClaw-Instruct_PLUGIN_MANIFEST_CACHE_MS;
+      process.env.SiriClawInstruct_PLUGIN_MANIFEST_CACHE_MS = envSnapshot.SiriClawInstruct_PLUGIN_MANIFEST_CACHE_MS;
     }
   });
 
@@ -336,3 +336,4 @@ describe("config plugin validation", () => {
     }
   });
 });
+

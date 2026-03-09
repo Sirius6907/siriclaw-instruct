@@ -18,7 +18,7 @@ vi.mock("./logger.js", () => ({
 
 let loadConfigCalls = 0;
 let originalIsTty: boolean | undefined;
-let originalSiriClaw-InstructTestConsole: string | undefined;
+let originalSiriClawInstructTestConsole: string | undefined;
 let snapshot: ConsoleSnapshot;
 let logging: typeof import("../logging.js");
 let state: typeof import("./state.js");
@@ -32,8 +32,8 @@ beforeEach(() => {
   loadConfigCalls = 0;
   snapshot = captureConsoleSnapshot();
   originalIsTty = process.stdout.isTTY;
-  originalSiriClaw-InstructTestConsole = process.env.SiriClaw-Instruct_TEST_CONSOLE;
-  process.env.SiriClaw-Instruct_TEST_CONSOLE = "1";
+  originalSiriClawInstructTestConsole = process.env.SiriClawInstruct_TEST_CONSOLE;
+  process.env.SiriClawInstruct_TEST_CONSOLE = "1";
   Object.defineProperty(process.stdout, "isTTY", { value: false, configurable: true });
 });
 
@@ -44,10 +44,10 @@ afterEach(() => {
   console.error = snapshot.error;
   console.debug = snapshot.debug;
   console.trace = snapshot.trace;
-  if (originalSiriClaw-InstructTestConsole === undefined) {
-    delete process.env.SiriClaw-Instruct_TEST_CONSOLE;
+  if (originalSiriClawInstructTestConsole === undefined) {
+    delete process.env.SiriClawInstruct_TEST_CONSOLE;
   } else {
-    process.env.SiriClaw-Instruct_TEST_CONSOLE = originalSiriClaw-InstructTestConsole;
+    process.env.SiriClawInstruct_TEST_CONSOLE = originalSiriClawInstructTestConsole;
   }
   Object.defineProperty(process.stdout, "isTTY", { value: originalIsTty, configurable: true });
   logging.setConsoleConfigLoaderForTests();
@@ -87,3 +87,4 @@ describe("getConsoleSettings", () => {
     state.loggingState.resolvingConsoleSettings = false;
   });
 });
+

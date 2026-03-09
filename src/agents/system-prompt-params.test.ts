@@ -2,18 +2,18 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { buildSystemPromptParams } from "./system-prompt-params.js";
 
 async function makeTempDir(label: string): Promise<string> {
-  return fs.mkdtemp(path.join(os.tmpdir(), `SiriClaw-Instruct-${label}-`));
+  return fs.mkdtemp(path.join(os.tmpdir(), `SiriClawInstruct-${label}-`));
 }
 
 async function makeRepoRoot(root: string): Promise<void> {
   await fs.mkdir(path.join(root, ".git"), { recursive: true });
 }
 
-function buildParams(params: { config?: SiriClaw-InstructConfig; workspaceDir?: string; cwd?: string }) {
+function buildParams(params: { config?: SiriClawInstructConfig; workspaceDir?: string; cwd?: string }) {
   return buildSystemPromptParams({
     config: params.config,
     workspaceDir: params.workspaceDir,
@@ -61,7 +61,7 @@ describe("buildSystemPromptParams repo root", () => {
     await fs.mkdir(workspaceDir, { recursive: true });
     await makeRepoRoot(workspaceDir);
 
-    const config: SiriClaw-InstructConfig = {
+    const config: SiriClawInstructConfig = {
       agents: {
         defaults: {
           repoRoot,
@@ -81,7 +81,7 @@ describe("buildSystemPromptParams repo root", () => {
     await fs.mkdir(workspaceDir, { recursive: true });
     await makeRepoRoot(repoRoot);
 
-    const config: SiriClaw-InstructConfig = {
+    const config: SiriClawInstructConfig = {
       agents: {
         defaults: {
           repoRoot: path.join(temp, "missing"),
@@ -102,3 +102,4 @@ describe("buildSystemPromptParams repo root", () => {
     expect(runtimeInfo.repoRoot).toBeUndefined();
   });
 });
+

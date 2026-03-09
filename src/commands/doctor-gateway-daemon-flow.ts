@@ -1,5 +1,5 @@
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveGatewayPort } from "../config/config.js";
 import {
   resolveGatewayLaunchAgentLabel,
@@ -87,7 +87,7 @@ async function maybeRepairLaunchAgentBootstrap(params: {
 }
 
 export async function maybeRepairGatewayDaemon(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   runtime: RuntimeEnv;
   prompter: DoctorPrompter;
   options: DoctorOptions;
@@ -121,7 +121,7 @@ export async function maybeRepairGatewayDaemon(params: {
     await maybeRepairLaunchAgentBootstrap({
       env: {
         ...process.env,
-        SiriClaw-Instruct_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
+        SiriClawInstruct_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
       },
       title: "Node",
       runtime: params.runtime,
@@ -244,9 +244,9 @@ export async function maybeRepairGatewayDaemon(params: {
   }
 
   if (process.platform === "darwin") {
-    const label = resolveGatewayLaunchAgentLabel(process.env.SiriClaw-Instruct_PROFILE);
+    const label = resolveGatewayLaunchAgentLabel(process.env.SiriClawInstruct_PROFILE);
     note(
-      `LaunchAgent loaded; stopping requires "${formatCliCommand("SiriClaw-Instruct gateway stop")}" or launchctl bootout gui/$UID/${label}.`,
+      `LaunchAgent loaded; stopping requires "${formatCliCommand("SiriClawInstruct gateway stop")}" or launchctl bootout gui/$UID/${label}.`,
       "Gateway",
     );
   }
@@ -276,3 +276,4 @@ export async function maybeRepairGatewayDaemon(params: {
     }
   }
 }
+

@@ -377,3 +377,4 @@ describe("subagent registry lifecycle error grace", () => {
     expect(captureCompletionReplySpy).toHaveBeenCalledTimes(2);
   });
 });
+

@@ -45,3 +45,4 @@ describe("resolveTelegramConversationId", () => {
     expect(conversationId).toBe("78910");
   });
 });
+

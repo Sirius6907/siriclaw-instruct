@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { loadSessionStore, resolveStorePath } from "../../config/sessions.js";
 import { readChannelAllowFromStoreSync } from "../../pairing/pairing-store.js";
 import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
@@ -8,7 +8,7 @@ import { normalizeChatChannelId } from "../registry.js";
 type HeartbeatRecipientsResult = { recipients: string[]; source: string };
 type HeartbeatRecipientsOpts = { to?: string; all?: boolean };
 
-function getSessionRecipients(cfg: SiriClaw-InstructConfig) {
+function getSessionRecipients(cfg: SiriClawInstructConfig) {
   const sessionCfg = cfg.session;
   const scope = sessionCfg?.scope ?? "per-sender";
   if (scope === "global") {
@@ -45,7 +45,7 @@ function getSessionRecipients(cfg: SiriClaw-InstructConfig) {
 }
 
 export function resolveWhatsAppHeartbeatRecipients(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   opts: HeartbeatRecipientsOpts = {},
 ): HeartbeatRecipientsResult {
   if (opts.to) {
@@ -97,3 +97,4 @@ export function resolveWhatsAppHeartbeatRecipients(
 
   return { recipients: allowFrom, source: "allowFrom" };
 }
+

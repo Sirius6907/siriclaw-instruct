@@ -2,7 +2,7 @@ import { serializePayload } from "@buape/carbon";
 import { ComponentType } from "discord-api-types/v10";
 import { describe, expect, it, vi } from "vitest";
 import * as modelsCommandModule from "../../auto-reply/reply/commands-models.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import {
   DISCORD_CUSTOM_ID_MAX_CHARS,
   DISCORD_MODEL_PICKER_MODEL_PAGE_SIZE,
@@ -63,7 +63,7 @@ function renderRecentsViewRows(
 describe("loadDiscordModelPickerData", () => {
   it("reuses buildModelsProviderData as source of truth with agent scope", async () => {
     const expected = createModelsProviderData({ openai: ["gpt-4o"] });
-    const cfg = {} as SiriClaw-InstructConfig;
+    const cfg = {} as SiriClawInstructConfig;
     const spy = vi
       .spyOn(modelsCommandModule, "buildModelsProviderData")
       .mockResolvedValue(expected);
@@ -638,3 +638,4 @@ describe("Discord model picker recents view", () => {
     expect(recentBtn?.label).toContain("anthropic/claude-sonnet-4-5");
   });
 });
+

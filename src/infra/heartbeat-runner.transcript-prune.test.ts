@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveMainSessionKey } from "../config/sessions.js";
 import { runHeartbeatOnce } from "./heartbeat-runner.js";
 import {
@@ -67,7 +67,7 @@ describe("heartbeat transcript pruning", () => {
           agent: { workspace: tmpDir },
           sessionStore: storePath,
           channels: { telegram: {} },
-        } as unknown as SiriClaw-InstructConfig;
+        } as unknown as SiriClawInstructConfig;
 
         await runHeartbeatOnce({
           agentId: undefined,
@@ -85,7 +85,7 @@ describe("heartbeat transcript pruning", () => {
         }
         expect(finalSize).toBeGreaterThanOrEqual(originalSize);
       },
-      { prefix: "SiriClaw-Instruct-hb-prune-" },
+      { prefix: "SiriClawInstruct-hb-prune-" },
     );
   }
 
@@ -111,3 +111,4 @@ describe("heartbeat transcript pruning", () => {
     });
   });
 });
+

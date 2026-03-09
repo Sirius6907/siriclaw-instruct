@@ -34,3 +34,4 @@ export function clearBootstrapSnapshotOnSessionRollover(params: {
 export function clearAllBootstrapSnapshots(): void {
   cache.clear();
 }
+

@@ -13,3 +13,4 @@ export function createConnectedChannelStatusPatch(
     lastEventAt: at,
   };
 }
+

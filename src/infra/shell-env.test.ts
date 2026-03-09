@@ -115,16 +115,16 @@ describe("shell env fallback", () => {
 
   it("is disabled by default", () => {
     expect(shouldEnableShellEnvFallback({} as NodeJS.ProcessEnv)).toBe(false);
-    expect(shouldEnableShellEnvFallback({ SiriClaw-Instruct_LOAD_SHELL_ENV: "0" })).toBe(false);
-    expect(shouldEnableShellEnvFallback({ SiriClaw-Instruct_LOAD_SHELL_ENV: "1" })).toBe(true);
+    expect(shouldEnableShellEnvFallback({ SiriClawInstruct_LOAD_SHELL_ENV: "0" })).toBe(false);
+    expect(shouldEnableShellEnvFallback({ SiriClawInstruct_LOAD_SHELL_ENV: "1" })).toBe(true);
   });
 
   it("resolves timeout from env with default fallback", () => {
     expect(resolveShellEnvFallbackTimeoutMs({} as NodeJS.ProcessEnv)).toBe(15000);
-    expect(resolveShellEnvFallbackTimeoutMs({ SiriClaw-Instruct_SHELL_ENV_TIMEOUT_MS: "42" })).toBe(42);
+    expect(resolveShellEnvFallbackTimeoutMs({ SiriClawInstruct_SHELL_ENV_TIMEOUT_MS: "42" })).toBe(42);
     expect(
       resolveShellEnvFallbackTimeoutMs({
-        SiriClaw-Instruct_SHELL_ENV_TIMEOUT_MS: "nope",
+        SiriClawInstruct_SHELL_ENV_TIMEOUT_MS: "nope",
       }),
     ).toBe(15000);
   });
@@ -297,3 +297,4 @@ describe("shell env fallback", () => {
     expect(exec).not.toHaveBeenCalled();
   });
 });
+

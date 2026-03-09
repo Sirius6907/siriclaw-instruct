@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { createEmptyPluginRegistry } from "../plugins/registry.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -34,7 +34,7 @@ function createUnexpectedPromptGuards() {
 type SetupChannelsOptions = Parameters<typeof setupChannels>[3];
 
 function runSetupChannels(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   prompter: WizardPrompter,
   options?: SetupChannelsOptions,
 ) {
@@ -71,7 +71,7 @@ function createUnexpectedQuickstartPrompter(select: WizardPrompter["select"]) {
   };
 }
 
-function createTelegramCfg(botToken: string, enabled?: boolean): SiriClaw-InstructConfig {
+function createTelegramCfg(botToken: string, enabled?: boolean): SiriClawInstructConfig {
   return {
     channels: {
       telegram: {
@@ -79,7 +79,7 @@ function createTelegramCfg(botToken: string, enabled?: boolean): SiriClaw-Instru
         ...(typeof enabled === "boolean" ? { enabled } : {}),
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 function patchTelegramAdapter(overrides: Parameters<typeof patchChannelOnboardingAdapter>[1]) {
@@ -87,7 +87,7 @@ function patchTelegramAdapter(overrides: Parameters<typeof patchChannelOnboardin
     ...overrides,
     getStatus:
       overrides.getStatus ??
-      vi.fn(async ({ cfg }: { cfg: SiriClaw-InstructConfig }) => ({
+      vi.fn(async ({ cfg }: { cfg: SiriClawInstructConfig }) => ({
         channel: "telegram",
         configured: Boolean(cfg.channels?.telegram?.botToken),
         statusLines: [],
@@ -151,7 +151,7 @@ async function runQuickstartTelegramSetupWithInteractive(params: {
   );
 
   try {
-    const cfg = await runSetupChannels({} as SiriClaw-InstructConfig, prompter, {
+    const cfg = await runSetupChannels({} as SiriClawInstructConfig, prompter, {
       quickstartDefaults: true,
       onSelection: selection,
       onAccountId,
@@ -212,7 +212,7 @@ describe("setupChannels", () => {
       text: text as unknown as WizardPrompter["text"],
     });
 
-    await runSetupChannels({} as SiriClaw-InstructConfig, prompter, {
+    await runSetupChannels({} as SiriClawInstructConfig, prompter, {
       quickstartDefaults: true,
       forceAllowFromChannels: ["whatsapp"],
     });
@@ -244,7 +244,7 @@ describe("setupChannels", () => {
       text: text as unknown as WizardPrompter["text"],
     });
 
-    await runSetupChannels({} as SiriClaw-InstructConfig, prompter, {
+    await runSetupChannels({} as SiriClawInstructConfig, prompter, {
       quickstartDefaults: true,
     });
 
@@ -271,7 +271,7 @@ describe("setupChannels", () => {
       text,
     });
 
-    await runSetupChannels({} as SiriClaw-InstructConfig, prompter);
+    await runSetupChannels({} as SiriClawInstructConfig, prompter);
 
     const sawPrimer = note.mock.calls.some(
       ([message, title]) =>
@@ -350,14 +350,14 @@ describe("setupChannels", () => {
   });
 
   it("applies configureInteractive result cfg/account updates", async () => {
-    const configureInteractive = vi.fn(async ({ cfg }: { cfg: SiriClaw-InstructConfig }) => ({
+    const configureInteractive = vi.fn(async ({ cfg }: { cfg: SiriClawInstructConfig }) => ({
       cfg: {
         ...cfg,
         channels: {
           ...cfg.channels,
           telegram: { ...cfg.channels?.telegram, botToken: "new-token" },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       accountId: "acct-1",
     }));
     const configure = createUnexpectedConfigureCall(
@@ -376,14 +376,14 @@ describe("setupChannels", () => {
   });
 
   it("uses configureWhenConfigured when channel is already configured", async () => {
-    const configureWhenConfigured = vi.fn(async ({ cfg }: { cfg: SiriClaw-InstructConfig }) => ({
+    const configureWhenConfigured = vi.fn(async ({ cfg }: { cfg: SiriClawInstructConfig }) => ({
       cfg: {
         ...cfg,
         channels: {
           ...cfg.channels,
           telegram: { ...cfg.channels?.telegram, botToken: "updated-token" },
         },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       accountId: "acct-2",
     }));
     const { cfg, selection, onAccountId, configure } = await runConfiguredTelegramSetup({
@@ -453,3 +453,4 @@ describe("setupChannels", () => {
     }
   });
 });
+

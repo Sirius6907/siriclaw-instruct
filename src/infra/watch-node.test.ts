@@ -24,7 +24,7 @@ describe("watch-node script", () => {
 
     const runPromise = runWatchMain({
       args: ["gateway", "--force"],
-      cwd: "/tmp/SiriClaw-Instruct",
+      cwd: "/tmp/SiriClawInstruct",
       env: { PATH: "/usr/bin" },
       now: () => 1700000000000,
       process: fakeProcess,
@@ -46,13 +46,13 @@ describe("watch-node script", () => {
         "--force",
       ],
       expect.objectContaining({
-        cwd: "/tmp/SiriClaw-Instruct",
+        cwd: "/tmp/SiriClawInstruct",
         stdio: "inherit",
         env: expect.objectContaining({
           PATH: "/usr/bin",
-          SiriClaw-Instruct_WATCH_MODE: "1",
-          SiriClaw-Instruct_WATCH_SESSION: "1700000000000-4242",
-          SiriClaw-Instruct_WATCH_COMMAND: "gateway --force",
+          SiriClawInstruct_WATCH_MODE: "1",
+          SiriClawInstruct_WATCH_SESSION: "1700000000000-4242",
+          SiriClawInstruct_WATCH_COMMAND: "gateway --force",
         }),
       }),
     );
@@ -94,3 +94,4 @@ describe("watch-node script", () => {
     expect(fakeProcess.listenerCount("SIGTERM")).toBe(0);
   });
 });
+

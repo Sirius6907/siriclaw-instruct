@@ -498,7 +498,7 @@ function buildChatCommands(): ChatCommandDefinition[] {
     defineChatCommand({
       key: "restart",
       nativeName: "restart",
-      description: "Restart SiriClaw-Instruct.",
+      description: "Restart SiriClawInstruct.",
       textAlias: "/restart",
       category: "tools",
     }),
@@ -775,3 +775,4 @@ export function getNativeCommandSurfaces(): Set<string> {
   cachedNativeRegistry = registry;
   return cachedNativeCommandSurfaces;
 }
+

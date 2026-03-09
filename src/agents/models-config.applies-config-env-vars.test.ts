@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   CUSTOM_PROXY_MODELS_CONFIG,
   installModelsConfigTestHooks,
@@ -7,23 +7,23 @@ import {
   withModelsTempHome as withTempHome,
   withTempEnv,
 } from "./models-config.e2e-harness.js";
-import { ensureSiriClaw-InstructModelsJson } from "./models-config.js";
+import { ensureSiriClawInstructModelsJson } from "./models-config.js";
 
 installModelsConfigTestHooks();
 
-const TEST_ENV_VAR = "SiriClaw-Instruct_MODELS_CONFIG_TEST_ENV";
+const TEST_ENV_VAR = "SiriClawInstruct_MODELS_CONFIG_TEST_ENV";
 
 describe("models-config", () => {
   it("applies config env.vars entries while ensuring models.json", async () => {
     await withTempHome(async () => {
       await withTempEnv([TEST_ENV_VAR], async () => {
         unsetEnv([TEST_ENV_VAR]);
-        const cfg: SiriClaw-InstructConfig = {
+        const cfg: SiriClawInstructConfig = {
           ...CUSTOM_PROXY_MODELS_CONFIG,
           env: { vars: { [TEST_ENV_VAR]: "from-config" } },
         };
 
-        await ensureSiriClaw-InstructModelsJson(cfg);
+        await ensureSiriClawInstructModelsJson(cfg);
 
         expect(process.env[TEST_ENV_VAR]).toBe("from-config");
       });
@@ -34,15 +34,16 @@ describe("models-config", () => {
     await withTempHome(async () => {
       await withTempEnv([TEST_ENV_VAR], async () => {
         process.env[TEST_ENV_VAR] = "from-host";
-        const cfg: SiriClaw-InstructConfig = {
+        const cfg: SiriClawInstructConfig = {
           ...CUSTOM_PROXY_MODELS_CONFIG,
           env: { vars: { [TEST_ENV_VAR]: "from-config" } },
         };
 
-        await ensureSiriClaw-InstructModelsJson(cfg);
+        await ensureSiriClawInstructModelsJson(cfg);
 
         expect(process.env[TEST_ENV_VAR]).toBe("from-host");
       });
     });
   });
 });
+

@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { SiriClaw-InstructSchema } from "./zod-schema.js";
+import { SiriClawInstructSchema } from "./zod-schema.js";
 
 describe("skills entries config schema", () => {
   it("accepts custom fields under config", () => {
-    const res = SiriClaw-InstructSchema.safeParse({
+    const res = SiriClawInstructSchema.safeParse({
       skills: {
         entries: {
           "custom-skill": {
@@ -21,7 +21,7 @@ describe("skills entries config schema", () => {
   });
 
   it("rejects unknown top-level fields", () => {
-    const res = SiriClaw-InstructSchema.safeParse({
+    const res = SiriClawInstructSchema.safeParse({
       skills: {
         entries: {
           "custom-skill": {
@@ -45,3 +45,4 @@ describe("skills entries config schema", () => {
     ).toBe(true);
   });
 });
+

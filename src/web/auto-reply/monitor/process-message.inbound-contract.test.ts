@@ -115,7 +115,7 @@ describe("web processMessage inbound contract", () => {
     capturedDispatchParams = undefined;
     backgroundTasks = new Set();
     deliverWebReplyMock.mockClear();
-    sessionDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-process-message-"));
+    sessionDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-process-message-"));
     sessionStorePath = path.join(sessionDir, "sessions.json");
   });
 
@@ -227,7 +227,7 @@ describe("web processMessage inbound contract", () => {
     expect(getDispatcherResponsePrefix()).toBe("[Mainbot]");
   });
 
-  it("does not force an [SiriClaw-Instruct] response prefix in self-chats when identity is unset", async () => {
+  it("does not force an [SiriClawInstruct] response prefix in self-chats when identity is unset", async () => {
     await processSelfDirectMessage({
       messages: {},
       session: { store: sessionStorePath },
@@ -434,3 +434,4 @@ describe("web processMessage inbound contract", () => {
     expect(updateLastRouteMock).toHaveBeenCalledTimes(1);
   });
 });
+

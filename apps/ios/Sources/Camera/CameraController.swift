@@ -1,5 +1,5 @@
 import AVFoundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Foundation
 import os
 
@@ -351,3 +351,4 @@ private final class MovieFileDelegate: NSObject, AVCaptureFileOutputRecordingDel
         self.continuation.resume(returning: outputFileURL)
     }
 }
+

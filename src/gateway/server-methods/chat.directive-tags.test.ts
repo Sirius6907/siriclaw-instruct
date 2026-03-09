@@ -215,7 +215,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("registers tool-event recipients for clients advertising tool-events capability", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-tool-events-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-tool-events-");
     mockState.finalText = "ok";
     mockState.triggerAgentRunStart = true;
     mockState.agentRunId = "run-current";
@@ -254,7 +254,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("does not register tool-event recipients without tool-events capability", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-tool-events-off-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-tool-events-off-");
     mockState.finalText = "ok";
     mockState.triggerAgentRunStart = true;
     mockState.agentRunId = "run-no-cap";
@@ -277,7 +277,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.inject keeps message defined when directive tag is the only content", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-inject-directive-only-");
+    createTranscriptFixture("SiriClawInstruct-chat-inject-directive-only-");
     const respond = vi.fn();
     const context = createChatContext();
 
@@ -306,7 +306,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send non-streaming final keeps message defined for directive-only assistant text", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-directive-only-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-directive-only-");
     mockState.finalText = "[[reply_to_current]]";
     const respond = vi.fn();
     const context = createChatContext();
@@ -328,7 +328,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("rejects oversized chat.send session keys before dispatch", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-session-key-too-long-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-session-key-too-long-");
     const respond = vi.fn();
     const context = createChatContext();
 
@@ -356,7 +356,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.inject strips external untrusted wrapper metadata from final payload text", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-inject-untrusted-meta-");
+    createTranscriptFixture("SiriClawInstruct-chat-inject-untrusted-meta-");
     const respond = vi.fn();
     const context = createChatContext();
 
@@ -379,7 +379,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send non-streaming final strips external untrusted wrapper metadata from final payload text", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-untrusted-meta-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-untrusted-meta-");
     mockState.finalText = `hello\n\n${UNTRUSTED_CONTEXT_SUFFIX}`;
     const respond = vi.fn();
     const context = createChatContext();
@@ -393,7 +393,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps explicit delivery routes for channel-scoped sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-origin-routing-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-origin-routing-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -431,7 +431,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps explicit delivery routes for Feishu channel-scoped sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-feishu-origin-routing-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-feishu-origin-routing-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -466,7 +466,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps explicit delivery routes for per-account channel-peer sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-per-account-channel-peer-routing-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-per-account-channel-peer-routing-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -501,7 +501,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps explicit delivery routes for legacy channel-peer sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-legacy-channel-peer-routing-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-legacy-channel-peer-routing-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -536,7 +536,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps explicit delivery routes for legacy thread sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-legacy-thread-channel-peer-routing-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-legacy-thread-channel-peer-routing-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -574,7 +574,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send does not inherit external delivery context for shared main sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-main-no-cross-route-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-main-no-cross-route-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -608,7 +608,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send does not inherit external delivery context for UI clients on main sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-main-ui-routes-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-main-ui-routes-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -631,7 +631,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
         connect: {
           client: {
             mode: GATEWAY_CLIENT_MODES.UI,
-            id: "SiriClaw-Instruct-tui",
+            id: "SiriClawInstruct-tui",
           },
         },
       } as unknown,
@@ -649,7 +649,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send inherits external delivery context for CLI clients on configured main sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-config-main-cli-routes-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-config-main-cli-routes-");
     mockState.mainSessionKey = "work";
     mockState.finalText = "ok";
     mockState.sessionEntry = {
@@ -692,7 +692,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps configured main delivery inheritance when connect metadata omits client details", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-config-main-connect-no-client-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-config-main-connect-no-client-");
     mockState.mainSessionKey = "work";
     mockState.finalText = "ok";
     mockState.sessionEntry = {
@@ -730,7 +730,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send does not inherit external delivery context for non-channel custom sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-custom-no-cross-route-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-custom-no-cross-route-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -765,7 +765,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send keeps replies on the internal surface when deliver is not enabled", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-no-deliver-internal-surface-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-no-deliver-internal-surface-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -799,7 +799,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send does not inherit external routes for webchat clients on channel-scoped sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-webchat-channel-scoped-no-inherit-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-webchat-channel-scoped-no-inherit-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -824,7 +824,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
         connect: {
           client: {
             mode: GATEWAY_CLIENT_MODES.WEBCHAT,
-            id: "SiriClaw-Instruct-webchat",
+            id: "SiriClawInstruct-webchat",
           },
         },
       } as unknown,
@@ -844,7 +844,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
   });
 
   it("chat.send still inherits external routes for UI clients on channel-scoped sessions", async () => {
-    createTranscriptFixture("SiriClaw-Instruct-chat-send-ui-channel-scoped-inherit-");
+    createTranscriptFixture("SiriClawInstruct-chat-send-ui-channel-scoped-inherit-");
     mockState.finalText = "ok";
     mockState.sessionEntry = {
       deliveryContext: {
@@ -867,7 +867,7 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
         connect: {
           client: {
             mode: GATEWAY_CLIENT_MODES.UI,
-            id: "SiriClaw-Instruct-tui",
+            id: "SiriClawInstruct-tui",
           },
         },
       } as unknown,
@@ -886,3 +886,4 @@ describe("chat directive tag stripping for non-streaming final payloads", () => 
     );
   });
 });
+

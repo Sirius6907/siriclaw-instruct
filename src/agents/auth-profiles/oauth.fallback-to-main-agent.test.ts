@@ -9,8 +9,8 @@ import type { AuthProfileStore } from "./types.js";
 
 describe("resolveApiKeyForProfile fallback to main agent", () => {
   const envSnapshot = captureEnv([
-    "SiriClaw-Instruct_STATE_DIR",
-    "SiriClaw-Instruct_AGENT_DIR",
+    "SiriClawInstruct_STATE_DIR",
+    "SiriClawInstruct_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
   ]);
   let tmpDir: string;
@@ -24,9 +24,9 @@ describe("resolveApiKeyForProfile fallback to main agent", () => {
     await fs.mkdir(mainAgentDir, { recursive: true });
     await fs.mkdir(secondaryAgentDir, { recursive: true });
 
-    // Set environment variables so resolveSiriClaw-InstructAgentDir() returns mainAgentDir
-    process.env.SiriClaw-Instruct_STATE_DIR = tmpDir;
-    process.env.SiriClaw-Instruct_AGENT_DIR = mainAgentDir;
+    // Set environment variables so resolveSiriClawInstructAgentDir() returns mainAgentDir
+    process.env.SiriClawInstruct_STATE_DIR = tmpDir;
+    process.env.SiriClawInstruct_AGENT_DIR = mainAgentDir;
     process.env.PI_CODING_AGENT_DIR = mainAgentDir;
   });
 
@@ -302,3 +302,4 @@ describe("resolveApiKeyForProfile fallback to main agent", () => {
     );
   });
 });
+

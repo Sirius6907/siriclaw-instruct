@@ -12,7 +12,7 @@ vi.mock("../config/config.js", () => ({
 const { resolveRelayAcceptedTokensForPort } = await import("./extension-relay-auth.js");
 
 describe("extension-relay-auth SecretRef handling", () => {
-  const ENV_KEYS = ["SiriClaw-Instruct_GATEWAY_TOKEN", "SIRICLAW_GATEWAY_TOKEN", "CUSTOM_GATEWAY_TOKEN"];
+  const ENV_KEYS = ["SiriClawInstruct_GATEWAY_TOKEN", "SIRICLAW_GATEWAY_TOKEN", "CUSTOM_GATEWAY_TOKEN"];
   const envSnapshot = new Map<string, string | undefined>();
 
   beforeEach(() => {
@@ -59,7 +59,7 @@ describe("extension-relay-auth SecretRef handling", () => {
   });
 
   it("resolves file-backed gateway.auth.token SecretRef", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-relay-file-secret-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-relay-file-secret-"));
     const secretFile = path.join(tempDir, "relay-secrets.json");
     await fs.writeFile(secretFile, JSON.stringify({ relayToken: "resolved-file-relay-token" }));
     await fs.chmod(secretFile, 0o600);
@@ -115,3 +115,4 @@ describe("extension-relay-auth SecretRef handling", () => {
     expect(tokens).toContain("resolved-exec-relay-token");
   });
 });
+

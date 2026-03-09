@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { SkillsInstallPreferences } from "./skills/types.js";
 
 export {
@@ -15,7 +15,7 @@ export {
   applySkillEnvOverridesFromSnapshot,
 } from "./skills/env-overrides.js";
 export type {
-  SiriClaw-InstructSkillMetadata,
+  SiriClawInstructSkillMetadata,
   SkillEligibilityContext,
   SkillCommandSpec,
   SkillEntry,
@@ -33,7 +33,7 @@ export {
   syncSkillsToWorkspace,
 } from "./skills/workspace.js";
 
-export function resolveSkillsInstallPreferences(config?: SiriClaw-InstructConfig): SkillsInstallPreferences {
+export function resolveSkillsInstallPreferences(config?: SiriClawInstructConfig): SkillsInstallPreferences {
   const raw = config?.skills?.install;
   const preferBrew = raw?.preferBrew ?? true;
   const managerRaw = typeof raw?.nodeManager === "string" ? raw.nodeManager.trim() : "";
@@ -44,3 +44,4 @@ export function resolveSkillsInstallPreferences(config?: SiriClaw-InstructConfig
       : "npm";
   return { preferBrew, nodeManager };
 }
+

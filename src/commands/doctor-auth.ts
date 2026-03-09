@@ -14,14 +14,14 @@ import {
 } from "../agents/auth-profiles.js";
 import { updateAuthProfileStoreWithLock } from "../agents/auth-profiles/store.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { note } from "../terminal/note.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 
 export async function maybeRepairAnthropicOAuthProfileId(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   prompter: DoctorPrompter,
-): Promise<SiriClaw-InstructConfig> {
+): Promise<SiriClawInstructConfig> {
   const store = ensureAuthProfileStore();
   const repair = repairOAuthProfileIdMismatch({
     cfg,
@@ -66,9 +66,9 @@ function pruneAuthOrder(
 }
 
 function pruneAuthProfiles(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   profileIds: Set<string>,
-): { next: SiriClaw-InstructConfig; changed: boolean } {
+): { next: SiriClawInstructConfig; changed: boolean } {
   const profiles = cfg.auth?.profiles;
   const order = cfg.auth?.order;
   const nextProfiles = profiles ? { ...profiles } : undefined;
@@ -111,9 +111,9 @@ function pruneAuthProfiles(
 }
 
 export async function maybeRemoveDeprecatedCliAuthProfiles(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   prompter: DoctorPrompter,
-): Promise<SiriClaw-InstructConfig> {
+): Promise<SiriClawInstructConfig> {
   const store = ensureAuthProfileStore(undefined, { allowKeychainPrompt: false });
   const deprecated = new Set<string>();
   if (store.profiles[CLAUDE_CLI_PROFILE_ID] || cfg.auth?.profiles?.[CLAUDE_CLI_PROFILE_ID]) {
@@ -130,13 +130,13 @@ export async function maybeRemoveDeprecatedCliAuthProfiles(
   const lines = ["Deprecated external CLI auth profiles detected (no longer supported):"];
   if (deprecated.has(CLAUDE_CLI_PROFILE_ID)) {
     lines.push(
-      `- ${CLAUDE_CLI_PROFILE_ID} (Anthropic): use setup-token → ${formatCliCommand("SiriClaw-Instruct models auth setup-token")}`,
+      `- ${CLAUDE_CLI_PROFILE_ID} (Anthropic): use setup-token → ${formatCliCommand("SiriClawInstruct models auth setup-token")}`,
     );
   }
   if (deprecated.has(CODEX_CLI_PROFILE_ID)) {
     lines.push(
       `- ${CODEX_CLI_PROFILE_ID} (OpenAI Codex): use OAuth → ${formatCliCommand(
-        "SiriClaw-Instruct models auth login --provider openai-codex",
+        "SiriClawInstruct models auth login --provider openai-codex",
       )}`,
     );
   }
@@ -228,16 +228,16 @@ function formatAuthIssueHint(issue: AuthIssue): string | null {
     return "Invalid token expires metadata. Set a future Unix ms timestamp or remove expires.";
   }
   if (issue.provider === "anthropic" && issue.profileId === CLAUDE_CLI_PROFILE_ID) {
-    return `Deprecated profile. Use ${formatCliCommand("SiriClaw-Instruct models auth setup-token")} or ${formatCliCommand(
-      "SiriClaw-Instruct configure",
+    return `Deprecated profile. Use ${formatCliCommand("SiriClawInstruct models auth setup-token")} or ${formatCliCommand(
+      "SiriClawInstruct configure",
     )}.`;
   }
   if (issue.provider === "openai-codex" && issue.profileId === CODEX_CLI_PROFILE_ID) {
     return `Deprecated profile. Use ${formatCliCommand(
-      "SiriClaw-Instruct models auth login --provider openai-codex",
-    )} or ${formatCliCommand("SiriClaw-Instruct configure")}.`;
+      "SiriClawInstruct models auth login --provider openai-codex",
+    )} or ${formatCliCommand("SiriClawInstruct configure")}.`;
   }
-  return `Re-auth via \`${formatCliCommand("SiriClaw-Instruct configure")}\` or \`${formatCliCommand("SiriClaw-Instruct onboard")}\`.`;
+  return `Re-auth via \`${formatCliCommand("SiriClawInstruct configure")}\` or \`${formatCliCommand("SiriClawInstruct onboard")}\`.`;
 }
 
 function formatAuthIssueLine(issue: AuthIssue): string {
@@ -249,7 +249,7 @@ function formatAuthIssueLine(issue: AuthIssue): string {
 }
 
 export async function noteAuthProfileHealth(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: DoctorPrompter;
   allowKeychainPrompt: boolean;
 }): Promise<void> {
@@ -355,3 +355,4 @@ export async function noteAuthProfileHealth(params: {
     );
   }
 }
+

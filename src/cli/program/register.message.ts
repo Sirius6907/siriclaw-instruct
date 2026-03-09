@@ -31,22 +31,22 @@ export function registerMessageCommands(program: Command, ctx: ProgramContext) {
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['SiriClaw-Instruct message send --target +15555550123 --message "Hi"', "Send a text message."],
+  ['SiriClawInstruct message send --target +15555550123 --message "Hi"', "Send a text message."],
   [
-    'SiriClaw-Instruct message send --target +15555550123 --message "Hi" --media photo.jpg',
+    'SiriClawInstruct message send --target +15555550123 --message "Hi" --media photo.jpg',
     "Send a message with media.",
   ],
   [
-    'SiriClaw-Instruct message poll --channel discord --target channel:123 --poll-question "Snack?" --poll-option Pizza --poll-option Sushi',
+    'SiriClawInstruct message poll --channel discord --target channel:123 --poll-question "Snack?" --poll-option Pizza --poll-option Sushi',
     "Create a Discord poll.",
   ],
   [
-    'SiriClaw-Instruct message react --channel discord --target 123 --message-id 456 --emoji "✅"',
+    'SiriClawInstruct message react --channel discord --target 123 --message-id 456 --emoji "✅"',
     "React to a message.",
   ],
 ])}
 
-${theme.muted("Docs:")} ${formatDocsLink("/cli/message", "docs.SiriClaw-Instruct.ai/cli/message")}`,
+${theme.muted("Docs:")} ${formatDocsLink("/cli/message", "docs.SiriClawInstruct.ai/cli/message")}`,
     )
     .action(() => {
       message.help({ error: true });
@@ -66,3 +66,4 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/message", "docs.SiriClaw-Instruct
   registerMessageStickerCommands(message, helpers);
   registerMessageDiscordAdminCommands(message, helpers);
 }
+

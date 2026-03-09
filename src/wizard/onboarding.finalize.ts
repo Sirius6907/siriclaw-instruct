@@ -22,7 +22,7 @@ import {
   resolveControlUiLinks,
 } from "../commands/onboard-helpers.js";
 import type { OnboardOptions } from "../commands/onboard-types.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveGatewayService } from "../daemon/service.js";
 import { isSystemdUserServiceAvailable } from "../daemon/systemd.js";
 import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
@@ -38,8 +38,8 @@ import type { WizardPrompter } from "./prompts.js";
 type FinalizeOnboardingOptions = {
   flow: WizardFlow;
   opts: OnboardOptions;
-  baseConfig: SiriClaw-InstructConfig;
-  nextConfig: SiriClaw-InstructConfig;
+  baseConfig: SiriClawInstructConfig;
+  nextConfig: SiriClawInstructConfig;
   workspaceDir: string;
   settings: GatewayWizardSettings;
   prompter: WizardPrompter;
@@ -233,8 +233,8 @@ export async function finalizeOnboardingWizard(
       await prompter.note(
         [
           "Docs:",
-          "https://docs.SiriClaw-Instruct.ai/gateway/health",
-          "https://docs.SiriClaw-Instruct.ai/gateway/troubleshooting",
+          "https://docs.SiriClawInstruct.ai/gateway/health",
+          "https://docs.SiriClawInstruct.ai/gateway/troubleshooting",
         ].join("\n"),
         "Health check help",
       );
@@ -318,7 +318,7 @@ export async function finalizeOnboardingWizard(
         : undefined,
       `Gateway WS: ${links.wsUrl}`,
       gatewayStatusLine,
-      "Docs: https://docs.SiriClaw-Instruct.ai/web/control-ui",
+      "Docs: https://docs.SiriClawInstruct.ai/web/control-ui",
     ]
       .filter(Boolean)
       .join("\n"),
@@ -347,11 +347,11 @@ export async function finalizeOnboardingWizard(
     await prompter.note(
       [
         "Gateway token: shared auth for the Gateway + Control UI.",
-        "Stored in: ~/.SiriClaw-Instruct/SiriClaw-Instruct.json (gateway.auth.token) or SiriClaw-Instruct_GATEWAY_TOKEN.",
-        `View token: ${formatCliCommand("SiriClaw-Instruct config get gateway.auth.token")}`,
-        `Generate token: ${formatCliCommand("SiriClaw-Instruct doctor --generate-gateway-token")}`,
+        "Stored in: ~/.SiriClawInstruct/SiriClawInstruct.json (gateway.auth.token) or SiriClawInstruct_GATEWAY_TOKEN.",
+        `View token: ${formatCliCommand("SiriClawInstruct config get gateway.auth.token")}`,
+        `Generate token: ${formatCliCommand("SiriClawInstruct doctor --generate-gateway-token")}`,
         "Web UI keeps dashboard URL tokens in memory for the current tab and strips them from the URL after load.",
-        `Open the dashboard anytime: ${formatCliCommand("SiriClaw-Instruct dashboard --no-open")}`,
+        `Open the dashboard anytime: ${formatCliCommand("SiriClawInstruct dashboard --no-open")}`,
         "If prompted: paste the token into Control UI settings (or use the tokenized dashboard URL).",
       ].join("\n"),
       "Token",
@@ -400,8 +400,8 @@ export async function finalizeOnboardingWizard(
         [
           `Dashboard link (with token): ${authedUrl}`,
           controlUiOpened
-            ? "Opened in your browser. Keep that tab to control SiriClaw-Instruct."
-            : "Copy/paste this URL in a browser on this machine to control SiriClaw-Instruct.",
+            ? "Opened in your browser. Keep that tab to control SiriClawInstruct."
+            : "Copy/paste this URL in a browser on this machine to control SiriClawInstruct.",
           controlUiOpenHint,
         ]
           .filter(Boolean)
@@ -410,7 +410,7 @@ export async function finalizeOnboardingWizard(
       );
     } else {
       await prompter.note(
-        `When you're ready: ${formatCliCommand("SiriClaw-Instruct dashboard --no-open")}`,
+        `When you're ready: ${formatCliCommand("SiriClawInstruct dashboard --no-open")}`,
         "Later",
       );
     }
@@ -421,13 +421,13 @@ export async function finalizeOnboardingWizard(
   await prompter.note(
     [
       "Back up your agent workspace.",
-      "Docs: https://docs.SiriClaw-Instruct.ai/concepts/agent-workspace",
+      "Docs: https://docs.SiriClawInstruct.ai/concepts/agent-workspace",
     ].join("\n"),
     "Workspace backup",
   );
 
   await prompter.note(
-    "Running agents on your computer is risky — harden your setup: https://docs.SiriClaw-Instruct.ai/security",
+    "Running agents on your computer is risky — harden your setup: https://docs.SiriClawInstruct.ai/security",
     "Security",
   );
 
@@ -461,8 +461,8 @@ export async function finalizeOnboardingWizard(
       [
         `Dashboard link (with token): ${authedUrl}`,
         controlUiOpened
-          ? "Opened in your browser. Keep that tab to control SiriClaw-Instruct."
-          : "Copy/paste this URL in a browser on this machine to control SiriClaw-Instruct.",
+          ? "Opened in your browser. Keep that tab to control SiriClawInstruct."
+          : "Copy/paste this URL in a browser on this machine to control SiriClawInstruct.",
         controlUiOpenHint,
       ]
         .filter(Boolean)
@@ -496,7 +496,7 @@ export async function finalizeOnboardingWizard(
           "",
           `Provider: ${label}`,
           ...(keySource ? [keySource] : []),
-          "Docs: https://docs.SiriClaw-Instruct.ai/tools/web",
+          "Docs: https://docs.SiriClawInstruct.ai/tools/web",
         ].join("\n"),
         "Web search",
       );
@@ -505,10 +505,10 @@ export async function finalizeOnboardingWizard(
         [
           `Provider ${label} is selected but no API key was found.`,
           "web_search will not work until a key is added.",
-          `  ${formatCliCommand("SiriClaw-Instruct configure --section web")}`,
+          `  ${formatCliCommand("SiriClawInstruct configure --section web")}`,
           "",
-          `Get your key at: ${entry?.signupUrl ?? "https://docs.SiriClaw-Instruct.ai/tools/web"}`,
-          "Docs: https://docs.SiriClaw-Instruct.ai/tools/web",
+          `Get your key at: ${entry?.signupUrl ?? "https://docs.SiriClawInstruct.ai/tools/web"}`,
+          "Docs: https://docs.SiriClawInstruct.ai/tools/web",
         ].join("\n"),
         "Web search",
       );
@@ -516,9 +516,9 @@ export async function finalizeOnboardingWizard(
       await prompter.note(
         [
           `Web search (${label}) is configured but disabled.`,
-          `Re-enable: ${formatCliCommand("SiriClaw-Instruct configure --section web")}`,
+          `Re-enable: ${formatCliCommand("SiriClawInstruct configure --section web")}`,
           "",
-          "Docs: https://docs.SiriClaw-Instruct.ai/tools/web",
+          "Docs: https://docs.SiriClawInstruct.ai/tools/web",
         ].join("\n"),
         "Web search",
       );
@@ -535,7 +535,7 @@ export async function finalizeOnboardingWizard(
       await prompter.note(
         [
           `Web search is available via ${legacyDetected.label} (auto-detected).`,
-          "Docs: https://docs.SiriClaw-Instruct.ai/tools/web",
+          "Docs: https://docs.SiriClawInstruct.ai/tools/web",
         ].join("\n"),
         "Web search",
       );
@@ -543,9 +543,9 @@ export async function finalizeOnboardingWizard(
       await prompter.note(
         [
           "Web search was skipped. You can enable it later:",
-          `  ${formatCliCommand("SiriClaw-Instruct configure --section web")}`,
+          `  ${formatCliCommand("SiriClawInstruct configure --section web")}`,
           "",
-          "Docs: https://docs.SiriClaw-Instruct.ai/tools/web",
+          "Docs: https://docs.SiriClawInstruct.ai/tools/web",
         ].join("\n"),
         "Web search",
       );
@@ -553,17 +553,18 @@ export async function finalizeOnboardingWizard(
   }
 
   await prompter.note(
-    'What now: https://SiriClaw-Instruct.ai/showcase ("What People Are Building").',
+    'What now: https://SiriClawInstruct.ai/showcase ("What People Are Building").',
     "What now",
   );
 
   await prompter.outro(
     controlUiOpened
-      ? "Onboarding complete. Dashboard opened; keep that tab to control SiriClaw-Instruct."
+      ? "Onboarding complete. Dashboard opened; keep that tab to control SiriClawInstruct."
       : seededInBackground
         ? "Onboarding complete. Web UI seeded in the background; open it anytime with the dashboard link above."
-        : "Onboarding complete. Use the dashboard link above to control SiriClaw-Instruct.",
+        : "Onboarding complete. Use the dashboard link above to control SiriClawInstruct.",
   );
 
   return { launchedTui };
 }
+

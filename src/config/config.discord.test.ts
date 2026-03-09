@@ -23,7 +23,7 @@ describe("config discord", () => {
               enabled: true,
               allowFrom: ["steipete"],
               groupEnabled: true,
-              groupChannels: ["SiriClaw-Instruct-dm"],
+              groupChannels: ["SiriClawInstruct-dm"],
             },
             actions: {
               emojiUploads: true,
@@ -32,7 +32,7 @@ describe("config discord", () => {
             },
             guilds: {
               "123": {
-                slug: "friends-of-SiriClaw-Instruct",
+                slug: "friends-of-SiriClawInstruct",
                 requireMention: false,
                 users: ["steipete"],
                 channels: {
@@ -48,11 +48,11 @@ describe("config discord", () => {
 
         expect(cfg.channels?.discord?.enabled).toBe(true);
         expect(cfg.channels?.discord?.dm?.groupEnabled).toBe(true);
-        expect(cfg.channels?.discord?.dm?.groupChannels).toEqual(["SiriClaw-Instruct-dm"]);
+        expect(cfg.channels?.discord?.dm?.groupChannels).toEqual(["SiriClawInstruct-dm"]);
         expect(cfg.channels?.discord?.actions?.emojiUploads).toBe(true);
         expect(cfg.channels?.discord?.actions?.stickerUploads).toBe(false);
         expect(cfg.channels?.discord?.actions?.channels).toBe(true);
-        expect(cfg.channels?.discord?.guilds?.["123"]?.slug).toBe("friends-of-SiriClaw-Instruct");
+        expect(cfg.channels?.discord?.guilds?.["123"]?.slug).toBe("friends-of-SiriClawInstruct");
         expect(cfg.channels?.discord?.guilds?.["123"]?.channels?.general?.allow).toBe(true);
       },
     );
@@ -86,3 +86,4 @@ describe("config discord", () => {
     }
   });
 });
+

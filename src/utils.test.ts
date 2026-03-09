@@ -51,7 +51,7 @@ describe("withWhatsAppPrefix", () => {
 
 describe("ensureDir", () => {
   it("creates nested directory", async () => {
-    await withTempDirSync("SiriClaw-Instruct-test-", async (tmp) => {
+    await withTempDirSync("SiriClawInstruct-test-", async (tmp) => {
       const target = path.join(tmp, "nested", "dir");
       await ensureDir(target);
       expect(fs.existsSync(target)).toBe(true);
@@ -107,7 +107,7 @@ describe("jidToE164", () => {
   });
 
   it("maps @lid from authDir mapping files", () => {
-    withTempDirSync("SiriClaw-Instruct-auth-", (authDir) => {
+    withTempDirSync("SiriClawInstruct-auth-", (authDir) => {
       const mappingPath = path.join(authDir, "lid-mapping-456_reverse.json");
       fs.writeFileSync(mappingPath, JSON.stringify("5559876"));
       expect(jidToE164("456@lid", { authDir })).toBe("+5559876");
@@ -115,7 +115,7 @@ describe("jidToE164", () => {
   });
 
   it("maps @hosted.lid from authDir mapping files", () => {
-    withTempDirSync("SiriClaw-Instruct-auth-", (authDir) => {
+    withTempDirSync("SiriClawInstruct-auth-", (authDir) => {
       const mappingPath = path.join(authDir, "lid-mapping-789_reverse.json");
       fs.writeFileSync(mappingPath, JSON.stringify(4440001));
       expect(jidToE164("789@hosted.lid", { authDir })).toBe("+4440001");
@@ -127,8 +127,8 @@ describe("jidToE164", () => {
   });
 
   it("falls back through lidMappingDirs in order", () => {
-    withTempDirSync("SiriClaw-Instruct-lid-a-", (first) => {
-      withTempDirSync("SiriClaw-Instruct-lid-b-", (second) => {
+    withTempDirSync("SiriClawInstruct-lid-a-", (first) => {
+      withTempDirSync("SiriClawInstruct-lid-b-", (second) => {
         const mappingPath = path.join(second, "lid-mapping-321_reverse.json");
         fs.writeFileSync(mappingPath, JSON.stringify("123321"));
         expect(jidToE164("321@lid", { lidMappingDirs: [first, second] })).toBe("+123321");
@@ -138,10 +138,10 @@ describe("jidToE164", () => {
 });
 
 describe("resolveConfigDir", () => {
-  it("prefers ~/.SiriClaw-Instruct when legacy dir is missing", async () => {
-    const root = await fs.promises.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-config-dir-"));
+  it("prefers ~/.SiriClawInstruct when legacy dir is missing", async () => {
+    const root = await fs.promises.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-config-dir-"));
     try {
-      const newDir = path.join(root, ".SiriClaw-Instruct");
+      const newDir = path.join(root, ".SiriClawInstruct");
       await fs.promises.mkdir(newDir, { recursive: true });
       const resolved = resolveConfigDir({} as NodeJS.ProcessEnv, () => root);
       expect(resolved).toBe(newDir);
@@ -152,23 +152,23 @@ describe("resolveConfigDir", () => {
 });
 
 describe("resolveHomeDir", () => {
-  it("prefers SiriClaw-Instruct_HOME over HOME", () => {
-    vi.stubEnv("SiriClaw-Instruct_HOME", "/srv/SiriClaw-Instruct-home");
+  it("prefers SiriClawInstruct_HOME over HOME", () => {
+    vi.stubEnv("SiriClawInstruct_HOME", "/srv/SiriClawInstruct-home");
     vi.stubEnv("HOME", "/home/other");
 
-    expect(resolveHomeDir()).toBe(path.resolve("/srv/SiriClaw-Instruct-home"));
+    expect(resolveHomeDir()).toBe(path.resolve("/srv/SiriClawInstruct-home"));
 
     vi.unstubAllEnvs();
   });
 });
 
 describe("shortenHomePath", () => {
-  it("uses $SiriClaw-Instruct_HOME prefix when SiriClaw-Instruct_HOME is set", () => {
-    vi.stubEnv("SiriClaw-Instruct_HOME", "/srv/SiriClaw-Instruct-home");
+  it("uses $SiriClawInstruct_HOME prefix when SiriClawInstruct_HOME is set", () => {
+    vi.stubEnv("SiriClawInstruct_HOME", "/srv/SiriClawInstruct-home");
     vi.stubEnv("HOME", "/home/other");
 
-    expect(shortenHomePath(`${path.resolve("/srv/SiriClaw-Instruct-home")}/.SiriClaw-Instruct/SiriClaw-Instruct.json`)).toBe(
-      "$SiriClaw-Instruct_HOME/.SiriClaw-Instruct/SiriClaw-Instruct.json",
+    expect(shortenHomePath(`${path.resolve("/srv/SiriClawInstruct-home")}/.SiriClawInstruct/SiriClawInstruct.json`)).toBe(
+      "$SiriClawInstruct_HOME/.SiriClawInstruct/SiriClawInstruct.json",
     );
 
     vi.unstubAllEnvs();
@@ -176,13 +176,13 @@ describe("shortenHomePath", () => {
 });
 
 describe("shortenHomeInString", () => {
-  it("uses $SiriClaw-Instruct_HOME replacement when SiriClaw-Instruct_HOME is set", () => {
-    vi.stubEnv("SiriClaw-Instruct_HOME", "/srv/SiriClaw-Instruct-home");
+  it("uses $SiriClawInstruct_HOME replacement when SiriClawInstruct_HOME is set", () => {
+    vi.stubEnv("SiriClawInstruct_HOME", "/srv/SiriClawInstruct-home");
     vi.stubEnv("HOME", "/home/other");
 
     expect(
-      shortenHomeInString(`config: ${path.resolve("/srv/SiriClaw-Instruct-home")}/.SiriClaw-Instruct/SiriClaw-Instruct.json`),
-    ).toBe("config: $SiriClaw-Instruct_HOME/.SiriClaw-Instruct/SiriClaw-Instruct.json");
+      shortenHomeInString(`config: ${path.resolve("/srv/SiriClawInstruct-home")}/.SiriClawInstruct/SiriClawInstruct.json`),
+    ).toBe("config: $SiriClawInstruct_HOME/.SiriClawInstruct/SiriClawInstruct.json");
 
     vi.unstubAllEnvs();
   });
@@ -220,18 +220,18 @@ describe("resolveUserPath", () => {
   });
 
   it("expands ~/ to home dir", () => {
-    expect(resolveUserPath("~/SiriClaw-Instruct")).toBe(path.resolve(os.homedir(), "SiriClaw-Instruct"));
+    expect(resolveUserPath("~/SiriClawInstruct")).toBe(path.resolve(os.homedir(), "SiriClawInstruct"));
   });
 
   it("resolves relative paths", () => {
     expect(resolveUserPath("tmp/dir")).toBe(path.resolve("tmp/dir"));
   });
 
-  it("prefers SiriClaw-Instruct_HOME for tilde expansion", () => {
-    vi.stubEnv("SiriClaw-Instruct_HOME", "/srv/SiriClaw-Instruct-home");
+  it("prefers SiriClawInstruct_HOME for tilde expansion", () => {
+    vi.stubEnv("SiriClawInstruct_HOME", "/srv/SiriClawInstruct-home");
     vi.stubEnv("HOME", "/home/other");
 
-    expect(resolveUserPath("~/SiriClaw-Instruct")).toBe(path.resolve("/srv/SiriClaw-Instruct-home", "SiriClaw-Instruct"));
+    expect(resolveUserPath("~/SiriClawInstruct")).toBe(path.resolve("/srv/SiriClawInstruct-home", "SiriClawInstruct"));
 
     vi.unstubAllEnvs();
   });
@@ -246,3 +246,4 @@ describe("resolveUserPath", () => {
     expect(resolveUserPath(null as unknown as string)).toBe("");
   });
 });
+

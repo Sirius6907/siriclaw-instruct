@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-IMAGE_NAME="${SiriClaw-Instruct_QR_SMOKE_IMAGE:-${SIRICLAW_QR_SMOKE_IMAGE:-SiriClaw-Instruct-qr-smoke}}"
+IMAGE_NAME="${SIRICLAW_QR_SMOKE_IMAGE:-${SIRICLAW_QR_SMOKE_IMAGE:-SiriClaw-Instruct-qr-smoke}}"
 
 echo "Building Docker image..."
 docker build -t "$IMAGE_NAME" -f "$ROOT_DIR/scripts/e2e/Dockerfile.qr-import" "$ROOT_DIR"

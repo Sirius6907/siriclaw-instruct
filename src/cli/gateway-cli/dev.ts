@@ -32,7 +32,7 @@ async function loadDevTemplate(name: string, fallback: string): Promise<string> 
 
 const resolveDevWorkspaceDir = (env: NodeJS.ProcessEnv = process.env): string => {
   const baseDir = resolveDefaultAgentWorkspaceDir(env, os.homedir);
-  const profile = env.SiriClaw-Instruct_PROFILE?.trim().toLowerCase();
+  const profile = env.SiriClawInstruct_PROFILE?.trim().toLowerCase();
   if (profile === "dev") {
     return baseDir;
   }
@@ -60,7 +60,7 @@ async function ensureDevWorkspace(dir: string) {
   const [agents, soul, tools, identity, user] = await Promise.all([
     loadDevTemplate(
       "AGENTS.dev.md",
-      `# AGENTS.md - SiriClaw-Instruct Dev Workspace\n\nDefault dev workspace for SiriClaw-Instruct gateway --dev.\n`,
+      `# AGENTS.md - SiriClawInstruct Dev Workspace\n\nDefault dev workspace for SiriClawInstruct gateway --dev.\n`,
     ),
     loadDevTemplate(
       "SOUL.dev.md",
@@ -128,3 +128,4 @@ export async function ensureDevGatewayConfig(opts: { reset?: boolean }) {
   defaultRuntime.log(`Dev config ready: ${shortenHomePath(configPath)}`);
   defaultRuntime.log(`Dev workspace ready: ${shortenHomePath(resolveUserPath(workspace))}`);
 }
+

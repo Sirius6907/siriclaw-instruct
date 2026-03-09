@@ -17,17 +17,17 @@ const { reparseProgramFromActionArgs } = await import("./action-reparse.js");
 describe("reparseProgramFromActionArgs", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    buildParseArgvMock.mockReturnValue(["node", "SiriClaw-Instruct", "status"]);
+    buildParseArgvMock.mockReturnValue(["node", "SiriClawInstruct", "status"]);
     resolveActionArgsMock.mockReturnValue([]);
   });
 
   it("uses action command name + args as fallback argv", async () => {
-    const program = new Command().name("SiriClaw-Instruct");
+    const program = new Command().name("SiriClawInstruct");
     const parseAsync = vi.spyOn(program, "parseAsync").mockResolvedValue(program);
     const actionCommand = {
       name: () => "status",
       parent: {
-        rawArgs: ["node", "SiriClaw-Instruct", "status", "--json"],
+        rawArgs: ["node", "SiriClawInstruct", "status", "--json"],
       },
     } as unknown as Command;
     resolveActionArgsMock.mockReturnValue(["--json"]);
@@ -35,15 +35,15 @@ describe("reparseProgramFromActionArgs", () => {
     await reparseProgramFromActionArgs(program, [actionCommand]);
 
     expect(buildParseArgvMock).toHaveBeenCalledWith({
-      programName: "SiriClaw-Instruct",
-      rawArgs: ["node", "SiriClaw-Instruct", "status", "--json"],
+      programName: "SiriClawInstruct",
+      rawArgs: ["node", "SiriClawInstruct", "status", "--json"],
       fallbackArgv: ["status", "--json"],
     });
-    expect(parseAsync).toHaveBeenCalledWith(["node", "SiriClaw-Instruct", "status"]);
+    expect(parseAsync).toHaveBeenCalledWith(["node", "SiriClawInstruct", "status"]);
   });
 
   it("falls back to action args without command name when action has no name", async () => {
-    const program = new Command().name("SiriClaw-Instruct");
+    const program = new Command().name("SiriClawInstruct");
     const parseAsync = vi.spyOn(program, "parseAsync").mockResolvedValue(program);
     const actionCommand = {
       name: () => "",
@@ -54,25 +54,26 @@ describe("reparseProgramFromActionArgs", () => {
     await reparseProgramFromActionArgs(program, [actionCommand]);
 
     expect(buildParseArgvMock).toHaveBeenCalledWith({
-      programName: "SiriClaw-Instruct",
+      programName: "SiriClawInstruct",
       rawArgs: undefined,
       fallbackArgv: ["--json"],
     });
-    expect(parseAsync).toHaveBeenCalledWith(["node", "SiriClaw-Instruct", "status"]);
+    expect(parseAsync).toHaveBeenCalledWith(["node", "SiriClawInstruct", "status"]);
   });
 
   it("uses program root when action command is missing", async () => {
-    const program = new Command().name("SiriClaw-Instruct");
+    const program = new Command().name("SiriClawInstruct");
     const parseAsync = vi.spyOn(program, "parseAsync").mockResolvedValue(program);
 
     await reparseProgramFromActionArgs(program, []);
 
     expect(resolveActionArgsMock).toHaveBeenCalledWith(undefined);
     expect(buildParseArgvMock).toHaveBeenCalledWith({
-      programName: "SiriClaw-Instruct",
+      programName: "SiriClawInstruct",
       rawArgs: [],
       fallbackArgv: [],
     });
-    expect(parseAsync).toHaveBeenCalledWith(["node", "SiriClaw-Instruct", "status"]);
+    expect(parseAsync).toHaveBeenCalledWith(["node", "SiriClawInstruct", "status"]);
   });
 });
+

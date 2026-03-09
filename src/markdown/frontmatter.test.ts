@@ -21,7 +21,7 @@ description: |
 name: session-memory
 metadata:
   {
-    "SiriClaw-Instruct":
+    "SiriClawInstruct":
       {
         "emoji": "disk",
         "events": ["command:new"],
@@ -33,17 +33,17 @@ metadata:
     expect(result.metadata).toBeDefined();
 
     const parsed = JSON5.parse(result.metadata ?? "");
-    expect(parsed.SiriClaw-Instruct?.emoji).toBe("disk");
+    expect(parsed.SiriClawInstruct?.emoji).toBe("disk");
   });
 
   it("preserves inline JSON values", () => {
     const content = `---
 name: inline-json
-metadata: {"SiriClaw-Instruct": {"events": ["test"]}}
+metadata: {"SiriClawInstruct": {"events": ["test"]}}
 ---
 `;
     const result = parseFrontmatterBlock(content);
-    expect(result.metadata).toBe('{"SiriClaw-Instruct": {"events": ["test"]}}');
+    expect(result.metadata).toBe('{"SiriClawInstruct": {"events": ["test"]}}');
   });
 
   it("stringifies YAML objects and arrays", () => {
@@ -55,7 +55,7 @@ tags:
   - alpha
   - beta
 metadata:
-  SiriClaw-Instruct:
+  SiriClawInstruct:
     events:
       - command:new
 ---
@@ -65,7 +65,7 @@ metadata:
     expect(result.retries).toBe("3");
     expect(JSON.parse(result.tags ?? "[]")).toEqual(["alpha", "beta"]);
     const parsed = JSON5.parse(result.metadata ?? "");
-    expect(parsed.SiriClaw-Instruct?.events).toEqual(["command:new"]);
+    expect(parsed.SiriClawInstruct?.events).toEqual(["command:new"]);
   });
 
   it("preserves inline description values containing colons", () => {
@@ -91,10 +91,10 @@ description: |-
     const content = `---
 name: sample-skill
 metadata:
-  SiriClaw-Instruct: true
+  SiriClawInstruct: true
 ---`;
     const result = parseFrontmatterBlock(content);
-    expect(result.metadata).toBe('{"SiriClaw-Instruct":true}');
+    expect(result.metadata).toBe('{"SiriClawInstruct":true}');
   });
 
   it("returns empty when frontmatter is missing", () => {
@@ -102,3 +102,4 @@ metadata:
     expect(parseFrontmatterBlock(content)).toEqual({});
   });
 });
+

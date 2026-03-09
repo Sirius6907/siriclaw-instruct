@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { resolveAgentWorkspaceDir } from "../../agents/agent-scope.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { loadSessionStore, resolveStorePath } from "../../config/sessions.js";
 import { listAgentsForGateway } from "../../gateway/session-utils.js";
 
@@ -14,7 +14,7 @@ async function fileExists(p: string): Promise<boolean> {
   }
 }
 
-export async function getAgentLocalStatuses(cfg: SiriClaw-InstructConfig) {
+export async function getAgentLocalStatuses(cfg: SiriClawInstructConfig) {
   const agentList = listAgentsForGateway(cfg);
   const now = Date.now();
 
@@ -70,3 +70,4 @@ export async function getAgentLocalStatuses(cfg: SiriClaw-InstructConfig) {
     bootstrapPendingCount,
   };
 }
+

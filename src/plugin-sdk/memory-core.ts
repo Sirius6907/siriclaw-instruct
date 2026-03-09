@@ -2,4 +2,5 @@
 // Keep this list additive and scoped to symbols used under extensions/memory-core.
 
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
-export type { SiriClaw-InstructPluginApi } from "../plugins/types.js";
+export type { SiriClawInstructPluginApi } from "../plugins/types.js";
+

@@ -7,12 +7,12 @@ describe("createTempHomeEnv", () => {
   it("sets home env vars and restores them on cleanup", async () => {
     const previousHome = process.env.HOME;
     const previousUserProfile = process.env.USERPROFILE;
-    const previousStateDir = process.env.SiriClaw-Instruct_STATE_DIR;
+    const previousStateDir = process.env.SiriClawInstruct_STATE_DIR;
 
-    const tempHome = await createTempHomeEnv("SiriClaw-Instruct-temp-home-");
+    const tempHome = await createTempHomeEnv("SiriClawInstruct-temp-home-");
     expect(process.env.HOME).toBe(tempHome.home);
     expect(process.env.USERPROFILE).toBe(tempHome.home);
-    expect(process.env.SiriClaw-Instruct_STATE_DIR).toBe(path.join(tempHome.home, ".SiriClaw-Instruct"));
+    expect(process.env.SiriClawInstruct_STATE_DIR).toBe(path.join(tempHome.home, ".SiriClawInstruct"));
     await expect(fs.stat(tempHome.home)).resolves.toMatchObject({
       isDirectory: expect.any(Function),
     });
@@ -21,7 +21,8 @@ describe("createTempHomeEnv", () => {
 
     expect(process.env.HOME).toBe(previousHome);
     expect(process.env.USERPROFILE).toBe(previousUserProfile);
-    expect(process.env.SiriClaw-Instruct_STATE_DIR).toBe(previousStateDir);
+    expect(process.env.SiriClawInstruct_STATE_DIR).toBe(previousStateDir);
     await expect(fs.stat(tempHome.home)).rejects.toThrow();
   });
 });
+

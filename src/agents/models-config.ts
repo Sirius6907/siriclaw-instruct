@@ -3,12 +3,12 @@ import path from "node:path";
 import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
-  type SiriClaw-InstructConfig,
+  type SiriClawInstructConfig,
   loadConfig,
 } from "../config/config.js";
 import { applyConfigEnvVars } from "../config/env-vars.js";
 import { isRecord } from "../utils.js";
-import { resolveSiriClaw-InstructAgentDir } from "./agent-paths.js";
+import { resolveSiriClawInstructAgentDir } from "./agent-paths.js";
 import { isNonSecretApiKeyMarker } from "./model-auth-markers.js";
 import {
   normalizeProviders,
@@ -18,7 +18,7 @@ import {
   resolveImplicitProviders,
 } from "./models-config.providers.js";
 
-type ModelsConfig = NonNullable<SiriClaw-InstructConfig["models"]>;
+type ModelsConfig = NonNullable<SiriClawInstructConfig["models"]>;
 
 const DEFAULT_MODE: NonNullable<ModelsConfig["mode"]> = "merge";
 const MODELS_JSON_WRITE_LOCKS = new Map<string, Promise<void>>();
@@ -140,7 +140,7 @@ async function readJson(pathname: string): Promise<unknown> {
 }
 
 async function resolveProvidersForModelsJson(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentDir: string;
 }): Promise<{
   providers: Record<string, ProviderConfig>;
@@ -267,7 +267,7 @@ async function ensureModelsFileMode(pathname: string): Promise<void> {
   });
 }
 
-function resolveModelsConfigInput(config?: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+function resolveModelsConfigInput(config?: SiriClawInstructConfig): SiriClawInstructConfig {
   const runtimeSource = getRuntimeConfigSourceSnapshot();
   if (!runtimeSource) {
     return config ?? loadConfig();
@@ -301,12 +301,12 @@ async function withModelsJsonWriteLock<T>(targetPath: string, run: () => Promise
   }
 }
 
-export async function ensureSiriClaw-InstructModelsJson(
-  config?: SiriClaw-InstructConfig,
+export async function ensureSiriClawInstructModelsJson(
+  config?: SiriClawInstructConfig,
   agentDirOverride?: string,
 ): Promise<{ agentDir: string; wrote: boolean }> {
   const cfg = resolveModelsConfigInput(config);
-  const agentDir = agentDirOverride?.trim() ? agentDirOverride.trim() : resolveSiriClaw-InstructAgentDir();
+  const agentDir = agentDirOverride?.trim() ? agentDirOverride.trim() : resolveSiriClawInstructAgentDir();
   const targetPath = path.join(agentDir, "models.json");
 
   return await withModelsJsonWriteLock(targetPath, async () => {
@@ -364,3 +364,4 @@ export async function ensureSiriClaw-InstructModelsJson(
     return { agentDir, wrote: true };
   });
 }
+

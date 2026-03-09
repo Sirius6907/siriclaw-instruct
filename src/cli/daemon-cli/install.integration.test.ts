@@ -49,18 +49,18 @@ describe("runDaemonInstall integration", () => {
   beforeAll(async () => {
     envSnapshot = captureEnv([
       "HOME",
-      "SiriClaw-Instruct_STATE_DIR",
-      "SiriClaw-Instruct_CONFIG_PATH",
-      "SiriClaw-Instruct_GATEWAY_TOKEN",
+      "SiriClawInstruct_STATE_DIR",
+      "SiriClawInstruct_CONFIG_PATH",
+      "SiriClawInstruct_GATEWAY_TOKEN",
       "SIRICLAW_GATEWAY_TOKEN",
-      "SiriClaw-Instruct_GATEWAY_PASSWORD",
+      "SiriClawInstruct_GATEWAY_PASSWORD",
       "SIRICLAW_GATEWAY_PASSWORD",
     ]);
-    tempHome = await makeTempWorkspace("SiriClaw-Instruct-daemon-install-int-");
-    configPath = path.join(tempHome, "SiriClaw-Instruct.json");
+    tempHome = await makeTempWorkspace("SiriClawInstruct-daemon-install-int-");
+    configPath = path.join(tempHome, "SiriClawInstruct.json");
     process.env.HOME = tempHome;
-    process.env.SiriClaw-Instruct_STATE_DIR = tempHome;
-    process.env.SiriClaw-Instruct_CONFIG_PATH = configPath;
+    process.env.SiriClawInstruct_STATE_DIR = tempHome;
+    process.env.SiriClawInstruct_CONFIG_PATH = configPath;
   });
 
   afterAll(async () => {
@@ -73,9 +73,9 @@ describe("runDaemonInstall integration", () => {
     runtimeErrors.length = 0;
     vi.clearAllMocks();
     // Keep these defined-but-empty so dotenv won't repopulate from local .env.
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = "";
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = "";
     process.env.SIRICLAW_GATEWAY_TOKEN = "";
-    process.env.SiriClaw-Instruct_GATEWAY_PASSWORD = "";
+    process.env.SiriClawInstruct_GATEWAY_PASSWORD = "";
     process.env.SIRICLAW_GATEWAY_PASSWORD = "";
     serviceMock.isLoaded.mockResolvedValue(false);
     await fs.writeFile(configPath, JSON.stringify({}, null, 2));
@@ -143,6 +143,7 @@ describe("runDaemonInstall integration", () => {
     expect((persistedToken ?? "").length).toBeGreaterThan(0);
 
     const installEnv = serviceMock.install.mock.calls[0]?.[0]?.environment;
-    expect(installEnv?.SiriClaw-Instruct_GATEWAY_TOKEN).toBeUndefined();
+    expect(installEnv?.SiriClawInstruct_GATEWAY_TOKEN).toBeUndefined();
   });
 });
+

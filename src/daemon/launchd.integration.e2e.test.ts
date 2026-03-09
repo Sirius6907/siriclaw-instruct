@@ -92,11 +92,11 @@ describeLaunchdIntegration("launchd integration", () => {
 
   beforeAll(async () => {
     const testId = randomUUID().slice(0, 8);
-    homeDir = await fs.mkdtemp(path.join(os.tmpdir(), `SiriClaw-Instruct-launchd-int-${testId}-`));
+    homeDir = await fs.mkdtemp(path.join(os.tmpdir(), `SiriClawInstruct-launchd-int-${testId}-`));
     env = {
       HOME: homeDir,
-      SiriClaw-Instruct_LAUNCHD_LABEL: `ai.SiriClaw-Instruct.launchd-int-${testId}`,
-      SiriClaw-Instruct_LOG_PREFIX: `gateway-launchd-int-${testId}`,
+      SiriClawInstruct_LAUNCHD_LABEL: `ai.SiriClawInstruct.launchd-int-${testId}`,
+      SiriClawInstruct_LOG_PREFIX: `gateway-launchd-int-${testId}`,
     };
   });
 
@@ -143,3 +143,4 @@ describeLaunchdIntegration("launchd integration", () => {
     await fs.access(resolveLaunchAgentPlistPath(launchEnv));
   }, 60_000);
 });
+

@@ -28,7 +28,7 @@ const configState = vi.hoisted(() => ({
 const { runtimeErrors, defaultRuntime, resetRuntimeCapture } = createCliRuntimeCapture();
 
 vi.mock("../../config/config.js", () => ({
-  getConfigPath: () => "/tmp/SiriClaw-Instruct-test-missing-config.json",
+  getConfigPath: () => "/tmp/SiriClawInstruct-test-missing-config.json",
   loadConfig: () => configState.cfg,
   readConfigFileSnapshot: async () => configState.snapshot,
   resolveStateDir: () => "/tmp",
@@ -45,13 +45,13 @@ vi.mock("../../gateway/auth.js", () => ({
     const token =
       (typeof params.authOverride?.token === "string" ? params.authOverride.token : undefined) ??
       (typeof params.authConfig?.token === "string" ? params.authConfig.token : undefined) ??
-      params.env?.SiriClaw-Instruct_GATEWAY_TOKEN;
+      params.env?.SiriClawInstruct_GATEWAY_TOKEN;
     const password =
       (typeof params.authOverride?.password === "string"
         ? params.authOverride.password
         : undefined) ??
       (typeof params.authConfig?.password === "string" ? params.authConfig.password : undefined) ??
-      params.env?.SiriClaw-Instruct_GATEWAY_PASSWORD;
+      params.env?.SiriClawInstruct_GATEWAY_PASSWORD;
     return {
       mode,
       token,
@@ -222,7 +222,7 @@ describe("gateway run option collisions", () => {
       gateway: {
         auth: {
           mode: "password",
-          password: { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_PASSWORD" },
+          password: { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_PASSWORD" },
         },
       },
       secrets: {
@@ -244,7 +244,7 @@ describe("gateway run option collisions", () => {
   });
 
   it("reads gateway password from --password-file", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-gateway-run-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-gateway-run-"));
     try {
       const passwordFile = path.join(tempDir, "gateway-password.txt");
       await fs.writeFile(passwordFile, "pw_from_file\n", "utf8");
@@ -269,7 +269,7 @@ describe("gateway run option collisions", () => {
         }),
       );
       expect(runtimeErrors).not.toContain(
-        "Warning: --password can be exposed via process listings. Prefer --password-file or SiriClaw-Instruct_GATEWAY_PASSWORD.",
+        "Warning: --password can be exposed via process listings. Prefer --password-file or SiriClawInstruct_GATEWAY_PASSWORD.",
       );
     } finally {
       await fs.rm(tempDir, { recursive: true, force: true });
@@ -288,12 +288,12 @@ describe("gateway run option collisions", () => {
     ]);
 
     expect(runtimeErrors).toContain(
-      "Warning: --password can be exposed via process listings. Prefer --password-file or SiriClaw-Instruct_GATEWAY_PASSWORD.",
+      "Warning: --password can be exposed via process listings. Prefer --password-file or SiriClawInstruct_GATEWAY_PASSWORD.",
     );
   });
 
   it("rejects using both --password and --password-file", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-gateway-run-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-gateway-run-"));
     try {
       const passwordFile = path.join(tempDir, "gateway-password.txt");
       await fs.writeFile(passwordFile, "pw_from_file\n", "utf8");
@@ -316,3 +316,4 @@ describe("gateway run option collisions", () => {
     }
   });
 });
+

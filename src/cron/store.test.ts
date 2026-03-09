@@ -5,7 +5,7 @@ import { createCronStoreHarness } from "./service.test-harness.js";
 import { loadCronStore, resolveCronStorePath, saveCronStore } from "./store.js";
 import type { CronStoreFile } from "./types.js";
 
-const { makeStorePath } = createCronStoreHarness({ prefix: "SiriClaw-Instruct-cron-store-" });
+const { makeStorePath } = createCronStoreHarness({ prefix: "SiriClawInstruct-cron-store-" });
 
 function makeStore(jobId: string, enabled: boolean): CronStoreFile {
   const now = Date.now();
@@ -33,12 +33,12 @@ describe("resolveCronStorePath", () => {
     vi.unstubAllEnvs();
   });
 
-  it("uses SiriClaw-Instruct_HOME for tilde expansion", () => {
-    vi.stubEnv("SiriClaw-Instruct_HOME", "/srv/SiriClaw-Instruct-home");
+  it("uses SiriClawInstruct_HOME for tilde expansion", () => {
+    vi.stubEnv("SiriClawInstruct_HOME", "/srv/SiriClawInstruct-home");
     vi.stubEnv("HOME", "/home/other");
 
     const result = resolveCronStorePath("~/cron/jobs.json");
-    expect(result).toBe(path.resolve("/srv/SiriClaw-Instruct-home", "cron", "jobs.json"));
+    expect(result).toBe(path.resolve("/srv/SiriClawInstruct-home", "cron", "jobs.json"));
   });
 });
 
@@ -171,3 +171,4 @@ describe("saveCronStore", () => {
     spy.mockRestore();
   });
 });
+

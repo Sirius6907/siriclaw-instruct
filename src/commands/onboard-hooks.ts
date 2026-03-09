@@ -1,21 +1,21 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { buildWorkspaceHookStatus } from "../hooks/hooks-status.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
 
 export async function setupInternalHooks(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   runtime: RuntimeEnv,
   prompter: WizardPrompter,
-): Promise<SiriClaw-InstructConfig> {
+): Promise<SiriClawInstructConfig> {
   await prompter.note(
     [
       "Hooks let you automate actions when agent commands are issued.",
       "Example: Save session context to memory when you issue /new or /reset.",
       "",
-      "Learn more: https://docs.SiriClaw-Instruct.ai/automation/hooks",
+      "Learn more: https://docs.SiriClawInstruct.ai/automation/hooks",
     ].join("\n"),
     "Hooks",
   );
@@ -58,7 +58,7 @@ export async function setupInternalHooks(
     entries[name] = { enabled: true };
   }
 
-  const next: SiriClaw-InstructConfig = {
+  const next: SiriClawInstructConfig = {
     ...cfg,
     hooks: {
       ...cfg.hooks,
@@ -74,12 +74,13 @@ export async function setupInternalHooks(
       `Enabled ${selected.length} hook${selected.length > 1 ? "s" : ""}: ${selected.join(", ")}`,
       "",
       "You can manage hooks later with:",
-      `  ${formatCliCommand("SiriClaw-Instruct hooks list")}`,
-      `  ${formatCliCommand("SiriClaw-Instruct hooks enable <name>")}`,
-      `  ${formatCliCommand("SiriClaw-Instruct hooks disable <name>")}`,
+      `  ${formatCliCommand("SiriClawInstruct hooks list")}`,
+      `  ${formatCliCommand("SiriClawInstruct hooks enable <name>")}`,
+      `  ${formatCliCommand("SiriClawInstruct hooks disable <name>")}`,
     ].join("\n"),
     "Hooks Configured",
   );
 
   return next;
 }
+

@@ -187,3 +187,4 @@ export function __countTrackedSessionBrowserTabsForTests(sessionKey?: string): n
   }
   return count;
 }
+

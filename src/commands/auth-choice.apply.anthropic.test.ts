@@ -11,14 +11,14 @@ import {
 
 describe("applyAuthChoiceAnthropic", () => {
   const lifecycle = createAuthTestLifecycle([
-    "SiriClaw-Instruct_STATE_DIR",
-    "SiriClaw-Instruct_AGENT_DIR",
+    "SiriClawInstruct_STATE_DIR",
+    "SiriClawInstruct_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
     "ANTHROPIC_SETUP_TOKEN",
   ]);
 
   async function setupTempState() {
-    const env = await setupAuthTestEnv("SiriClaw-Instruct-anthropic-");
+    const env = await setupAuthTestEnv("SiriClawInstruct-anthropic-");
     lifecycle.setStateDir(env.stateDir);
     return env.agentDir;
   }
@@ -59,3 +59,4 @@ describe("applyAuthChoiceAnthropic", () => {
     });
   });
 });
+

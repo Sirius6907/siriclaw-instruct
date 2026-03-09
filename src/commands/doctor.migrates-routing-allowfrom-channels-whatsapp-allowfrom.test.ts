@@ -6,7 +6,7 @@ import {
   mockDoctorConfigSnapshot,
   note,
   readConfigFileSnapshot,
-  resolveSiriClaw-InstructPackageRoot,
+  resolveSiriClawInstructPackageRoot,
   runCommandWithTimeout,
   runGatewayUpdate,
   serviceInstall,
@@ -73,7 +73,7 @@ describe("doctor command", () => {
       findLegacyGatewayServices.mockResolvedValueOnce([
         {
           platform: "darwin",
-          label: "com.steipete.SiriClaw-Instruct.gateway",
+          label: "com.steipete.SiriClawInstruct.gateway",
           detail: "loaded",
         },
       ]);
@@ -88,10 +88,10 @@ describe("doctor command", () => {
   );
 
   it("offers to update first for git checkouts", async () => {
-    delete process.env.SiriClaw-Instruct_UPDATE_IN_PROGRESS;
+    delete process.env.SiriClawInstruct_UPDATE_IN_PROGRESS;
 
-    const root = "/tmp/SiriClaw-Instruct";
-    resolveSiriClaw-InstructPackageRoot.mockResolvedValueOnce(root);
+    const root = "/tmp/SiriClawInstruct";
+    resolveSiriClawInstructPackageRoot.mockResolvedValueOnce(root);
     runCommandWithTimeout.mockResolvedValueOnce({
       stdout: `${root}\n`,
       stderr: "",
@@ -118,3 +118,4 @@ describe("doctor command", () => {
     ).toBe(true);
   });
 });
+

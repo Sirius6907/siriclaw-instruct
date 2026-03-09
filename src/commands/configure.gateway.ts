@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveGatewayPort } from "../config/config.js";
 import { isValidEnvSecretRefId, type SecretInput } from "../config/types.secrets.js";
 import {
@@ -25,10 +25,10 @@ type GatewayAuthChoice = "token" | "password" | "trusted-proxy";
 type GatewayTokenInputMode = "plaintext" | "ref";
 
 export async function promptGatewayConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   runtime: RuntimeEnv,
 ): Promise<{
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   port: number;
   token?: string;
 }> {
@@ -192,12 +192,12 @@ export async function promptGatewayConfig(
       const envVar = guardCancel(
         await text({
           message: "Gateway token env var",
-          initialValue: "SiriClaw-Instruct_GATEWAY_TOKEN",
-          placeholder: "SiriClaw-Instruct_GATEWAY_TOKEN",
+          initialValue: "SiriClawInstruct_GATEWAY_TOKEN",
+          placeholder: "SiriClawInstruct_GATEWAY_TOKEN",
           validate: (value) => {
             const candidate = String(value ?? "").trim();
             if (!isValidEnvSecretRefId(candidate)) {
-              return "Use an env var name like SiriClaw-Instruct_GATEWAY_TOKEN.";
+              return "Use an env var name like SiriClawInstruct_GATEWAY_TOKEN.";
             }
             const resolved = process.env[candidate]?.trim();
             if (!resolved) {
@@ -216,7 +216,7 @@ export async function promptGatewayConfig(
         }),
         id: envVarName,
       };
-      note(`Validated ${envVarName}. SiriClaw-Instruct will store a token SecretRef.`, "Gateway token");
+      note(`Validated ${envVarName}. SiriClawInstruct will store a token SecretRef.`, "Gateway token");
     } else {
       const tokenInput = guardCancel(
         await text({
@@ -244,12 +244,12 @@ export async function promptGatewayConfig(
   if (authMode === "trusted-proxy") {
     note(
       [
-        "Trusted proxy mode: SiriClaw-Instruct trusts user identity from a reverse proxy.",
+        "Trusted proxy mode: SiriClawInstruct trusts user identity from a reverse proxy.",
         "The proxy must authenticate users and pass identity via headers.",
         "Only requests from specified proxy IPs will be trusted.",
         "",
         "Common use cases: Pomerium, Caddy + OAuth, Traefik + forward auth",
-        "Docs: https://docs.SiriClaw-Instruct.ai/gateway/trusted-proxy-auth",
+        "Docs: https://docs.SiriClawInstruct.ai/gateway/trusted-proxy-auth",
       ].join("\n"),
       "Trusted Proxy Auth",
     );
@@ -351,3 +351,4 @@ export async function promptGatewayConfig(
 
   return { config: next, port, token: gatewayTokenForCalls };
 }
+

@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveSenderCommandAuthorization } from "./command-auth.js";
 
 const baseCfg = {
   commands: { useAccessGroups: true },
-} as unknown as SiriClaw-InstructConfig;
+} as unknown as SiriClawInstructConfig;
 
 describe("plugin-sdk/command-auth", () => {
   it("authorizes group commands from explicit group allowlist", async () => {
@@ -49,3 +49,4 @@ describe("plugin-sdk/command-auth", () => {
     expect(result.effectiveGroupAllowFrom).toEqual(["group-owner"]);
   });
 });
+

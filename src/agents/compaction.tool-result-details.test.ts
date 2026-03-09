@@ -91,3 +91,4 @@ describe("compaction toolResult details stripping", () => {
     expect(isOversizedForSummary(toolResult, 1_000)).toBe(false);
   });
 });
+

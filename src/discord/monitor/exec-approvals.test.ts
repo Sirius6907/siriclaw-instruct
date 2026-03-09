@@ -16,7 +16,7 @@ import {
   type ExecApprovalButtonContext,
 } from "./exec-approvals.js";
 
-const STORE_PATH = path.join(os.tmpdir(), "SiriClaw-Instruct-exec-approvals-test.json");
+const STORE_PATH = path.join(os.tmpdir(), "SiriClawInstruct-exec-approvals-test.json");
 
 const writeStore = (store: Record<string, unknown>) => {
   fs.writeFileSync(STORE_PATH, `${JSON.stringify(store, null, 2)}\n`, "utf8");
@@ -41,9 +41,9 @@ beforeEach(() => {
     }) => {
       const configToken = params.config?.gateway?.auth?.token;
       const configPassword = params.config?.gateway?.auth?.password;
-      const envToken = params.env.SiriClaw-Instruct_GATEWAY_TOKEN ?? params.env.SIRICLAW_GATEWAY_TOKEN;
+      const envToken = params.env.SiriClawInstruct_GATEWAY_TOKEN ?? params.env.SIRICLAW_GATEWAY_TOKEN;
       const envPassword =
-        params.env.SiriClaw-Instruct_GATEWAY_PASSWORD ?? params.env.SIRICLAW_GATEWAY_PASSWORD;
+        params.env.SiriClawInstruct_GATEWAY_PASSWORD ?? params.env.SIRICLAW_GATEWAY_PASSWORD;
       return { token: envToken ?? configToken, password: envPassword ?? configPassword };
     },
   );
@@ -685,8 +685,8 @@ describe("DiscordExecApprovalHandler gateway auth", () => {
     });
   });
 
-  it("prefers SiriClaw-Instruct_GATEWAY_TOKEN when config token is missing", async () => {
-    vi.stubEnv("SiriClaw-Instruct_GATEWAY_TOKEN", "env-gateway-token");
+  it("prefers SiriClawInstruct_GATEWAY_TOKEN when config token is missing", async () => {
+    vi.stubEnv("SiriClawInstruct_GATEWAY_TOKEN", "env-gateway-token");
     const handler = new DiscordExecApprovalHandler({
       token: "discord-bot-token",
       accountId: "default",
@@ -840,9 +840,9 @@ describe("DiscordExecApprovalHandler gateway auth resolution", () => {
   });
 
   it("passes env URL overrides to shared gateway auth resolver", async () => {
-    const previousGatewayUrl = process.env.SiriClaw-Instruct_GATEWAY_URL;
+    const previousGatewayUrl = process.env.SiriClawInstruct_GATEWAY_URL;
     try {
-      process.env.SiriClaw-Instruct_GATEWAY_URL = "wss://gateway-from-env.example/ws";
+      process.env.SiriClawInstruct_GATEWAY_URL = "wss://gateway-from-env.example/ws";
       const handler = new DiscordExecApprovalHandler({
         token: "test-token",
         accountId: "default",
@@ -868,10 +868,11 @@ describe("DiscordExecApprovalHandler gateway auth resolution", () => {
       await handler.stop();
     } finally {
       if (typeof previousGatewayUrl === "string") {
-        process.env.SiriClaw-Instruct_GATEWAY_URL = previousGatewayUrl;
+        process.env.SiriClawInstruct_GATEWAY_URL = previousGatewayUrl;
       } else {
-        delete process.env.SiriClaw-Instruct_GATEWAY_URL;
+        delete process.env.SiriClawInstruct_GATEWAY_URL;
       }
     }
   });
 });
+

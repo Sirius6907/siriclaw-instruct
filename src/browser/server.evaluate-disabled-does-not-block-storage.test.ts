@@ -43,9 +43,9 @@ vi.mock("../config/config.js", async (importOriginal) => {
       browser: {
         enabled: true,
         evaluateEnabled: false,
-        defaultProfile: "SiriClaw-Instruct",
+        defaultProfile: "SiriClawInstruct",
         profiles: {
-          SiriClaw-Instruct: { cdpPort: testPort + 1, color: "#FF4500" },
+          SiriClawInstruct: { cdpPort: testPort + 1, color: "#FF4500" },
         },
       },
     }),
@@ -71,12 +71,12 @@ const { startBrowserControlServerFromConfig, stopBrowserControlServer } =
 describe("browser control evaluate gating", () => {
   beforeEach(async () => {
     testPort = await getFreePort();
-    prevGatewayPort = process.env.SiriClaw-Instruct_GATEWAY_PORT;
-    process.env.SiriClaw-Instruct_GATEWAY_PORT = String(testPort - 2);
-    prevGatewayToken = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-    prevGatewayPassword = process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
-    delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-    delete process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+    prevGatewayPort = process.env.SiriClawInstruct_GATEWAY_PORT;
+    process.env.SiriClawInstruct_GATEWAY_PORT = String(testPort - 2);
+    prevGatewayToken = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+    prevGatewayPassword = process.env.SiriClawInstruct_GATEWAY_PASSWORD;
+    delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
+    delete process.env.SiriClawInstruct_GATEWAY_PASSWORD;
 
     pwMocks.cookiesGetViaPlaywright.mockClear();
     pwMocks.storageGetViaPlaywright.mockClear();
@@ -88,19 +88,19 @@ describe("browser control evaluate gating", () => {
   afterEach(async () => {
     vi.restoreAllMocks();
     if (prevGatewayPort === undefined) {
-      delete process.env.SiriClaw-Instruct_GATEWAY_PORT;
+      delete process.env.SiriClawInstruct_GATEWAY_PORT;
     } else {
-      process.env.SiriClaw-Instruct_GATEWAY_PORT = prevGatewayPort;
+      process.env.SiriClawInstruct_GATEWAY_PORT = prevGatewayPort;
     }
     if (prevGatewayToken === undefined) {
-      delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+      delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
     } else {
-      process.env.SiriClaw-Instruct_GATEWAY_TOKEN = prevGatewayToken;
+      process.env.SiriClawInstruct_GATEWAY_TOKEN = prevGatewayToken;
     }
     if (prevGatewayPassword === undefined) {
-      delete process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+      delete process.env.SiriClawInstruct_GATEWAY_PASSWORD;
     } else {
-      process.env.SiriClaw-Instruct_GATEWAY_PASSWORD = prevGatewayPassword;
+      process.env.SiriClawInstruct_GATEWAY_PASSWORD = prevGatewayPassword;
     }
 
     await stopBrowserControlServer();
@@ -147,3 +147,4 @@ describe("browser control evaluate gating", () => {
     });
   });
 });
+

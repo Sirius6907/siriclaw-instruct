@@ -2,9 +2,9 @@ import { normalizeToolName } from "../agents/tool-policy.js";
 import type { AnyAgentTool } from "../agents/tools/common.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { applyTestPluginDefaults, normalizePluginsConfig } from "./config-state.js";
-import { loadSiriClaw-InstructPlugins } from "./loader.js";
+import { loadSiriClawInstructPlugins } from "./loader.js";
 import { createPluginLoaderLogger } from "./logger.js";
-import type { SiriClaw-InstructPluginToolContext } from "./types.js";
+import type { SiriClawInstructPluginToolContext } from "./types.js";
 
 const log = createSubsystemLogger("plugins");
 
@@ -43,7 +43,7 @@ function isOptionalToolAllowed(params: {
 }
 
 export function resolvePluginTools(params: {
-  context: SiriClaw-InstructPluginToolContext;
+  context: SiriClawInstructPluginToolContext;
   existingToolNames?: Set<string>;
   toolAllowlist?: string[];
   suppressNameConflicts?: boolean;
@@ -56,7 +56,7 @@ export function resolvePluginTools(params: {
     return [];
   }
 
-  const registry = loadSiriClaw-InstructPlugins({
+  const registry = loadSiriClawInstructPlugins({
     config: effectiveConfig,
     workspaceDir: params.context.workspaceDir,
     logger: createPluginLoaderLogger(log),
@@ -137,3 +137,4 @@ export function resolvePluginTools(params: {
 
   return tools;
 }
+

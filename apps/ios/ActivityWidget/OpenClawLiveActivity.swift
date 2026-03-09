@@ -82,3 +82,4 @@ struct SiriClaw-InstructLiveActivity: Widget {
         return .blue
     }
 }
+

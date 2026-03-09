@@ -23,8 +23,8 @@ afterEach(() => {
 
 describe("resolveGatewayProgramArguments", () => {
   it("uses realpath-resolved dist entry when running via npx shim", async () => {
-    const argv1 = path.resolve("/tmp/.npm/_npx/63c3/node_modules/.bin/SiriClaw-Instruct");
-    const entryPath = path.resolve("/tmp/.npm/_npx/63c3/node_modules/SiriClaw-Instruct/dist/entry.js");
+    const argv1 = path.resolve("/tmp/.npm/_npx/63c3/node_modules/.bin/SiriClawInstruct");
+    const entryPath = path.resolve("/tmp/.npm/_npx/63c3/node_modules/SiriClawInstruct/dist/entry.js");
     process.argv = ["node", argv1];
     fsMocks.realpath.mockResolvedValue(entryPath);
     fsMocks.access.mockImplementation(async (target: string) => {
@@ -46,13 +46,13 @@ describe("resolveGatewayProgramArguments", () => {
   });
 
   it("prefers symlinked path over realpath for stable service config", async () => {
-    // Simulates pnpm global install where node_modules/SiriClaw-Instruct is a symlink
-    // to .pnpm/SiriClaw-Instruct@X.Y.Z/node_modules/SiriClaw-Instruct
+    // Simulates pnpm global install where node_modules/SiriClawInstruct is a symlink
+    // to .pnpm/SiriClawInstruct@X.Y.Z/node_modules/SiriClawInstruct
     const symlinkPath = path.resolve(
-      "/Users/test/Library/pnpm/global/5/node_modules/SiriClaw-Instruct/dist/entry.js",
+      "/Users/test/Library/pnpm/global/5/node_modules/SiriClawInstruct/dist/entry.js",
     );
     const realpathResolved = path.resolve(
-      "/Users/test/Library/pnpm/global/5/node_modules/.pnpm/SiriClaw-Instruct@2026.1.21-2/node_modules/SiriClaw-Instruct/dist/entry.js",
+      "/Users/test/Library/pnpm/global/5/node_modules/.pnpm/SiriClawInstruct@2026.1.21-2/node_modules/SiriClawInstruct/dist/entry.js",
     );
     process.argv = ["node", symlinkPath];
     fsMocks.realpath.mockResolvedValue(realpathResolved);
@@ -66,8 +66,8 @@ describe("resolveGatewayProgramArguments", () => {
   });
 
   it("falls back to node_modules package dist when .bin path is not resolved", async () => {
-    const argv1 = path.resolve("/tmp/.npm/_npx/63c3/node_modules/.bin/SiriClaw-Instruct");
-    const indexPath = path.resolve("/tmp/.npm/_npx/63c3/node_modules/SiriClaw-Instruct/dist/index.js");
+    const argv1 = path.resolve("/tmp/.npm/_npx/63c3/node_modules/.bin/SiriClawInstruct");
+    const indexPath = path.resolve("/tmp/.npm/_npx/63c3/node_modules/SiriClawInstruct/dist/index.js");
     process.argv = ["node", argv1];
     fsMocks.realpath.mockRejectedValue(new Error("no realpath"));
     fsMocks.access.mockImplementation(async (target: string) => {
@@ -88,3 +88,4 @@ describe("resolveGatewayProgramArguments", () => {
     ]);
   });
 });
+

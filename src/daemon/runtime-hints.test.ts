@@ -7,15 +7,15 @@ describe("buildPlatformRuntimeLogHints", () => {
       buildPlatformRuntimeLogHints({
         platform: "darwin",
         env: {
-          SiriClaw-Instruct_STATE_DIR: "/tmp/SiriClaw-Instruct-state",
-          SiriClaw-Instruct_LOG_PREFIX: "gateway",
+          SiriClawInstruct_STATE_DIR: "/tmp/SiriClawInstruct-state",
+          SiriClawInstruct_LOG_PREFIX: "gateway",
         },
-        systemdServiceName: "SiriClaw-Instruct-gateway",
-        windowsTaskName: "SiriClaw-Instruct Gateway",
+        systemdServiceName: "SiriClawInstruct-gateway",
+        windowsTaskName: "SiriClawInstruct Gateway",
       }),
     ).toEqual([
-      "Launchd stdout (if installed): /tmp/SiriClaw-Instruct-state/logs/gateway.log",
-      "Launchd stderr (if installed): /tmp/SiriClaw-Instruct-state/logs/gateway.err.log",
+      "Launchd stdout (if installed): /tmp/SiriClawInstruct-state/logs/gateway.log",
+      "Launchd stderr (if installed): /tmp/SiriClawInstruct-state/logs/gateway.err.log",
     ]);
   });
 
@@ -23,17 +23,17 @@ describe("buildPlatformRuntimeLogHints", () => {
     expect(
       buildPlatformRuntimeLogHints({
         platform: "linux",
-        systemdServiceName: "SiriClaw-Instruct-gateway",
-        windowsTaskName: "SiriClaw-Instruct Gateway",
+        systemdServiceName: "SiriClawInstruct-gateway",
+        windowsTaskName: "SiriClawInstruct Gateway",
       }),
-    ).toEqual(["Logs: journalctl --user -u SiriClaw-Instruct-gateway.service -n 200 --no-pager"]);
+    ).toEqual(["Logs: journalctl --user -u SiriClawInstruct-gateway.service -n 200 --no-pager"]);
     expect(
       buildPlatformRuntimeLogHints({
         platform: "win32",
-        systemdServiceName: "SiriClaw-Instruct-gateway",
-        windowsTaskName: "SiriClaw-Instruct Gateway",
+        systemdServiceName: "SiriClawInstruct-gateway",
+        windowsTaskName: "SiriClawInstruct Gateway",
       }),
-    ).toEqual(['Logs: schtasks /Query /TN "SiriClaw-Instruct Gateway" /V /FO LIST']);
+    ).toEqual(['Logs: schtasks /Query /TN "SiriClawInstruct Gateway" /V /FO LIST']);
   });
 });
 
@@ -42,30 +42,31 @@ describe("buildPlatformServiceStartHints", () => {
     expect(
       buildPlatformServiceStartHints({
         platform: "darwin",
-        installCommand: "SiriClaw-Instruct gateway install",
-        startCommand: "SiriClaw-Instruct gateway",
-        launchAgentPlistPath: "~/Library/LaunchAgents/com.SiriClaw-Instruct.gateway.plist",
-        systemdServiceName: "SiriClaw-Instruct-gateway",
-        windowsTaskName: "SiriClaw-Instruct Gateway",
+        installCommand: "SiriClawInstruct gateway install",
+        startCommand: "SiriClawInstruct gateway",
+        launchAgentPlistPath: "~/Library/LaunchAgents/com.SiriClawInstruct.gateway.plist",
+        systemdServiceName: "SiriClawInstruct-gateway",
+        windowsTaskName: "SiriClawInstruct Gateway",
       }),
     ).toEqual([
-      "SiriClaw-Instruct gateway install",
-      "SiriClaw-Instruct gateway",
-      "launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.SiriClaw-Instruct.gateway.plist",
+      "SiriClawInstruct gateway install",
+      "SiriClawInstruct gateway",
+      "launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.SiriClawInstruct.gateway.plist",
     ]);
     expect(
       buildPlatformServiceStartHints({
         platform: "linux",
-        installCommand: "SiriClaw-Instruct gateway install",
-        startCommand: "SiriClaw-Instruct gateway",
-        launchAgentPlistPath: "~/Library/LaunchAgents/com.SiriClaw-Instruct.gateway.plist",
-        systemdServiceName: "SiriClaw-Instruct-gateway",
-        windowsTaskName: "SiriClaw-Instruct Gateway",
+        installCommand: "SiriClawInstruct gateway install",
+        startCommand: "SiriClawInstruct gateway",
+        launchAgentPlistPath: "~/Library/LaunchAgents/com.SiriClawInstruct.gateway.plist",
+        systemdServiceName: "SiriClawInstruct-gateway",
+        windowsTaskName: "SiriClawInstruct Gateway",
       }),
     ).toEqual([
-      "SiriClaw-Instruct gateway install",
-      "SiriClaw-Instruct gateway",
-      "systemctl --user start SiriClaw-Instruct-gateway.service",
+      "SiriClawInstruct gateway install",
+      "SiriClawInstruct gateway",
+      "systemctl --user start SiriClawInstruct-gateway.service",
     ]);
   });
 });
+

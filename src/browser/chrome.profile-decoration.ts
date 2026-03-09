@@ -1,12 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import {
-  DEFAULT_SiriClaw-Instruct_BROWSER_COLOR,
-  DEFAULT_SiriClaw-Instruct_BROWSER_PROFILE_NAME,
+  DEFAULT_SiriClawInstruct_BROWSER_COLOR,
+  DEFAULT_SiriClawInstruct_BROWSER_PROFILE_NAME,
 } from "./constants.js";
 
 function decoratedMarkerPath(userDataDir: string) {
-  return path.join(userDataDir, ".SiriClaw-Instruct-profile-decorated");
+  return path.join(userDataDir, ".SiriClawInstruct-profile-decorated");
 }
 
 function safeReadJson(filePath: string): Record<string, unknown> | null {
@@ -126,12 +126,12 @@ export function isProfileDecorated(
  * Best-effort profile decoration (name + lobster-orange). Chrome preference keys
  * vary by version; we keep this conservative and idempotent.
  */
-export function decorateSiriClaw-InstructProfile(
+export function decorateSiriClawInstructProfile(
   userDataDir: string,
   opts?: { name?: string; color?: string },
 ) {
-  const desiredName = opts?.name ?? DEFAULT_SiriClaw-Instruct_BROWSER_PROFILE_NAME;
-  const desiredColor = (opts?.color ?? DEFAULT_SiriClaw-Instruct_BROWSER_COLOR).toUpperCase();
+  const desiredName = opts?.name ?? DEFAULT_SiriClawInstruct_BROWSER_PROFILE_NAME;
+  const desiredColor = (opts?.color ?? DEFAULT_SiriClawInstruct_BROWSER_COLOR).toUpperCase();
   const desiredColorInt = parseHexRgbToSignedArgbInt(desiredColor);
 
   const localStatePath = path.join(userDataDir, "Local State");
@@ -196,3 +196,4 @@ export function ensureProfileCleanExit(userDataDir: string) {
   setDeep(prefs, ["exited_cleanly"], true);
   safeWriteJson(preferencesPath, prefs);
 }
+

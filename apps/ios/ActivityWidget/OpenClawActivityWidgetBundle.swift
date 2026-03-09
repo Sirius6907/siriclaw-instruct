@@ -7,3 +7,4 @@ struct SiriClaw-InstructActivityWidgetBundle: WidgetBundle {
         SiriClaw-InstructLiveActivity()
     }
 }
+

@@ -328,3 +328,4 @@ describe("config schema", () => {
     expect(lookupConfigSchema(baseSchema, "gateway.notReal.path")).toBeNull();
   });
 });
+

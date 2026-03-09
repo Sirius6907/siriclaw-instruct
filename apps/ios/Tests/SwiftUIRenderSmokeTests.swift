@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import SwiftUI
 import Testing
 import UIKit
@@ -79,3 +79,4 @@ import UIKit
         _ = Self.host(root)
     }
 }
+

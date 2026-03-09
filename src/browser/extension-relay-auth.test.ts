@@ -2,7 +2,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import type { AddressInfo } from "node:net";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
-  probeAuthenticatedSiriClaw-InstructRelay,
+  probeAuthenticatedSiriClawInstructRelay,
   resolveRelayAcceptedTokensForPort,
   resolveRelayAuthTokenForPort,
 } from "./extension-relay-auth.js";
@@ -36,9 +36,9 @@ function handleNonVersionRequest(req: IncomingMessage, res: ServerResponse): boo
 }
 
 async function probeRelay(baseUrl: string, relayAuthToken: string): Promise<boolean> {
-  return await probeAuthenticatedSiriClaw-InstructRelay({
+  return await probeAuthenticatedSiriClawInstructRelay({
     baseUrl,
-    relayAuthHeader: "x-SiriClaw-Instruct-relay-token",
+    relayAuthHeader: "x-SiriClawInstruct-relay-token",
     relayAuthToken,
   });
 }
@@ -48,15 +48,15 @@ describe("extension-relay-auth", () => {
   let prevGatewayToken: string | undefined;
 
   beforeEach(() => {
-    prevGatewayToken = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = TEST_GATEWAY_TOKEN;
+    prevGatewayToken = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = TEST_GATEWAY_TOKEN;
   });
 
   afterEach(() => {
     if (prevGatewayToken === undefined) {
-      delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+      delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
     } else {
-      process.env.SiriClaw-Instruct_GATEWAY_TOKEN = prevGatewayToken;
+      process.env.SiriClawInstruct_GATEWAY_TOKEN = prevGatewayToken;
     }
   });
 
@@ -76,17 +76,17 @@ describe("extension-relay-auth", () => {
     expect(tokens[0]).toBe(await resolveRelayAuthTokenForPort(18790));
   });
 
-  it("accepts authenticated SiriClaw-Instruct relay probe responses", async () => {
+  it("accepts authenticated SiriClawInstruct relay probe responses", async () => {
     let seenToken: string | undefined;
     await withRelayServer(
       (req, res) => {
         if (handleNonVersionRequest(req, res)) {
           return;
         }
-        const header = req.headers["x-SiriClaw-Instruct-relay-token"];
+        const header = req.headers["x-SiriClawInstruct-relay-token"];
         seenToken = Array.isArray(header) ? header[0] : header;
         res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ Browser: "SiriClaw-Instruct/extension-relay" }));
+        res.end(JSON.stringify({ Browser: "SiriClawInstruct/extension-relay" }));
       },
       async ({ port }) => {
         const token = await resolveRelayAuthTokenForPort(port);
@@ -129,3 +129,4 @@ describe("extension-relay-auth", () => {
     );
   });
 });
+

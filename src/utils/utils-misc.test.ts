@@ -113,3 +113,4 @@ describe("splitShellArgs", () => {
     expect(splitShellArgs(`echo hi#tail`)).toEqual(["echo", "hi#tail"]);
   });
 });
+

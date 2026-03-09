@@ -95,11 +95,11 @@ export function registerGatewayCli(program: Command) {
         "after",
         () =>
           `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-            ["SiriClaw-Instruct gateway run", "Run the gateway in the foreground."],
-            ["SiriClaw-Instruct gateway status", "Show service status and probe reachability."],
-            ["SiriClaw-Instruct gateway discover", "Find local and wide-area gateway beacons."],
-            ["SiriClaw-Instruct gateway call health", "Call a gateway RPC method directly."],
-          ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/gateway", "docs.SiriClaw-Instruct.ai/cli/gateway")}\n`,
+            ["SiriClawInstruct gateway run", "Run the gateway in the foreground."],
+            ["SiriClawInstruct gateway status", "Show service status and probe reachability."],
+            ["SiriClawInstruct gateway discover", "Find local and wide-area gateway beacons."],
+            ["SiriClawInstruct gateway call health", "Call a gateway RPC method directly."],
+          ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/gateway", "docs.SiriClawInstruct.ai/cli/gateway")}\n`,
       ),
   );
 
@@ -278,3 +278,4 @@ export function registerGatewayCli(program: Command) {
       }, "gateway discover failed");
     });
 }
+

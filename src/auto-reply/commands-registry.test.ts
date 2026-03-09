@@ -249,21 +249,21 @@ describe("commands registry", () => {
   });
 
   it("normalizes telegram-style command mentions for the current bot", () => {
-    expect(normalizeCommandBody("/help@SiriClaw-Instruct", { botUsername: "SiriClaw-Instruct" })).toBe("/help");
+    expect(normalizeCommandBody("/help@SiriClawInstruct", { botUsername: "SiriClawInstruct" })).toBe("/help");
     expect(
-      normalizeCommandBody("/help@SiriClaw-Instruct args", {
-        botUsername: "SiriClaw-Instruct",
+      normalizeCommandBody("/help@SiriClawInstruct args", {
+        botUsername: "SiriClawInstruct",
       }),
     ).toBe("/help args");
     expect(
-      normalizeCommandBody("/help@SiriClaw-Instruct: args", {
-        botUsername: "SiriClaw-Instruct",
+      normalizeCommandBody("/help@SiriClawInstruct: args", {
+        botUsername: "SiriClawInstruct",
       }),
     ).toBe("/help args");
   });
 
   it("keeps telegram-style command mentions for other bots", () => {
-    expect(normalizeCommandBody("/help@otherbot", { botUsername: "SiriClaw-Instruct" })).toBe(
+    expect(normalizeCommandBody("/help@otherbot", { botUsername: "SiriClawInstruct" })).toBe(
       "/help@otherbot",
     );
   });
@@ -414,3 +414,4 @@ describe("commands registry args", () => {
     expect(menu).toBeNull();
   });
 });
+

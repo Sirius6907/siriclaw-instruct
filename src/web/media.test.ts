@@ -5,7 +5,7 @@ import sharp from "sharp";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { resolveStateDir } from "../config/paths.js";
 import { sendVoiceMessageDiscord } from "../discord/send.js";
-import { resolvePreferredSiriClaw-InstructTmpDir } from "../infra/tmp-SiriClaw-Instruct-dir.js";
+import { resolvePreferredSiriClawInstructTmpDir } from "../infra/tmp-siriclaw-instruct-dir.js";
 import { optimizeImageToPng } from "../media/image-ops.js";
 import { mockPinnedHostnameResolution } from "../test-helpers/ssrf.js";
 import { captureEnv } from "../test-utils/env.js";
@@ -68,7 +68,7 @@ function cloneStatWithDev<T extends { dev: number | bigint }>(stat: T, dev: numb
 
 beforeAll(async () => {
   fixtureRoot = await fs.mkdtemp(
-    path.join(resolvePreferredSiriClaw-InstructTmpDir(), "SiriClaw-Instruct-media-test-"),
+    path.join(resolvePreferredSiriClawInstructTmpDir(), "SiriClawInstruct-media-test-"),
   );
   largeJpegBuffer = await sharp({
     create: {
@@ -127,14 +127,14 @@ afterEach(() => {
 
 describe("web media loading", () => {
   beforeAll(() => {
-    // Ensure state dir is stable and not influenced by other tests that stub SiriClaw-Instruct_STATE_DIR.
-    // Also keep it outside the SiriClaw-Instruct temp root so default localRoots doesn't accidentally make all state readable.
-    stateDirSnapshot = captureEnv(["SiriClaw-Instruct_STATE_DIR"]);
-    process.env.SiriClaw-Instruct_STATE_DIR = path.join(
+    // Ensure state dir is stable and not influenced by other tests that stub SiriClawInstruct_STATE_DIR.
+    // Also keep it outside the SiriClawInstruct temp root so default localRoots doesn't accidentally make all state readable.
+    stateDirSnapshot = captureEnv(["SiriClawInstruct_STATE_DIR"]);
+    process.env.SiriClawInstruct_STATE_DIR = path.join(
       path.parse(os.tmpdir()).root,
       "var",
       "lib",
-      "SiriClaw-Instruct-media-state-test",
+      "SiriClawInstruct-media-state-test",
     );
   });
 
@@ -385,7 +385,7 @@ describe("local media root guard", () => {
 
   it("allows local paths under an explicit root", async () => {
     const result = await loadWebMedia(tinyPngFile, 1024 * 1024, {
-      localRoots: [resolvePreferredSiriClaw-InstructTmpDir()],
+      localRoots: [resolvePreferredSiriClawInstructTmpDir()],
     });
     expect(result.kind).toBe("image");
   });
@@ -403,7 +403,7 @@ describe("local media root guard", () => {
 
     try {
       const result = await loadWebMedia(tinyPngFile, 1024 * 1024, {
-        localRoots: [resolvePreferredSiriClaw-InstructTmpDir()],
+        localRoots: [resolvePreferredSiriClawInstructTmpDir()],
       });
       expect(result.kind).toBe("image");
       expect(result.buffer.length).toBeGreaterThan(0);
@@ -446,7 +446,7 @@ describe("local media root guard", () => {
     ).rejects.toMatchObject({ code: "invalid-root" });
   });
 
-  it("allows default SiriClaw-Instruct state workspace and sandbox roots", async () => {
+  it("allows default SiriClawInstruct state workspace and sandbox roots", async () => {
     const stateDir = resolveStateDir();
     const readFile = vi.fn(async () => Buffer.from("generated-media"));
 
@@ -473,7 +473,7 @@ describe("local media root guard", () => {
     );
   });
 
-  it("rejects default SiriClaw-Instruct state per-agent workspace-* roots without explicit local roots", async () => {
+  it("rejects default SiriClawInstruct state per-agent workspace-* roots without explicit local roots", async () => {
     const stateDir = resolveStateDir();
     const readFile = vi.fn(async () => Buffer.from("generated-media"));
 
@@ -503,3 +503,4 @@ describe("local media root guard", () => {
     );
   });
 });
+

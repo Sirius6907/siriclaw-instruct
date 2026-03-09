@@ -7,11 +7,11 @@ import {
 } from "./redact-snapshot.js";
 import { __test__ } from "./schema.hints.js";
 import type { ConfigUiHints } from "./schema.js";
-import type { ConfigFileSnapshot } from "./types.SiriClaw-Instruct.js";
-import { SiriClaw-InstructSchema } from "./zod-schema.js";
+import type { ConfigFileSnapshot } from "./types.siriclaw-instruct.js";
+import { SiriClawInstructSchema } from "./zod-schema.js";
 
 const { mapSensitivePaths } = __test__;
-const mainSchemaHints = mapSensitivePaths(SiriClaw-InstructSchema, "", {});
+const mainSchemaHints = mapSensitivePaths(SiriClawInstructSchema, "", {});
 
 type TestSnapshot<TConfig extends Record<string, unknown>> = ConfigFileSnapshot & {
   parsed: TConfig;
@@ -24,7 +24,7 @@ function makeSnapshot<TConfig extends Record<string, unknown>>(
   raw?: string,
 ): TestSnapshot<TConfig> {
   return {
-    path: "/home/user/.SiriClaw-Instruct/config.json5",
+    path: "/home/user/.SiriClawInstruct/config.json5",
     exists: true,
     raw: raw ?? JSON.stringify(config),
     parsed: config,
@@ -221,9 +221,9 @@ describe("redactConfigSnapshot", () => {
     const snapshot = makeSnapshot({
       channels: {
         irc: {
-          passwordFile: "/etc/SiriClaw-Instruct/irc-password.txt",
+          passwordFile: "/etc/SiriClawInstruct/irc-password.txt",
           nickserv: {
-            passwordFile: "/etc/SiriClaw-Instruct/nickserv-password.txt",
+            passwordFile: "/etc/SiriClawInstruct/nickserv-password.txt",
             password: "super-secret-nickserv-password",
           },
         },
@@ -235,8 +235,8 @@ describe("redactConfigSnapshot", () => {
     const irc = channels.irc;
     const nickserv = irc.nickserv as Record<string, unknown>;
 
-    expect(irc.passwordFile).toBe("/etc/SiriClaw-Instruct/irc-password.txt");
-    expect(nickserv.passwordFile).toBe("/etc/SiriClaw-Instruct/nickserv-password.txt");
+    expect(irc.passwordFile).toBe("/etc/SiriClawInstruct/irc-password.txt");
+    expect(nickserv.passwordFile).toBe("/etc/SiriClawInstruct/nickserv-password.txt");
     expect(nickserv.password).toBe(REDACTED_SENTINEL);
   });
 
@@ -1098,11 +1098,11 @@ describe("restoreRedactedValues", () => {
 
 describe("realredactConfigSnapshot_real", () => {
   it("main schema redact works (samples)", () => {
-    const schema = SiriClaw-InstructSchema.toJSONSchema({
+    const schema = SiriClawInstructSchema.toJSONSchema({
       target: "draft-07",
       unrepresentable: "any",
     });
-    schema.title = "SiriClaw-InstructConfig";
+    schema.title = "SiriClawInstructConfig";
     const hints = mainSchemaHints;
 
     const snapshot = makeSnapshot({
@@ -1135,3 +1135,4 @@ describe("realredactConfigSnapshot_real", () => {
     expect(restored.agents.list[0].memorySearch.remote.apiKey).toBe("6789");
   });
 });
+

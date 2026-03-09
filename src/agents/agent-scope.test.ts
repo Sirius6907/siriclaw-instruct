@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   hasConfiguredModelFallbacks,
   resolveAgentConfig,
@@ -25,15 +25,15 @@ afterEach(() => {
 
 describe("resolveAgentConfig", () => {
   it("should return undefined when no agents config exists", () => {
-    const cfg: SiriClaw-InstructConfig = {};
+    const cfg: SiriClawInstructConfig = {};
     const result = resolveAgentConfig(cfg, "main");
     expect(result).toBeUndefined();
   });
 
   it("should return undefined when agent id does not exist", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
-        list: [{ id: "main", workspace: "~/SiriClaw-Instruct" }],
+        list: [{ id: "main", workspace: "~/SiriClawInstruct" }],
       },
     };
     const result = resolveAgentConfig(cfg, "nonexistent");
@@ -41,14 +41,14 @@ describe("resolveAgentConfig", () => {
   });
 
   it("should return basic agent config", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         list: [
           {
             id: "main",
             name: "Main Agent",
-            workspace: "~/SiriClaw-Instruct",
-            agentDir: "~/.SiriClaw-Instruct/agents/main",
+            workspace: "~/SiriClawInstruct",
+            agentDir: "~/.SiriClawInstruct/agents/main",
             model: "anthropic/claude-opus-4",
           },
         ],
@@ -57,8 +57,8 @@ describe("resolveAgentConfig", () => {
     const result = resolveAgentConfig(cfg, "main");
     expect(result).toEqual({
       name: "Main Agent",
-      workspace: "~/SiriClaw-Instruct",
-      agentDir: "~/.SiriClaw-Instruct/agents/main",
+      workspace: "~/SiriClawInstruct",
+      agentDir: "~/.SiriClawInstruct/agents/main",
       model: "anthropic/claude-opus-4",
       identity: undefined,
       groupChat: undefined,
@@ -76,13 +76,13 @@ describe("resolveAgentConfig", () => {
         },
         list: [{ id: "main" }],
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
     expect(resolveAgentExplicitModelPrimary(cfgWithStringDefault, "main")).toBeUndefined();
     expect(resolveAgentEffectiveModelPrimary(cfgWithStringDefault, "main")).toBe(
       "anthropic/claude-sonnet-4",
     );
 
-    const cfgWithObjectDefault: SiriClaw-InstructConfig = {
+    const cfgWithObjectDefault: SiriClawInstructConfig = {
       agents: {
         defaults: {
           model: {
@@ -96,7 +96,7 @@ describe("resolveAgentConfig", () => {
     expect(resolveAgentExplicitModelPrimary(cfgWithObjectDefault, "main")).toBeUndefined();
     expect(resolveAgentEffectiveModelPrimary(cfgWithObjectDefault, "main")).toBe("openai/gpt-5.2");
 
-    const cfgNoDefaults: SiriClaw-InstructConfig = {
+    const cfgNoDefaults: SiriClawInstructConfig = {
       agents: {
         list: [{ id: "main" }],
       },
@@ -106,7 +106,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("supports per-agent model primary+fallbacks", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         defaults: {
           model: {
@@ -132,7 +132,7 @@ describe("resolveAgentConfig", () => {
     expect(resolveAgentModelFallbacksOverride(cfg, "linus")).toEqual(["openai/gpt-5.2"]);
 
     // If fallbacks isn't present, we don't override the global fallbacks.
-    const cfgNoOverride: SiriClaw-InstructConfig = {
+    const cfgNoOverride: SiriClawInstructConfig = {
       agents: {
         list: [
           {
@@ -147,7 +147,7 @@ describe("resolveAgentConfig", () => {
     expect(resolveAgentModelFallbacksOverride(cfgNoOverride, "linus")).toBe(undefined);
 
     // Explicit empty list disables global fallbacks for that agent.
-    const cfgDisable: SiriClaw-InstructConfig = {
+    const cfgDisable: SiriClawInstructConfig = {
       agents: {
         list: [
           {
@@ -184,7 +184,7 @@ describe("resolveAgentConfig", () => {
       }),
     ).toEqual([]);
 
-    const cfgInheritDefaults: SiriClaw-InstructConfig = {
+    const cfgInheritDefaults: SiriClawInstructConfig = {
       agents: {
         defaults: {
           model: {
@@ -235,7 +235,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("resolves run fallback overrides via shared helper", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         defaults: {
           model: {
@@ -270,7 +270,7 @@ describe("resolveAgentConfig", () => {
   });
 
   it("computes whether any model fallbacks are configured via shared helper", () => {
-    const cfgDefaultsOnly: SiriClaw-InstructConfig = {
+    const cfgDefaultsOnly: SiriClawInstructConfig = {
       agents: {
         defaults: {
           model: {
@@ -287,7 +287,7 @@ describe("resolveAgentConfig", () => {
       }),
     ).toBe(true);
 
-    const cfgAgentOverrideOnly: SiriClaw-InstructConfig = {
+    const cfgAgentOverrideOnly: SiriClawInstructConfig = {
       agents: {
         defaults: {
           model: {
@@ -321,12 +321,12 @@ describe("resolveAgentConfig", () => {
   });
 
   it("should return agent-specific sandbox config", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         list: [
           {
             id: "work",
-            workspace: "~/SiriClaw-Instruct-work",
+            workspace: "~/SiriClawInstruct-work",
             sandbox: {
               mode: "all",
               scope: "agent",
@@ -349,12 +349,12 @@ describe("resolveAgentConfig", () => {
   });
 
   it("should return agent-specific tools config", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         list: [
           {
             id: "restricted",
-            workspace: "~/SiriClaw-Instruct-restricted",
+            workspace: "~/SiriClawInstruct-restricted",
             tools: {
               allow: ["read"],
               deny: ["exec", "write", "edit"],
@@ -379,12 +379,12 @@ describe("resolveAgentConfig", () => {
   });
 
   it("should return both sandbox and tools config", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         list: [
           {
             id: "family",
-            workspace: "~/SiriClaw-Instruct-family",
+            workspace: "~/SiriClawInstruct-family",
             sandbox: {
               mode: "all",
               scope: "agent",
@@ -403,41 +403,41 @@ describe("resolveAgentConfig", () => {
   });
 
   it("should normalize agent id", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
-        list: [{ id: "main", workspace: "~/SiriClaw-Instruct" }],
+        list: [{ id: "main", workspace: "~/SiriClawInstruct" }],
       },
     };
     // Should normalize to "main" (default)
     const result = resolveAgentConfig(cfg, "");
     expect(result).toBeDefined();
-    expect(result?.workspace).toBe("~/SiriClaw-Instruct");
+    expect(result?.workspace).toBe("~/SiriClawInstruct");
   });
 
-  it("uses SiriClaw-Instruct_HOME for default agent workspace", () => {
-    const home = path.join(path.sep, "srv", "SiriClaw-Instruct-home");
-    vi.stubEnv("SiriClaw-Instruct_HOME", home);
+  it("uses SiriClawInstruct_HOME for default agent workspace", () => {
+    const home = path.join(path.sep, "srv", "SiriClawInstruct-home");
+    vi.stubEnv("SiriClawInstruct_HOME", home);
 
-    const workspace = resolveAgentWorkspaceDir({} as SiriClaw-InstructConfig, "main");
-    expect(workspace).toBe(path.join(path.resolve(home), ".SiriClaw-Instruct", "workspace"));
+    const workspace = resolveAgentWorkspaceDir({} as SiriClawInstructConfig, "main");
+    expect(workspace).toBe(path.join(path.resolve(home), ".SiriClawInstruct", "workspace"));
   });
 
-  it("uses SiriClaw-Instruct_HOME for default agentDir", () => {
-    const home = path.join(path.sep, "srv", "SiriClaw-Instruct-home");
-    vi.stubEnv("SiriClaw-Instruct_HOME", home);
-    // Clear state dir so it falls back to SiriClaw-Instruct_HOME
-    vi.stubEnv("SiriClaw-Instruct_STATE_DIR", "");
+  it("uses SiriClawInstruct_HOME for default agentDir", () => {
+    const home = path.join(path.sep, "srv", "SiriClawInstruct-home");
+    vi.stubEnv("SiriClawInstruct_HOME", home);
+    // Clear state dir so it falls back to SiriClawInstruct_HOME
+    vi.stubEnv("SiriClawInstruct_STATE_DIR", "");
 
-    const agentDir = resolveAgentDir({} as SiriClaw-InstructConfig, "main");
-    expect(agentDir).toBe(path.join(path.resolve(home), ".SiriClaw-Instruct", "agents", "main", "agent"));
+    const agentDir = resolveAgentDir({} as SiriClawInstructConfig, "main");
+    expect(agentDir).toBe(path.join(path.resolve(home), ".SiriClawInstruct", "agents", "main", "agent"));
   });
 });
 
 describe("resolveAgentIdByWorkspacePath", () => {
   it("returns the most specific workspace match for a directory", () => {
-    const workspaceRoot = `/tmp/SiriClaw-Instruct-agent-scope-${Date.now()}-root`;
+    const workspaceRoot = `/tmp/SiriClawInstruct-agent-scope-${Date.now()}-root`;
     const opsWorkspace = `${workspaceRoot}/projects/ops`;
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         list: [
           { id: "main", workspace: workspaceRoot },
@@ -450,8 +450,8 @@ describe("resolveAgentIdByWorkspacePath", () => {
   });
 
   it("returns undefined when directory has no matching workspace", () => {
-    const workspaceRoot = `/tmp/SiriClaw-Instruct-agent-scope-${Date.now()}-root`;
-    const cfg: SiriClaw-InstructConfig = {
+    const workspaceRoot = `/tmp/SiriClawInstruct-agent-scope-${Date.now()}-root`;
+    const cfg: SiriClawInstructConfig = {
       agents: {
         list: [
           { id: "main", workspace: workspaceRoot },
@@ -461,12 +461,12 @@ describe("resolveAgentIdByWorkspacePath", () => {
     };
 
     expect(
-      resolveAgentIdByWorkspacePath(cfg, `/tmp/SiriClaw-Instruct-agent-scope-${Date.now()}-unrelated`),
+      resolveAgentIdByWorkspacePath(cfg, `/tmp/SiriClawInstruct-agent-scope-${Date.now()}-unrelated`),
     ).toBeUndefined();
   });
 
   it("matches workspace paths through symlink aliases", () => {
-    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-agent-scope-"));
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-agent-scope-"));
     const realWorkspaceRoot = path.join(tempRoot, "real-root");
     const realOpsWorkspace = path.join(realWorkspaceRoot, "projects", "ops");
     const aliasWorkspaceRoot = path.join(tempRoot, "alias-root");
@@ -478,7 +478,7 @@ describe("resolveAgentIdByWorkspacePath", () => {
         process.platform === "win32" ? "junction" : "dir",
       );
 
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         agents: {
           list: [
             { id: "main", workspace: realWorkspaceRoot },
@@ -501,10 +501,10 @@ describe("resolveAgentIdByWorkspacePath", () => {
 
 describe("resolveAgentIdsByWorkspacePath", () => {
   it("returns matching workspaces ordered by specificity", () => {
-    const workspaceRoot = `/tmp/SiriClaw-Instruct-agent-scope-${Date.now()}-root`;
+    const workspaceRoot = `/tmp/SiriClawInstruct-agent-scope-${Date.now()}-root`;
     const opsWorkspace = `${workspaceRoot}/projects/ops`;
     const opsDevWorkspace = `${opsWorkspace}/dev`;
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: {
         list: [
           { id: "main", workspace: workspaceRoot },
@@ -521,3 +521,4 @@ describe("resolveAgentIdsByWorkspacePath", () => {
     ]);
   });
 });
+

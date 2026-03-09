@@ -2,7 +2,7 @@ import { ALLOWED_LOG_LEVELS, type LogLevel, tryParseLogLevel } from "./levels.js
 import { loggingState } from "./state.js";
 
 export function resolveEnvLogLevelOverride(): LogLevel | undefined {
-  const raw = process.env.SiriClaw-Instruct_LOG_LEVEL;
+  const raw = process.env.SiriClawInstruct_LOG_LEVEL;
   const trimmed = typeof raw === "string" ? raw.trim() : "";
   if (!trimmed) {
     loggingState.invalidEnvLogLevelValue = null;
@@ -16,8 +16,9 @@ export function resolveEnvLogLevelOverride(): LogLevel | undefined {
   if (loggingState.invalidEnvLogLevelValue !== trimmed) {
     loggingState.invalidEnvLogLevelValue = trimmed;
     process.stderr.write(
-      `[SiriClaw-Instruct] Ignoring invalid SiriClaw-Instruct_LOG_LEVEL="${trimmed}" (allowed: ${ALLOWED_LOG_LEVELS.join("|")}).\n`,
+      `[SiriClawInstruct] Ignoring invalid SiriClawInstruct_LOG_LEVEL="${trimmed}" (allowed: ${ALLOWED_LOG_LEVELS.join("|")}).\n`,
     );
   }
   return undefined;
 }
+

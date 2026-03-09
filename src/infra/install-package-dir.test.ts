@@ -90,7 +90,7 @@ describe("installPackageDir", () => {
   });
 
   it("keeps the existing install in place when staged validation fails", async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-install-package-dir-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-install-package-dir-"));
     const installBaseDir = path.join(fixtureRoot, "plugins");
     const sourceDir = path.join(fixtureRoot, "source");
     const targetDir = path.join(installBaseDir, "demo");
@@ -122,15 +122,15 @@ describe("installPackageDir", () => {
     });
     await expect(fs.readFile(path.join(targetDir, "marker.txt"), "utf8")).resolves.toBe("old");
     await expect(
-      listMatchingDirs(installBaseDir, ".SiriClaw-Instruct-install-stage-"),
+      listMatchingDirs(installBaseDir, ".SiriClawInstruct-install-stage-"),
     ).resolves.toHaveLength(0);
     await expect(
-      listMatchingDirs(installBaseDir, ".SiriClaw-Instruct-install-backups"),
+      listMatchingDirs(installBaseDir, ".SiriClawInstruct-install-backups"),
     ).resolves.toHaveLength(0);
   });
 
   it("restores the original install if publish rename fails", async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-install-package-dir-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-install-package-dir-"));
     const installBaseDir = path.join(fixtureRoot, "plugins");
     const sourceDir = path.join(fixtureRoot, "source");
     const targetDir = path.join(installBaseDir, "demo");
@@ -165,14 +165,14 @@ describe("installPackageDir", () => {
     });
     await expect(fs.readFile(path.join(targetDir, "marker.txt"), "utf8")).resolves.toBe("old");
     await expect(
-      listMatchingDirs(installBaseDir, ".SiriClaw-Instruct-install-stage-"),
+      listMatchingDirs(installBaseDir, ".SiriClawInstruct-install-stage-"),
     ).resolves.toHaveLength(0);
-    const backupRoot = path.join(installBaseDir, ".SiriClaw-Instruct-install-backups");
+    const backupRoot = path.join(installBaseDir, ".SiriClawInstruct-install-backups");
     await expect(fs.readdir(backupRoot)).resolves.toHaveLength(0);
   });
 
   it("aborts without outside writes when the install base is rebound before publish", async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-install-package-dir-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-install-package-dir-"));
     const sourceDir = path.join(fixtureRoot, "source");
     const installBaseDir = path.join(fixtureRoot, "plugins");
     const preservedInstallRoot = path.join(fixtureRoot, "plugins-preserved");
@@ -219,7 +219,7 @@ describe("installPackageDir", () => {
   });
 
   it("warns and leaves the backup in place when the install base changes before backup cleanup", async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-install-package-dir-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-install-package-dir-"));
     const sourceDir = path.join(fixtureRoot, "source");
     const installBaseDir = path.join(fixtureRoot, "plugins");
     const preservedInstallRoot = path.join(fixtureRoot, "plugins-preserved");
@@ -260,7 +260,8 @@ describe("installPackageDir", () => {
     ).rejects.toMatchObject({
       code: "ENOENT",
     });
-    const backupRoot = path.join(preservedInstallRoot, ".SiriClaw-Instruct-install-backups");
+    const backupRoot = path.join(preservedInstallRoot, ".SiriClawInstruct-install-backups");
     await expect(fs.readdir(backupRoot)).resolves.toHaveLength(1);
   });
 });
+

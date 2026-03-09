@@ -39,7 +39,7 @@ describe("sandbox fs bridge boundary validation", () => {
   });
 
   it("rejects mkdirp when target exists as a file", async () => {
-    await withTempDir("SiriClaw-Instruct-fs-bridge-mkdirp-file-", async (stateDir) => {
+    await withTempDir("SiriClawInstruct-fs-bridge-mkdirp-file-", async (stateDir) => {
       const workspaceDir = path.join(stateDir, "workspace");
       const filePath = path.join(workspaceDir, "memory", "kemik");
       await fs.mkdir(path.dirname(filePath), { recursive: true });
@@ -61,7 +61,7 @@ describe("sandbox fs bridge boundary validation", () => {
   });
 
   it("rejects pre-existing host symlink escapes before docker exec", async () => {
-    await withTempDir("SiriClaw-Instruct-fs-bridge-", async (stateDir) => {
+    await withTempDir("SiriClawInstruct-fs-bridge-", async (stateDir) => {
       const { workspaceDir, outsideFile } = await createHostEscapeFixture(stateDir);
       if (process.platform === "win32") {
         return;
@@ -84,7 +84,7 @@ describe("sandbox fs bridge boundary validation", () => {
     if (process.platform === "win32") {
       return;
     }
-    await withTempDir("SiriClaw-Instruct-fs-bridge-hardlink-", async (stateDir) => {
+    await withTempDir("SiriClawInstruct-fs-bridge-hardlink-", async (stateDir) => {
       const { workspaceDir, outsideFile } = await createHostEscapeFixture(stateDir);
       const hardlinkPath = path.join(workspaceDir, "link.txt");
       try {
@@ -115,3 +115,4 @@ describe("sandbox fs bridge boundary validation", () => {
     expect(scripts.some((script) => script.includes('cat -- "$1"'))).toBe(false);
   });
 });
+

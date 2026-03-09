@@ -1,6 +1,6 @@
 import CoreLocation
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import UIKit
 
 typealias SiriClaw-InstructCameraSnapResult = (format: String, base64: String, width: Int, height: Int)
@@ -105,3 +105,4 @@ protocol WatchMessagingServicing: AnyObject, Sendable {
 extension CameraController: CameraServicing {}
 extension ScreenRecordService: ScreenRecordingServicing {}
 extension LocationService: LocationServicing {}
+

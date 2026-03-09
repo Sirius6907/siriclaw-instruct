@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { resolveSiriClaw-InstructAgentDir } from "./agent-paths.js";
+import { resolveSiriClawInstructAgentDir } from "./agent-paths.js";
 import {
   installModelsConfigTestHooks,
   mockCopilotTokenExchangeSuccess,
@@ -9,7 +9,7 @@ import {
   withUnsetCopilotTokenEnv,
   withModelsTempHome as withTempHome,
 } from "./models-config.e2e-harness.js";
-import { ensureSiriClaw-InstructModelsJson } from "./models-config.js";
+import { ensureSiriClawInstructModelsJson } from "./models-config.js";
 
 installModelsConfigTestHooks({ restoreFetch: true });
 
@@ -45,7 +45,7 @@ describe("models-config", () => {
           },
         });
 
-        await ensureSiriClaw-InstructModelsJson({ models: { providers: {} } }, agentDir);
+        await ensureSiriClawInstructModelsJson({ models: { providers: {} } }, agentDir);
         expectBearerAuthHeader(fetchMock, "alpha-token");
       });
     });
@@ -54,7 +54,7 @@ describe("models-config", () => {
   it("does not override explicit github-copilot provider config", async () => {
     await withTempHome(async () => {
       await withCopilotGithubToken("gh-token", async () => {
-        await ensureSiriClaw-InstructModelsJson({
+        await ensureSiriClawInstructModelsJson({
           models: {
             providers: {
               "github-copilot": {
@@ -66,7 +66,7 @@ describe("models-config", () => {
           },
         });
 
-        const agentDir = resolveSiriClaw-InstructAgentDir();
+        const agentDir = resolveSiriClawInstructAgentDir();
         const raw = await fs.readFile(path.join(agentDir, "models.json"), "utf8");
         const parsed = JSON.parse(raw) as {
           providers: Record<string, { baseUrl?: string }>;
@@ -92,7 +92,7 @@ describe("models-config", () => {
             },
           });
 
-          await ensureSiriClaw-InstructModelsJson({ models: { providers: {} } }, agentDir);
+          await ensureSiriClawInstructModelsJson({ models: { providers: {} } }, agentDir);
           expectBearerAuthHeader(fetchMock, "token-from-ref-env");
         } finally {
           delete process.env.COPILOT_REF_TOKEN;
@@ -101,3 +101,4 @@ describe("models-config", () => {
     });
   });
 });
+

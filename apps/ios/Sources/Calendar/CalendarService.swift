@@ -1,6 +1,6 @@
 import EventKit
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 
 final class CalendarService: CalendarServicing {
     func events(params: SiriClaw-InstructCalendarEventsParams) async throws -> SiriClaw-InstructCalendarEventsPayload {
@@ -133,3 +133,4 @@ final class CalendarService: CalendarServicing {
         return (start, end)
     }
 }
+

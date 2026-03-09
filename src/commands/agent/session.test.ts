@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 
 const mocks = vi.hoisted(() => ({
   loadSessionStore: vi.fn(),
@@ -51,7 +51,7 @@ describe("resolveSessionKeyForRequest", () => {
     mocks.listAgentIds.mockReturnValue(["main"]);
   });
 
-  const baseCfg: SiriClaw-InstructConfig = {};
+  const baseCfg: SiriClawInstructConfig = {};
 
   it("returns sessionKey when --to resolves a session key via context", async () => {
     mocks.resolveStorePath.mockReturnValue(MAIN_STORE_PATH);
@@ -177,3 +177,4 @@ describe("resolveSessionKeyForRequest", () => {
     expect(storePaths).toContain(MYBOT_STORE_PATH);
   });
 });
+

@@ -26,27 +26,27 @@ function isBatchSafe(value: string): boolean {
 }
 
 function resolveSystemdUnit(env: NodeJS.ProcessEnv): string {
-  const override = env.SiriClaw-Instruct_SYSTEMD_UNIT?.trim();
+  const override = env.SiriClawInstruct_SYSTEMD_UNIT?.trim();
   if (override) {
     return override.endsWith(".service") ? override : `${override}.service`;
   }
-  return `${resolveGatewaySystemdServiceName(env.SiriClaw-Instruct_PROFILE)}.service`;
+  return `${resolveGatewaySystemdServiceName(env.SiriClawInstruct_PROFILE)}.service`;
 }
 
 function resolveLaunchdLabel(env: NodeJS.ProcessEnv): string {
-  const override = env.SiriClaw-Instruct_LAUNCHD_LABEL?.trim();
+  const override = env.SiriClawInstruct_LAUNCHD_LABEL?.trim();
   if (override) {
     return override;
   }
-  return resolveGatewayLaunchAgentLabel(env.SiriClaw-Instruct_PROFILE);
+  return resolveGatewayLaunchAgentLabel(env.SiriClawInstruct_PROFILE);
 }
 
 function resolveWindowsTaskName(env: NodeJS.ProcessEnv): string {
-  const override = env.SiriClaw-Instruct_WINDOWS_TASK_NAME?.trim();
+  const override = env.SiriClawInstruct_WINDOWS_TASK_NAME?.trim();
   if (override) {
     return override;
   }
-  return resolveGatewayWindowsTaskName(env.SiriClaw-Instruct_PROFILE);
+  return resolveGatewayWindowsTaskName(env.SiriClawInstruct_PROFILE);
 }
 
 /**
@@ -70,7 +70,7 @@ export async function prepareRestartScript(
     if (platform === "linux") {
       const unitName = resolveSystemdUnit(env);
       const escaped = shellEscape(unitName);
-      filename = `SiriClaw-Instruct-restart-${timestamp}.sh`;
+      filename = `SiriClawInstruct-restart-${timestamp}.sh`;
       scriptContent = `#!/bin/sh
 # Standalone restart script — survives parent process termination.
 # Wait briefly to ensure file locks are released after update.
@@ -89,7 +89,7 @@ rm -f "$0"
       const home = env.HOME?.trim() || process.env.HOME || os.homedir();
       const plistPath = path.join(home, "Library", "LaunchAgents", `${label}.plist`);
       const escapedPlistPath = shellEscape(plistPath);
-      filename = `SiriClaw-Instruct-restart-${timestamp}.sh`;
+      filename = `SiriClawInstruct-restart-${timestamp}.sh`;
       scriptContent = `#!/bin/sh
 # Standalone restart script — survives parent process termination.
 # Wait briefly to ensure file locks are released after update.
@@ -110,7 +110,7 @@ rm -f "$0"
       }
       const port =
         Number.isFinite(gatewayPort) && gatewayPort > 0 ? gatewayPort : DEFAULT_GATEWAY_PORT;
-      filename = `SiriClaw-Instruct-restart-${timestamp}.bat`;
+      filename = `SiriClawInstruct-restart-${timestamp}.bat`;
       scriptContent = `@echo off
 REM Standalone restart script — survives parent process termination.
 REM Wait briefly to ensure file locks are released after update.
@@ -170,3 +170,4 @@ export async function runRestartScript(scriptPath: string): Promise<void> {
   });
   child.unref();
 }
+

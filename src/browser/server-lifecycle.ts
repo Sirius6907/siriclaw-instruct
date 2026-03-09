@@ -43,6 +43,7 @@ export async function stopKnownBrowserProfiles(params: {
       }
     }
   } catch (err) {
-    params.onWarn(`SiriClaw-Instruct browser stop failed: ${String(err)}`);
+    params.onWarn(`SiriClawInstruct browser stop failed: ${String(err)}`);
   }
 }
+

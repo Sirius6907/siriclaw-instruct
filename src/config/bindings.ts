@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "./config.js";
+import type { SiriClawInstructConfig } from "./config.js";
 import type { AgentAcpBinding, AgentBinding, AgentRouteBinding } from "./types.agents.js";
 
 function normalizeBindingType(binding: AgentBinding): "route" | "acp" {
@@ -13,14 +13,15 @@ export function isAcpBinding(binding: AgentBinding): binding is AgentAcpBinding 
   return normalizeBindingType(binding) === "acp";
 }
 
-export function listConfiguredBindings(cfg: SiriClaw-InstructConfig): AgentBinding[] {
+export function listConfiguredBindings(cfg: SiriClawInstructConfig): AgentBinding[] {
   return Array.isArray(cfg.bindings) ? cfg.bindings : [];
 }
 
-export function listRouteBindings(cfg: SiriClaw-InstructConfig): AgentRouteBinding[] {
+export function listRouteBindings(cfg: SiriClawInstructConfig): AgentRouteBinding[] {
   return listConfiguredBindings(cfg).filter(isRouteBinding);
 }
 
-export function listAcpBindings(cfg: SiriClaw-InstructConfig): AgentAcpBinding[] {
+export function listAcpBindings(cfg: SiriClawInstructConfig): AgentAcpBinding[] {
   return listConfiguredBindings(cfg).filter(isAcpBinding);
 }
+

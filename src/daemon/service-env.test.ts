@@ -271,15 +271,15 @@ describe("buildServiceEnvironment", () => {
     } else {
       expect(env.PATH).toContain("/usr/bin");
     }
-    expect(env.SiriClaw-Instruct_GATEWAY_PORT).toBe("18789");
-    expect(env.SiriClaw-Instruct_GATEWAY_TOKEN).toBeUndefined();
-    expect(env.SiriClaw-Instruct_SERVICE_MARKER).toBe("SiriClaw-Instruct");
-    expect(env.SiriClaw-Instruct_SERVICE_KIND).toBe("gateway");
-    expect(typeof env.SiriClaw-Instruct_SERVICE_VERSION).toBe("string");
-    expect(env.SiriClaw-Instruct_SYSTEMD_UNIT).toBe("SiriClaw-Instruct-gateway.service");
-    expect(env.SiriClaw-Instruct_WINDOWS_TASK_NAME).toBe("SiriClaw-Instruct Gateway");
+    expect(env.SiriClawInstruct_GATEWAY_PORT).toBe("18789");
+    expect(env.SiriClawInstruct_GATEWAY_TOKEN).toBeUndefined();
+    expect(env.SiriClawInstruct_SERVICE_MARKER).toBe("SiriClawInstruct");
+    expect(env.SiriClawInstruct_SERVICE_KIND).toBe("gateway");
+    expect(typeof env.SiriClawInstruct_SERVICE_VERSION).toBe("string");
+    expect(env.SiriClawInstruct_SYSTEMD_UNIT).toBe("SiriClawInstruct-gateway.service");
+    expect(env.SiriClawInstruct_WINDOWS_TASK_NAME).toBe("SiriClawInstruct Gateway");
     if (process.platform === "darwin") {
-      expect(env.SiriClaw-Instruct_LAUNCHD_LABEL).toBe("ai.SiriClaw-Instruct.gateway");
+      expect(env.SiriClawInstruct_LAUNCHD_LABEL).toBe("ai.SiriClawInstruct.gateway");
     }
   });
 
@@ -301,13 +301,13 @@ describe("buildServiceEnvironment", () => {
 
   it("uses profile-specific unit and label", () => {
     const env = buildServiceEnvironment({
-      env: { HOME: "/home/user", SiriClaw-Instruct_PROFILE: "work" },
+      env: { HOME: "/home/user", SiriClawInstruct_PROFILE: "work" },
       port: 18789,
     });
-    expect(env.SiriClaw-Instruct_SYSTEMD_UNIT).toBe("SiriClaw-Instruct-gateway-work.service");
-    expect(env.SiriClaw-Instruct_WINDOWS_TASK_NAME).toBe("SiriClaw-Instruct Gateway (work)");
+    expect(env.SiriClawInstruct_SYSTEMD_UNIT).toBe("SiriClawInstruct-gateway-work.service");
+    expect(env.SiriClawInstruct_WINDOWS_TASK_NAME).toBe("SiriClawInstruct Gateway (work)");
     if (process.platform === "darwin") {
-      expect(env.SiriClaw-Instruct_LAUNCHD_LABEL).toBe("ai.SiriClaw-Instruct.work");
+      expect(env.SiriClawInstruct_LAUNCHD_LABEL).toBe("ai.SiriClawInstruct.work");
     }
   });
 
@@ -342,7 +342,7 @@ describe("buildServiceEnvironment", () => {
     });
 
     expect(env).not.toHaveProperty("PATH");
-    expect(env.SiriClaw-Instruct_WINDOWS_TASK_NAME).toBe("SiriClaw-Instruct Gateway");
+    expect(env.SiriClawInstruct_WINDOWS_TASK_NAME).toBe("SiriClawInstruct Gateway");
   });
 });
 
@@ -354,40 +354,40 @@ describe("buildNodeServiceEnvironment", () => {
     expect(env.HOME).toBe("/home/user");
   });
 
-  it("passes through SiriClaw-Instruct_GATEWAY_TOKEN for node services", () => {
+  it("passes through SiriClawInstruct_GATEWAY_TOKEN for node services", () => {
     const env = buildNodeServiceEnvironment({
-      env: { HOME: "/home/user", SiriClaw-Instruct_GATEWAY_TOKEN: " node-token " },
+      env: { HOME: "/home/user", SiriClawInstruct_GATEWAY_TOKEN: " node-token " },
     });
-    expect(env.SiriClaw-Instruct_GATEWAY_TOKEN).toBe("node-token");
+    expect(env.SiriClawInstruct_GATEWAY_TOKEN).toBe("node-token");
   });
 
-  it("maps legacy SIRICLAW_GATEWAY_TOKEN to SiriClaw-Instruct_GATEWAY_TOKEN for node services", () => {
+  it("maps legacy SIRICLAW_GATEWAY_TOKEN to SiriClawInstruct_GATEWAY_TOKEN for node services", () => {
     const env = buildNodeServiceEnvironment({
       env: { HOME: "/home/user", SIRICLAW_GATEWAY_TOKEN: " legacy-token " },
     });
-    expect(env.SiriClaw-Instruct_GATEWAY_TOKEN).toBe("legacy-token");
+    expect(env.SiriClawInstruct_GATEWAY_TOKEN).toBe("legacy-token");
   });
 
-  it("prefers SiriClaw-Instruct_GATEWAY_TOKEN over legacy SIRICLAW_GATEWAY_TOKEN", () => {
+  it("prefers SiriClawInstruct_GATEWAY_TOKEN over legacy SIRICLAW_GATEWAY_TOKEN", () => {
     const env = buildNodeServiceEnvironment({
       env: {
         HOME: "/home/user",
-        SiriClaw-Instruct_GATEWAY_TOKEN: "SiriClaw-Instruct-token",
+        SiriClawInstruct_GATEWAY_TOKEN: "SiriClawInstruct-token",
         SIRICLAW_GATEWAY_TOKEN: "legacy-token",
       },
     });
-    expect(env.SiriClaw-Instruct_GATEWAY_TOKEN).toBe("SiriClaw-Instruct-token");
+    expect(env.SiriClawInstruct_GATEWAY_TOKEN).toBe("SiriClawInstruct-token");
   });
 
-  it("omits SiriClaw-Instruct_GATEWAY_TOKEN when both token env vars are empty", () => {
+  it("omits SiriClawInstruct_GATEWAY_TOKEN when both token env vars are empty", () => {
     const env = buildNodeServiceEnvironment({
       env: {
         HOME: "/home/user",
-        SiriClaw-Instruct_GATEWAY_TOKEN: "   ",
+        SiriClawInstruct_GATEWAY_TOKEN: "   ",
         SIRICLAW_GATEWAY_TOKEN: " ",
       },
     });
-    expect(env.SiriClaw-Instruct_GATEWAY_TOKEN).toBeUndefined();
+    expect(env.SiriClawInstruct_GATEWAY_TOKEN).toBeUndefined();
   });
 
   it("forwards proxy environment variables for node services", () => {
@@ -466,31 +466,32 @@ describe("shared Node TLS env defaults", () => {
 describe("resolveGatewayStateDir", () => {
   it("uses the default state dir when no overrides are set", () => {
     const env = { HOME: "/Users/test" };
-    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".SiriClaw-Instruct"));
+    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".SiriClawInstruct"));
   });
 
   it("appends the profile suffix when set", () => {
-    const env = { HOME: "/Users/test", SiriClaw-Instruct_PROFILE: "rescue" };
-    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".SiriClaw-Instruct-rescue"));
+    const env = { HOME: "/Users/test", SiriClawInstruct_PROFILE: "rescue" };
+    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".SiriClawInstruct-rescue"));
   });
 
   it("treats default profiles as the base state dir", () => {
-    const env = { HOME: "/Users/test", SiriClaw-Instruct_PROFILE: "Default" };
-    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".SiriClaw-Instruct"));
+    const env = { HOME: "/Users/test", SiriClawInstruct_PROFILE: "Default" };
+    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".SiriClawInstruct"));
   });
 
-  it("uses SiriClaw-Instruct_STATE_DIR when provided", () => {
-    const env = { HOME: "/Users/test", SiriClaw-Instruct_STATE_DIR: "/var/lib/SiriClaw-Instruct" };
-    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/var/lib/SiriClaw-Instruct"));
+  it("uses SiriClawInstruct_STATE_DIR when provided", () => {
+    const env = { HOME: "/Users/test", SiriClawInstruct_STATE_DIR: "/var/lib/SiriClawInstruct" };
+    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/var/lib/SiriClawInstruct"));
   });
 
-  it("expands ~ in SiriClaw-Instruct_STATE_DIR", () => {
-    const env = { HOME: "/Users/test", SiriClaw-Instruct_STATE_DIR: "~/SiriClaw-Instruct-state" };
-    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/Users/test/SiriClaw-Instruct-state"));
+  it("expands ~ in SiriClawInstruct_STATE_DIR", () => {
+    const env = { HOME: "/Users/test", SiriClawInstruct_STATE_DIR: "~/SiriClawInstruct-state" };
+    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/Users/test/SiriClawInstruct-state"));
   });
 
   it("preserves Windows absolute paths without HOME", () => {
-    const env = { SiriClaw-Instruct_STATE_DIR: "C:\\State\\SiriClaw-Instruct" };
-    expect(resolveGatewayStateDir(env)).toBe("C:\\State\\SiriClaw-Instruct");
+    const env = { SiriClawInstruct_STATE_DIR: "C:\\State\\SiriClawInstruct" };
+    expect(resolveGatewayStateDir(env)).toBe("C:\\State\\SiriClawInstruct");
   });
 });
+

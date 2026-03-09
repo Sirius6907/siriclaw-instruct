@@ -5,7 +5,7 @@ import { CronService } from "./service.js";
 import { setupCronServiceSuite } from "./service.test-harness.js";
 
 const { logger: noopLogger, makeStorePath } = setupCronServiceSuite({
-  prefix: "SiriClaw-Instruct-cron-",
+  prefix: "SiriClawInstruct-cron-",
   baseTimeIso: "2025-12-13T17:00:00.000Z",
 });
 
@@ -352,3 +352,4 @@ describe("CronService restart catch-up", () => {
     await store.cleanup();
   });
 });
+

@@ -1,11 +1,12 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 
 export function createPerSenderSessionConfig(
-  overrides: Partial<NonNullable<SiriClaw-InstructConfig["session"]>> = {},
-): NonNullable<SiriClaw-InstructConfig["session"]> {
+  overrides: Partial<NonNullable<SiriClawInstructConfig["session"]>> = {},
+): NonNullable<SiriClawInstructConfig["session"]> {
   return {
     mainKey: "main",
     scope: "per-sender",
     ...overrides,
   };
 }
+

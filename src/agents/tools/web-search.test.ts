@@ -299,3 +299,4 @@ describe("resolveBraveMode", () => {
     expect(resolveBraveMode({ mode: "invalid" })).toBe("web");
   });
 });
+

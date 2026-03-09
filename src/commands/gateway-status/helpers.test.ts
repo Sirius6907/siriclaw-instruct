@@ -5,7 +5,7 @@ import { extractConfigSummary, resolveAuthForTarget } from "./helpers.js";
 describe("extractConfigSummary", () => {
   it("marks SecretRef-backed gateway auth credentials as configured", () => {
     const summary = extractConfigSummary({
-      path: "/tmp/SiriClaw-Instruct.json",
+      path: "/tmp/SiriClawInstruct.json",
       exists: true,
       valid: true,
       issues: [],
@@ -19,8 +19,8 @@ describe("extractConfigSummary", () => {
         gateway: {
           auth: {
             mode: "token",
-            token: { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_TOKEN" },
-            password: { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_PASSWORD" },
+            token: { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_TOKEN" },
+            password: { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_PASSWORD" },
           },
           remote: {
             url: "wss://remote.example:18789",
@@ -39,7 +39,7 @@ describe("extractConfigSummary", () => {
 
   it("still treats empty plaintext auth values as not configured", () => {
     const summary = extractConfigSummary({
-      path: "/tmp/SiriClaw-Instruct.json",
+      path: "/tmp/SiriClawInstruct.json",
       exists: true,
       valid: true,
       issues: [],
@@ -70,8 +70,8 @@ describe("resolveAuthForTarget", () => {
   it("resolves local auth token SecretRef before probing local targets", async () => {
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: undefined,
-        SiriClaw-Instruct_GATEWAY_PASSWORD: undefined,
+        SiriClawInstruct_GATEWAY_TOKEN: undefined,
+        SiriClawInstruct_GATEWAY_PASSWORD: undefined,
         LOCAL_GATEWAY_TOKEN: "resolved-local-token",
       },
       async () => {
@@ -233,3 +233,4 @@ describe("resolveAuthForTarget", () => {
     );
   });
 });
+

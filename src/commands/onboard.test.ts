@@ -22,7 +22,7 @@ vi.mock("../config/config.js", () => ({
 }));
 
 vi.mock("./onboard-helpers.js", () => ({
-  DEFAULT_WORKSPACE: "~/.SiriClaw-Instruct/workspace",
+  DEFAULT_WORKSPACE: "~/.SiriClawInstruct/workspace",
   handleReset: mocks.handleReset,
 }));
 
@@ -85,7 +85,7 @@ describe("onboardCommand", () => {
       config: {
         agents: {
           defaults: {
-            workspace: "/tmp/SiriClaw-Instruct-custom-workspace",
+            workspace: "/tmp/SiriClawInstruct-custom-workspace",
           },
         },
       },
@@ -100,7 +100,7 @@ describe("onboardCommand", () => {
 
     expect(mocks.handleReset).toHaveBeenCalledWith(
       "config+creds+sessions",
-      path.resolve("/tmp/SiriClaw-Instruct-custom-workspace"),
+      path.resolve("/tmp/SiriClawInstruct-custom-workspace"),
       runtime,
     );
   });
@@ -139,3 +139,4 @@ describe("onboardCommand", () => {
     expect(mocks.runNonInteractiveOnboarding).not.toHaveBeenCalled();
   });
 });
+

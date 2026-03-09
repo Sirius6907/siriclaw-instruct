@@ -4,18 +4,18 @@ import { buildSystemdUnit } from "./systemd-unit.js";
 describe("buildSystemdUnit", () => {
   it("quotes arguments with whitespace", () => {
     const unit = buildSystemdUnit({
-      description: "SiriClaw-Instruct Gateway",
-      programArguments: ["/usr/bin/SiriClaw-Instruct", "gateway", "--name", "My Bot"],
+      description: "SiriClawInstruct Gateway",
+      programArguments: ["/usr/bin/SiriClawInstruct", "gateway", "--name", "My Bot"],
       environment: {},
     });
     const execStart = unit.split("\n").find((line) => line.startsWith("ExecStart="));
-    expect(execStart).toBe('ExecStart=/usr/bin/SiriClaw-Instruct gateway --name "My Bot"');
+    expect(execStart).toBe('ExecStart=/usr/bin/SiriClawInstruct gateway --name "My Bot"');
   });
 
   it("renders control-group kill mode for child-process cleanup", () => {
     const unit = buildSystemdUnit({
-      description: "SiriClaw-Instruct Gateway",
-      programArguments: ["/usr/bin/SiriClaw-Instruct", "gateway", "run"],
+      description: "SiriClawInstruct Gateway",
+      programArguments: ["/usr/bin/SiriClawInstruct", "gateway", "run"],
       environment: {},
     });
     expect(unit).toContain("KillMode=control-group");
@@ -27,8 +27,8 @@ describe("buildSystemdUnit", () => {
   it("rejects environment values with line breaks", () => {
     expect(() =>
       buildSystemdUnit({
-        description: "SiriClaw-Instruct Gateway",
-        programArguments: ["/usr/bin/SiriClaw-Instruct", "gateway", "start"],
+        description: "SiriClawInstruct Gateway",
+        programArguments: ["/usr/bin/SiriClawInstruct", "gateway", "start"],
         environment: {
           INJECT: "ok\nExecStartPre=/bin/touch /tmp/oc15789_rce",
         },
@@ -36,3 +36,4 @@ describe("buildSystemdUnit", () => {
     ).toThrow(/CR or LF/);
   });
 });
+

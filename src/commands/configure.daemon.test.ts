@@ -69,7 +69,7 @@ describe("maybeInstallDaemon", () => {
       warnings: [],
     });
     buildGatewayInstallPlan.mockResolvedValue({
-      programArguments: ["SiriClaw-Instruct", "gateway", "run"],
+      programArguments: ["SiriClawInstruct", "gateway", "run"],
       workingDirectory: "/tmp",
       environment: {},
     });
@@ -153,3 +153,4 @@ describe("maybeInstallDaemon", () => {
     expect(serviceInstall).toHaveBeenCalledTimes(1);
   });
 });
+

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import {
   createChannelTestPluginBase,
@@ -66,22 +66,23 @@ describe("message action capability checks", () => {
   it("aggregates buttons/card support across plugins", () => {
     activateMessageActionTestRegistry();
 
-    expect(supportsChannelMessageButtons({} as SiriClaw-InstructConfig)).toBe(true);
-    expect(supportsChannelMessageCards({} as SiriClaw-InstructConfig)).toBe(true);
+    expect(supportsChannelMessageButtons({} as SiriClawInstructConfig)).toBe(true);
+    expect(supportsChannelMessageCards({} as SiriClawInstructConfig)).toBe(true);
   });
 
   it("checks per-channel capabilities", () => {
     activateMessageActionTestRegistry();
 
     expect(
-      supportsChannelMessageButtonsForChannel({ cfg: {} as SiriClaw-InstructConfig, channel: "discord" }),
+      supportsChannelMessageButtonsForChannel({ cfg: {} as SiriClawInstructConfig, channel: "discord" }),
     ).toBe(true);
     expect(
-      supportsChannelMessageButtonsForChannel({ cfg: {} as SiriClaw-InstructConfig, channel: "telegram" }),
+      supportsChannelMessageButtonsForChannel({ cfg: {} as SiriClawInstructConfig, channel: "telegram" }),
     ).toBe(false);
     expect(
-      supportsChannelMessageCardsForChannel({ cfg: {} as SiriClaw-InstructConfig, channel: "telegram" }),
+      supportsChannelMessageCardsForChannel({ cfg: {} as SiriClawInstructConfig, channel: "telegram" }),
     ).toBe(true);
-    expect(supportsChannelMessageCardsForChannel({ cfg: {} as SiriClaw-InstructConfig })).toBe(false);
+    expect(supportsChannelMessageCardsForChannel({ cfg: {} as SiriClawInstructConfig })).toBe(false);
   });
 });
+

@@ -9,17 +9,17 @@ vi.mock("../../pairing/pairing-store.js", () => ({
   readChannelAllowFromStoreSync: vi.fn(() => []),
 }));
 
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { loadSessionStore } from "../../config/sessions.js";
 import { readChannelAllowFromStoreSync } from "../../pairing/pairing-store.js";
 import { resolveWhatsAppHeartbeatRecipients } from "./whatsapp-heartbeat.js";
 
-function makeCfg(overrides?: Partial<SiriClaw-InstructConfig>): SiriClaw-InstructConfig {
+function makeCfg(overrides?: Partial<SiriClawInstructConfig>): SiriClawInstructConfig {
   return {
     bindings: [],
     channels: {},
     ...overrides,
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 describe("resolveWhatsAppHeartbeatRecipients", () => {
@@ -32,7 +32,7 @@ describe("resolveWhatsAppHeartbeatRecipients", () => {
   }
 
   function resolveWith(
-    cfgOverrides: Partial<SiriClaw-InstructConfig> = {},
+    cfgOverrides: Partial<SiriClawInstructConfig> = {},
     opts?: Parameters<typeof resolveWhatsAppHeartbeatRecipients>[1],
   ) {
     return resolveWhatsAppHeartbeatRecipients(makeCfg(cfgOverrides), opts);
@@ -129,9 +129,10 @@ describe("resolveWhatsAppHeartbeatRecipients", () => {
       a: { lastChannel: "whatsapp", lastTo: "+15550000001", updatedAt: 2, sessionId: "a" },
     });
     const result = resolveWith({
-      session: { scope: "global" } as SiriClaw-InstructConfig["session"],
+      session: { scope: "global" } as SiriClawInstructConfig["session"],
       channels: { whatsapp: { allowFrom: ["*", "+15550000009"] } as never },
     });
     expect(result).toEqual({ recipients: ["+15550000009"], source: "allowFrom" });
   });
 });
+

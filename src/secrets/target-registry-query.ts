@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { getPath } from "./path-utils.js";
 import { SECRET_TARGET_REGISTRY } from "./target-registry-data.js";
 import {
@@ -15,8 +15,8 @@ import type {
 } from "./target-registry-types.js";
 
 const COMPILED_SECRET_TARGET_REGISTRY = SECRET_TARGET_REGISTRY.map(compileTargetRegistryEntry);
-const SiriClaw-Instruct_COMPILED_SECRET_TARGETS = COMPILED_SECRET_TARGET_REGISTRY.filter(
-  (entry) => entry.configFile === "SiriClaw-Instruct.json",
+const SiriClawInstruct_COMPILED_SECRET_TARGETS = COMPILED_SECRET_TARGET_REGISTRY.filter(
+  (entry) => entry.configFile === "SiriClawInstruct.json",
 );
 const AUTH_PROFILES_COMPILED_SECRET_TARGETS = COMPILED_SECRET_TARGET_REGISTRY.filter(
   (entry) => entry.configFile === "auth-profiles.json",
@@ -46,7 +46,7 @@ const KNOWN_TARGET_IDS = new Set(COMPILED_SECRET_TARGET_REGISTRY.map((entry) => 
 
 function buildConfigTargetIdIndex(): Map<string, CompiledTargetRegistryEntry[]> {
   const byId = new Map<string, CompiledTargetRegistryEntry[]>();
-  for (const entry of SiriClaw-Instruct_COMPILED_SECRET_TARGETS) {
+  for (const entry of SiriClawInstruct_COMPILED_SECRET_TARGETS) {
     const existing = byId.get(entry.id);
     if (existing) {
       existing.push(entry);
@@ -57,7 +57,7 @@ function buildConfigTargetIdIndex(): Map<string, CompiledTargetRegistryEntry[]> 
   return byId;
 }
 
-const SiriClaw-Instruct_TARGETS_BY_ID = buildConfigTargetIdIndex();
+const SiriClawInstruct_TARGETS_BY_ID = buildConfigTargetIdIndex();
 
 function buildAuthProfileTargetIdIndex(): Map<string, CompiledTargetRegistryEntry[]> {
   const byId = new Map<string, CompiledTargetRegistryEntry[]>();
@@ -240,20 +240,20 @@ export function resolvePlanTargetAgainstRegistry(candidate: {
 }
 
 export function discoverConfigSecretTargets(
-  config: SiriClaw-InstructConfig,
+  config: SiriClawInstructConfig,
 ): DiscoveredConfigSecretTarget[] {
   return discoverConfigSecretTargetsByIds(config);
 }
 
 export function discoverConfigSecretTargetsByIds(
-  config: SiriClaw-InstructConfig,
+  config: SiriClawInstructConfig,
   targetIds?: Iterable<string>,
 ): DiscoveredConfigSecretTarget[] {
   const allowedTargetIds = normalizeAllowedTargetIds(targetIds);
   const discoveryEntries = resolveDiscoveryEntries({
     allowedTargetIds,
-    defaultEntries: SiriClaw-Instruct_COMPILED_SECRET_TARGETS,
-    entriesById: SiriClaw-Instruct_TARGETS_BY_ID,
+    defaultEntries: SiriClawInstruct_COMPILED_SECRET_TARGETS,
+    entriesById: SiriClawInstruct_TARGETS_BY_ID,
   });
   return discoverSecretTargetsFromEntries(config, discoveryEntries);
 }
@@ -290,3 +290,4 @@ export type {
   SecretTargetRegistryEntry,
   SecretTargetShape,
 } from "./target-registry-types.js";
+

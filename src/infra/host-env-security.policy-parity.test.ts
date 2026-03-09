@@ -25,11 +25,11 @@ describe("host env security policy parity", () => {
     const policyPath = path.join(repoRoot, "src/infra/host-env-security-policy.json");
     const generatedSwiftPath = path.join(
       repoRoot,
-      "apps/macos/Sources/SiriClaw-Instruct/HostEnvSecurityPolicy.generated.swift",
+      "apps/macos/Sources/SiriClawInstruct/HostEnvSecurityPolicy.generated.swift",
     );
     const sanitizerSwiftPath = path.join(
       repoRoot,
-      "apps/macos/Sources/SiriClaw-Instruct/HostEnvSanitizer.swift",
+      "apps/macos/Sources/SiriClawInstruct/HostEnvSanitizer.swift",
     );
 
     const policy = JSON.parse(fs.readFileSync(policyPath, "utf8")) as HostEnvSecurityPolicy;
@@ -69,3 +69,4 @@ describe("host env security policy parity", () => {
     );
   });
 });
+

@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Foundation
 import Network
 import Observation
@@ -179,3 +179,4 @@ final class GatewayDiscoveryModel {
         return raw == "1" || raw == "true" || raw == "yes"
     }
 }
+

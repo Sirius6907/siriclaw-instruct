@@ -93,14 +93,14 @@ describe("command-registry", () => {
 
   it("registers doctor placeholder for doctor primary command", () => {
     const program = createProgram();
-    registerCoreCliCommands(program, testProgramContext, ["node", "SiriClaw-Instruct", "doctor"]);
+    registerCoreCliCommands(program, testProgramContext, ["node", "SiriClawInstruct", "doctor"]);
 
     expect(namesOf(program)).toEqual(["doctor"]);
   });
 
   it("does not narrow to the primary command when help is requested", () => {
     const program = createProgram();
-    registerCoreCliCommands(program, testProgramContext, ["node", "SiriClaw-Instruct", "doctor", "--help"]);
+    registerCoreCliCommands(program, testProgramContext, ["node", "SiriClawInstruct", "doctor", "--help"]);
 
     const names = namesOf(program);
     expect(names).toContain("doctor");
@@ -123,10 +123,10 @@ describe("command-registry", () => {
 
   it("registers grouped core entry placeholders without duplicate command errors", async () => {
     const program = createProgram();
-    registerCoreCliCommands(program, testProgramContext, ["node", "SiriClaw-Instruct", "vitest"]);
+    registerCoreCliCommands(program, testProgramContext, ["node", "SiriClawInstruct", "vitest"]);
     program.exitOverride();
-    await withProcessArgv(["node", "SiriClaw-Instruct", "status"], async () => {
-      await program.parseAsync(["node", "SiriClaw-Instruct", "status"]);
+    await withProcessArgv(["node", "SiriClawInstruct", "status"], async () => {
+      await program.parseAsync(["node", "SiriClawInstruct", "status"]);
     });
 
     const names = namesOf(program);
@@ -137,7 +137,7 @@ describe("command-registry", () => {
 
   it("replaces placeholders when loading a grouped entry by secondary command name", async () => {
     const program = createProgram();
-    registerCoreCliCommands(program, testProgramContext, ["node", "SiriClaw-Instruct", "doctor"]);
+    registerCoreCliCommands(program, testProgramContext, ["node", "SiriClawInstruct", "doctor"]);
     expect(namesOf(program)).toEqual(["doctor"]);
 
     const found = await registerCoreCliByName(program, testProgramContext, "dashboard");
@@ -145,3 +145,4 @@ describe("command-registry", () => {
     expect(namesOf(program)).toEqual(["doctor", "dashboard", "reset", "uninstall"]);
   });
 });
+

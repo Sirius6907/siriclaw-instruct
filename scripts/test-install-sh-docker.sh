@@ -2,13 +2,13 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SMOKE_IMAGE="${SiriClaw-Instruct_INSTALL_SMOKE_IMAGE:-${SIRICLAW_INSTALL_SMOKE_IMAGE:-SiriClaw-Instruct-install-smoke:local}}"
-NONROOT_IMAGE="${SiriClaw-Instruct_INSTALL_NONROOT_IMAGE:-${SIRICLAW_INSTALL_NONROOT_IMAGE:-SiriClaw-Instruct-install-nonroot:local}}"
-INSTALL_URL="${SiriClaw-Instruct_INSTALL_URL:-${SIRICLAW_INSTALL_URL:-https://SiriClaw-Instruct.bot/install.sh}}"
-CLI_INSTALL_URL="${SiriClaw-Instruct_INSTALL_CLI_URL:-${SIRICLAW_INSTALL_CLI_URL:-https://SiriClaw-Instruct.bot/install-cli.sh}}"
-SKIP_NONROOT="${SiriClaw-Instruct_INSTALL_SMOKE_SKIP_NONROOT:-${SIRICLAW_INSTALL_SMOKE_SKIP_NONROOT:-0}}"
-SKIP_SMOKE_IMAGE_BUILD="${SiriClaw-Instruct_INSTALL_SMOKE_SKIP_IMAGE_BUILD:-${SIRICLAW_INSTALL_SMOKE_SKIP_IMAGE_BUILD:-0}}"
-SKIP_NONROOT_IMAGE_BUILD="${SiriClaw-Instruct_INSTALL_NONROOT_SKIP_IMAGE_BUILD:-${SIRICLAW_INSTALL_NONROOT_SKIP_IMAGE_BUILD:-0}}"
+SMOKE_IMAGE="${SIRICLAW_INSTALL_SMOKE_IMAGE:-${SIRICLAW_INSTALL_SMOKE_IMAGE:-SiriClaw-Instruct-install-smoke:local}}"
+NONROOT_IMAGE="${SIRICLAW_INSTALL_NONROOT_IMAGE:-${SIRICLAW_INSTALL_NONROOT_IMAGE:-SiriClaw-Instruct-install-nonroot:local}}"
+INSTALL_URL="${SIRICLAW_INSTALL_URL:-${SIRICLAW_INSTALL_URL:-https://SiriClaw-Instruct.bot/install.sh}}"
+CLI_INSTALL_URL="${SIRICLAW_INSTALL_CLI_URL:-${SIRICLAW_INSTALL_CLI_URL:-https://SiriClaw-Instruct.bot/install-cli.sh}}"
+SKIP_NONROOT="${SIRICLAW_INSTALL_SMOKE_SKIP_NONROOT:-${SIRICLAW_INSTALL_SMOKE_SKIP_NONROOT:-0}}"
+SKIP_SMOKE_IMAGE_BUILD="${SIRICLAW_INSTALL_SMOKE_SKIP_IMAGE_BUILD:-${SIRICLAW_INSTALL_SMOKE_SKIP_IMAGE_BUILD:-0}}"
+SKIP_NONROOT_IMAGE_BUILD="${SIRICLAW_INSTALL_NONROOT_SKIP_IMAGE_BUILD:-${SIRICLAW_INSTALL_NONROOT_SKIP_IMAGE_BUILD:-0}}"
 LATEST_DIR="$(mktemp -d)"
 LATEST_FILE="${LATEST_DIR}/latest"
 
@@ -25,12 +25,12 @@ fi
 echo "==> Run installer smoke test (root): $INSTALL_URL"
 docker run --rm -t \
   -v "${LATEST_DIR}:/out" \
-  -e SiriClaw-Instruct_INSTALL_URL="$INSTALL_URL" \
-  -e SiriClaw-Instruct_INSTALL_METHOD=npm \
-  -e SiriClaw-Instruct_INSTALL_LATEST_OUT="/out/latest" \
-  -e SiriClaw-Instruct_INSTALL_SMOKE_PREVIOUS="${SiriClaw-Instruct_INSTALL_SMOKE_PREVIOUS:-${SIRICLAW_INSTALL_SMOKE_PREVIOUS:-}}" \
-  -e SiriClaw-Instruct_INSTALL_SMOKE_SKIP_PREVIOUS="${SiriClaw-Instruct_INSTALL_SMOKE_SKIP_PREVIOUS:-${SIRICLAW_INSTALL_SMOKE_SKIP_PREVIOUS:-0}}" \
-  -e SiriClaw-Instruct_NO_ONBOARD=1 \
+  -e SIRICLAW_INSTALL_URL="$INSTALL_URL" \
+  -e SIRICLAW_INSTALL_METHOD=npm \
+  -e SIRICLAW_INSTALL_LATEST_OUT="/out/latest" \
+  -e SIRICLAW_INSTALL_SMOKE_PREVIOUS="${SIRICLAW_INSTALL_SMOKE_PREVIOUS:-${SIRICLAW_INSTALL_SMOKE_PREVIOUS:-}}" \
+  -e SIRICLAW_INSTALL_SMOKE_SKIP_PREVIOUS="${SIRICLAW_INSTALL_SMOKE_SKIP_PREVIOUS:-${SIRICLAW_INSTALL_SMOKE_SKIP_PREVIOUS:-0}}" \
+  -e SIRICLAW_NO_ONBOARD=1 \
   -e DEBIAN_FRONTEND=noninteractive \
   "$SMOKE_IMAGE"
 
@@ -40,7 +40,7 @@ if [[ -f "$LATEST_FILE" ]]; then
 fi
 
 if [[ "$SKIP_NONROOT" == "1" ]]; then
-  echo "==> Skip non-root installer smoke (SiriClaw-Instruct_INSTALL_SMOKE_SKIP_NONROOT=1)"
+  echo "==> Skip non-root installer smoke (SIRICLAW_INSTALL_SMOKE_SKIP_NONROOT=1)"
 else
   if [[ "$SKIP_NONROOT_IMAGE_BUILD" == "1" ]]; then
     echo "==> Reuse prebuilt non-root image: $NONROOT_IMAGE"
@@ -54,16 +54,16 @@ else
 
   echo "==> Run installer non-root test: $INSTALL_URL"
   docker run --rm -t \
-    -e SiriClaw-Instruct_INSTALL_URL="$INSTALL_URL" \
-    -e SiriClaw-Instruct_INSTALL_METHOD=npm \
-    -e SiriClaw-Instruct_INSTALL_EXPECT_VERSION="$LATEST_VERSION" \
-    -e SiriClaw-Instruct_NO_ONBOARD=1 \
+    -e SIRICLAW_INSTALL_URL="$INSTALL_URL" \
+    -e SIRICLAW_INSTALL_METHOD=npm \
+    -e SIRICLAW_INSTALL_EXPECT_VERSION="$LATEST_VERSION" \
+    -e SIRICLAW_NO_ONBOARD=1 \
     -e DEBIAN_FRONTEND=noninteractive \
     "$NONROOT_IMAGE"
 fi
 
-if [[ "${SiriClaw-Instruct_INSTALL_SMOKE_SKIP_CLI:-${SIRICLAW_INSTALL_SMOKE_SKIP_CLI:-0}}" == "1" ]]; then
-  echo "==> Skip CLI installer smoke (SiriClaw-Instruct_INSTALL_SMOKE_SKIP_CLI=1)"
+if [[ "${SIRICLAW_INSTALL_SMOKE_SKIP_CLI:-${SIRICLAW_INSTALL_SMOKE_SKIP_CLI:-0}}" == "1" ]]; then
+  echo "==> Skip CLI installer smoke (SIRICLAW_INSTALL_SMOKE_SKIP_CLI=1)"
   exit 0
 fi
 
@@ -75,8 +75,8 @@ fi
 echo "==> Run CLI installer non-root test (same image)"
 docker run --rm -t \
   --entrypoint /bin/bash \
-  -e SiriClaw-Instruct_INSTALL_URL="$INSTALL_URL" \
-  -e SiriClaw-Instruct_INSTALL_CLI_URL="$CLI_INSTALL_URL" \
-  -e SiriClaw-Instruct_NO_ONBOARD=1 \
+  -e SIRICLAW_INSTALL_URL="$INSTALL_URL" \
+  -e SIRICLAW_INSTALL_CLI_URL="$CLI_INSTALL_URL" \
+  -e SIRICLAW_NO_ONBOARD=1 \
   -e DEBIAN_FRONTEND=noninteractive \
   "$NONROOT_IMAGE" -lc "curl -fsSL \"$CLI_INSTALL_URL\" | bash -s -- --set-npm-prefix --no-onboard"

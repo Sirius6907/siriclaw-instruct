@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { RuntimeEnv } from "../runtime.js";
 
 const mocks = vi.hoisted(() => ({
@@ -61,7 +61,7 @@ function makeRuntime(): RuntimeEnv {
 async function runGatewayPrompt(params: {
   selectQueue: string[];
   textQueue: Array<string | undefined>;
-  baseConfig?: SiriClaw-InstructConfig;
+  baseConfig?: SiriClawInstructConfig;
   randomToken?: string;
   confirmResult?: boolean;
   authConfigFactory?: (input: Record<string, unknown>) => Record<string, unknown>;
@@ -240,27 +240,28 @@ describe("promptGatewayConfig", () => {
   });
 
   it("stores gateway token as SecretRef when token source is ref", async () => {
-    const previous = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = "env-gateway-token";
+    const previous = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = "env-gateway-token";
     try {
       const { call, result } = await runGatewayPrompt({
         selectQueue: ["loopback", "token", "off", "ref"],
-        textQueue: ["18789", "SiriClaw-Instruct_GATEWAY_TOKEN"],
+        textQueue: ["18789", "SiriClawInstruct_GATEWAY_TOKEN"],
         authConfigFactory: ({ mode, token }) => ({ mode, token }),
       });
 
       expect(call?.token).toEqual({
         source: "env",
         provider: "default",
-        id: "SiriClaw-Instruct_GATEWAY_TOKEN",
+        id: "SiriClawInstruct_GATEWAY_TOKEN",
       });
       expect(result.token).toBeUndefined();
     } finally {
       if (previous === undefined) {
-        delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+        delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
       } else {
-        process.env.SiriClaw-Instruct_GATEWAY_TOKEN = previous;
+        process.env.SiriClawInstruct_GATEWAY_TOKEN = previous;
       }
     }
   });
 });
+

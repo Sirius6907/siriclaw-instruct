@@ -1,18 +1,18 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { SessionEntry } from "../config/sessions.js";
 import { resolveSendPolicy } from "./send-policy.js";
 
 describe("resolveSendPolicy", () => {
   it("defaults to allow", () => {
-    const cfg = {} as SiriClaw-InstructConfig;
+    const cfg = {} as SiriClawInstructConfig;
     expect(resolveSendPolicy({ cfg })).toBe("allow");
   });
 
   it("entry override wins", () => {
     const cfg = {
       session: { sendPolicy: { default: "allow" } },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const entry: SessionEntry = {
       sessionId: "s",
       updatedAt: 0,
@@ -34,7 +34,7 @@ describe("resolveSendPolicy", () => {
           ],
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const entry: SessionEntry = {
       sessionId: "s",
       updatedAt: 0,
@@ -52,7 +52,7 @@ describe("resolveSendPolicy", () => {
           rules: [{ action: "deny", match: { keyPrefix: "cron:" } }],
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     expect(resolveSendPolicy({ cfg, sessionKey: "cron:job-1" })).toBe("deny");
   });
 
@@ -64,8 +64,9 @@ describe("resolveSendPolicy", () => {
           rules: [{ action: "deny", match: { rawKeyPrefix: "agent:main:discord:" } }],
         },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     expect(resolveSendPolicy({ cfg, sessionKey: "agent:main:discord:group:dev" })).toBe("deny");
     expect(resolveSendPolicy({ cfg, sessionKey: "agent:main:slack:group:dev" })).toBe("allow");
   });
 });
+

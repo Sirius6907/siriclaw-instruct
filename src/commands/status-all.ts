@@ -17,7 +17,7 @@ import { normalizeControlUiBasePath } from "../gateway/control-ui-shared.js";
 import { resolveGatewayProbeAuthSafe } from "../gateway/probe-auth.js";
 import { probeGateway } from "../gateway/probe.js";
 import { collectChannelStatusIssues } from "../infra/channels-status-issues.js";
-import { resolveSiriClaw-InstructPackageRoot } from "../infra/SiriClaw-Instruct-root.js";
+import { resolveSiriClawInstructPackageRoot } from "../infra/siriclaw-instruct-root.js";
 import { resolveOsSummary } from "../infra/os-summary.js";
 import { inspectPortUsage } from "../infra/ports.js";
 import { readRestartSentinel } from "../infra/restart-sentinel.js";
@@ -92,7 +92,7 @@ export async function statusAllCommand(
     progress.tick();
 
     progress.setLabel("Checking for updates…");
-    const root = await resolveSiriClaw-InstructPackageRoot({
+    const root = await resolveSiriClawInstructPackageRoot({
       moduleUrl: import.meta.url,
       argv1: process.argv[1],
       cwd: process.cwd(),
@@ -144,7 +144,7 @@ export async function statusAllCommand(
         return {
           label: summary.label,
           installed: summary.installed,
-          managedBySiriClaw-Instruct: summary.managedBySiriClaw-Instruct,
+          managedBySiriClawInstruct: summary.managedBySiriClawInstruct,
           loaded: summary.loaded,
           loadedText: summary.loadedText,
           runtime: summary.runtime,
@@ -304,7 +304,7 @@ export async function statusAllCommand(
       ...(probeAuthResolution.warning
         ? [{ Item: "Gateway auth warning", Value: probeAuthResolution.warning }]
         : []),
-      { Item: "Security", Value: `Run: ${formatCliCommand("SiriClaw-Instruct security audit --deep")}` },
+      { Item: "Security", Value: `Run: ${formatCliCommand("SiriClawInstruct security audit --deep")}` },
       gatewaySelfLine
         ? { Item: "Gateway self", Value: gatewaySelfLine }
         : { Item: "Gateway self", Value: "unknown" },
@@ -313,7 +313,7 @@ export async function statusAllCommand(
             Item: "Gateway service",
             Value: !daemon.installed
               ? `${daemon.label} not installed`
-              : `${daemon.label} ${daemon.managedBySiriClaw-Instruct ? "installed · " : ""}${daemon.loadedText}${daemon.runtime?.status ? ` · ${daemon.runtime.status}` : ""}${daemon.runtime?.pid ? ` (pid ${daemon.runtime.pid})` : ""}`,
+              : `${daemon.label} ${daemon.managedBySiriClawInstruct ? "installed · " : ""}${daemon.loadedText}${daemon.runtime?.status ? ` · ${daemon.runtime.status}` : ""}${daemon.runtime?.pid ? ` (pid ${daemon.runtime.pid})` : ""}`,
           }
         : { Item: "Gateway service", Value: "unknown" },
       nodeService
@@ -321,7 +321,7 @@ export async function statusAllCommand(
             Item: "Node service",
             Value: !nodeService.installed
               ? `${nodeService.label} not installed`
-              : `${nodeService.label} ${nodeService.managedBySiriClaw-Instruct ? "installed · " : ""}${nodeService.loadedText}${nodeService.runtime?.status ? ` · ${nodeService.runtime.status}` : ""}${nodeService.runtime?.pid ? ` (pid ${nodeService.runtime.pid})` : ""}`,
+              : `${nodeService.label} ${nodeService.managedBySiriClawInstruct ? "installed · " : ""}${nodeService.loadedText}${nodeService.runtime?.status ? ` · ${nodeService.runtime.status}` : ""}${nodeService.runtime?.pid ? ` (pid ${nodeService.runtime.pid})` : ""}`,
           }
         : { Item: "Node service", Value: "unknown" },
       {
@@ -363,3 +363,4 @@ export async function statusAllCommand(
     progress.tick();
   });
 }
+

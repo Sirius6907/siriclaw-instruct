@@ -1,6 +1,6 @@
 import util from "node:util";
 import { createAccountActionGate } from "../channels/plugins/account-action-gate.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { TelegramAccountConfig, TelegramActionConfig } from "../config/types.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
@@ -31,7 +31,7 @@ function formatDebugArg(value: unknown): string {
 }
 
 const debugAccounts = (...args: unknown[]) => {
-  if (isTruthyEnvValue(process.env.SiriClaw-Instruct_DEBUG_TELEGRAM_ACCOUNTS)) {
+  if (isTruthyEnvValue(process.env.SiriClawInstruct_DEBUG_TELEGRAM_ACCOUNTS)) {
     const parts = args.map((arg) => formatDebugArg(arg));
     log.warn(parts.join(" ").trim());
   }
@@ -46,14 +46,14 @@ export type ResolvedTelegramAccount = {
   config: TelegramAccountConfig;
 };
 
-function listConfiguredAccountIds(cfg: SiriClaw-InstructConfig): string[] {
+function listConfiguredAccountIds(cfg: SiriClawInstructConfig): string[] {
   return listConfiguredAccountIdsFromSection({
     accounts: cfg.channels?.telegram?.accounts,
     normalizeAccountId,
   });
 }
 
-export function listTelegramAccountIds(cfg: SiriClaw-InstructConfig): string[] {
+export function listTelegramAccountIds(cfg: SiriClawInstructConfig): string[] {
   const ids = Array.from(
     new Set([...listConfiguredAccountIds(cfg), ...listBoundAccountIds(cfg, "telegram")]),
   );
@@ -71,7 +71,7 @@ export function resetMissingDefaultWarnFlag(): void {
   emittedMissingDefaultWarn = false;
 }
 
-export function resolveDefaultTelegramAccountId(cfg: SiriClaw-InstructConfig): string {
+export function resolveDefaultTelegramAccountId(cfg: SiriClawInstructConfig): string {
   const boundDefault = resolveDefaultAgentBoundAccountId(cfg, "telegram");
   if (boundDefault) {
     return boundDefault;
@@ -98,7 +98,7 @@ export function resolveDefaultTelegramAccountId(cfg: SiriClaw-InstructConfig): s
 }
 
 export function resolveTelegramAccountConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   accountId: string,
 ): TelegramAccountConfig | undefined {
   const normalized = normalizeAccountId(accountId);
@@ -106,7 +106,7 @@ export function resolveTelegramAccountConfig(
 }
 
 export function mergeTelegramAccountConfig(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   accountId: string,
 ): TelegramAccountConfig {
   const {
@@ -126,7 +126,7 @@ export function mergeTelegramAccountConfig(
   // this failure disrupts message delivery for *all* accounts.
   // Single-account setups keep backward compat: channel-level groups still
   // applies when the account has no override.
-  // See: https://github.com/SiriClaw-Instruct/SiriClaw-Instruct/issues/30673
+  // See: https://github.com/SiriClawInstruct/SiriClawInstruct/issues/30673
   const configuredAccountIds = Object.keys(cfg.channels?.telegram?.accounts ?? {});
   const isMultiAccount = configuredAccountIds.length > 1;
   const groups = account.groups ?? (isMultiAccount ? undefined : channelGroups);
@@ -135,7 +135,7 @@ export function mergeTelegramAccountConfig(
 }
 
 export function createTelegramActionGate(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
 }): (key: keyof TelegramActionConfig, defaultValue?: boolean) => boolean {
   const accountId = normalizeAccountId(params.accountId);
@@ -164,7 +164,7 @@ export function resolveTelegramPollActionGateState(
 }
 
 export function resolveTelegramAccount(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
 }): ResolvedTelegramAccount {
   const baseEnabled = params.cfg.channels?.telegram?.enabled !== false;
@@ -201,8 +201,9 @@ export function resolveTelegramAccount(params: {
   });
 }
 
-export function listEnabledTelegramAccounts(cfg: SiriClaw-InstructConfig): ResolvedTelegramAccount[] {
+export function listEnabledTelegramAccounts(cfg: SiriClawInstructConfig): ResolvedTelegramAccount[] {
   return listTelegramAccountIds(cfg)
     .map((accountId) => resolveTelegramAccount({ cfg, accountId }))
     .filter((account) => account.enabled);
 }
+

@@ -6,3 +6,4 @@ export function parsePort(raw: unknown): number | null {
   }
   return parseStrictPositiveInteger(raw) ?? null;
 }
+

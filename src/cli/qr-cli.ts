@@ -101,7 +101,7 @@ export function registerQrCli(program: Command) {
     .description("Generate an iOS pairing QR code and setup code")
     .addHelpText(
       "after",
-      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/qr", "docs.SiriClaw-Instruct.ai/cli/qr")}\n`,
+      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/qr", "docs.SiriClawInstruct.ai/cli/qr")}\n`,
     )
     .option(
       "--remote",
@@ -242,7 +242,7 @@ export function registerQrCli(program: Command) {
 
         const lines: string[] = [
           theme.heading("Pairing QR"),
-          "Scan this with the SiriClaw-Instruct iOS app (Onboarding -> Scan QR).",
+          "Scan this with the SiriClawInstruct iOS app (Onboarding -> Scan QR).",
           "",
         ];
 
@@ -258,8 +258,8 @@ export function registerQrCli(program: Command) {
           `${theme.muted("Source:")} ${resolved.urlSource}`,
           "",
           "Approve after scan with:",
-          `  ${theme.command("SiriClaw-Instruct devices list")}`,
-          `  ${theme.command("SiriClaw-Instruct devices approve <requestId>")}`,
+          `  ${theme.command("SiriClawInstruct devices list")}`,
+          `  ${theme.command("SiriClawInstruct devices approve <requestId>")}`,
         );
 
         defaultRuntime.log(lines.join("\n"));
@@ -269,3 +269,4 @@ export function registerQrCli(program: Command) {
       }
     });
 }
+

@@ -12,8 +12,8 @@ describe("detectMacCloudSyncedStateDir", () => {
       "Library",
       "Mobile Documents",
       "com~apple~CloudDocs",
-      "SiriClaw-Instruct",
-      ".SiriClaw-Instruct",
+      "SiriClawInstruct",
+      ".SiriClawInstruct",
     );
 
     const result = detectMacCloudSyncedStateDir(stateDir, {
@@ -28,7 +28,7 @@ describe("detectMacCloudSyncedStateDir", () => {
   });
 
   it("detects state dir under Library/CloudStorage", () => {
-    const stateDir = path.join(home, "Library", "CloudStorage", "Dropbox", "SiriClaw-Instruct", ".SiriClaw-Instruct");
+    const stateDir = path.join(home, "Library", "CloudStorage", "Dropbox", "SiriClawInstruct", ".SiriClawInstruct");
 
     const result = detectMacCloudSyncedStateDir(stateDir, {
       platform: "darwin",
@@ -42,14 +42,14 @@ describe("detectMacCloudSyncedStateDir", () => {
   });
 
   it("detects cloud-synced target when state dir resolves via symlink", () => {
-    const symlinkPath = "/tmp/SiriClaw-Instruct-state";
+    const symlinkPath = "/tmp/SiriClawInstruct-state";
     const resolvedCloudPath = path.join(
       home,
       "Library",
       "CloudStorage",
       "OneDrive-Personal",
-      "SiriClaw-Instruct",
-      ".SiriClaw-Instruct",
+      "SiriClawInstruct",
+      ".SiriClawInstruct",
     );
 
     const result = detectMacCloudSyncedStateDir(symlinkPath, {
@@ -70,10 +70,10 @@ describe("detectMacCloudSyncedStateDir", () => {
       "Library",
       "CloudStorage",
       "OneDrive-Personal",
-      "SiriClaw-Instruct",
-      ".SiriClaw-Instruct",
+      "SiriClawInstruct",
+      ".SiriClawInstruct",
     );
-    const resolvedLocalPath = path.join(home, ".SiriClaw-Instruct");
+    const resolvedLocalPath = path.join(home, ".SiriClawInstruct");
 
     const result = detectMacCloudSyncedStateDir(symlinkPath, {
       platform: "darwin",
@@ -84,10 +84,10 @@ describe("detectMacCloudSyncedStateDir", () => {
     expect(result).toBeNull();
   });
 
-  it("anchors cloud detection to OS homedir when SiriClaw-Instruct_HOME is overridden", () => {
-    const stateDir = path.join(home, "Library", "CloudStorage", "iCloud Drive", ".SiriClaw-Instruct");
-    const originalSiriClaw-InstructHome = process.env.SiriClaw-Instruct_HOME;
-    process.env.SiriClaw-Instruct_HOME = "/tmp/SiriClaw-Instruct-home-override";
+  it("anchors cloud detection to OS homedir when SiriClawInstruct_HOME is overridden", () => {
+    const stateDir = path.join(home, "Library", "CloudStorage", "iCloud Drive", ".SiriClawInstruct");
+    const originalSiriClawInstructHome = process.env.SiriClawInstruct_HOME;
+    process.env.SiriClawInstruct_HOME = "/tmp/SiriClawInstruct-home-override";
     const homedirSpy = vi.spyOn(os, "homedir").mockReturnValue(home);
     try {
       const result = detectMacCloudSyncedStateDir(stateDir, {
@@ -100,10 +100,10 @@ describe("detectMacCloudSyncedStateDir", () => {
       });
     } finally {
       homedirSpy.mockRestore();
-      if (originalSiriClaw-InstructHome === undefined) {
-        delete process.env.SiriClaw-Instruct_HOME;
+      if (originalSiriClawInstructHome === undefined) {
+        delete process.env.SiriClawInstruct_HOME;
       } else {
-        process.env.SiriClaw-Instruct_HOME = originalSiriClaw-InstructHome;
+        process.env.SiriClawInstruct_HOME = originalSiriClawInstructHome;
       }
     }
   });
@@ -114,8 +114,8 @@ describe("detectMacCloudSyncedStateDir", () => {
       "Library",
       "Mobile Documents",
       "com~apple~CloudDocs",
-      "SiriClaw-Instruct",
-      ".SiriClaw-Instruct",
+      "SiriClawInstruct",
+      ".SiriClawInstruct",
     );
 
     const result = detectMacCloudSyncedStateDir(stateDir, {
@@ -126,3 +126,4 @@ describe("detectMacCloudSyncedStateDir", () => {
     expect(result).toBeNull();
   });
 });
+

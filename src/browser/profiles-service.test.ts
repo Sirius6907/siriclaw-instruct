@@ -19,11 +19,11 @@ vi.mock("./trash.js", () => ({
 }));
 
 vi.mock("./chrome.js", () => ({
-  resolveSiriClaw-InstructUserDataDir: vi.fn(() => "/tmp/SiriClaw-Instruct-test/SiriClaw-Instruct/user-data"),
+  resolveSiriClawInstructUserDataDir: vi.fn(() => "/tmp/SiriClawInstruct-test/SiriClawInstruct/user-data"),
 }));
 
 import { loadConfig, writeConfigFile } from "../config/config.js";
-import { resolveSiriClaw-InstructUserDataDir } from "./chrome.js";
+import { resolveSiriClawInstructUserDataDir } from "./chrome.js";
 import { movePathToTrash } from "./trash.js";
 
 function createCtx(resolved: BrowserServerState["resolved"]) {
@@ -142,9 +142,9 @@ describe("BrowserProfilesService", () => {
 
     vi.mocked(loadConfig).mockReturnValue({
       browser: {
-        defaultProfile: "SiriClaw-Instruct",
+        defaultProfile: "SiriClawInstruct",
         profiles: {
-          SiriClaw-Instruct: { cdpPort: 18800, color: "#FF4500" },
+          SiriClawInstruct: { cdpPort: 18800, color: "#FF4500" },
           remote: { cdpUrl: "http://10.0.0.42:9222", color: "#0066CC" },
         },
       },
@@ -168,18 +168,18 @@ describe("BrowserProfilesService", () => {
 
     vi.mocked(loadConfig).mockReturnValue({
       browser: {
-        defaultProfile: "SiriClaw-Instruct",
+        defaultProfile: "SiriClawInstruct",
         profiles: {
-          SiriClaw-Instruct: { cdpPort: 18800, color: "#FF4500" },
+          SiriClawInstruct: { cdpPort: 18800, color: "#FF4500" },
           work: { cdpPort: 18801, color: "#0066CC" },
         },
       },
     });
 
-    const tempDir = fs.mkdtempSync(path.join("/tmp", "SiriClaw-Instruct-profile-"));
+    const tempDir = fs.mkdtempSync(path.join("/tmp", "SiriClawInstruct-profile-"));
     const userDataDir = path.join(tempDir, "work", "user-data");
     fs.mkdirSync(path.dirname(userDataDir), { recursive: true });
-    vi.mocked(resolveSiriClaw-InstructUserDataDir).mockReturnValue(userDataDir);
+    vi.mocked(resolveSiriClawInstructUserDataDir).mockReturnValue(userDataDir);
 
     const service = createBrowserProfilesService(ctx);
     const result = await service.deleteProfile("work");
@@ -188,3 +188,4 @@ describe("BrowserProfilesService", () => {
     expect(movePathToTrash).toHaveBeenCalledWith(path.dirname(userDataDir));
   });
 });
+

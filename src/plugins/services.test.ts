@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createEmptyPluginRegistry } from "./registry.js";
-import type { SiriClaw-InstructPluginService, SiriClaw-InstructPluginServiceContext } from "./types.js";
+import type { SiriClawInstructPluginService, SiriClawInstructPluginServiceContext } from "./types.js";
 
 const mockedLogger = vi.hoisted(() => ({
   info: vi.fn<(msg: string) => void>(),
@@ -16,7 +16,7 @@ vi.mock("../logging/subsystem.js", () => ({
 import { STATE_DIR } from "../config/paths.js";
 import { startPluginServices } from "./services.js";
 
-function createRegistry(services: SiriClaw-InstructPluginService[]) {
+function createRegistry(services: SiriClawInstructPluginService[]) {
   const registry = createEmptyPluginRegistry();
   for (const service of services) {
     registry.services.push({ pluginId: "plugin:test", service, source: "test" });
@@ -32,9 +32,9 @@ describe("startPluginServices", () => {
   it("starts services and stops them in reverse order", async () => {
     const starts: string[] = [];
     const stops: string[] = [];
-    const contexts: SiriClaw-InstructPluginServiceContext[] = [];
+    const contexts: SiriClawInstructPluginServiceContext[] = [];
 
-    const serviceA: SiriClaw-InstructPluginService = {
+    const serviceA: SiriClawInstructPluginService = {
       id: "service-a",
       start: (ctx) => {
         starts.push("a");
@@ -44,14 +44,14 @@ describe("startPluginServices", () => {
         stops.push("a");
       },
     };
-    const serviceB: SiriClaw-InstructPluginService = {
+    const serviceB: SiriClawInstructPluginService = {
       id: "service-b",
       start: (ctx) => {
         starts.push("b");
         contexts.push(ctx);
       },
     };
-    const serviceC: SiriClaw-InstructPluginService = {
+    const serviceC: SiriClawInstructPluginService = {
       id: "service-c",
       start: (ctx) => {
         starts.push("c");
@@ -125,3 +125,4 @@ describe("startPluginServices", () => {
     expect(stopThrows).toHaveBeenCalledOnce();
   });
 });
+

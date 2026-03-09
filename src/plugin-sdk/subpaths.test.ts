@@ -1,52 +1,52 @@
-import * as compatSdk from "SiriClaw-Instruct/plugin-sdk/compat";
-import * as discordSdk from "SiriClaw-Instruct/plugin-sdk/discord";
-import * as imessageSdk from "SiriClaw-Instruct/plugin-sdk/imessage";
-import * as lineSdk from "SiriClaw-Instruct/plugin-sdk/line";
-import * as msteamsSdk from "SiriClaw-Instruct/plugin-sdk/msteams";
-import * as signalSdk from "SiriClaw-Instruct/plugin-sdk/signal";
-import * as slackSdk from "SiriClaw-Instruct/plugin-sdk/slack";
-import * as telegramSdk from "SiriClaw-Instruct/plugin-sdk/telegram";
-import * as whatsappSdk from "SiriClaw-Instruct/plugin-sdk/whatsapp";
+import * as compatSdk from "siriclaw-instruct/plugin-sdk/compat";
+import * as discordSdk from "siriclaw-instruct/plugin-sdk/discord";
+import * as imessageSdk from "siriclaw-instruct/plugin-sdk/imessage";
+import * as lineSdk from "siriclaw-instruct/plugin-sdk/line";
+import * as msteamsSdk from "siriclaw-instruct/plugin-sdk/msteams";
+import * as signalSdk from "siriclaw-instruct/plugin-sdk/signal";
+import * as slackSdk from "siriclaw-instruct/plugin-sdk/slack";
+import * as telegramSdk from "siriclaw-instruct/plugin-sdk/telegram";
+import * as whatsappSdk from "siriclaw-instruct/plugin-sdk/whatsapp";
 import { describe, expect, it } from "vitest";
 
 const bundledExtensionSubpathLoaders = [
-  { id: "acpx", load: () => import("SiriClaw-Instruct/plugin-sdk/acpx") },
-  { id: "bluebubbles", load: () => import("SiriClaw-Instruct/plugin-sdk/bluebubbles") },
-  { id: "copilot-proxy", load: () => import("SiriClaw-Instruct/plugin-sdk/copilot-proxy") },
-  { id: "device-pair", load: () => import("SiriClaw-Instruct/plugin-sdk/device-pair") },
-  { id: "diagnostics-otel", load: () => import("SiriClaw-Instruct/plugin-sdk/diagnostics-otel") },
-  { id: "diffs", load: () => import("SiriClaw-Instruct/plugin-sdk/diffs") },
-  { id: "feishu", load: () => import("SiriClaw-Instruct/plugin-sdk/feishu") },
+  { id: "acpx", load: () => import("SiriClawInstruct/plugin-sdk/acpx") },
+  { id: "bluebubbles", load: () => import("SiriClawInstruct/plugin-sdk/bluebubbles") },
+  { id: "copilot-proxy", load: () => import("SiriClawInstruct/plugin-sdk/copilot-proxy") },
+  { id: "device-pair", load: () => import("SiriClawInstruct/plugin-sdk/device-pair") },
+  { id: "diagnostics-otel", load: () => import("SiriClawInstruct/plugin-sdk/diagnostics-otel") },
+  { id: "diffs", load: () => import("SiriClawInstruct/plugin-sdk/diffs") },
+  { id: "feishu", load: () => import("SiriClawInstruct/plugin-sdk/feishu") },
   {
     id: "google-gemini-cli-auth",
-    load: () => import("SiriClaw-Instruct/plugin-sdk/google-gemini-cli-auth"),
+    load: () => import("SiriClawInstruct/plugin-sdk/google-gemini-cli-auth"),
   },
-  { id: "googlechat", load: () => import("SiriClaw-Instruct/plugin-sdk/googlechat") },
-  { id: "irc", load: () => import("SiriClaw-Instruct/plugin-sdk/irc") },
-  { id: "llm-task", load: () => import("SiriClaw-Instruct/plugin-sdk/llm-task") },
-  { id: "lobster", load: () => import("SiriClaw-Instruct/plugin-sdk/lobster") },
-  { id: "matrix", load: () => import("SiriClaw-Instruct/plugin-sdk/matrix") },
-  { id: "mattermost", load: () => import("SiriClaw-Instruct/plugin-sdk/mattermost") },
-  { id: "memory-core", load: () => import("SiriClaw-Instruct/plugin-sdk/memory-core") },
-  { id: "memory-lancedb", load: () => import("SiriClaw-Instruct/plugin-sdk/memory-lancedb") },
+  { id: "googlechat", load: () => import("SiriClawInstruct/plugin-sdk/googlechat") },
+  { id: "irc", load: () => import("SiriClawInstruct/plugin-sdk/irc") },
+  { id: "llm-task", load: () => import("SiriClawInstruct/plugin-sdk/llm-task") },
+  { id: "lobster", load: () => import("SiriClawInstruct/plugin-sdk/lobster") },
+  { id: "matrix", load: () => import("SiriClawInstruct/plugin-sdk/matrix") },
+  { id: "mattermost", load: () => import("SiriClawInstruct/plugin-sdk/mattermost") },
+  { id: "memory-core", load: () => import("SiriClawInstruct/plugin-sdk/memory-core") },
+  { id: "memory-lancedb", load: () => import("SiriClawInstruct/plugin-sdk/memory-lancedb") },
   {
     id: "minimax-portal-auth",
-    load: () => import("SiriClaw-Instruct/plugin-sdk/minimax-portal-auth"),
+    load: () => import("SiriClawInstruct/plugin-sdk/minimax-portal-auth"),
   },
-  { id: "nextcloud-talk", load: () => import("SiriClaw-Instruct/plugin-sdk/nextcloud-talk") },
-  { id: "nostr", load: () => import("SiriClaw-Instruct/plugin-sdk/nostr") },
-  { id: "open-prose", load: () => import("SiriClaw-Instruct/plugin-sdk/open-prose") },
-  { id: "phone-control", load: () => import("SiriClaw-Instruct/plugin-sdk/phone-control") },
-  { id: "qwen-portal-auth", load: () => import("SiriClaw-Instruct/plugin-sdk/qwen-portal-auth") },
-  { id: "synology-chat", load: () => import("SiriClaw-Instruct/plugin-sdk/synology-chat") },
-  { id: "talk-voice", load: () => import("SiriClaw-Instruct/plugin-sdk/talk-voice") },
-  { id: "test-utils", load: () => import("SiriClaw-Instruct/plugin-sdk/test-utils") },
-  { id: "thread-ownership", load: () => import("SiriClaw-Instruct/plugin-sdk/thread-ownership") },
-  { id: "tlon", load: () => import("SiriClaw-Instruct/plugin-sdk/tlon") },
-  { id: "twitch", load: () => import("SiriClaw-Instruct/plugin-sdk/twitch") },
-  { id: "voice-call", load: () => import("SiriClaw-Instruct/plugin-sdk/voice-call") },
-  { id: "zalo", load: () => import("SiriClaw-Instruct/plugin-sdk/zalo") },
-  { id: "zalouser", load: () => import("SiriClaw-Instruct/plugin-sdk/zalouser") },
+  { id: "nextcloud-talk", load: () => import("SiriClawInstruct/plugin-sdk/nextcloud-talk") },
+  { id: "nostr", load: () => import("SiriClawInstruct/plugin-sdk/nostr") },
+  { id: "open-prose", load: () => import("SiriClawInstruct/plugin-sdk/open-prose") },
+  { id: "phone-control", load: () => import("SiriClawInstruct/plugin-sdk/phone-control") },
+  { id: "qwen-portal-auth", load: () => import("SiriClawInstruct/plugin-sdk/qwen-portal-auth") },
+  { id: "synology-chat", load: () => import("SiriClawInstruct/plugin-sdk/synology-chat") },
+  { id: "talk-voice", load: () => import("SiriClawInstruct/plugin-sdk/talk-voice") },
+  { id: "test-utils", load: () => import("SiriClawInstruct/plugin-sdk/test-utils") },
+  { id: "thread-ownership", load: () => import("SiriClawInstruct/plugin-sdk/thread-ownership") },
+  { id: "tlon", load: () => import("SiriClawInstruct/plugin-sdk/tlon") },
+  { id: "twitch", load: () => import("SiriClawInstruct/plugin-sdk/twitch") },
+  { id: "voice-call", load: () => import("SiriClawInstruct/plugin-sdk/voice-call") },
+  { id: "zalo", load: () => import("SiriClawInstruct/plugin-sdk/zalo") },
+  { id: "zalouser", load: () => import("SiriClawInstruct/plugin-sdk/zalouser") },
 ] as const;
 
 describe("plugin-sdk subpath exports", () => {
@@ -106,3 +106,4 @@ describe("plugin-sdk subpath exports", () => {
     }
   });
 });
+

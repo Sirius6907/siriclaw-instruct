@@ -31,7 +31,8 @@ describe("connect params client id validation", () => {
   );
 
   test("rejects unknown client ids", () => {
-    const ok = validateConnectParams(makeConnectParams("SiriClaw-Instruct-mobile"));
+    const ok = validateConnectParams(makeConnectParams("SiriClawInstruct-mobile"));
     expect(ok).toBe(false);
   });
 });
+

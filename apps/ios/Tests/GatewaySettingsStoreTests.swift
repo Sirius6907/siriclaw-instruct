@@ -201,3 +201,4 @@ private func withLastGatewaySnapshot(_ body: () -> Void) {
         #expect(GatewaySettingsStore.loadTalkProviderApiKey(provider: "acme") == nil)
     }
 }
+

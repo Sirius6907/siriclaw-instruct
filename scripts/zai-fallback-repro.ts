@@ -99,14 +99,14 @@ async function main() {
   await fs.writeFile(configPath, JSON.stringify(config, null, 2), "utf8");
 
   const sessionId =
-    process.env.SiriClaw-Instruct_ZAI_FALLBACK_SESSION_ID ??
+    process.env.SIRICLAW_ZAI_FALLBACK_SESSION_ID ??
     process.env.SIRICLAW_ZAI_FALLBACK_SESSION_ID ??
     randomUUID();
 
   const baseEnv: NodeJS.ProcessEnv = {
     ...process.env,
-    SiriClaw-Instruct_CONFIG_PATH: configPath,
-    SiriClaw-Instruct_STATE_DIR: stateDir,
+    SIRICLAW_CONFIG_PATH: configPath,
+    SIRICLAW_STATE_DIR: stateDir,
     SIRICLAW_CONFIG_PATH: configPath,
     SIRICLAW_STATE_DIR: stateDir,
     ZAI_API_KEY: zaiKey,

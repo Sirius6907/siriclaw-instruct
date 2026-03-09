@@ -1,9 +1,9 @@
 export type { ChannelMessageActionName } from "../channels/plugins/types.js";
 export type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-export type { SiriClaw-InstructConfig } from "../config/config.js";
+export type { SiriClawInstructConfig } from "../config/config.js";
 export type { ResolvedWhatsAppAccount } from "../web/accounts.js";
 export type { PluginRuntime } from "../plugins/runtime/types.js";
-export type { SiriClaw-InstructPluginApi } from "../plugins/types.js";
+export type { SiriClawInstructPluginApi } from "../plugins/types.js";
 
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 
@@ -57,3 +57,4 @@ export { WhatsAppConfigSchema } from "../config/zod-schema.providers-whatsapp.js
 export { createActionGate, readStringParam } from "../agents/tools/common.js";
 
 export { normalizeE164 } from "../utils.js";
+

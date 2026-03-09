@@ -23,7 +23,7 @@ describe("media store outside-workspace mapping", () => {
   let home = "";
 
   beforeAll(async () => {
-    tempHome = await createTempHomeEnv("SiriClaw-Instruct-media-store-test-home-");
+    tempHome = await createTempHomeEnv("SiriClawInstruct-media-store-test-home-");
     home = tempHome.home;
   });
 
@@ -44,3 +44,4 @@ describe("media store outside-workspace mapping", () => {
     });
   });
 });
+

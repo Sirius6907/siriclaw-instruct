@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   installModelsConfigTestHooks,
   withModelsTempHome as withTempHome,
 } from "./models-config.e2e-harness.js";
-import { ensureSiriClaw-InstructModelsJson } from "./models-config.js";
+import { ensureSiriClawInstructModelsJson } from "./models-config.js";
 import { readGeneratedModelsJson } from "./models-config.test-utils.js";
 
 installModelsConfigTestHooks();
@@ -43,8 +43,8 @@ async function withMinimaxApiKey(run: () => Promise<void>) {
   }
 }
 
-async function generateAndReadMinimaxModel(cfg: SiriClaw-InstructConfig): Promise<ModelEntry | undefined> {
-  await ensureSiriClaw-InstructModelsJson(cfg);
+async function generateAndReadMinimaxModel(cfg: SiriClawInstructConfig): Promise<ModelEntry | undefined> {
+  await ensureSiriClawInstructModelsJson(cfg);
   const parsed = await readGeneratedModelsJson<ModelsJson>();
   return parsed.providers.minimax?.models?.find((model) => model.id === MINIMAX_MODEL_ID);
 }
@@ -55,7 +55,7 @@ describe("models-config: explicit reasoning override", () => {
     // User explicitly sets reasoning:false to avoid message-ordering conflicts.
     await withTempHome(async () => {
       await withMinimaxApiKey(async () => {
-        const cfg: SiriClaw-InstructConfig = {
+        const cfg: SiriClawInstructConfig = {
           models: {
             providers: {
               minimax: {
@@ -98,7 +98,7 @@ describe("models-config: explicit reasoning override", () => {
           contextWindow: 1_000_000,
           maxTokens: 8192,
         };
-        const cfg: SiriClaw-InstructConfig = {
+        const cfg: SiriClawInstructConfig = {
           models: {
             providers: {
               minimax: {
@@ -118,3 +118,4 @@ describe("models-config: explicit reasoning override", () => {
     });
   });
 });
+

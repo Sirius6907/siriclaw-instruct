@@ -1,6 +1,6 @@
 import EventKit
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 
 final class RemindersService: RemindersServicing {
     func list(params: SiriClaw-InstructRemindersListParams) async throws -> SiriClaw-InstructRemindersListPayload {
@@ -131,3 +131,4 @@ final class RemindersService: RemindersServicing {
         ])
     }
 }
+

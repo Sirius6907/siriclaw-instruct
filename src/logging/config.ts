@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import json5 from "json5";
 import { resolveConfigPath } from "../config/paths.js";
-import type { SiriClaw-InstructConfig } from "../config/types.js";
+import type { SiriClawInstructConfig } from "../config/types.js";
 
-type LoggingConfig = SiriClaw-InstructConfig["logging"];
+type LoggingConfig = SiriClawInstructConfig["logging"];
 
 export function readLoggingConfig(): LoggingConfig | undefined {
   const configPath = resolveConfigPath();
@@ -22,3 +22,4 @@ export function readLoggingConfig(): LoggingConfig | undefined {
     return undefined;
   }
 }
+

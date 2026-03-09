@@ -1,5 +1,5 @@
 import SiriClaw-InstructChatUI
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import SiriClaw-InstructProtocol
 import Observation
 import os
@@ -905,7 +905,7 @@ final class NodeAppModel {
             """)
             return BridgeInvokeResponse(id: req.id, ok: true, payloadJSON: json)
         case SiriClaw-InstructCanvasA2UICommand.push.rawValue, SiriClaw-InstructCanvasA2UICommand.pushJSONL.rawValue:
-            let messages: [SiriClaw-InstructKit.AnyCodable]
+            let messages: [siriclaw-instruct-kit.AnyCodable]
             if command == SiriClaw-InstructCanvasA2UICommand.pushJSONL.rawValue {
                 let params = try Self.decodeParams(SiriClaw-InstructCanvasA2UIPushJSONLParams.self, from: req.paramsJSON)
                 messages = try SiriClaw-InstructCanvasA2UIJSONL.decodeMessagesFromJSONL(params.jsonl)
@@ -2865,3 +2865,4 @@ extension NodeAppModel {
 }
 #endif
 // swiftlint:enable type_body_length file_length
+

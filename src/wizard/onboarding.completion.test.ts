@@ -10,12 +10,12 @@ function createPrompter(confirmValue = false) {
 
 function createDeps() {
   const deps: NonNullable<Parameters<typeof setupOnboardingShellCompletion>[0]["deps"]> = {
-    resolveCliName: () => "SiriClaw-Instruct",
+    resolveCliName: () => "SiriClawInstruct",
     checkShellCompletionStatus: vi.fn(async (_binName: string) => ({
       shell: "zsh" as const,
       profileInstalled: false,
       cacheExists: false,
-      cachePath: "/tmp/SiriClaw-Instruct.zsh",
+      cachePath: "/tmp/SiriClawInstruct.zsh",
       usesSlowPattern: false,
     })),
     ensureCompletionCacheExists: vi.fn(async (_binName: string) => true),
@@ -32,8 +32,8 @@ describe("setupOnboardingShellCompletion", () => {
     await setupOnboardingShellCompletion({ flow: "quickstart", prompter, deps });
 
     expect(prompter.confirm).not.toHaveBeenCalled();
-    expect(deps.ensureCompletionCacheExists).toHaveBeenCalledWith("SiriClaw-Instruct");
-    expect(deps.installCompletion).toHaveBeenCalledWith("zsh", true, "SiriClaw-Instruct");
+    expect(deps.ensureCompletionCacheExists).toHaveBeenCalledWith("SiriClawInstruct");
+    expect(deps.installCompletion).toHaveBeenCalledWith("zsh", true, "SiriClawInstruct");
     expect(prompter.note).toHaveBeenCalled();
   });
 
@@ -49,3 +49,4 @@ describe("setupOnboardingShellCompletion", () => {
     expect(prompter.note).not.toHaveBeenCalled();
   });
 });
+

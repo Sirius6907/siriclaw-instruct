@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { normalizeAccountId } from "../routing/session-key.js";
 
 export const DISCORD_THREAD_BINDING_CHANNEL = "discord";
@@ -82,7 +82,7 @@ export function resolveThreadBindingsEnabled(params: {
 }
 
 function resolveChannelThreadBindings(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   accountId: string;
 }): {
@@ -107,7 +107,7 @@ function resolveSpawnFlagKey(
 }
 
 export function resolveThreadBindingSpawnPolicy(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   accountId?: string;
   kind: ThreadBindingSpawnKind;
@@ -138,7 +138,7 @@ export function resolveThreadBindingSpawnPolicy(params: {
 }
 
 export function resolveThreadBindingIdleTimeoutMsForChannel(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   accountId?: string;
 }): number {
@@ -150,7 +150,7 @@ export function resolveThreadBindingIdleTimeoutMsForChannel(params: {
 }
 
 export function resolveThreadBindingMaxAgeMsForChannel(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   accountId?: string;
 }): number {
@@ -162,7 +162,7 @@ export function resolveThreadBindingMaxAgeMsForChannel(params: {
 }
 
 function resolveThreadBindingChannelScope(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: string;
   accountId?: string;
 }) {
@@ -199,3 +199,4 @@ export function formatThreadBindingSpawnDisabledError(params: {
   }
   return `Thread-bound ${params.kind} spawns are disabled for ${params.channel}.`;
 }
+

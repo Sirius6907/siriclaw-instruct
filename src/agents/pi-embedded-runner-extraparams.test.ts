@@ -988,8 +988,8 @@ describe("applyExtraParamsToAgent", () => {
 
     expect(calls).toHaveLength(1);
     expect(calls[0]?.headers).toEqual({
-      "HTTP-Referer": "https://SiriClaw-Instruct.ai",
-      "X-Title": "SiriClaw-Instruct",
+      "HTTP-Referer": "https://SiriClawInstruct.ai",
+      "X-Title": "SiriClawInstruct",
       "X-Custom": "1",
     });
   });
@@ -1872,3 +1872,4 @@ describe("applyExtraParamsToAgent", () => {
     },
   );
 });
+

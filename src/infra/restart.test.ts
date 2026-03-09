@@ -38,19 +38,19 @@ afterEach(() => {
 });
 
 describe.runIf(process.platform !== "win32")("findGatewayPidsOnPortSync", () => {
-  it("parses lsof output and filters non-SiriClaw-Instruct/current processes", () => {
+  it("parses lsof output and filters non-SiriClawInstruct/current processes", () => {
     spawnSyncMock.mockReturnValue({
       error: undefined,
       status: 0,
       stdout: [
         `p${process.pid}`,
-        "cSiriClaw-Instruct",
+        "cSiriClawInstruct",
         "p4100",
-        "cSiriClaw-Instruct-gateway",
+        "cSiriClawInstruct-gateway",
         "p4200",
         "cnode",
         "p4300",
-        "cSiriClaw-Instruct",
+        "cSiriClawInstruct",
       ].join("\n"),
     });
 
@@ -81,7 +81,7 @@ describe.runIf(process.platform !== "win32")("cleanStaleGatewayProcessesSync", (
     spawnSyncMock.mockReturnValue({
       error: undefined,
       status: 0,
-      stdout: ["p6001", "cSiriClaw-Instruct", "p6002", "cSiriClaw-Instruct-gateway"].join("\n"),
+      stdout: ["p6001", "cSiriClawInstruct", "p6002", "cSiriClawInstruct-gateway"].join("\n"),
     });
     const killSpy = vi.spyOn(process, "kill").mockImplementation(() => true);
 
@@ -99,7 +99,7 @@ describe.runIf(process.platform !== "win32")("cleanStaleGatewayProcessesSync", (
     spawnSyncMock.mockReturnValue({
       error: undefined,
       status: 0,
-      stdout: ["p7001", "cSiriClaw-Instruct"].join("\n"),
+      stdout: ["p7001", "cSiriClawInstruct"].join("\n"),
     });
     const killSpy = vi.spyOn(process, "kill").mockImplementation(() => true);
 
@@ -130,3 +130,4 @@ describe.runIf(process.platform !== "win32")("cleanStaleGatewayProcessesSync", (
     expect(killSpy).not.toHaveBeenCalled();
   });
 });
+

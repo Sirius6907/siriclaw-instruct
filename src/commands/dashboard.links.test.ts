@@ -44,7 +44,7 @@ function resetRuntime() {
 
 function mockSnapshot(token: unknown = "abc") {
   readConfigFileSnapshotMock.mockResolvedValue({
-    path: "/tmp/SiriClaw-Instruct.json",
+    path: "/tmp/SiriClawInstruct.json",
     exists: true,
     raw: "{}",
     parsed: {},
@@ -71,7 +71,7 @@ describe("dashboardCommand", () => {
     openUrlMock.mockClear();
     formatControlUiSshHintMock.mockClear();
     copyToClipboardMock.mockClear();
-    delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+    delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
     delete process.env.SIRICLAW_GATEWAY_TOKEN;
   });
 
@@ -92,7 +92,7 @@ describe("dashboardCommand", () => {
     expect(copyToClipboardMock).toHaveBeenCalledWith("http://127.0.0.1:18789/#token=abc123");
     expect(openUrlMock).toHaveBeenCalledWith("http://127.0.0.1:18789/#token=abc123");
     expect(runtime.log).toHaveBeenCalledWith(
-      "Opened in your browser. Keep that tab to control SiriClaw-Instruct.",
+      "Opened in your browser. Keep that tab to control SiriClawInstruct.",
     );
   });
 
@@ -155,7 +155,7 @@ describe("dashboardCommand", () => {
       provider: "default",
       id: "MISSING_GATEWAY_TOKEN",
     });
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = "fallback-token";
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = "fallback-token";
     copyToClipboardMock.mockResolvedValue(true);
     detectBrowserOpenSupportMock.mockResolvedValue({ ok: true });
     openUrlMock.mockResolvedValue(true);
@@ -191,3 +191,4 @@ describe("dashboardCommand", () => {
     );
   });
 });
+

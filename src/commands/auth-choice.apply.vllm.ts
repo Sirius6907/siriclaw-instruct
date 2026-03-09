@@ -1,8 +1,8 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { ApplyAuthChoiceParams, ApplyAuthChoiceResult } from "./auth-choice.apply.js";
 import { promptAndConfigureVllm } from "./vllm-setup.js";
 
-function applyVllmDefaultModel(cfg: SiriClaw-InstructConfig, modelRef: string): SiriClaw-InstructConfig {
+function applyVllmDefaultModel(cfg: SiriClawInstructConfig, modelRef: string): SiriClawInstructConfig {
   const existingModel = cfg.agents?.defaults?.model;
   const fallbacks =
     existingModel && typeof existingModel === "object" && "fallbacks" in existingModel
@@ -44,3 +44,4 @@ export async function applyAuthChoiceVllm(
   await params.prompter.note(`Default model set to ${modelRef}`, "Model configured");
   return { config: applyVllmDefaultModel(nextConfig, modelRef) };
 }
+

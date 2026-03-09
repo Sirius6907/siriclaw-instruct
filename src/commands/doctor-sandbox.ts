@@ -6,7 +6,7 @@ import {
   DEFAULT_SANDBOX_IMAGE,
   resolveSandboxScope,
 } from "../agents/sandbox.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { runCommandWithTimeout, runExec } from "../process/exec.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { note } from "../terminal/note.js";
@@ -89,17 +89,17 @@ async function dockerImageExists(image: string): Promise<boolean> {
   }
 }
 
-function resolveSandboxDockerImage(cfg: SiriClaw-InstructConfig): string {
+function resolveSandboxDockerImage(cfg: SiriClawInstructConfig): string {
   const image = cfg.agents?.defaults?.sandbox?.docker?.image?.trim();
   return image ? image : DEFAULT_SANDBOX_IMAGE;
 }
 
-function resolveSandboxBrowserImage(cfg: SiriClaw-InstructConfig): string {
+function resolveSandboxBrowserImage(cfg: SiriClawInstructConfig): string {
   const image = cfg.agents?.defaults?.sandbox?.browser?.image?.trim();
   return image ? image : DEFAULT_SANDBOX_BROWSER_IMAGE;
 }
 
-function updateSandboxDockerImage(cfg: SiriClaw-InstructConfig, image: string): SiriClaw-InstructConfig {
+function updateSandboxDockerImage(cfg: SiriClawInstructConfig, image: string): SiriClawInstructConfig {
   return {
     ...cfg,
     agents: {
@@ -118,7 +118,7 @@ function updateSandboxDockerImage(cfg: SiriClaw-InstructConfig, image: string): 
   };
 }
 
-function updateSandboxBrowserImage(cfg: SiriClaw-InstructConfig, image: string): SiriClaw-InstructConfig {
+function updateSandboxBrowserImage(cfg: SiriClawInstructConfig, image: string): SiriClawInstructConfig {
   return {
     ...cfg,
     agents: {
@@ -176,10 +176,10 @@ async function handleMissingSandboxImage(
 }
 
 export async function maybeRepairSandboxImages(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   runtime: RuntimeEnv,
   prompter: DoctorPrompter,
-): Promise<SiriClaw-InstructConfig> {
+): Promise<SiriClawInstructConfig> {
   const sandbox = cfg.agents?.defaults?.sandbox;
   const mode = sandbox?.mode ?? "off";
   if (!sandbox || mode === "off") {
@@ -195,7 +195,7 @@ export async function maybeRepairSandboxImages(
       "",
       "Options:",
       "- Install Docker and restart the gateway",
-      "- Disable sandbox mode: SiriClaw-Instruct config set agents.defaults.sandbox.mode off",
+      "- Disable sandbox mode: SiriClawInstruct config set agents.defaults.sandbox.mode off",
     ];
     note(lines.join("\n"), "Sandbox");
     return cfg;
@@ -247,7 +247,7 @@ export async function maybeRepairSandboxImages(
   return next;
 }
 
-export function noteSandboxScopeWarnings(cfg: SiriClaw-InstructConfig) {
+export function noteSandboxScopeWarnings(cfg: SiriClawInstructConfig) {
   const globalSandbox = cfg.agents?.defaults?.sandbox;
   const agents = Array.isArray(cfg.agents?.list) ? cfg.agents.list : [];
   const warnings: string[] = [];
@@ -295,3 +295,4 @@ export function noteSandboxScopeWarnings(cfg: SiriClaw-InstructConfig) {
     note(warnings.join("\n"), "Sandbox");
   }
 }
+

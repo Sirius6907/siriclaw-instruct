@@ -9,7 +9,7 @@ import { createOutboundTestPlugin, createTestRegistry } from "../test-utils/chan
 
 export function setupIsolatedAgentTurnMocks(params?: { fast?: boolean }): void {
   if (params?.fast) {
-    vi.stubEnv("SiriClaw-Instruct_TEST_FAST", "1");
+    vi.stubEnv("SiriClawInstruct_TEST_FAST", "1");
   }
   vi.mocked(runEmbeddedPiAgent).mockReset();
   vi.mocked(loadModelCatalog).mockResolvedValue([]);
@@ -29,3 +29,4 @@ export function setupIsolatedAgentTurnMocks(params?: { fast?: boolean }): void {
     ]),
   );
 }
+

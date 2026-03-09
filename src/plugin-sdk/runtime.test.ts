@@ -37,3 +37,4 @@ describe("resolveRuntimeEnv", () => {
     expect(logger.error).toHaveBeenCalledWith("bad 7");
   });
 });
+

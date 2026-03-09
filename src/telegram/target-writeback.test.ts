@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 const readConfigFileSnapshotForWrite = vi.fn();
 const writeConfigFile = vi.fn();
@@ -40,7 +40,7 @@ describe("maybePersistResolvedTelegramTarget", () => {
 
   it("skips writeback when target is already numeric", async () => {
     await maybePersistResolvedTelegramTarget({
-      cfg: {} as SiriClaw-InstructConfig,
+      cfg: {} as SiriClawInstructConfig,
       rawTarget: "-100123",
       resolvedChatId: "-100123",
     });
@@ -65,7 +65,7 @@ describe("maybePersistResolvedTelegramTarget", () => {
           },
         },
       },
-      writeOptions: { expectedConfigPath: "/tmp/SiriClaw-Instruct.json" },
+      writeOptions: { expectedConfigPath: "/tmp/SiriClawInstruct.json" },
     });
     loadCronStore.mockResolvedValue({
       version: 1,
@@ -78,7 +78,7 @@ describe("maybePersistResolvedTelegramTarget", () => {
     await maybePersistResolvedTelegramTarget({
       cfg: {
         cron: { store: "/tmp/cron/jobs.json" },
-      } as SiriClaw-InstructConfig,
+      } as SiriClawInstructConfig,
       rawTarget: "t.me/mychannel",
       resolvedChatId: "-100123",
     });
@@ -97,7 +97,7 @@ describe("maybePersistResolvedTelegramTarget", () => {
           },
         },
       }),
-      expect.objectContaining({ expectedConfigPath: "/tmp/SiriClaw-Instruct.json" }),
+      expect.objectContaining({ expectedConfigPath: "/tmp/SiriClawInstruct.json" }),
     );
     expect(saveCronStore).toHaveBeenCalledTimes(1);
     expect(saveCronStore).toHaveBeenCalledWith(
@@ -127,7 +127,7 @@ describe("maybePersistResolvedTelegramTarget", () => {
     loadCronStore.mockResolvedValue({ version: 1, jobs: [] });
 
     await maybePersistResolvedTelegramTarget({
-      cfg: {} as SiriClaw-InstructConfig,
+      cfg: {} as SiriClawInstructConfig,
       rawTarget: "t.me/mychannel:topic:9",
       resolvedChatId: "-100123",
     });
@@ -163,7 +163,7 @@ describe("maybePersistResolvedTelegramTarget", () => {
     });
 
     await maybePersistResolvedTelegramTarget({
-      cfg: {} as SiriClaw-InstructConfig,
+      cfg: {} as SiriClawInstructConfig,
       rawTarget: "@MyChannel",
       resolvedChatId: "-100123",
     });
@@ -186,3 +186,4 @@ describe("maybePersistResolvedTelegramTarget", () => {
     );
   });
 });
+

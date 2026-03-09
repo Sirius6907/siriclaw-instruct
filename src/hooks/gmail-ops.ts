@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { formatCliCommand } from "../cli/command-format.js";
 import {
-  type SiriClaw-InstructConfig,
+  type SiriClawInstructConfig,
   CONFIG_PATH,
   loadConfig,
   readConfigFileSnapshot,
@@ -197,7 +197,7 @@ export async function runGmailSetup(opts: GmailSetupOptions) {
     true,
   );
 
-  const nextConfig: SiriClaw-InstructConfig = {
+  const nextConfig: SiriClawInstructConfig = {
     ...baseConfig,
     hooks: {
       ...baseConfig.hooks,
@@ -265,7 +265,7 @@ export async function runGmailSetup(opts: GmailSetupOptions) {
   defaultRuntime.log(`- push endpoint: ${pushEndpoint}`);
   defaultRuntime.log(`- hook url: ${hookUrl}`);
   defaultRuntime.log(`- config: ${displayPath(CONFIG_PATH)}`);
-  defaultRuntime.log(`Next: ${formatCliCommand("SiriClaw-Instruct webhooks gmail run")}`);
+  defaultRuntime.log(`Next: ${formatCliCommand("SiriClawInstruct webhooks gmail run")}`);
 }
 
 export async function runGmailService(opts: GmailRunOptions) {
@@ -371,3 +371,4 @@ async function startGmailWatch(
     defaultRuntime.error(message);
   }
 }
+

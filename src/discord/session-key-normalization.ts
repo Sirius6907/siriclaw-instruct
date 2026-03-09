@@ -26,3 +26,4 @@ export function normalizeExplicitDiscordSessionKey(
   const directId = senderId || fromDiscordId;
   return directId && directId === match[2] ? `${match[1]}discord:direct:${match[2]}` : normalized;
 }
+

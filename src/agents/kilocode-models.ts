@@ -54,10 +54,10 @@ interface GatewayModelsResponse {
 
 /**
  * Convert per-token price (as returned by the gateway) to per-1M-token price
- * (as stored in SiriClaw-Instruct's ModelDefinitionConfig.cost).
+ * (as stored in SiriClawInstruct's ModelDefinitionConfig.cost).
  *
  * Gateway/OpenRouter prices are per-token strings like "0.000005".
- * SiriClaw-Instruct costs are per-1M-token numbers like 5.0.
+ * SiriClawInstruct costs are per-1M-token numbers like 5.0.
  */
 function toPricePerMillion(perToken: string | undefined): number {
   if (!perToken) {
@@ -188,3 +188,4 @@ export async function discoverKilocodeModels(): Promise<ModelDefinitionConfig[]>
     return buildStaticCatalog();
   }
 }
+

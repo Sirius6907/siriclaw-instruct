@@ -5,7 +5,7 @@ export type ServiceStatusSummary = {
   label: string;
   installed: boolean | null;
   loaded: boolean;
-  managedBySiriClaw-Instruct: boolean;
+  managedBySiriClawInstruct: boolean;
   externallyManaged: boolean;
   loadedText: string;
   runtime: GatewayServiceRuntime | undefined;
@@ -21,9 +21,9 @@ export async function readServiceStatusSummary(
       service.readRuntime(process.env).catch(() => undefined),
       service.readCommand(process.env).catch(() => null),
     ]);
-    const managedBySiriClaw-Instruct = command != null;
-    const externallyManaged = !managedBySiriClaw-Instruct && runtime?.status === "running";
-    const installed = managedBySiriClaw-Instruct || externallyManaged;
+    const managedBySiriClawInstruct = command != null;
+    const externallyManaged = !managedBySiriClawInstruct && runtime?.status === "running";
+    const installed = managedBySiriClawInstruct || externallyManaged;
     const loadedText = externallyManaged
       ? "running (externally managed)"
       : loaded
@@ -33,7 +33,7 @@ export async function readServiceStatusSummary(
       label: service.label,
       installed,
       loaded,
-      managedBySiriClaw-Instruct,
+      managedBySiriClawInstruct,
       externallyManaged,
       loadedText,
       runtime,
@@ -43,10 +43,11 @@ export async function readServiceStatusSummary(
       label: fallbackLabel,
       installed: null,
       loaded: false,
-      managedBySiriClaw-Instruct: false,
+      managedBySiriClawInstruct: false,
       externallyManaged: false,
       loadedText: "unknown",
       runtime: undefined,
     };
   }
 }
+

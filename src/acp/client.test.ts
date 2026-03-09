@@ -38,29 +38,29 @@ function makePermissionRequest(
 }
 
 const tempDirs = createTrackedTempDirs();
-const createTempDir = () => tempDirs.make("SiriClaw-Instruct-acp-client-test-");
+const createTempDir = () => tempDirs.make("SiriClawInstruct-acp-client-test-");
 
 afterEach(async () => {
   await tempDirs.cleanup();
 });
 
 describe("resolveAcpClientSpawnEnv", () => {
-  it("sets SiriClaw-Instruct_SHELL marker and preserves existing env values", () => {
+  it("sets SiriClawInstruct_SHELL marker and preserves existing env values", () => {
     const env = resolveAcpClientSpawnEnv({
       PATH: "/usr/bin",
-      USER: "SiriClaw-Instruct",
+      USER: "SiriClawInstruct",
     });
 
-    expect(env.SiriClaw-Instruct_SHELL).toBe("acp-client");
+    expect(env.SiriClawInstruct_SHELL).toBe("acp-client");
     expect(env.PATH).toBe("/usr/bin");
-    expect(env.USER).toBe("SiriClaw-Instruct");
+    expect(env.USER).toBe("SiriClawInstruct");
   });
 
-  it("overrides pre-existing SiriClaw-Instruct_SHELL to acp-client", () => {
+  it("overrides pre-existing SiriClawInstruct_SHELL to acp-client", () => {
     const env = resolveAcpClientSpawnEnv({
-      SiriClaw-Instruct_SHELL: "wrong",
+      SiriClawInstruct_SHELL: "wrong",
     });
-    expect(env.SiriClaw-Instruct_SHELL).toBe("acp-client");
+    expect(env.SiriClawInstruct_SHELL).toBe("acp-client");
   });
 
   it("strips skill-injected env keys when stripKeys is provided", () => {
@@ -79,7 +79,7 @@ describe("resolveAcpClientSpawnEnv", () => {
     );
 
     expect(env.PATH).toBe("/usr/bin");
-    expect(env.SiriClaw-Instruct_SHELL).toBe("acp-client");
+    expect(env.SiriClawInstruct_SHELL).toBe("acp-client");
     expect(env.ANTHROPIC_API_KEY).toBe("anthropic-test-value");
     expect(env.OPENAI_API_KEY).toBeUndefined();
     expect(env.ELEVENLABS_API_KEY).toBeUndefined();
@@ -97,17 +97,17 @@ describe("resolveAcpClientSpawnEnv", () => {
     expect(baseEnv.OPENAI_API_KEY).toBe("openai-original");
   });
 
-  it("preserves SiriClaw-Instruct_SHELL even when stripKeys contains it", () => {
+  it("preserves SiriClawInstruct_SHELL even when stripKeys contains it", () => {
     const openAiApiKeyEnv = envVar("OPENAI", "API", "KEY");
     const env = resolveAcpClientSpawnEnv(
       {
-        SiriClaw-Instruct_SHELL: "skill-overridden",
+        SiriClawInstruct_SHELL: "skill-overridden",
         [openAiApiKeyEnv]: "openai-leaked", // pragma: allowlist secret
       },
-      { stripKeys: new Set(["SiriClaw-Instruct_SHELL", openAiApiKeyEnv]) },
+      { stripKeys: new Set(["SiriClawInstruct_SHELL", openAiApiKeyEnv]) },
     );
 
-    expect(env.SiriClaw-Instruct_SHELL).toBe("acp-client");
+    expect(env.SiriClawInstruct_SHELL).toBe("acp-client");
     expect(env.OPENAI_API_KEY).toBeUndefined();
   });
 });
@@ -115,7 +115,7 @@ describe("resolveAcpClientSpawnEnv", () => {
 describe("resolveAcpClientSpawnInvocation", () => {
   it("keeps non-windows invocation unchanged", () => {
     const resolved = resolveAcpClientSpawnInvocation(
-      { serverCommand: "SiriClaw-Instruct", serverArgs: ["acp", "--verbose"] },
+      { serverCommand: "SiriClawInstruct", serverArgs: ["acp", "--verbose"] },
       {
         platform: "darwin",
         env: {},
@@ -123,7 +123,7 @@ describe("resolveAcpClientSpawnInvocation", () => {
       },
     );
     expect(resolved).toEqual({
-      command: "SiriClaw-Instruct",
+      command: "SiriClawInstruct",
       args: ["acp", "--verbose"],
       shell: undefined,
       windowsHide: undefined,
@@ -132,11 +132,11 @@ describe("resolveAcpClientSpawnInvocation", () => {
 
   it("unwraps .cmd shim entrypoint on windows", async () => {
     const dir = await createTempDir();
-    const scriptPath = path.join(dir, "SiriClaw-Instruct", "dist", "entry.js");
-    const shimPath = path.join(dir, "SiriClaw-Instruct.cmd");
+    const scriptPath = path.join(dir, "SiriClawInstruct", "dist", "entry.js");
+    const shimPath = path.join(dir, "SiriClawInstruct.cmd");
     await mkdir(path.dirname(scriptPath), { recursive: true });
     await writeFile(scriptPath, "console.log('ok')\n", "utf8");
-    await writeFile(shimPath, `@ECHO off\r\n"%~dp0\\SiriClaw-Instruct\\dist\\entry.js" %*\r\n`, "utf8");
+    await writeFile(shimPath, `@ECHO off\r\n"%~dp0\\SiriClawInstruct\\dist\\entry.js" %*\r\n`, "utf8");
 
     const resolved = resolveAcpClientSpawnInvocation(
       { serverCommand: shimPath, serverArgs: ["acp", "--verbose"] },
@@ -154,7 +154,7 @@ describe("resolveAcpClientSpawnInvocation", () => {
 
   it("falls back to shell mode for unresolved wrappers on windows", async () => {
     const dir = await createTempDir();
-    const shimPath = path.join(dir, "SiriClaw-Instruct.cmd");
+    const shimPath = path.join(dir, "SiriClawInstruct.cmd");
     await writeFile(shimPath, "@ECHO off\r\necho wrapper\r\n", "utf8");
 
     const resolved = resolveAcpClientSpawnInvocation(
@@ -273,7 +273,7 @@ describe("resolvePermissionRequest", () => {
           rawInput: { path: "docs/security.md" },
         },
       },
-      cwd: "/tmp/SiriClaw-Instruct-acp-cwd",
+      cwd: "/tmp/SiriClawInstruct-acp-cwd",
     });
   });
 
@@ -284,10 +284,10 @@ describe("resolvePermissionRequest", () => {
           toolCallId: "tool-read-inside-cwd-file-url",
           title: "read: ignored-by-raw-input",
           status: "pending",
-          rawInput: { path: "file:///tmp/SiriClaw-Instruct-acp-cwd/docs/security.md" },
+          rawInput: { path: "file:///tmp/SiriClawInstruct-acp-cwd/docs/security.md" },
         },
       },
-      cwd: "/tmp/SiriClaw-Instruct-acp-cwd",
+      cwd: "/tmp/SiriClawInstruct-acp-cwd",
     });
   });
 
@@ -302,7 +302,7 @@ describe("resolvePermissionRequest", () => {
           rawInput: { path: "../.ssh/id_rsa" },
         },
       }),
-      { prompt, log: () => {}, cwd: "/tmp/SiriClaw-Instruct-acp-cwd/workspace" },
+      { prompt, log: () => {}, cwd: "/tmp/SiriClawInstruct-acp-cwd/workspace" },
     );
     expect(prompt).toHaveBeenCalledTimes(1);
     expect(prompt).toHaveBeenCalledWith("read", "read: ignored-by-raw-input");
@@ -594,3 +594,4 @@ describe("acp event mapper", () => {
     ]);
   });
 });
+

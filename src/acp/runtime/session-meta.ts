@@ -1,6 +1,6 @@
 import path from "node:path";
 import { resolveAgentSessionDirs } from "../../agents/session-dirs.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { loadConfig } from "../../config/config.js";
 import { resolveStateDir } from "../../config/paths.js";
 import { loadSessionStore, resolveStorePath, updateSessionStore } from "../../config/sessions.js";
@@ -12,7 +12,7 @@ import {
 import { parseAgentSessionKey } from "../../routing/session-key.js";
 
 export type AcpSessionStoreEntry = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   storePath: string;
   sessionKey: string;
   storeSessionKey: string;
@@ -43,8 +43,8 @@ function resolveStoreSessionKey(store: Record<string, SessionEntry>, sessionKey:
 
 export function resolveSessionStorePathForAcp(params: {
   sessionKey: string;
-  cfg?: SiriClaw-InstructConfig;
-}): { cfg: SiriClaw-InstructConfig; storePath: string } {
+  cfg?: SiriClawInstructConfig;
+}): { cfg: SiriClawInstructConfig; storePath: string } {
   const cfg = params.cfg ?? loadConfig();
   const parsed = parseAgentSessionKey(params.sessionKey);
   const storePath = resolveStorePath(cfg.session?.store, {
@@ -55,7 +55,7 @@ export function resolveSessionStorePathForAcp(params: {
 
 export function readAcpSessionEntry(params: {
   sessionKey: string;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
 }): AcpSessionStoreEntry | null {
   const sessionKey = params.sessionKey.trim();
   if (!sessionKey) {
@@ -87,7 +87,7 @@ export function readAcpSessionEntry(params: {
 }
 
 export async function listAcpSessionEntries(params: {
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
 }): Promise<AcpSessionStoreEntry[]> {
   const cfg = params.cfg ?? loadConfig();
   const stateDir = resolveStateDir(process.env);
@@ -122,7 +122,7 @@ export async function listAcpSessionEntries(params: {
 
 export async function upsertAcpSessionMeta(params: {
   sessionKey: string;
-  cfg?: SiriClaw-InstructConfig;
+  cfg?: SiriClawInstructConfig;
   mutate: (
     current: SessionAcpMeta | undefined,
     entry: SessionEntry | undefined,
@@ -163,3 +163,4 @@ export async function upsertAcpSessionMeta(params: {
     },
   );
 }
+

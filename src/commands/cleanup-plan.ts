@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   loadConfig,
   resolveConfigPath,
@@ -8,7 +8,7 @@ import {
 import { buildCleanupPlan } from "./cleanup-utils.js";
 
 export function resolveCleanupPlanFromDisk(): {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   stateDir: string;
   configPath: string;
   oauthDir: string;
@@ -23,3 +23,4 @@ export function resolveCleanupPlanFromDisk(): {
   const plan = buildCleanupPlan({ cfg, stateDir, configPath, oauthDir });
   return { cfg, stateDir, configPath, oauthDir, ...plan };
 }
+

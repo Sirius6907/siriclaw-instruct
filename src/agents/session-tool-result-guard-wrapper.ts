@@ -74,3 +74,4 @@ export function guardSessionManager(
   (sessionManager as GuardedSessionManager).clearPendingToolResults = guard.clearPendingToolResults;
   return sessionManager as GuardedSessionManager;
 }
+

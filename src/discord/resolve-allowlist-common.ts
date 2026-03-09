@@ -37,3 +37,4 @@ export function filterDiscordGuilds(
   }
   return guilds;
 }
+

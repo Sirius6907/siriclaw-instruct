@@ -10,7 +10,7 @@ describe("doctor command", () => {
     { timeout: DOCTOR_MIGRATION_TIMEOUT_MS },
     async () => {
       readConfigFileSnapshot.mockResolvedValue({
-        path: "/tmp/SiriClaw-Instruct.json",
+        path: "/tmp/SiriClawInstruct.json",
         exists: true,
         raw: "{}",
         parsed: {
@@ -52,3 +52,4 @@ describe("doctor command", () => {
     },
   );
 });
+

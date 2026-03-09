@@ -11,3 +11,4 @@ export function normalizeNonEmptyString(value: unknown): string | null {
 export function normalizeStringArray(value: unknown): string[] {
   return Array.isArray(value) ? mapAllowFromEntries(value) : [];
 }
+

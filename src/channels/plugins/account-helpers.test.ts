@@ -1,21 +1,21 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { normalizeAccountId } from "../../routing/session-key.js";
 import { createAccountListHelpers } from "./account-helpers.js";
 
 const { listConfiguredAccountIds, listAccountIds, resolveDefaultAccountId } =
   createAccountListHelpers("testchannel");
 
-function cfg(accounts?: Record<string, unknown> | null, defaultAccount?: string): SiriClaw-InstructConfig {
+function cfg(accounts?: Record<string, unknown> | null, defaultAccount?: string): SiriClawInstructConfig {
   if (accounts === null) {
     return {
       channels: {
         testchannel: defaultAccount ? { defaultAccount } : {},
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
   }
   if (accounts === undefined && !defaultAccount) {
-    return {} as unknown as SiriClaw-InstructConfig;
+    return {} as unknown as SiriClawInstructConfig;
   }
   return {
     channels: {
@@ -24,13 +24,13 @@ function cfg(accounts?: Record<string, unknown> | null, defaultAccount?: string)
         ...(defaultAccount ? { defaultAccount } : {}),
       },
     },
-  } as unknown as SiriClaw-InstructConfig;
+  } as unknown as SiriClawInstructConfig;
 }
 
 describe("createAccountListHelpers", () => {
   describe("listConfiguredAccountIds", () => {
     it("returns empty for missing config", () => {
-      expect(listConfiguredAccountIds({} as SiriClaw-InstructConfig)).toEqual([]);
+      expect(listConfiguredAccountIds({} as SiriClawInstructConfig)).toEqual([]);
     });
 
     it("returns empty when no accounts key", () => {
@@ -71,7 +71,7 @@ describe("createAccountListHelpers", () => {
 
   describe("listAccountIds", () => {
     it('returns ["default"] for empty config', () => {
-      expect(listAccountIds({} as SiriClaw-InstructConfig)).toEqual(["default"]);
+      expect(listAccountIds({} as SiriClawInstructConfig)).toEqual(["default"]);
     });
 
     it('returns ["default"] for empty accounts', () => {
@@ -105,7 +105,8 @@ describe("createAccountListHelpers", () => {
     });
 
     it('returns "default" for empty config', () => {
-      expect(resolveDefaultAccountId({} as SiriClaw-InstructConfig)).toBe("default");
+      expect(resolveDefaultAccountId({} as SiriClawInstructConfig)).toBe("default");
     });
   });
 });
+

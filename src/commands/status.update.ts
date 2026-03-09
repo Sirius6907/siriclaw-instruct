@@ -1,5 +1,5 @@
 import { formatCliCommand } from "../cli/command-format.js";
-import { resolveSiriClaw-InstructPackageRoot } from "../infra/SiriClaw-Instruct-root.js";
+import { resolveSiriClawInstructPackageRoot } from "../infra/siriclaw-instruct-root.js";
 import {
   checkUpdateStatus,
   compareSemverStrings,
@@ -12,7 +12,7 @@ export async function getUpdateCheckResult(params: {
   fetchGit: boolean;
   includeRegistry: boolean;
 }): Promise<UpdateCheckResult> {
-  const root = await resolveSiriClaw-InstructPackageRoot({
+  const root = await resolveSiriClawInstructPackageRoot({
     moduleUrl: import.meta.url,
     argv1: process.argv[1],
     cwd: process.cwd(),
@@ -66,7 +66,7 @@ export function formatUpdateAvailableHint(update: UpdateCheckResult): string | n
     details.push(`npm ${availability.latestVersion}`);
   }
   const suffix = details.length > 0 ? ` (${details.join(" · ")})` : "";
-  return `Update available${suffix}. Run: ${formatCliCommand("SiriClaw-Instruct update")}`;
+  return `Update available${suffix}. Run: ${formatCliCommand("SiriClawInstruct update")}`;
 }
 
 export function formatUpdateOneLiner(update: UpdateCheckResult): string {
@@ -131,3 +131,4 @@ export function formatUpdateOneLiner(update: UpdateCheckResult): string {
   }
   return `Update: ${parts.join(" · ")}`;
 }
+

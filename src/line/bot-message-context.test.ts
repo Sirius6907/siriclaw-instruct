@@ -3,14 +3,14 @@ import os from "node:os";
 import path from "node:path";
 import type { MessageEvent, PostbackEvent } from "@line/bot-sdk";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { buildLineMessageContext, buildLinePostbackContext } from "./bot-message-context.js";
 import type { ResolvedLineAccount } from "./types.js";
 
 describe("buildLineMessageContext", () => {
   let tmpDir: string;
   let storePath: string;
-  let cfg: SiriClaw-InstructConfig;
+  let cfg: SiriClawInstructConfig;
   const account: ResolvedLineAccount = {
     accountId: "default",
     enabled: true,
@@ -53,7 +53,7 @@ describe("buildLineMessageContext", () => {
     }) as PostbackEvent;
 
   beforeEach(async () => {
-    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-line-context-"));
+    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-line-context-"));
     storePath = path.join(tmpDir, "sessions.json");
     cfg = { session: { store: storePath } };
   });
@@ -223,7 +223,7 @@ describe("buildLineMessageContext", () => {
 
   it("group peer binding matches raw groupId without prefix (#21907)", async () => {
     const groupId = "Cc7e3bece1234567890abcdef"; // pragma: allowlist secret
-    const bindingCfg: SiriClaw-InstructConfig = {
+    const bindingCfg: SiriClawInstructConfig = {
       session: { store: storePath },
       agents: {
         list: [{ id: "main" }, { id: "line-group-agent" }],
@@ -261,7 +261,7 @@ describe("buildLineMessageContext", () => {
 
   it("room peer binding matches raw roomId without prefix (#21907)", async () => {
     const roomId = "Rr1234567890abcdef";
-    const bindingCfg: SiriClaw-InstructConfig = {
+    const bindingCfg: SiriClawInstructConfig = {
       session: { store: storePath },
       agents: {
         list: [{ id: "main" }, { id: "line-room-agent" }],
@@ -297,3 +297,4 @@ describe("buildLineMessageContext", () => {
     expect(context!.route.matchedBy).toBe("binding.peer");
   });
 });
+

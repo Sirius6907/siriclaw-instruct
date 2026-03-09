@@ -3,7 +3,7 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import type { Command } from "commander";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { loadConfig, writeConfigFile } from "../config/io.js";
 import {
   buildWorkspaceHookStatus,
@@ -63,7 +63,7 @@ function mergeHookEntries(pluginEntries: HookEntry[], workspaceEntries: HookEntr
   return Array.from(merged.values());
 }
 
-function buildHooksReport(config: SiriClaw-InstructConfig): HookStatusReport {
+function buildHooksReport(config: SiriClawInstructConfig): HookStatusReport {
   const workspaceDir = resolveAgentWorkspaceDir(config, resolveDefaultAgentId(config));
   const workspaceEntries = loadWorkspaceHookEntries(workspaceDir, { config });
   const pluginReport = buildPluginStatusReport({ config, workspaceDir });
@@ -93,11 +93,11 @@ function resolveHookForToggle(
 }
 
 function buildConfigWithHookEnabled(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   hookName: string;
   enabled: boolean;
   ensureHooksEnabled?: boolean;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const entries = { ...params.config.hooks?.internal?.entries };
   entries[params.hookName] = { ...entries[params.hookName], enabled: params.enabled };
 
@@ -215,7 +215,7 @@ async function readInstalledPackageVersion(dir: string): Promise<string | undefi
 
 type HookInternalEntryLike = Record<string, unknown> & { enabled?: boolean };
 
-function enableInternalHookEntries(config: SiriClaw-InstructConfig, hookNames: string[]): SiriClaw-InstructConfig {
+function enableInternalHookEntries(config: SiriClawInstructConfig, hookNames: string[]): SiriClawInstructConfig {
   const entries = { ...config.hooks?.internal?.entries } as Record<string, HookInternalEntryLike>;
 
   for (const hookName of hookNames) {
@@ -267,7 +267,7 @@ export function formatHooksList(report: HookStatusReport, opts: HooksListOptions
 
   if (hooks.length === 0) {
     const message = opts.eligible
-      ? `No eligible hooks found. Run \`${formatCliCommand("SiriClaw-Instruct hooks list")}\` to see all hooks.`
+      ? `No eligible hooks found. Run \`${formatCliCommand("SiriClawInstruct hooks list")}\` to see all hooks.`
       : "No hooks found.";
     return message;
   }
@@ -323,7 +323,7 @@ export function formatHookInfo(
     if (opts.json) {
       return JSON.stringify({ error: "not found", hook: hookName }, null, 2);
     }
-    return `Hook "${hookName}" not found. Run \`${formatCliCommand("SiriClaw-Instruct hooks list")}\` to see available hooks.`;
+    return `Hook "${hookName}" not found. Run \`${formatCliCommand("SiriClawInstruct hooks list")}\` to see available hooks.`;
   }
 
   if (opts.json) {
@@ -511,7 +511,7 @@ export function registerHooksCli(program: Command): void {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/hooks", "docs.SiriClaw-Instruct.ai/cli/hooks")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/hooks", "docs.SiriClawInstruct.ai/cli/hooks")}\n`,
     );
 
   hooks
@@ -596,7 +596,7 @@ export function registerHooksCli(program: Command): void {
             process.exit(1);
           }
 
-          let next: SiriClaw-InstructConfig = {
+          let next: SiriClawInstructConfig = {
             ...cfg,
             hooks: {
               ...cfg.hooks,
@@ -819,3 +819,4 @@ export function registerHooksCli(program: Command): void {
     }),
   );
 }
+

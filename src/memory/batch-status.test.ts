@@ -58,3 +58,4 @@ describe("batch-status helpers", () => {
     ).rejects.toThrow("openai batch b4 submitted; enable remote.batch.wait to await completion");
   });
 });
+

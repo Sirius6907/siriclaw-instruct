@@ -5,15 +5,15 @@ import { createTempHomeEnv } from "../test-utils/temp-home.js";
 
 export function setTempStateDir(workspaceDir: string): string {
   const stateDir = path.join(workspaceDir, "state");
-  process.env.SiriClaw-Instruct_STATE_DIR = stateDir;
+  process.env.SiriClawInstruct_STATE_DIR = stateDir;
   return stateDir;
 }
 
 export async function withTempWorkspace(
   run: (params: { workspaceDir: string; stateDir: string }) => Promise<void>,
 ) {
-  const tempHome = await createTempHomeEnv("SiriClaw-Instruct-skills-install-home-");
-  const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-skills-install-"));
+  const tempHome = await createTempHomeEnv("SiriClawInstruct-skills-install-home-");
+  const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-skills-install-"));
   try {
     const stateDir = setTempStateDir(workspaceDir);
     await run({ workspaceDir, stateDir });
@@ -35,7 +35,7 @@ export async function writeDownloadSkill(params: {
   const skillDir = path.join(params.workspaceDir, "skills", params.name);
   await fs.mkdir(skillDir, { recursive: true });
   const meta = {
-    SiriClaw-Instruct: {
+    SiriClawInstruct: {
       install: [
         {
           id: params.installId,
@@ -64,3 +64,4 @@ metadata: ${JSON.stringify(meta)}
   await fs.writeFile(path.join(skillDir, "runner.js"), "export {};\n", "utf-8");
   return skillDir;
 }
+

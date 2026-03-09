@@ -56,3 +56,4 @@ describe("gateway startup legacy migration fallback", () => {
     });
   });
 });
+

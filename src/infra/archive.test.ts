@@ -65,7 +65,7 @@ async function expectExtractedSizeBudgetExceeded(params: {
 }
 
 beforeAll(async () => {
-  fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-archive-"));
+  fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-archive-"));
 });
 
 afterAll(async () => {
@@ -305,3 +305,4 @@ describe("archive utils", () => {
     });
   });
 });
+

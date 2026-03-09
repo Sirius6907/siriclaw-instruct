@@ -34,3 +34,4 @@ describe("resolve-allowlist-common", () => {
     expect(resolveDiscordAllowlistToken("")).toBeUndefined();
   });
 });
+

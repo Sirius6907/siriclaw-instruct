@@ -12,3 +12,4 @@ describe("session-id", () => {
     expect(looksLikeSessionId("session-label")).toBe(false);
   });
 });
+

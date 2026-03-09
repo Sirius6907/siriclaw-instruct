@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { mkdtemp, rm } from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredSiriClaw-InstructTmpDir } from "../infra/tmp-SiriClaw-Instruct-dir.js";
+import { resolvePreferredSiriClawInstructTmpDir } from "../infra/tmp-siriclaw-instruct-dir.js";
 
 function sanitizePrefix(prefix: string): string {
   const normalized = prefix.replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "");
@@ -28,7 +28,7 @@ function sanitizeFileName(fileName: string): string {
 }
 
 function resolveTempRoot(tmpDir?: string): string {
-  return tmpDir ?? resolvePreferredSiriClaw-InstructTmpDir();
+  return tmpDir ?? resolvePreferredSiriClawInstructTmpDir();
 }
 
 function isNodeErrorWithCode(err: unknown, code: string): boolean {
@@ -82,3 +82,4 @@ export async function withTempDownloadPath<T>(
     }
   }
 }
+

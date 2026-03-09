@@ -51,3 +51,4 @@ describe("parseStrictNonNegativeInteger", () => {
     expect(parseStrictNonNegativeInteger("-1")).toBeUndefined();
   });
 });
+

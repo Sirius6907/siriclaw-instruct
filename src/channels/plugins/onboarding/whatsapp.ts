@@ -1,7 +1,7 @@
 import path from "node:path";
 import { loginWeb } from "../../../channel-web.js";
 import { formatCliCommand } from "../../../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import { mergeWhatsAppConfig } from "../../../config/merge-config.js";
 import type { DmPolicy } from "../../../config/types.js";
 import { DEFAULT_ACCOUNT_ID } from "../../../routing/session-key.js";
@@ -24,19 +24,19 @@ import {
 
 const channel = "whatsapp" as const;
 
-function setWhatsAppDmPolicy(cfg: SiriClaw-InstructConfig, dmPolicy: DmPolicy): SiriClaw-InstructConfig {
+function setWhatsAppDmPolicy(cfg: SiriClawInstructConfig, dmPolicy: DmPolicy): SiriClawInstructConfig {
   return mergeWhatsAppConfig(cfg, { dmPolicy });
 }
 
-function setWhatsAppAllowFrom(cfg: SiriClaw-InstructConfig, allowFrom?: string[]): SiriClaw-InstructConfig {
+function setWhatsAppAllowFrom(cfg: SiriClawInstructConfig, allowFrom?: string[]): SiriClawInstructConfig {
   return mergeWhatsAppConfig(cfg, { allowFrom }, { unsetOnUndefined: ["allowFrom"] });
 }
 
-function setWhatsAppSelfChatMode(cfg: SiriClaw-InstructConfig, selfChatMode: boolean): SiriClaw-InstructConfig {
+function setWhatsAppSelfChatMode(cfg: SiriClawInstructConfig, selfChatMode: boolean): SiriClawInstructConfig {
   return mergeWhatsAppConfig(cfg, { selfChatMode });
 }
 
-async function detectWhatsAppLinked(cfg: SiriClaw-InstructConfig, accountId: string): Promise<boolean> {
+async function detectWhatsAppLinked(cfg: SiriClawInstructConfig, accountId: string): Promise<boolean> {
   const { authDir } = resolveWhatsAppAuthDir({ cfg, accountId });
   const credsPath = path.join(authDir, "creds.json");
   return await pathExists(credsPath);
@@ -49,7 +49,7 @@ async function promptWhatsAppOwnerAllowFrom(params: {
   const { prompter, existingAllowFrom } = params;
 
   await prompter.note(
-    "We need the sender/owner number so SiriClaw-Instruct can allowlist you.",
+    "We need the sender/owner number so SiriClawInstruct can allowlist you.",
     "WhatsApp number",
   );
   const entry = await prompter.text({
@@ -81,12 +81,12 @@ async function promptWhatsAppOwnerAllowFrom(params: {
 }
 
 async function applyWhatsAppOwnerAllowlist(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: WizardPrompter;
   existingAllowFrom: string[];
   title: string;
   messageLines: string[];
-}): Promise<SiriClaw-InstructConfig> {
+}): Promise<SiriClawInstructConfig> {
   const { normalized, allowFrom } = await promptWhatsAppOwnerAllowFrom({
     prompter: params.prompter,
     existingAllowFrom: params.existingAllowFrom,
@@ -122,11 +122,11 @@ function parseWhatsAppAllowFromEntries(raw: string): { entries: string[]; invali
 }
 
 async function promptWhatsAppAllowFrom(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   _runtime: RuntimeEnv,
   prompter: WizardPrompter,
   options?: { forceAllowlist?: boolean },
-): Promise<SiriClaw-InstructConfig> {
+): Promise<SiriClawInstructConfig> {
   const existingPolicy = cfg.channels?.whatsapp?.dmPolicy ?? "pairing";
   const existingAllowFrom = cfg.channels?.whatsapp?.allowFrom ?? [];
   const existingLabel = existingAllowFrom.length > 0 ? existingAllowFrom.join(", ") : "unset";
@@ -159,7 +159,7 @@ async function promptWhatsAppAllowFrom(
     message: "WhatsApp phone setup",
     options: [
       { value: "personal", label: "This is my personal phone number" },
-      { value: "separate", label: "Separate phone just for SiriClaw-Instruct" },
+      { value: "separate", label: "Separate phone just for SiriClawInstruct" },
     ],
   });
 
@@ -337,7 +337,7 @@ export const whatsappOnboardingAdapter: ChannelOnboardingAdapter = {
       }
     } else if (!linked) {
       await prompter.note(
-        `Run \`${formatCliCommand("SiriClaw-Instruct channels login")}\` later to link WhatsApp.`,
+        `Run \`${formatCliCommand("SiriClawInstruct channels login")}\` later to link WhatsApp.`,
         "WhatsApp",
       );
     }
@@ -352,3 +352,4 @@ export const whatsappOnboardingAdapter: ChannelOnboardingAdapter = {
     options?.onWhatsAppAccountId?.(accountId);
   },
 };
+

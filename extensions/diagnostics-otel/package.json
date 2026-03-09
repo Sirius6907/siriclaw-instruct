@@ -1,7 +1,7 @@
 {
-  "name": "@SiriClaw-Instruct/diagnostics-otel",
+  "name": "@siriclaw-instruct/diagnostics-otel",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct diagnostics OpenTelemetry exporter",
+  "description": "siriclaw-instruct diagnostics OpenTelemetry exporter",
   "type": "module",
   "dependencies": {
     "@opentelemetry/api": "^1.9.0",
@@ -16,9 +16,13 @@
     "@opentelemetry/sdk-trace-base": "^2.6.0",
     "@opentelemetry/semantic-conventions": "^1.40.0"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

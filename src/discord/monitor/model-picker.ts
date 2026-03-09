@@ -16,7 +16,7 @@ import {
   buildModelsProviderData,
   type ModelsProviderData,
 } from "../../auto-reply/reply/commands-models.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 
 export const DISCORD_MODEL_PICKER_CUSTOM_ID_KEY = "mdlpk";
 export const DISCORD_CUSTOM_ID_MAX_CHARS = 100;
@@ -542,7 +542,7 @@ function buildModelRows(params: {
  * same provider/model resolver used by text and Telegram model commands.
  */
 export async function loadDiscordModelPickerData(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   agentId?: string,
 ): Promise<ModelsProviderData> {
   return buildModelsProviderData(cfg, agentId);
@@ -938,3 +938,4 @@ export function toDiscordModelPickerMessagePayload(
     components: view.components,
   };
 }
+

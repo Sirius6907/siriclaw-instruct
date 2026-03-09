@@ -1,13 +1,13 @@
 import crypto from "node:crypto";
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveUserPath } from "../utils.js";
 import { createCacheTrace } from "./cache-trace.js";
 
 describe("createCacheTrace", () => {
   it("returns null when diagnostics cache tracing is disabled", () => {
     const trace = createCacheTrace({
-      cfg: {} as SiriClaw-InstructConfig,
+      cfg: {} as SiriClawInstructConfig,
       env: {},
     });
 
@@ -21,7 +21,7 @@ describe("createCacheTrace", () => {
         diagnostics: {
           cacheTrace: {
             enabled: true,
-            filePath: "~/.SiriClaw-Instruct/logs/cache-trace.jsonl",
+            filePath: "~/.SiriClawInstruct/logs/cache-trace.jsonl",
           },
         },
       },
@@ -33,7 +33,7 @@ describe("createCacheTrace", () => {
     });
 
     expect(trace).not.toBeNull();
-    expect(trace?.filePath).toBe(resolveUserPath("~/.SiriClaw-Instruct/logs/cache-trace.jsonl"));
+    expect(trace?.filePath).toBe(resolveUserPath("~/.SiriClawInstruct/logs/cache-trace.jsonl"));
 
     trace?.recordStage("session:loaded", {
       messages: [],
@@ -80,7 +80,7 @@ describe("createCacheTrace", () => {
         },
       },
       env: {
-        SiriClaw-Instruct_CACHE_TRACE: "0",
+        SiriClawInstruct_CACHE_TRACE: "0",
       },
       writer: {
         filePath: "memory",
@@ -176,3 +176,4 @@ describe("createCacheTrace", () => {
     expect(event.messageFingerprints).toHaveLength(1);
   });
 });
+

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveCliBackendConfig } from "./cli-backends.js";
 
 describe("resolveCliBackendConfig reliability merge", () => {
@@ -46,7 +46,7 @@ describe("resolveCliBackendConfig reliability merge", () => {
           },
         },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveCliBackendConfig("codex-cli", cfg);
 
@@ -84,7 +84,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
           },
         },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -116,7 +116,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
           },
         },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -148,7 +148,7 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
           },
         },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const resolved = resolveCliBackendConfig("claude-cli", cfg);
 
@@ -166,3 +166,4 @@ describe("resolveCliBackendConfig claude-cli defaults", () => {
     expect(resolved?.config.resumeArgs).not.toContain("bypassPermissions");
   });
 });
+

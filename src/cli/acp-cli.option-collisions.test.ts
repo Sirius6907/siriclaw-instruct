@@ -34,7 +34,7 @@ describe("acp cli option collisions", () => {
     secrets: { token?: string; password?: string },
     run: (files: { tokenFile?: string; passwordFile?: string }) => Promise<T>,
   ): Promise<T> {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-acp-cli-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-acp-cli-"));
     try {
       const files: { tokenFile?: string; passwordFile?: string } = {};
       if (secrets.token !== undefined) {
@@ -152,7 +152,8 @@ describe("acp cli option collisions", () => {
   });
 
   it("reports missing token-file read errors", async () => {
-    await parseAcp(["--token-file", "/tmp/SiriClaw-Instruct-acp-missing-token.txt"]);
+    await parseAcp(["--token-file", "/tmp/SiriClawInstruct-acp-missing-token.txt"]);
     expectCliError(/Failed to (inspect|read) Gateway token file/);
   });
 });
+

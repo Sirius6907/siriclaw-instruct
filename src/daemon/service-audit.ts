@@ -216,8 +216,8 @@ function auditGatewayToken(
   }
   issues.push({
     code: SERVICE_AUDIT_CODES.gatewayTokenEmbedded,
-    message: "Gateway service embeds SiriClaw-Instruct_GATEWAY_TOKEN and should be reinstalled.",
-    detail: "Run `SiriClaw-Instruct gateway install --force` to remove embedded service token.",
+    message: "Gateway service embeds SiriClawInstruct_GATEWAY_TOKEN and should be reinstalled.",
+    detail: "Run `SiriClawInstruct gateway install --force` to remove embedded service token.",
     level: "recommended",
   });
   const expectedToken = expectedGatewayToken?.trim();
@@ -227,7 +227,7 @@ function auditGatewayToken(
   issues.push({
     code: SERVICE_AUDIT_CODES.gatewayTokenMismatch,
     message:
-      "Gateway service SiriClaw-Instruct_GATEWAY_TOKEN does not match gateway.auth.token in SiriClaw-Instruct.json",
+      "Gateway service SiriClawInstruct_GATEWAY_TOKEN does not match gateway.auth.token in SiriClawInstruct.json",
     detail: "service token is stale",
     level: "recommended",
   });
@@ -237,10 +237,10 @@ export function readEmbeddedGatewayToken(command: GatewayServiceCommand): string
   if (!command) {
     return undefined;
   }
-  if (command.environmentValueSources?.SiriClaw-Instruct_GATEWAY_TOKEN === "file") {
+  if (command.environmentValueSources?.SiriClawInstruct_GATEWAY_TOKEN === "file") {
     return undefined;
   }
-  return command.environment?.SiriClaw-Instruct_GATEWAY_TOKEN?.trim() || undefined;
+  return command.environment?.SiriClawInstruct_GATEWAY_TOKEN?.trim() || undefined;
 }
 
 function getPathModule(platform: NodeJS.Platform) {
@@ -391,7 +391,7 @@ export function checkTokenDrift(params: {
       code: SERVICE_AUDIT_CODES.gatewayTokenDrift,
       message:
         "Config token differs from service token. The daemon will use the old token after restart.",
-      detail: "Run `SiriClaw-Instruct gateway install --force` to sync the token.",
+      detail: "Run `SiriClawInstruct gateway install --force` to sync the token.",
       level: "recommended",
     };
   }
@@ -421,3 +421,4 @@ export async function auditGatewayServiceConfig(params: {
 
   return { ok: issues.length === 0, issues };
 }
+

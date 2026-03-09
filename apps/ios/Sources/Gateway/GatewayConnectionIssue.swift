@@ -69,3 +69,4 @@ enum GatewayConnectionIssue: Equatable {
         return id.isEmpty ? nil : id
     }
 }
+

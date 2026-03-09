@@ -224,11 +224,11 @@ describe("gateway-status command", () => {
     expect(unresolvedWarning?.message).not.toContain("missing or empty");
   });
 
-  it("does not resolve local token SecretRef when SiriClaw-Instruct_GATEWAY_TOKEN is set", async () => {
+  it("does not resolve local token SecretRef when SiriClawInstruct_GATEWAY_TOKEN is set", async () => {
     const { runtime, runtimeLogs, runtimeErrors } = createRuntimeCapture();
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
+        SiriClawInstruct_GATEWAY_TOKEN: "env-token",
         MISSING_GATEWAY_TOKEN: undefined,
       },
       async () => {
@@ -261,7 +261,7 @@ describe("gateway-status command", () => {
     const { runtime, runtimeLogs, runtimeErrors } = createRuntimeCapture();
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "env-token",
+        SiriClawInstruct_GATEWAY_TOKEN: "env-token",
         MISSING_GATEWAY_PASSWORD: undefined,
       },
       async () => {
@@ -302,7 +302,7 @@ describe("gateway-status command", () => {
     await withEnvAsync(
       {
         CUSTOM_GATEWAY_TOKEN: "resolved-gateway-token",
-        SiriClaw-Instruct_GATEWAY_TOKEN: undefined,
+        SiriClawInstruct_GATEWAY_TOKEN: undefined,
         SIRICLAW_GATEWAY_TOKEN: undefined,
       },
       async () => {
@@ -376,8 +376,8 @@ describe("gateway-status command", () => {
             mode: "remote",
             auth: {
               mode: "token",
-              token: { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_TOKEN" },
-              password: { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_PASSWORD" },
+              token: { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_TOKEN" },
+              password: { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_PASSWORD" },
             },
             remote: {
               url: "wss://remote.example:18789",
@@ -547,3 +547,4 @@ describe("gateway-status command", () => {
     expect(call.identity).toBe("/tmp/explicit_id");
   });
 });
+

@@ -58,3 +58,4 @@ export function handleSubagentsInfoAction(ctx: SubagentsCommandContext): Command
 
   return stopWithText(lines.join("\n"));
 }
+

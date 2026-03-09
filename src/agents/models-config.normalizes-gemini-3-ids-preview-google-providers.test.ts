@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { installModelsConfigTestHooks, withModelsTempHome } from "./models-config.e2e-harness.js";
-import { ensureSiriClaw-InstructModelsJson } from "./models-config.js";
+import { ensureSiriClawInstructModelsJson } from "./models-config.js";
 import { readGeneratedModelsJson } from "./models-config.test-utils.js";
 
 describe("models-config", () => {
@@ -9,7 +9,7 @@ describe("models-config", () => {
 
   it("normalizes gemini 3 ids to preview for google providers", async () => {
     await withModelsTempHome(async () => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         models: {
           providers: {
             google: {
@@ -43,7 +43,7 @@ describe("models-config", () => {
         },
       };
 
-      await ensureSiriClaw-InstructModelsJson(cfg);
+      await ensureSiriClawInstructModelsJson(cfg);
 
       const parsed = await readGeneratedModelsJson<{
         providers: Record<string, { models: Array<{ id: string }> }>;
@@ -55,7 +55,7 @@ describe("models-config", () => {
 
   it("normalizes the deprecated google flash preview id to the working preview id", async () => {
     await withModelsTempHome(async () => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         models: {
           providers: {
             google: {
@@ -79,7 +79,7 @@ describe("models-config", () => {
         },
       };
 
-      await ensureSiriClaw-InstructModelsJson(cfg);
+      await ensureSiriClawInstructModelsJson(cfg);
 
       const parsed = await readGeneratedModelsJson<{
         providers: Record<string, { models: Array<{ id: string }> }>;
@@ -89,3 +89,4 @@ describe("models-config", () => {
     });
   });
 });
+

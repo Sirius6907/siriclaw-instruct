@@ -15,15 +15,15 @@ docker run --rm -t "$IMAGE_NAME" bash -lc '
 	  ONBOARD_FLAGS="--flow quickstart --auth-choice skip --skip-channels --skip-skills --skip-daemon --skip-ui"
 	  # tsdown may emit dist/index.js or dist/index.mjs depending on runtime/bundler.
 	  if [ -f dist/index.mjs ]; then
-	    SiriClaw-Instruct_ENTRY="dist/index.mjs"
+	    SIRICLAW_ENTRY="dist/index.mjs"
 	  elif [ -f dist/index.js ]; then
-	    SiriClaw-Instruct_ENTRY="dist/index.js"
+	    SIRICLAW_ENTRY="dist/index.js"
 	  else
 	    echo "Missing dist/index.(m)js (build output):"
 	    ls -la dist || true
 	    exit 1
 	  fi
-	  export SiriClaw-Instruct_ENTRY
+	  export SIRICLAW_ENTRY
 
   # Provide a minimal trash shim to avoid noisy "missing trash" logs in containers.
   export PATH="/tmp/SiriClaw-Instruct-bin:$PATH"
@@ -106,7 +106,7 @@ TRASH
   }
 
 	  start_gateway() {
-	    node "$SiriClaw-Instruct_ENTRY" gateway --port 18789 --bind loopback --allow-unconfigured > /tmp/gateway-e2e.log 2>&1 &
+	    node "$SIRICLAW_ENTRY" gateway --port 18789 --bind loopback --allow-unconfigured > /tmp/gateway-e2e.log 2>&1 &
 	    GATEWAY_PID="$!"
 	  }
 
@@ -160,7 +160,7 @@ TRASH
     local validate_fn="${6:-}"
 
     echo "== Wizard case: $case_name =="
-    set_isolated_SiriClaw-Instruct_env "$home_dir"
+    set_isolated_SIRICLAW_env "$home_dir"
 
     input_fifo="$(mktemp -u "/tmp/SiriClaw-Instruct-onboard-${case_name}.XXXXXX")"
     mkfifo "$input_fifo"
@@ -207,20 +207,20 @@ TRASH
     local validate_fn="${4:-}"
 
 	    # Default onboarding command wrapper.
-	    run_wizard_cmd "$case_name" "$home_dir" "node \"$SiriClaw-Instruct_ENTRY\" onboard $ONBOARD_FLAGS" "$send_fn" true "$validate_fn"
+	    run_wizard_cmd "$case_name" "$home_dir" "node \"$SIRICLAW_ENTRY\" onboard $ONBOARD_FLAGS" "$send_fn" true "$validate_fn"
 	  }
 
   make_home() {
     mktemp -d "/tmp/SiriClaw-Instruct-e2e-$1.XXXXXX"
   }
 
-  set_isolated_SiriClaw-Instruct_env() {
+  set_isolated_SIRICLAW_env() {
     local home_dir="$1"
     export HOME="$home_dir"
-    export SiriClaw-Instruct_HOME="$home_dir"
-    export SiriClaw-Instruct_STATE_DIR="$home_dir/.SiriClaw-Instruct"
-    export SiriClaw-Instruct_CONFIG_PATH="$SiriClaw-Instruct_STATE_DIR/SiriClaw-Instruct.json"
-    mkdir -p "$SiriClaw-Instruct_STATE_DIR"
+    export SIRICLAW_HOME="$home_dir"
+    export SIRICLAW_STATE_DIR="$home_dir/.SiriClaw-Instruct"
+    export SIRICLAW_CONFIG_PATH="$SIRICLAW_STATE_DIR/SiriClaw-Instruct.json"
+    mkdir -p "$SIRICLAW_STATE_DIR"
   }
 
   assert_file() {
@@ -293,8 +293,8 @@ TRASH
   run_case_local_basic() {
     local home_dir
     home_dir="$(make_home local-basic)"
-    set_isolated_SiriClaw-Instruct_env "$home_dir"
-    node "$SiriClaw-Instruct_ENTRY" onboard \
+    set_isolated_SIRICLAW_env "$home_dir"
+    node "$SIRICLAW_ENTRY" onboard \
 	      --non-interactive \
 	      --accept-risk \
       --flow quickstart \
@@ -306,9 +306,9 @@ TRASH
       --skip-health
 
     # Assert config + workspace scaffolding.
-    workspace_dir="$SiriClaw-Instruct_STATE_DIR/workspace"
-    config_path="$SiriClaw-Instruct_CONFIG_PATH"
-    sessions_dir="$SiriClaw-Instruct_STATE_DIR/agents/main/sessions"
+    workspace_dir="$SIRICLAW_STATE_DIR/workspace"
+    config_path="$SIRICLAW_CONFIG_PATH"
+    sessions_dir="$SIRICLAW_STATE_DIR/agents/main/sessions"
 
     assert_file "$config_path"
     assert_dir "$sessions_dir"
@@ -368,16 +368,16 @@ NODE
   run_case_remote_non_interactive() {
     local home_dir
     home_dir="$(make_home remote-non-interactive)"
-    set_isolated_SiriClaw-Instruct_env "$home_dir"
+    set_isolated_SIRICLAW_env "$home_dir"
 	    # Smoke test non-interactive remote config write.
-	    node "$SiriClaw-Instruct_ENTRY" onboard --non-interactive --accept-risk \
+	    node "$SIRICLAW_ENTRY" onboard --non-interactive --accept-risk \
 	      --mode remote \
 	      --remote-url ws://gateway.local:18789 \
       --remote-token remote-token \
       --skip-skills \
       --skip-health
 
-    config_path="$SiriClaw-Instruct_CONFIG_PATH"
+    config_path="$SIRICLAW_CONFIG_PATH"
     assert_file "$config_path"
 
     CONFIG_PATH="$config_path" node --input-type=module - <<'"'"'NODE'"'"'
@@ -410,9 +410,9 @@ NODE
   run_case_reset() {
     local home_dir
     home_dir="$(make_home reset-config)"
-    set_isolated_SiriClaw-Instruct_env "$home_dir"
+    set_isolated_SIRICLAW_env "$home_dir"
     # Seed a remote config to exercise reset path.
-	    cat > "$SiriClaw-Instruct_CONFIG_PATH" <<'"'"'JSON'"'"'
+	    cat > "$SIRICLAW_CONFIG_PATH" <<'"'"'JSON'"'"'
 {
   "meta": {},
   "agents": { "defaults": { "workspace": "/root/old" } },
@@ -423,7 +423,7 @@ NODE
 }
 JSON
 
-	    node "$SiriClaw-Instruct_ENTRY" onboard \
+	    node "$SIRICLAW_ENTRY" onboard \
 	      --non-interactive \
 	      --accept-risk \
       --flow quickstart \
@@ -435,7 +435,7 @@ JSON
       --skip-ui \
       --skip-health
 
-    config_path="$SiriClaw-Instruct_CONFIG_PATH"
+    config_path="$SIRICLAW_CONFIG_PATH"
     assert_file "$config_path"
 
     CONFIG_PATH="$config_path" node --input-type=module - <<'"'"'NODE'"'"'
@@ -466,9 +466,9 @@ NODE
 	    local home_dir
 	    home_dir="$(make_home channels)"
 	    # Channels-only configure flow.
-	    run_wizard_cmd channels "$home_dir" "node \"$SiriClaw-Instruct_ENTRY\" configure --section channels" send_channels_flow
+	    run_wizard_cmd channels "$home_dir" "node \"$SIRICLAW_ENTRY\" configure --section channels" send_channels_flow
 
-    config_path="$SiriClaw-Instruct_CONFIG_PATH"
+    config_path="$SIRICLAW_CONFIG_PATH"
     assert_file "$config_path"
 
     CONFIG_PATH="$config_path" node --input-type=module - <<'"'"'NODE'"'"'
@@ -505,9 +505,9 @@ NODE
   run_case_skills() {
     local home_dir
     home_dir="$(make_home skills)"
-    set_isolated_SiriClaw-Instruct_env "$home_dir"
+    set_isolated_SIRICLAW_env "$home_dir"
     # Seed skills config to ensure it survives the wizard.
-	    cat > "$SiriClaw-Instruct_CONFIG_PATH" <<'"'"'JSON'"'"'
+	    cat > "$SIRICLAW_CONFIG_PATH" <<'"'"'JSON'"'"'
 {
   "meta": {},
   "skills": {
@@ -517,9 +517,9 @@ NODE
 }
 JSON
 
-	    run_wizard_cmd skills "$home_dir" "node \"$SiriClaw-Instruct_ENTRY\" configure --section skills" send_skills_flow
+	    run_wizard_cmd skills "$home_dir" "node \"$SIRICLAW_ENTRY\" configure --section skills" send_skills_flow
 
-    config_path="$SiriClaw-Instruct_CONFIG_PATH"
+    config_path="$SIRICLAW_CONFIG_PATH"
     assert_file "$config_path"
 
     CONFIG_PATH="$config_path" node --input-type=module - <<'"'"'NODE'"'"'

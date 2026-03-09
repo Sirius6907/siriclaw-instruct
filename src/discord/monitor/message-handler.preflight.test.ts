@@ -22,7 +22,7 @@ import {
 } from "./thread-bindings.js";
 
 type DiscordConfig = NonNullable<
-  import("../../config/config.js").SiriClaw-InstructConfig["channels"]
+  import("../../config/config.js").SiriClawInstructConfig["channels"]
 >["discord"];
 type DiscordMessageEvent = import("./listeners.js").DiscordMessageEvent;
 type DiscordClient = import("@buape/carbon").Client;
@@ -32,7 +32,7 @@ const DEFAULT_CFG = {
     mainKey: "main",
     scope: "per-sender",
   },
-} as import("../../config/config.js").SiriClaw-InstructConfig;
+} as import("../../config/config.js").SiriClawInstructConfig;
 
 function createThreadBinding(
   overrides?: Partial<
@@ -62,7 +62,7 @@ function createThreadBinding(
 }
 
 function createPreflightArgs(params: {
-  cfg: import("../../config/config.js").SiriClaw-InstructConfig;
+  cfg: import("../../config/config.js").SiriClawInstructConfig;
   discordConfig: DiscordConfig;
   data: DiscordMessageEvent;
   client: DiscordClient;
@@ -73,7 +73,7 @@ function createPreflightArgs(params: {
     accountId: "default",
     token: "token",
     runtime: {} as import("../../runtime.js").RuntimeEnv,
-    botUserId: "SiriClaw-Instruct-bot",
+    botUserId: "SiriClawInstruct-bot",
     guildHistories: new Map(),
     historyLimit: 0,
     mediaMaxBytes: 1_000_000,
@@ -218,7 +218,7 @@ async function runGuildPreflight(params: {
   guildId: string;
   message: import("@buape/carbon").Message;
   discordConfig: DiscordConfig;
-  cfg?: import("../../config/config.js").SiriClaw-InstructConfig;
+  cfg?: import("../../config/config.js").SiriClawInstructConfig;
   guildEntries?: Parameters<typeof preflightDiscordMessage>[0]["guildEntries"];
 }) {
   return preflightDiscordMessage({
@@ -287,7 +287,7 @@ describe("preflightDiscordMessage", () => {
       author: {
         id: "relay-bot-1",
         bot: true,
-        username: "SiriClaw-Instruct",
+        username: "SiriClawInstruct",
       },
     });
 
@@ -364,7 +364,7 @@ describe("preflightDiscordMessage", () => {
       createPreflightArgs({
         cfg: {
           ...DEFAULT_CFG,
-        } as import("../../config/config.js").SiriClaw-InstructConfig,
+        } as import("../../config/config.js").SiriClawInstructConfig,
         discordConfig: {
           allowBots: true,
         } as DiscordConfig,
@@ -415,8 +415,8 @@ describe("preflightDiscordMessage", () => {
     const message = createMessage({
       id: "m-bot-mentions-on",
       channelId,
-      content: "hi <@SiriClaw-Instruct-bot>",
-      mentionedUsers: [{ id: "SiriClaw-Instruct-bot" }],
+      content: "hi <@SiriClawInstruct-bot>",
+      mentionedUsers: [{ id: "SiriClawInstruct-bot" }],
       author: {
         id: "relay-bot-1",
         bot: true,
@@ -541,7 +541,7 @@ describe("preflightDiscordMessage", () => {
   });
 
   it("uses attachment content_type for guild audio preflight mention detection", async () => {
-    transcribeFirstAudioMock.mockResolvedValue("hey SiriClaw-Instruct");
+    transcribeFirstAudioMock.mockResolvedValue("hey SiriClawInstruct");
 
     const channelId = "channel-audio-1";
     const client = createGuildTextClient(channelId);
@@ -571,10 +571,10 @@ describe("preflightDiscordMessage", () => {
           ...DEFAULT_CFG,
           messages: {
             groupChat: {
-              mentionPatterns: ["SiriClaw-Instruct"],
+              mentionPatterns: ["SiriClawInstruct"],
             },
           },
-        } as import("../../config/config.js").SiriClaw-InstructConfig,
+        } as import("../../config/config.js").SiriClawInstructConfig,
         discordConfig: {} as DiscordConfig,
         data: createGuildEvent({
           channelId,
@@ -668,3 +668,4 @@ describe("shouldIgnoreBoundThreadWebhookMessage", () => {
     ).toBe(true);
   });
 });
+

@@ -5,8 +5,8 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } 
 import { captureEnv } from "../test-utils/env.js";
 import type { UpdateCheckResult } from "./update-check.js";
 
-vi.mock("./SiriClaw-Instruct-root.js", () => ({
-  resolveSiriClaw-InstructPackageRoot: vi.fn(),
+vi.mock("./SiriClawInstruct-root.js", () => ({
+  resolveSiriClawInstructPackageRoot: vi.fn(),
 }));
 
 vi.mock("./update-check.js", async () => {
@@ -45,7 +45,7 @@ describe("update-startup", () => {
   let tempDir: string;
   let envSnapshot: ReturnType<typeof captureEnv>;
 
-  let resolveSiriClaw-InstructPackageRoot: (typeof import("./SiriClaw-Instruct-root.js"))["resolveSiriClaw-InstructPackageRoot"];
+  let resolveSiriClawInstructPackageRoot: (typeof import("./SiriClawInstruct-root.js"))["resolveSiriClawInstructPackageRoot"];
   let checkUpdateStatus: (typeof import("./update-check.js"))["checkUpdateStatus"];
   let resolveNpmChannelTag: (typeof import("./update-check.js"))["resolveNpmChannelTag"];
   let runCommandWithTimeout: (typeof import("../process/exec.js"))["runCommandWithTimeout"];
@@ -56,7 +56,7 @@ describe("update-startup", () => {
   let loaded = false;
 
   beforeAll(async () => {
-    suiteRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-update-check-suite-"));
+    suiteRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-update-check-suite-"));
   });
 
   beforeEach(async () => {
@@ -64,8 +64,8 @@ describe("update-startup", () => {
     vi.setSystemTime(new Date("2026-01-17T10:00:00Z"));
     tempDir = path.join(suiteRoot, `case-${++suiteCase}`);
     await fs.mkdir(tempDir);
-    envSnapshot = captureEnv(["SiriClaw-Instruct_STATE_DIR", "NODE_ENV", "VITEST"]);
-    process.env.SiriClaw-Instruct_STATE_DIR = tempDir;
+    envSnapshot = captureEnv(["SiriClawInstruct_STATE_DIR", "NODE_ENV", "VITEST"]);
+    process.env.SiriClawInstruct_STATE_DIR = tempDir;
 
     process.env.NODE_ENV = "test";
 
@@ -74,7 +74,7 @@ describe("update-startup", () => {
 
     // Perf: load mocked modules once (after timers/env are set up).
     if (!loaded) {
-      ({ resolveSiriClaw-InstructPackageRoot } = await import("./SiriClaw-Instruct-root.js"));
+      ({ resolveSiriClawInstructPackageRoot } = await import("./SiriClawInstruct-root.js"));
       ({ checkUpdateStatus, resolveNpmChannelTag } = await import("./update-check.js"));
       ({ runCommandWithTimeout } = await import("../process/exec.js"));
       ({
@@ -85,7 +85,7 @@ describe("update-startup", () => {
       } = await import("./update-startup.js"));
       loaded = true;
     }
-    vi.mocked(resolveSiriClaw-InstructPackageRoot).mockClear();
+    vi.mocked(resolveSiriClawInstructPackageRoot).mockClear();
     vi.mocked(checkUpdateStatus).mockClear();
     vi.mocked(resolveNpmChannelTag).mockClear();
     vi.mocked(runCommandWithTimeout).mockClear();
@@ -112,9 +112,9 @@ describe("update-startup", () => {
   }
 
   function mockPackageInstallStatus() {
-    vi.mocked(resolveSiriClaw-InstructPackageRoot).mockResolvedValue("/opt/SiriClaw-Instruct");
+    vi.mocked(resolveSiriClawInstructPackageRoot).mockResolvedValue("/opt/SiriClawInstruct");
     vi.mocked(checkUpdateStatus).mockResolvedValue({
-      root: "/opt/SiriClaw-Instruct",
+      root: "/opt/SiriClawInstruct",
       installKind: "package",
       packageManager: "npm",
     } satisfies UpdateCheckResult);
@@ -335,7 +335,7 @@ describe("update-startup", () => {
     expect(runAutoUpdate).toHaveBeenCalledWith({
       channel: "stable",
       timeoutMs: 45 * 60 * 1000,
-      root: "/opt/SiriClaw-Instruct",
+      root: "/opt/SiriClawInstruct",
     });
   });
 
@@ -352,7 +352,7 @@ describe("update-startup", () => {
     expect(runAutoUpdate).toHaveBeenCalledWith({
       channel: "beta",
       timeoutMs: 45 * 60 * 1000,
-      root: "/opt/SiriClaw-Instruct",
+      root: "/opt/SiriClawInstruct",
     });
   });
 
@@ -381,7 +381,7 @@ describe("update-startup", () => {
     });
 
     const originalArgv = process.argv.slice();
-    process.argv = [process.execPath, "/opt/SiriClaw-Instruct/dist/entry.js"];
+    process.argv = [process.execPath, "/opt/SiriClawInstruct/dist/entry.js"];
     try {
       await runAutoUpdateCheckWithDefaults({
         cfg: createBetaAutoUpdateConfig(),
@@ -393,7 +393,7 @@ describe("update-startup", () => {
     expect(runCommandWithTimeout).toHaveBeenCalledWith(
       [
         process.execPath,
-        "/opt/SiriClaw-Instruct/dist/entry.js",
+        "/opt/SiriClawInstruct/dist/entry.js",
         "update",
         "--yes",
         "--channel",
@@ -403,7 +403,7 @@ describe("update-startup", () => {
       expect.objectContaining({
         timeoutMs: 45 * 60 * 1000,
         env: expect.objectContaining({
-          SiriClaw-Instruct_AUTO_UPDATE: "1",
+          SiriClawInstruct_AUTO_UPDATE: "1",
         }),
       }),
     );
@@ -421,3 +421,4 @@ describe("update-startup", () => {
     stop();
   });
 });
+

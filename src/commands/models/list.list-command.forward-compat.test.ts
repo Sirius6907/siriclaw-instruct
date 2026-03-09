@@ -222,3 +222,4 @@ describe("modelsListCommand forward-compat", () => {
     expect(mocks.printModelTable).not.toHaveBeenCalled();
   });
 });
+

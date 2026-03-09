@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../config/types.js";
+import type { SiriClawInstructConfig } from "../../config/types.js";
 import type { createDiscordMessageHandler } from "./message-handler.js";
 import { createNoopThreadBindingManager } from "./thread-bindings.js";
 
@@ -11,7 +11,7 @@ export function createDiscordHandlerParams(overrides?: {
   abortSignal?: AbortSignal;
   workerRunTimeoutMs?: number;
 }): Parameters<typeof createDiscordMessageHandler>[0] {
-  const cfg: SiriClaw-InstructConfig = {
+  const cfg: SiriClawInstructConfig = {
     channels: {
       discord: {
         enabled: true,
@@ -74,3 +74,4 @@ export function createDiscordPreflightContext(channelId = "ch-1") {
     messageChannelId: channelId,
   };
 }
+

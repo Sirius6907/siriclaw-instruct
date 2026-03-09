@@ -33,13 +33,13 @@ vi.mock("node:fs", async (importOriginal) => {
   return { ...wrapped, default: wrapped };
 });
 
-let ensureSiriClaw-InstructCliOnPath: typeof import("./path-env.js").ensureSiriClaw-InstructCliOnPath;
+let ensureSiriClawInstructCliOnPath: typeof import("./path-env.js").ensureSiriClawInstructCliOnPath;
 
-describe("ensureSiriClaw-InstructCliOnPath", () => {
+describe("ensureSiriClawInstructCliOnPath", () => {
   const envKeys = [
     "PATH",
-    "SiriClaw-Instruct_PATH_BOOTSTRAPPED",
-    "SiriClaw-Instruct_ALLOW_PROJECT_LOCAL_BIN",
+    "SiriClawInstruct_PATH_BOOTSTRAPPED",
+    "SiriClawInstruct_ALLOW_PROJECT_LOCAL_BIN",
     "MISE_DATA_DIR",
     "HOMEBREW_PREFIX",
     "HOMEBREW_BREW_FILE",
@@ -48,7 +48,7 @@ describe("ensureSiriClaw-InstructCliOnPath", () => {
   let envSnapshot: Record<(typeof envKeys)[number], string | undefined>;
 
   beforeAll(async () => {
-    ({ ensureSiriClaw-InstructCliOnPath } = await import("./path-env.js"));
+    ({ ensureSiriClawInstructCliOnPath } = await import("./path-env.js"));
   });
 
   beforeEach(() => {
@@ -72,18 +72,18 @@ describe("ensureSiriClaw-InstructCliOnPath", () => {
     }
   });
 
-  it("prepends the bundled app bin dir when a sibling SiriClaw-Instruct exists", () => {
-    const tmp = abs("/tmp/SiriClaw-Instruct-path/case-bundled");
+  it("prepends the bundled app bin dir when a sibling SiriClawInstruct exists", () => {
+    const tmp = abs("/tmp/SiriClawInstruct-path/case-bundled");
     const appBinDir = path.join(tmp, "AppBin");
-    const cliPath = path.join(appBinDir, "SiriClaw-Instruct");
+    const cliPath = path.join(appBinDir, "SiriClawInstruct");
     setDir(tmp);
     setDir(appBinDir);
     setExe(cliPath);
 
     process.env.PATH = "/usr/bin";
-    delete process.env.SiriClaw-Instruct_PATH_BOOTSTRAPPED;
+    delete process.env.SiriClawInstruct_PATH_BOOTSTRAPPED;
 
-    ensureSiriClaw-InstructCliOnPath({
+    ensureSiriClawInstructCliOnPath({
       execPath: cliPath,
       cwd: tmp,
       homeDir: tmp,
@@ -96,8 +96,8 @@ describe("ensureSiriClaw-InstructCliOnPath", () => {
 
   it("is idempotent", () => {
     process.env.PATH = "/bin";
-    process.env.SiriClaw-Instruct_PATH_BOOTSTRAPPED = "1";
-    ensureSiriClaw-InstructCliOnPath({
+    process.env.SiriClawInstruct_PATH_BOOTSTRAPPED = "1";
+    ensureSiriClawInstructCliOnPath({
       execPath: "/tmp/does-not-matter",
       cwd: "/tmp",
       homeDir: "/tmp",
@@ -107,9 +107,9 @@ describe("ensureSiriClaw-InstructCliOnPath", () => {
   });
 
   it("prepends mise shims when available", () => {
-    const tmp = abs("/tmp/SiriClaw-Instruct-path/case-mise");
+    const tmp = abs("/tmp/SiriClawInstruct-path/case-mise");
     const appBinDir = path.join(tmp, "AppBin");
-    const appCli = path.join(appBinDir, "SiriClaw-Instruct");
+    const appCli = path.join(appBinDir, "SiriClawInstruct");
     setDir(tmp);
     setDir(appBinDir);
     setExe(appCli);
@@ -121,9 +121,9 @@ describe("ensureSiriClaw-InstructCliOnPath", () => {
 
     process.env.MISE_DATA_DIR = miseDataDir;
     process.env.PATH = "/usr/bin";
-    delete process.env.SiriClaw-Instruct_PATH_BOOTSTRAPPED;
+    delete process.env.SiriClawInstruct_PATH_BOOTSTRAPPED;
 
-    ensureSiriClaw-InstructCliOnPath({
+    ensureSiriClawInstructCliOnPath({
       execPath: appCli,
       cwd: tmp,
       homeDir: tmp,
@@ -139,23 +139,23 @@ describe("ensureSiriClaw-InstructCliOnPath", () => {
   });
 
   it("only appends project-local node_modules/.bin when explicitly enabled", () => {
-    const tmp = abs("/tmp/SiriClaw-Instruct-path/case-project-local");
+    const tmp = abs("/tmp/SiriClawInstruct-path/case-project-local");
     const appBinDir = path.join(tmp, "AppBin");
-    const appCli = path.join(appBinDir, "SiriClaw-Instruct");
+    const appCli = path.join(appBinDir, "SiriClawInstruct");
     setDir(tmp);
     setDir(appBinDir);
     setExe(appCli);
 
     const localBinDir = path.join(tmp, "node_modules", ".bin");
-    const localCli = path.join(localBinDir, "SiriClaw-Instruct");
+    const localCli = path.join(localBinDir, "SiriClawInstruct");
     setDir(path.join(tmp, "node_modules"));
     setDir(localBinDir);
     setExe(localCli);
 
     process.env.PATH = "/usr/bin";
-    delete process.env.SiriClaw-Instruct_PATH_BOOTSTRAPPED;
+    delete process.env.SiriClawInstruct_PATH_BOOTSTRAPPED;
 
-    ensureSiriClaw-InstructCliOnPath({
+    ensureSiriClawInstructCliOnPath({
       execPath: appCli,
       cwd: tmp,
       homeDir: tmp,
@@ -165,9 +165,9 @@ describe("ensureSiriClaw-InstructCliOnPath", () => {
     expect(withoutOptIn.includes(localBinDir)).toBe(false);
 
     process.env.PATH = "/usr/bin";
-    delete process.env.SiriClaw-Instruct_PATH_BOOTSTRAPPED;
+    delete process.env.SiriClawInstruct_PATH_BOOTSTRAPPED;
 
-    ensureSiriClaw-InstructCliOnPath({
+    ensureSiriClawInstructCliOnPath({
       execPath: appCli,
       cwd: tmp,
       homeDir: tmp,
@@ -182,7 +182,7 @@ describe("ensureSiriClaw-InstructCliOnPath", () => {
   });
 
   it("prepends Linuxbrew dirs when present", () => {
-    const tmp = abs("/tmp/SiriClaw-Instruct-path/case-linuxbrew");
+    const tmp = abs("/tmp/SiriClawInstruct-path/case-linuxbrew");
     const execDir = path.join(tmp, "exec");
     setDir(tmp);
     setDir(execDir);
@@ -195,12 +195,12 @@ describe("ensureSiriClaw-InstructCliOnPath", () => {
     setDir(linuxbrewSbin);
 
     process.env.PATH = "/usr/bin";
-    delete process.env.SiriClaw-Instruct_PATH_BOOTSTRAPPED;
+    delete process.env.SiriClawInstruct_PATH_BOOTSTRAPPED;
     delete process.env.HOMEBREW_PREFIX;
     delete process.env.HOMEBREW_BREW_FILE;
     delete process.env.XDG_BIN_HOME;
 
-    ensureSiriClaw-InstructCliOnPath({
+    ensureSiriClawInstructCliOnPath({
       execPath: path.join(execDir, "node"),
       cwd: tmp,
       homeDir: tmp,
@@ -213,3 +213,4 @@ describe("ensureSiriClaw-InstructCliOnPath", () => {
     expect(parts[1]).toBe(linuxbrewSbin);
   });
 });
+

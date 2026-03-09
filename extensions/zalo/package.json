@@ -1,13 +1,13 @@
 {
-  "name": "@SiriClaw-Instruct/zalo",
+  "name": "@siriclaw-instruct/zalo",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct Zalo channel plugin",
+  "description": "siriclaw-instruct Zalo channel plugin",
   "type": "module",
   "dependencies": {
     "undici": "7.22.0",
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ],
@@ -25,9 +25,13 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@SiriClaw-Instruct/zalo",
+      "npmSpec": "@siriclaw-instruct/zalo",
       "localPath": "extensions/zalo",
       "defaultChoice": "npm"
     }
   }
 }
+
+
+
+

@@ -1,16 +1,16 @@
 import { getChannelPlugin } from "../../channels/plugins/index.js";
 import type { ChannelId, ChannelSetupInput } from "../../channels/plugins/types.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { normalizeAccountId } from "../../routing/session-key.js";
 
 type ChatChannel = ChannelId;
 
 export function applyAccountName(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: ChatChannel;
   accountId: string;
   name?: string;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const accountId = normalizeAccountId(params.accountId);
   const plugin = getChannelPlugin(params.channel);
   const apply = plugin?.setup?.applyAccountName;
@@ -18,11 +18,11 @@ export function applyAccountName(params: {
 }
 
 export function applyChannelAccountConfig(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   channel: ChatChannel;
   accountId: string;
   input: ChannelSetupInput;
-}): SiriClaw-InstructConfig {
+}): SiriClawInstructConfig {
   const accountId = normalizeAccountId(params.accountId);
   const plugin = getChannelPlugin(params.channel);
   const apply = plugin?.setup?.applyAccountConfig;
@@ -31,3 +31,4 @@ export function applyChannelAccountConfig(params: {
   }
   return apply({ cfg: params.cfg, accountId, input: params.input });
 }
+

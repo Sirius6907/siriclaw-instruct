@@ -227,7 +227,7 @@ describe("buildEmbeddedRunPayloads", () => {
             type: "toolCall",
             id: "toolu_01",
             name: "browser",
-            arguments: { action: "search", query: "SiriClaw-Instruct docs" },
+            arguments: { action: "search", query: "SiriClawInstruct docs" },
           },
         ],
       }),
@@ -379,3 +379,4 @@ describe("buildEmbeddedRunPayloads", () => {
     });
   });
 });
+

@@ -111,3 +111,4 @@ Hard rule: avoid ultra-thin weights on light backgrounds.
 - `app/src/main/java/ai/SiriClaw-Instruct/android/MainViewModel.kt`
 
 If style and implementation diverge, update both in the same change.
+

@@ -43,9 +43,9 @@ const WINDOWS_CODEPAGE_ENCODING_MAP: Record<number, string> = {
 };
 let cachedWindowsConsoleEncoding: string | null | undefined;
 
-const execHostEnforced = process.env.SiriClaw-Instruct_NODE_EXEC_HOST?.trim().toLowerCase() === "app";
+const execHostEnforced = process.env.SiriClawInstruct_NODE_EXEC_HOST?.trim().toLowerCase() === "app";
 const execHostFallbackAllowed =
-  process.env.SiriClaw-Instruct_NODE_EXEC_FALLBACK?.trim().toLowerCase() !== "0";
+  process.env.SiriClawInstruct_NODE_EXEC_FALLBACK?.trim().toLowerCase() !== "0";
 const preferMacAppExecHost = process.platform === "darwin" && execHostEnforced;
 
 type SystemWhichParams = {
@@ -658,3 +658,4 @@ async function sendNodeEvent(client: GatewayClient, event: string, payload: unkn
     // ignore: node events are best-effort
   }
 }
+

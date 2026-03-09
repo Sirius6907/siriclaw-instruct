@@ -23,7 +23,7 @@ type ConfigWritePayload = {
 };
 
 async function createIdentityWorkspace(subdir = "work") {
-  const root = await makeTempWorkspace("SiriClaw-Instruct-identity-");
+  const root = await makeTempWorkspace("SiriClawInstruct-identity-");
   const workspace = path.join(root, subdir);
   await fs.mkdir(workspace, { recursive: true });
   return { root, workspace };
@@ -60,10 +60,10 @@ describe("agents set-identity command", () => {
   it("sets identity from workspace IDENTITY.md", async () => {
     const { root, workspace } = await createIdentityWorkspace();
     await writeIdentityFile(workspace, [
-      "- Name: SiriClaw-Instruct",
+      "- Name: SiriClawInstruct",
       "- Creature: helpful sloth",
       "- Emoji: :)",
-      "- Avatar: avatars/SiriClaw-Instruct.png",
+      "- Avatar: avatars/SiriClawInstruct.png",
       "",
     ]);
 
@@ -83,10 +83,10 @@ describe("agents set-identity command", () => {
 
     expect(configMocks.writeConfigFile).toHaveBeenCalledTimes(1);
     expect(getWrittenMainIdentity()).toEqual({
-      name: "SiriClaw-Instruct",
+      name: "SiriClawInstruct",
       theme: "helpful sloth",
       emoji: ":)",
-      avatar: "avatars/SiriClaw-Instruct.png",
+      avatar: "avatars/SiriClawInstruct.png",
     });
   });
 
@@ -116,10 +116,10 @@ describe("agents set-identity command", () => {
   it("overrides identity file values with explicit flags", async () => {
     const { workspace } = await createIdentityWorkspace();
     await writeIdentityFile(workspace, [
-      "- Name: SiriClaw-Instruct",
+      "- Name: SiriClawInstruct",
       "- Theme: space lobster",
       "- Emoji: :)",
-      "- Avatar: avatars/SiriClaw-Instruct.png",
+      "- Avatar: avatars/SiriClawInstruct.png",
       "",
     ]);
 
@@ -209,3 +209,4 @@ describe("agents set-identity command", () => {
     expect(configMocks.writeConfigFile).not.toHaveBeenCalled();
   });
 });
+

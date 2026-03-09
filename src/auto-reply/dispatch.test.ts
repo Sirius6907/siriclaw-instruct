@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { dispatchInboundMessage, withReplyDispatcher } from "./dispatch.js";
 import type { ReplyDispatcher } from "./reply/reply-dispatcher.js";
 import { buildTestCtx } from "./reply/test-ctx.js";
@@ -81,7 +81,7 @@ describe("withReplyDispatcher", () => {
 
     await dispatchInboundMessage({
       ctx: buildTestCtx(),
-      cfg: {} as SiriClaw-InstructConfig,
+      cfg: {} as SiriClawInstructConfig,
       dispatcher,
       replyResolver: async () => ({ text: "ok" }),
     });
@@ -89,3 +89,4 @@ describe("withReplyDispatcher", () => {
     expect(order).toEqual(["sendFinalReply", "markComplete", "waitForIdle"]);
   });
 });
+

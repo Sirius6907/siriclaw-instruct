@@ -1,10 +1,10 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { hasConfiguredSecretInput } from "../config/types.secrets.js";
 
 export const EXPLICIT_GATEWAY_AUTH_MODE_REQUIRED_ERROR =
   "Invalid config: gateway.auth.token and gateway.auth.password are both configured, but gateway.auth.mode is unset. Set gateway.auth.mode to token or password.";
 
-export function hasAmbiguousGatewayAuthModeConfig(cfg: SiriClaw-InstructConfig): boolean {
+export function hasAmbiguousGatewayAuthModeConfig(cfg: SiriClawInstructConfig): boolean {
   const auth = cfg.gateway?.auth;
   if (!auth) {
     return false;
@@ -18,9 +18,10 @@ export function hasAmbiguousGatewayAuthModeConfig(cfg: SiriClaw-InstructConfig):
   return tokenConfigured && passwordConfigured;
 }
 
-export function assertExplicitGatewayAuthModeWhenBothConfigured(cfg: SiriClaw-InstructConfig): void {
+export function assertExplicitGatewayAuthModeWhenBothConfigured(cfg: SiriClawInstructConfig): void {
   if (!hasAmbiguousGatewayAuthModeConfig(cfg)) {
     return;
   }
   throw new Error(EXPLICIT_GATEWAY_AUTH_MODE_REQUIRED_ERROR);
 }
+

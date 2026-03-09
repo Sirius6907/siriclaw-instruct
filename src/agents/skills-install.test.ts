@@ -27,7 +27,7 @@ async function writeInstallableSkill(workspaceDir: string, name: string): Promis
     `---
 name: ${name}
 description: test skill
-metadata: {"SiriClaw-Instruct":{"install":[{"id":"deps","kind":"node","package":"example-package"}]}}
+metadata: {"SiriClawInstruct":{"install":[{"id":"deps","kind":"node","package":"example-package"}]}}
 ---
 
 # ${name}
@@ -38,11 +38,11 @@ metadata: {"SiriClaw-Instruct":{"install":[{"id":"deps","kind":"node","package":
   return skillDir;
 }
 
-const workspaceSuite = createFixtureSuite("SiriClaw-Instruct-skills-install-");
+const workspaceSuite = createFixtureSuite("SiriClawInstruct-skills-install-");
 let tempHome: TempHomeEnv;
 
 beforeAll(async () => {
-  tempHome = await createTempHomeEnv("SiriClaw-Instruct-skills-install-home-");
+  tempHome = await createTempHomeEnv("SiriClawInstruct-skills-install-home-");
   await workspaceSuite.setup();
 });
 
@@ -127,3 +127,4 @@ describe("installSkill code safety scanning", () => {
     });
   });
 });
+

@@ -1,6 +1,6 @@
 import Foundation
 import Network
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 
 final class NetworkStatusService: @unchecked Sendable {
     func currentStatus(timeoutMs: Int = 1500) async -> SiriClaw-InstructNetworkStatusPayload {
@@ -67,3 +67,4 @@ private final class NetworkStatusState: @unchecked Sendable {
         return true
     }
 }
+

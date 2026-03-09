@@ -38,11 +38,11 @@ function resolveSystemdUnitPathForName(env: GatewayServiceEnv, name: string): st
 }
 
 function resolveSystemdServiceName(env: GatewayServiceEnv): string {
-  const override = env.SiriClaw-Instruct_SYSTEMD_UNIT?.trim();
+  const override = env.SiriClawInstruct_SYSTEMD_UNIT?.trim();
   if (override) {
     return override.endsWith(".service") ? override.slice(0, -".service".length) : override;
   }
-  return resolveGatewaySystemdServiceName(env.SiriClaw-Instruct_PROFILE);
+  return resolveGatewaySystemdServiceName(env.SiriClawInstruct_PROFILE);
 }
 
 function resolveSystemdUnitPath(env: GatewayServiceEnv): string {
@@ -481,7 +481,7 @@ export async function installSystemdService({
   });
   await fs.writeFile(unitPath, unit, "utf8");
 
-  const serviceName = resolveGatewaySystemdServiceName(env.SiriClaw-Instruct_PROFILE);
+  const serviceName = resolveGatewaySystemdServiceName(env.SiriClawInstruct_PROFILE);
   const unitName = `${serviceName}.service`;
   const reload = await execSystemctlUser(env, ["daemon-reload"]);
   if (reload.code !== 0) {
@@ -525,7 +525,7 @@ export async function uninstallSystemdService({
   stdout,
 }: GatewayServiceManageArgs): Promise<void> {
   await assertSystemdAvailable(env);
-  const serviceName = resolveGatewaySystemdServiceName(env.SiriClaw-Instruct_PROFILE);
+  const serviceName = resolveGatewaySystemdServiceName(env.SiriClawInstruct_PROFILE);
   const unitName = `${serviceName}.service`;
   await execSystemctlUser(env, ["disable", "--now", unitName]);
 
@@ -710,3 +710,4 @@ export async function uninstallLegacySystemdUnits({
 
   return units;
 }
+

@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   applyAgentDefaultModelPrimary,
   applyProviderConfigWithDefaultModel,
@@ -36,7 +36,7 @@ function buildLitellmModelDefinition(): {
   };
 }
 
-export function applyLitellmProviderConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyLitellmProviderConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[LITELLM_DEFAULT_MODEL_REF] = {
     ...models[LITELLM_DEFAULT_MODEL_REF],
@@ -59,7 +59,8 @@ export function applyLitellmProviderConfig(cfg: SiriClaw-InstructConfig): SiriCl
   });
 }
 
-export function applyLitellmConfig(cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig {
+export function applyLitellmConfig(cfg: SiriClawInstructConfig): SiriClawInstructConfig {
   const next = applyLitellmProviderConfig(cfg);
   return applyAgentDefaultModelPrimary(next, LITELLM_DEFAULT_MODEL_REF);
 }
+

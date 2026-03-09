@@ -25,10 +25,10 @@ export async function runWatchMain(params = {}) {
 
   const childEnv = { ...deps.env };
   const watchSession = `${deps.now()}-${deps.process.pid}`;
-  childEnv.SiriClaw-Instruct_WATCH_MODE = "1";
-  childEnv.SiriClaw-Instruct_WATCH_SESSION = watchSession;
+  childEnv.SIRICLAW_WATCH_MODE = "1";
+  childEnv.SIRICLAW_WATCH_SESSION = watchSession;
   if (deps.args.length > 0) {
-    childEnv.SiriClaw-Instruct_WATCH_COMMAND = deps.args.join(" ");
+    childEnv.SIRICLAW_WATCH_COMMAND = deps.args.join(" ");
   }
 
   const watchProcess = deps.spawn(deps.process.execPath, buildWatchArgs(deps.args), {

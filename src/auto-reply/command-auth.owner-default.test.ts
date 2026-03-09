@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveCommandAuthorization } from "./command-auth.js";
 import type { MsgContext } from "./templating.js";
 import { installDiscordRegistryHooks } from "./test-helpers/command-auth-registry-fixture.js";
@@ -10,7 +10,7 @@ describe("senderIsOwner only reflects explicit owner authorization", () => {
   it("does not treat direct-message senders as owners when no ownerAllowFrom is configured", () => {
     const cfg = {
       channels: { discord: {} },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const ctx = {
       Provider: "discord",
@@ -33,7 +33,7 @@ describe("senderIsOwner only reflects explicit owner authorization", () => {
   it("does not treat group-chat senders as owners when no ownerAllowFrom is configured", () => {
     const cfg = {
       channels: { discord: {} },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const ctx = {
       Provider: "discord",
@@ -57,7 +57,7 @@ describe("senderIsOwner only reflects explicit owner authorization", () => {
     const cfg = {
       channels: { discord: {} },
       commands: { ownerAllowFrom: ["456"] },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const ctx = {
       Provider: "discord",
@@ -79,7 +79,7 @@ describe("senderIsOwner only reflects explicit owner authorization", () => {
     const cfg = {
       channels: { discord: {} },
       commands: { ownerAllowFrom: ["456"] },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const ctx = {
       Provider: "discord",
@@ -101,7 +101,7 @@ describe("senderIsOwner only reflects explicit owner authorization", () => {
     const cfg = {
       channels: { discord: {} },
       commands: { ownerAllowFrom: ["*"] },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
 
     const ctx = {
       Provider: "discord",
@@ -120,7 +120,7 @@ describe("senderIsOwner only reflects explicit owner authorization", () => {
   });
 
   it("senderIsOwner is true for internal operator.admin sessions", () => {
-    const cfg = {} as SiriClaw-InstructConfig;
+    const cfg = {} as SiriClawInstructConfig;
 
     const ctx = {
       Provider: "webchat",
@@ -137,3 +137,4 @@ describe("senderIsOwner only reflects explicit owner authorization", () => {
     expect(auth.senderIsOwner).toBe(true);
   });
 });
+

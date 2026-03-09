@@ -10,7 +10,7 @@ export function makePathEnv(binDir: string): NodeJS.ProcessEnv {
 }
 
 export function makeTempDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-exec-approvals-"));
+  return fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-exec-approvals-"));
 }
 
 export type ShellParserParityFixtureCase = {
@@ -57,3 +57,4 @@ export function loadWrapperResolutionParityFixtureCases(): WrapperResolutionPari
   ) as WrapperResolutionParityFixture;
   return fixture.cases;
 }
+

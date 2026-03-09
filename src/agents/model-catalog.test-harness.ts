@@ -4,11 +4,11 @@ import { __setModelCatalogImportForTest, resetModelCatalogCacheForTest } from ".
 export type PiSdkModule = typeof import("./pi-model-discovery.js");
 
 vi.mock("./models-config.js", () => ({
-  ensureSiriClaw-InstructModelsJson: vi.fn().mockResolvedValue({ agentDir: "/tmp", wrote: false }),
+  ensureSiriClawInstructModelsJson: vi.fn().mockResolvedValue({ agentDir: "/tmp", wrote: false }),
 }));
 
 vi.mock("./agent-paths.js", () => ({
-  resolveSiriClaw-InstructAgentDir: () => "/tmp/SiriClaw-Instruct",
+  resolveSiriClawInstructAgentDir: () => "/tmp/SiriClawInstruct",
 }));
 
 export function installModelCatalogTestHooks() {
@@ -42,3 +42,4 @@ export function mockCatalogImportFailThenRecover() {
   });
   return () => call;
 }
+

@@ -238,3 +238,4 @@ export function coerceToFailoverError(
     cause: err instanceof Error ? err : undefined,
   });
 }
+

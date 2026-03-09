@@ -1,6 +1,6 @@
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import { resolveRunWorkspaceDir } from "./workspace-run.js";
 import { resolveDefaultAgentWorkspaceDir } from "./workspace.js";
@@ -26,7 +26,7 @@ describe("resolveRunWorkspaceDir", () => {
         defaults: { workspace: defaultWorkspace },
         list: [{ id: "research", workspace: researchWorkspace }],
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const result = resolveRunWorkspaceDir({
       workspaceDir: undefined,
@@ -46,7 +46,7 @@ describe("resolveRunWorkspaceDir", () => {
       agents: {
         defaults: { workspace: defaultWorkspace },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const result = resolveRunWorkspaceDir({
       workspaceDir: "   ",
@@ -109,7 +109,7 @@ describe("resolveRunWorkspaceDir", () => {
           { id: "research", workspace: researchWorkspace, default: true },
         ],
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     expect(() =>
       resolveRunWorkspaceDir({
@@ -126,7 +126,7 @@ describe("resolveRunWorkspaceDir", () => {
       agents: {
         defaults: { workspace: fallbackWorkspace },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const result = resolveRunWorkspaceDir({
       workspaceDir: undefined,
@@ -139,3 +139,4 @@ describe("resolveRunWorkspaceDir", () => {
     expect(result.workspaceDir).toBe(path.resolve(fallbackWorkspace));
   });
 });
+

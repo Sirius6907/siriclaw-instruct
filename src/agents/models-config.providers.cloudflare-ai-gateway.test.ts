@@ -9,7 +9,7 @@ import { resolveImplicitProviders } from "./models-config.providers.js";
 
 describe("cloudflare-ai-gateway profile provenance", () => {
   it("prefers env keyRef marker over runtime plaintext for persistence", async () => {
-    const agentDir = mkdtempSync(join(tmpdir(), "SiriClaw-Instruct-test-"));
+    const agentDir = mkdtempSync(join(tmpdir(), "SiriClawInstruct-test-"));
     const envSnapshot = captureEnv(["CLOUDFLARE_AI_GATEWAY_API_KEY"]);
     delete process.env.CLOUDFLARE_AI_GATEWAY_API_KEY;
 
@@ -45,7 +45,7 @@ describe("cloudflare-ai-gateway profile provenance", () => {
   });
 
   it("uses non-env marker for non-env keyRef cloudflare profiles", async () => {
-    const agentDir = mkdtempSync(join(tmpdir(), "SiriClaw-Instruct-test-"));
+    const agentDir = mkdtempSync(join(tmpdir(), "SiriClawInstruct-test-"));
     await writeFile(
       join(agentDir, "auth-profiles.json"),
       JSON.stringify(
@@ -74,3 +74,4 @@ describe("cloudflare-ai-gateway profile provenance", () => {
     expect(providers?.["cloudflare-ai-gateway"]?.apiKey).toBe(NON_ENV_SECRETREF_MARKER);
   });
 });
+

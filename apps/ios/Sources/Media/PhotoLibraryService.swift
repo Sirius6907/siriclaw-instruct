@@ -1,6 +1,6 @@
 import Foundation
 import Photos
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import UIKit
 
 final class PhotoLibraryService: PhotosServicing {
@@ -162,3 +162,4 @@ final class PhotoLibraryService: PhotosServicing {
         }
     }
 }
+

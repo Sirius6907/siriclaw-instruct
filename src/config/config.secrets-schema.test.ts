@@ -23,13 +23,13 @@ describe("config secret refs schema", () => {
           default: { source: "env" },
           filemain: {
             source: "file",
-            path: "~/.SiriClaw-Instruct/secrets.json",
+            path: "~/.SiriClawInstruct/secrets.json",
             mode: "json",
             timeoutMs: 10_000,
           },
           vault: {
             source: "exec",
-            command: "/usr/local/bin/SiriClaw-Instruct-secret-resolver",
+            command: "/usr/local/bin/SiriClawInstruct-secret-resolver",
             args: ["resolve"],
             allowSymlinkCommand: true,
           },
@@ -102,7 +102,7 @@ describe("config secret refs schema", () => {
         providers: {
           rawfile: {
             source: "file",
-            path: "~/.SiriClaw-Instruct/token.txt",
+            path: "~/.SiriClawInstruct/token.txt",
             mode: "singleValue",
           },
         },
@@ -174,3 +174,4 @@ describe("config secret refs schema", () => {
     }
   });
 });
+

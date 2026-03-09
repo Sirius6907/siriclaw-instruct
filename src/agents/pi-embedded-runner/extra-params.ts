@@ -2,15 +2,15 @@ import type { StreamFn } from "@mariozechner/pi-agent-core";
 import type { SimpleStreamOptions } from "@mariozechner/pi-ai";
 import { streamSimple } from "@mariozechner/pi-ai";
 import type { ThinkLevel } from "../../auto-reply/thinking.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { log } from "./logger.js";
 
 const OPENROUTER_APP_HEADERS: Record<string, string> = {
-  "HTTP-Referer": "https://SiriClaw-Instruct.ai",
-  "X-Title": "SiriClaw-Instruct",
+  "HTTP-Referer": "https://SiriClawInstruct.ai",
+  "X-Title": "SiriClawInstruct",
 };
 const KILOCODE_FEATURE_HEADER = "X-KILOCODE-FEATURE";
-const KILOCODE_FEATURE_DEFAULT = "SiriClaw-Instruct";
+const KILOCODE_FEATURE_DEFAULT = "SiriClawInstruct";
 const KILOCODE_FEATURE_ENV_VAR = "KILOCODE_FEATURE";
 
 function resolveKilocodeAppHeaders(): Record<string, string> {
@@ -32,7 +32,7 @@ const OPENAI_RESPONSES_PROVIDERS = new Set(["openai", "azure-openai-responses"])
  * @internal Exported for testing only
  */
 export function resolveExtraParams(params: {
-  cfg: SiriClaw-InstructConfig | undefined;
+  cfg: SiriClawInstructConfig | undefined;
   provider: string;
   modelId: string;
   agentId?: string;
@@ -634,7 +634,7 @@ function createOpenRouterSystemCacheWrapper(baseStreamFn: StreamFn | undefined):
 }
 
 /**
- * Map SiriClaw-Instruct's ThinkLevel to OpenRouter's reasoning.effort values.
+ * Map SiriClawInstruct's ThinkLevel to OpenRouter's reasoning.effort values.
  * "off" maps to "none"; all other levels pass through as-is.
  */
 function mapThinkingLevelToOpenRouterReasoningEffort(
@@ -1183,7 +1183,7 @@ function createParallelToolCallsWrapper(
  */
 export function applyExtraParamsToAgent(
   agent: { streamFn?: StreamFn },
-  cfg: SiriClaw-InstructConfig | undefined,
+  cfg: SiriClawInstructConfig | undefined,
   provider: string,
   modelId: string,
   extraParamsOverride?: Record<string, unknown>,
@@ -1254,12 +1254,12 @@ export function applyExtraParamsToAgent(
     // Omit the thinkingLevel so we never inject `reasoning.effort: "none"`,
     // which would cause a 400 on models where reasoning is mandatory.
     // Users who need reasoning control should target a specific model ID.
-    // See: SiriClaw-Instruct/SiriClaw-Instruct#24851
+    // See: SiriClawInstruct/SiriClawInstruct#24851
     //
     // x-ai/grok models do not support OpenRouter's reasoning.effort parameter
     // and reject payloads containing it with "Invalid arguments passed to the
     // model." Skip reasoning injection for these models.
-    // See: SiriClaw-Instruct/SiriClaw-Instruct#32039
+    // See: SiriClawInstruct/SiriClawInstruct#32039
     const skipReasoningInjection = modelId === "auto" || isProxyReasoningUnsupported(modelId);
     const openRouterThinkingLevel = skipReasoningInjection ? undefined : thinkingLevel;
     agent.streamFn = createOpenRouterWrapper(agent.streamFn, openRouterThinkingLevel);
@@ -1269,7 +1269,7 @@ export function applyExtraParamsToAgent(
   if (provider === "kilocode") {
     log.debug(`applying Kilocode feature header for ${provider}/${modelId}`);
     // kilo/auto is a dynamic routing model — skip reasoning injection
-    // (same rationale as OpenRouter "auto"). See: SiriClaw-Instruct/SiriClaw-Instruct#24851
+    // (same rationale as OpenRouter "auto"). See: SiriClawInstruct/SiriClawInstruct#24851
     // Also skip for models known to reject reasoning.effort (e.g. x-ai/*).
     const kilocodeThinkingLevel =
       modelId === "kilo/auto" || isProxyReasoningUnsupported(modelId) ? undefined : thinkingLevel;
@@ -1325,3 +1325,4 @@ export function applyExtraParamsToAgent(
     }
   }
 }
+

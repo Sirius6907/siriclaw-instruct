@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { SessionAcpMeta } from "../config/sessions/types.js";
 import { logVerbose } from "../globals.js";
 import { getAcpSessionManager } from "./control-plane/manager.js";
@@ -12,7 +12,7 @@ import {
 import { readAcpSessionEntry } from "./runtime/session-meta.js";
 
 function sessionMatchesConfiguredBinding(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   spec: ConfiguredAcpBindingSpec;
   meta: SessionAcpMeta;
 }): boolean {
@@ -45,7 +45,7 @@ function sessionMatchesConfiguredBinding(params: {
 }
 
 export async function ensureConfiguredAcpBindingSession(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   spec: ConfiguredAcpBindingSpec;
 }): Promise<{ ok: true; sessionKey: string } | { ok: false; sessionKey: string; error: string }> {
   const sessionKey = buildConfiguredAcpSessionKey(params.spec);
@@ -107,7 +107,7 @@ export async function ensureConfiguredAcpBindingSession(params: {
 }
 
 export async function resetAcpSessionInPlace(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   sessionKey: string;
   reason: "new" | "reset";
 }): Promise<{ ok: true } | { ok: false; skipped?: boolean; error?: string }> {
@@ -196,3 +196,4 @@ export async function resetAcpSessionInPlace(params: {
     };
   }
 }
+

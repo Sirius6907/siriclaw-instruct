@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import { signalOutbound } from "./signal.js";
 
 describe("signalOutbound", () => {
-  const cfg: SiriClaw-InstructConfig = {
+  const cfg: SiriClawInstructConfig = {
     channels: {
       signal: {
         mediaMaxMb: 8,
@@ -68,3 +68,4 @@ describe("signalOutbound", () => {
     expect(result).toEqual({ channel: "signal", messageId: "sig-media-1", timestamp: 456 });
   });
 });
+

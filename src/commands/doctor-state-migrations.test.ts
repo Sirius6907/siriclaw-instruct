@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   autoMigrateLegacyStateDir,
   autoMigrateLegacyState,
@@ -15,14 +15,14 @@ import {
 let tempRoot: string | null = null;
 
 async function makeTempRoot() {
-  const root = await fs.promises.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-doctor-"));
+  const root = await fs.promises.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-doctor-"));
   tempRoot = root;
   return root;
 }
 
 async function makeRootWithEmptyCfg() {
   const root = await makeTempRoot();
-  const cfg: SiriClaw-InstructConfig = {};
+  const cfg: SiriClawInstructConfig = {};
   return { root, cfg };
 }
 
@@ -57,12 +57,12 @@ function writeLegacySessionsFixture(params: {
 
 async function detectAndRunMigrations(params: {
   root: string;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   now?: () => number;
 }) {
   const detected = await detectLegacyStateMigrations({
     cfg: params.cfg,
-    env: { SiriClaw-Instruct_STATE_DIR: params.root } as NodeJS.ProcessEnv,
+    env: { SiriClawInstruct_STATE_DIR: params.root } as NodeJS.ProcessEnv,
   });
   await runLegacyStateMigrations({ detected, now: params.now });
 }
@@ -76,7 +76,7 @@ function readSessionsStore(targetDir: string) {
 
 async function runAndReadSessionsStore(params: {
   root: string;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   targetDir: string;
   now?: () => number;
 }) {
@@ -94,7 +94,7 @@ const DIR_LINK_TYPE = process.platform === "win32" ? "junction" : "dir";
 
 function getStateDirMigrationPaths(root: string) {
   return {
-    targetDir: path.join(root, ".SiriClaw-Instruct"),
+    targetDir: path.join(root, ".SiriClawInstruct"),
     legacyDir: path.join(root, ".clawdbot"),
   };
 }
@@ -115,13 +115,13 @@ async function runStateDirMigration(root: string, env = {} as NodeJS.ProcessEnv)
 
 async function runAutoMigrateLegacyStateWithLog(params: {
   root: string;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   now?: () => number;
 }) {
   const log = { info: vi.fn(), warn: vi.fn() };
   const result = await autoMigrateLegacyState({
     cfg: params.cfg,
-    env: { SiriClaw-Instruct_STATE_DIR: params.root } as NodeJS.ProcessEnv,
+    env: { SiriClawInstruct_STATE_DIR: params.root } as NodeJS.ProcessEnv,
     log,
     now: params.now,
   });
@@ -158,7 +158,7 @@ function ensureCredentialsDir(root: string) {
 describe("doctor legacy state migrations", () => {
   it("migrates legacy sessions into agents/<id>/sessions", async () => {
     const root = await makeTempRoot();
-    const cfg: SiriClaw-InstructConfig = {};
+    const cfg: SiriClawInstructConfig = {};
     const legacySessionsDir = writeLegacySessionsFixture({
       root,
       sessions: {
@@ -176,7 +176,7 @@ describe("doctor legacy state migrations", () => {
 
     const detected = await detectLegacyStateMigrations({
       cfg,
-      env: { SiriClaw-Instruct_STATE_DIR: root } as NodeJS.ProcessEnv,
+      env: { SiriClawInstruct_STATE_DIR: root } as NodeJS.ProcessEnv,
     });
     const result = await runLegacyStateMigrations({
       detected,
@@ -293,7 +293,7 @@ describe("doctor legacy state migrations", () => {
 
     const detected = await detectLegacyStateMigrations({
       cfg,
-      env: { SiriClaw-Instruct_STATE_DIR: root } as NodeJS.ProcessEnv,
+      env: { SiriClawInstruct_STATE_DIR: root } as NodeJS.ProcessEnv,
     });
     expect(detected.pairingAllowFrom.hasLegacyTelegram).toBe(true);
     expect(
@@ -313,7 +313,7 @@ describe("doctor legacy state migrations", () => {
 
   it("fans out legacy Telegram pairing allowFrom store to configured named accounts", async () => {
     const root = await makeTempRoot();
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       channels: {
         telegram: {
           accounts: {
@@ -339,7 +339,7 @@ describe("doctor legacy state migrations", () => {
 
     const detected = await detectLegacyStateMigrations({
       cfg,
-      env: { SiriClaw-Instruct_STATE_DIR: root } as NodeJS.ProcessEnv,
+      env: { SiriClawInstruct_STATE_DIR: root } as NodeJS.ProcessEnv,
     });
     expect(detected.pairingAllowFrom.hasLegacyTelegram).toBe(true);
     expect(
@@ -366,10 +366,10 @@ describe("doctor legacy state migrations", () => {
 
   it("no-ops when nothing detected", async () => {
     const root = await makeTempRoot();
-    const cfg: SiriClaw-InstructConfig = {};
+    const cfg: SiriClawInstructConfig = {};
     const detected = await detectLegacyStateMigrations({
       cfg,
-      env: { SiriClaw-Instruct_STATE_DIR: root } as NodeJS.ProcessEnv,
+      env: { SiriClawInstruct_STATE_DIR: root } as NodeJS.ProcessEnv,
     });
     const result = await runLegacyStateMigrations({ detected });
     expect(result.changes).toEqual([]);
@@ -377,7 +377,7 @@ describe("doctor legacy state migrations", () => {
 
   it("routes legacy state to the default agent entry", async () => {
     const root = await makeTempRoot();
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       agents: { list: [{ id: "alpha", default: true }] },
     };
     writeLegacySessionsFixture({
@@ -399,7 +399,7 @@ describe("doctor legacy state migrations", () => {
 
   it("honors session.mainKey when seeding the direct-chat bucket", async () => {
     const root = await makeTempRoot();
-    const cfg: SiriClaw-InstructConfig = { session: { mainKey: "work" } };
+    const cfg: SiriClawInstructConfig = { session: { mainKey: "work" } };
     writeLegacySessionsFixture({
       root,
       sessions: {
@@ -439,7 +439,7 @@ describe("doctor legacy state migrations", () => {
 
   it("prefers the newest entry when collapsing main aliases", async () => {
     const root = await makeTempRoot();
-    const cfg: SiriClaw-InstructConfig = { session: { mainKey: "work" } };
+    const cfg: SiriClawInstructConfig = { session: { mainKey: "work" } };
     const targetDir = path.join(root, "agents", "main", "sessions");
     writeJson5(path.join(targetDir, "sessions.json"), {
       "agent:main:main": { sessionId: "legacy", updatedAt: 50 },
@@ -458,7 +458,7 @@ describe("doctor legacy state migrations", () => {
 
   it("lowercases agent session keys during canonicalization", async () => {
     const root = await makeTempRoot();
-    const cfg: SiriClaw-InstructConfig = {};
+    const cfg: SiriClawInstructConfig = {};
     const targetDir = path.join(root, "agents", "main", "sessions");
     writeJson5(path.join(targetDir, "sessions.json"), {
       "agent:main:slack:channel:C123": { sessionId: "legacy", updatedAt: 10 },
@@ -507,7 +507,7 @@ describe("doctor legacy state migrations", () => {
     fs.mkdirSync(legacyDir, { recursive: true });
 
     const result = await runStateDirMigration(root, {
-      SiriClaw-Instruct_STATE_DIR: "/custom/state",
+      SiriClawInstruct_STATE_DIR: "/custom/state",
     } as NodeJS.ProcessEnv);
 
     expect(result.skipped).toBe(true);
@@ -604,3 +604,4 @@ describe("doctor legacy state migrations", () => {
     expectTargetAlreadyExistsWarning(result, targetDir);
   });
 });
+

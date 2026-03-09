@@ -68,21 +68,21 @@ describe("restart-helper", () => {
     it("creates a systemd restart script on Linux", async () => {
       Object.defineProperty(process, "platform", { value: "linux" });
       const { scriptPath, content } = await prepareAndReadScript({
-        SiriClaw-Instruct_PROFILE: "default",
+        SiriClawInstruct_PROFILE: "default",
       });
       expect(scriptPath.endsWith(".sh")).toBe(true);
       expect(content).toContain("#!/bin/sh");
-      expect(content).toContain("systemctl --user restart 'SiriClaw-Instruct-gateway.service'");
+      expect(content).toContain("systemctl --user restart 'SiriClawInstruct-gateway.service'");
       // Script should self-cleanup
       expect(content).toContain('rm -f "$0"');
       await cleanupScript(scriptPath);
     });
 
-    it("uses SiriClaw-Instruct_SYSTEMD_UNIT override for systemd scripts", async () => {
+    it("uses SiriClawInstruct_SYSTEMD_UNIT override for systemd scripts", async () => {
       Object.defineProperty(process, "platform", { value: "linux" });
       const { scriptPath, content } = await prepareAndReadScript({
-        SiriClaw-Instruct_PROFILE: "default",
-        SiriClaw-Instruct_SYSTEMD_UNIT: "custom-gateway",
+        SiriClawInstruct_PROFILE: "default",
+        SiriClawInstruct_SYSTEMD_UNIT: "custom-gateway",
       });
       expect(content).toContain("systemctl --user restart 'custom-gateway.service'");
       await cleanupScript(scriptPath);
@@ -93,26 +93,26 @@ describe("restart-helper", () => {
       process.getuid = () => 501;
 
       const { scriptPath, content } = await prepareAndReadScript({
-        SiriClaw-Instruct_PROFILE: "default",
+        SiriClawInstruct_PROFILE: "default",
       });
       expect(scriptPath.endsWith(".sh")).toBe(true);
       expect(content).toContain("#!/bin/sh");
-      expect(content).toContain("launchctl kickstart -k 'gui/501/ai.SiriClaw-Instruct.gateway'");
+      expect(content).toContain("launchctl kickstart -k 'gui/501/ai.SiriClawInstruct.gateway'");
       // Should fall back to bootstrap when kickstart fails (service deregistered after bootout)
       expect(content).toContain("launchctl bootstrap 'gui/501'");
       expect(content).toContain('rm -f "$0"');
       await cleanupScript(scriptPath);
     });
 
-    it("uses SiriClaw-Instruct_LAUNCHD_LABEL override on macOS", async () => {
+    it("uses SiriClawInstruct_LAUNCHD_LABEL override on macOS", async () => {
       Object.defineProperty(process, "platform", { value: "darwin" });
       process.getuid = () => 501;
 
       const { scriptPath, content } = await prepareAndReadScript({
-        SiriClaw-Instruct_PROFILE: "default",
-        SiriClaw-Instruct_LAUNCHD_LABEL: "com.custom.SiriClaw-Instruct",
+        SiriClawInstruct_PROFILE: "default",
+        SiriClawInstruct_LAUNCHD_LABEL: "com.custom.SiriClawInstruct",
       });
-      expect(content).toContain("launchctl kickstart -k 'gui/501/com.custom.SiriClaw-Instruct'");
+      expect(content).toContain("launchctl kickstart -k 'gui/501/com.custom.SiriClawInstruct'");
       await cleanupScript(scriptPath);
     });
 
@@ -120,27 +120,27 @@ describe("restart-helper", () => {
       Object.defineProperty(process, "platform", { value: "win32" });
 
       const { scriptPath, content } = await prepareAndReadScript({
-        SiriClaw-Instruct_PROFILE: "default",
+        SiriClawInstruct_PROFILE: "default",
       });
       expect(scriptPath.endsWith(".bat")).toBe(true);
       expect(content).toContain("@echo off");
-      expect(content).toContain('schtasks /End /TN "SiriClaw-Instruct Gateway"');
-      expect(content).toContain('schtasks /Run /TN "SiriClaw-Instruct Gateway"');
+      expect(content).toContain('schtasks /End /TN "SiriClawInstruct Gateway"');
+      expect(content).toContain('schtasks /Run /TN "SiriClawInstruct Gateway"');
       expectWindowsRestartWaitOrdering(content);
       // Batch self-cleanup
       expect(content).toContain('del "%~f0"');
       await cleanupScript(scriptPath);
     });
 
-    it("uses SiriClaw-Instruct_WINDOWS_TASK_NAME override on Windows", async () => {
+    it("uses SiriClawInstruct_WINDOWS_TASK_NAME override on Windows", async () => {
       Object.defineProperty(process, "platform", { value: "win32" });
 
       const { scriptPath, content } = await prepareAndReadScript({
-        SiriClaw-Instruct_PROFILE: "default",
-        SiriClaw-Instruct_WINDOWS_TASK_NAME: "SiriClaw-Instruct Gateway (custom)",
+        SiriClawInstruct_PROFILE: "default",
+        SiriClawInstruct_WINDOWS_TASK_NAME: "SiriClawInstruct Gateway (custom)",
       });
-      expect(content).toContain('schtasks /End /TN "SiriClaw-Instruct Gateway (custom)"');
-      expect(content).toContain('schtasks /Run /TN "SiriClaw-Instruct Gateway (custom)"');
+      expect(content).toContain('schtasks /End /TN "SiriClawInstruct Gateway (custom)"');
+      expect(content).toContain('schtasks /Run /TN "SiriClawInstruct Gateway (custom)"');
       expectWindowsRestartWaitOrdering(content);
       await cleanupScript(scriptPath);
     });
@@ -151,7 +151,7 @@ describe("restart-helper", () => {
 
       const { scriptPath, content } = await prepareAndReadScript(
         {
-          SiriClaw-Instruct_PROFILE: "default",
+          SiriClawInstruct_PROFILE: "default",
         },
         customPort,
       );
@@ -166,9 +166,9 @@ describe("restart-helper", () => {
     it("uses custom profile in service names", async () => {
       Object.defineProperty(process, "platform", { value: "linux" });
       const { scriptPath, content } = await prepareAndReadScript({
-        SiriClaw-Instruct_PROFILE: "production",
+        SiriClawInstruct_PROFILE: "production",
       });
-      expect(content).toContain("SiriClaw-Instruct-gateway-production.service");
+      expect(content).toContain("SiriClawInstruct-gateway-production.service");
       await cleanupScript(scriptPath);
     });
 
@@ -177,9 +177,9 @@ describe("restart-helper", () => {
       process.getuid = () => 502;
 
       const { scriptPath, content } = await prepareAndReadScript({
-        SiriClaw-Instruct_PROFILE: "staging",
+        SiriClawInstruct_PROFILE: "staging",
       });
-      expect(content).toContain("gui/502/ai.SiriClaw-Instruct.staging");
+      expect(content).toContain("gui/502/ai.SiriClawInstruct.staging");
       await cleanupScript(scriptPath);
     });
 
@@ -187,9 +187,9 @@ describe("restart-helper", () => {
       Object.defineProperty(process, "platform", { value: "win32" });
 
       const { scriptPath, content } = await prepareAndReadScript({
-        SiriClaw-Instruct_PROFILE: "production",
+        SiriClawInstruct_PROFILE: "production",
       });
-      expect(content).toContain('schtasks /End /TN "SiriClaw-Instruct Gateway (production)"');
+      expect(content).toContain('schtasks /End /TN "SiriClawInstruct Gateway (production)"');
       expectWindowsRestartWaitOrdering(content);
       await cleanupScript(scriptPath);
     });
@@ -207,7 +207,7 @@ describe("restart-helper", () => {
         .mockRejectedValueOnce(new Error("simulated write failure"));
 
       const scriptPath = await prepareRestartScript({
-        SiriClaw-Instruct_PROFILE: "default",
+        SiriClawInstruct_PROFILE: "default",
       });
 
       expect(scriptPath).toBeNull();
@@ -217,7 +217,7 @@ describe("restart-helper", () => {
     it("escapes single quotes in profile names for shell scripts", async () => {
       Object.defineProperty(process, "platform", { value: "linux" });
       const { scriptPath, content } = await prepareAndReadScript({
-        SiriClaw-Instruct_PROFILE: "it's-a-test",
+        SiriClawInstruct_PROFILE: "it's-a-test",
       });
       // Single quotes should be escaped with '\'' pattern
       expect(content).not.toContain("it's");
@@ -231,7 +231,7 @@ describe("restart-helper", () => {
 
       const { scriptPath, content } = await prepareAndReadScript({
         HOME: "/Users/testuser",
-        SiriClaw-Instruct_PROFILE: "default",
+        SiriClawInstruct_PROFILE: "default",
       });
       // The plist path must contain the resolved home dir, not literal $HOME
       expect(content).toMatch(/[\\/]Users[\\/]testuser[\\/]Library[\\/]LaunchAgents[\\/]/);
@@ -245,7 +245,7 @@ describe("restart-helper", () => {
 
       const { scriptPath, content } = await prepareAndReadScript({
         HOME: "/Users/envhome",
-        SiriClaw-Instruct_PROFILE: "default",
+        SiriClawInstruct_PROFILE: "default",
       });
       expect(content).toMatch(/[\\/]Users[\\/]envhome[\\/]Library[\\/]LaunchAgents[\\/]/);
       await cleanupScript(scriptPath);
@@ -257,17 +257,17 @@ describe("restart-helper", () => {
 
       const { scriptPath, content } = await prepareAndReadScript({
         HOME: "/Users/testuser",
-        SiriClaw-Instruct_LAUNCHD_LABEL: "ai.SiriClaw-Instruct.it's-a-test",
+        SiriClawInstruct_LAUNCHD_LABEL: "ai.SiriClawInstruct.it's-a-test",
       });
       // The plist path must also shell-escape the label to prevent injection
-      expect(content).toContain("ai.SiriClaw-Instruct.it'\\''s-a-test.plist");
+      expect(content).toContain("ai.SiriClawInstruct.it'\\''s-a-test.plist");
       await cleanupScript(scriptPath);
     });
 
     it("rejects unsafe batch profile names on Windows", async () => {
       Object.defineProperty(process, "platform", { value: "win32" });
       const scriptPath = await prepareRestartScript({
-        SiriClaw-Instruct_PROFILE: "test&whoami",
+        SiriClawInstruct_PROFILE: "test&whoami",
       });
 
       expect(scriptPath).toBeNull();
@@ -320,3 +320,4 @@ describe("restart-helper", () => {
     });
   });
 });
+

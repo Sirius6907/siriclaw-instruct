@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { withEnvAsync } from "../test-utils/env.js";
 
 const mocks = vi.hoisted(() => ({
@@ -45,9 +45,9 @@ vi.mock("../daemon/service-audit.js", () => ({
       environmentValueSources?: Record<string, "inline" | "file">;
     } | null,
   ) =>
-    command?.environmentValueSources?.SiriClaw-Instruct_GATEWAY_TOKEN === "file"
+    command?.environmentValueSources?.SiriClawInstruct_GATEWAY_TOKEN === "file"
       ? undefined
-      : command?.environment?.SiriClaw-Instruct_GATEWAY_TOKEN?.trim() || undefined,
+      : command?.environment?.SiriClawInstruct_GATEWAY_TOKEN?.trim() || undefined,
   SERVICE_AUDIT_CODES: {
     gatewayEntrypointMismatch: "gateway-entrypoint-mismatch",
   },
@@ -97,13 +97,13 @@ function makeDoctorPrompts() {
   };
 }
 
-async function runRepair(cfg: SiriClaw-InstructConfig) {
+async function runRepair(cfg: SiriClawInstructConfig) {
   await maybeRepairGatewayServiceConfig(cfg, "local", makeDoctorIo(), makeDoctorPrompts());
 }
 
 const gatewayProgramArguments = [
   "/usr/bin/node",
-  "/usr/local/bin/SiriClaw-Instruct",
+  "/usr/local/bin/SiriClawInstruct",
   "gateway",
   "--port",
   "18789",
@@ -113,7 +113,7 @@ function setupGatewayTokenRepairScenario() {
   mocks.readCommand.mockResolvedValue({
     programArguments: gatewayProgramArguments,
     environment: {
-      SiriClaw-Instruct_GATEWAY_TOKEN: "stale-token",
+      SiriClawInstruct_GATEWAY_TOKEN: "stale-token",
     },
   });
   mocks.auditGatewayServiceConfig.mockResolvedValue({
@@ -121,7 +121,7 @@ function setupGatewayTokenRepairScenario() {
     issues: [
       {
         code: "gateway-token-mismatch",
-        message: "Gateway service SiriClaw-Instruct_GATEWAY_TOKEN does not match gateway.auth.token",
+        message: "Gateway service SiriClawInstruct_GATEWAY_TOKEN does not match gateway.auth.token",
         level: "recommended",
       },
     ],
@@ -137,10 +137,10 @@ function setupGatewayTokenRepairScenario() {
 describe("maybeRepairGatewayServiceConfig", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mocks.resolveGatewayAuthTokenForService.mockImplementation(async (cfg: SiriClaw-InstructConfig, env) => {
+    mocks.resolveGatewayAuthTokenForService.mockImplementation(async (cfg: SiriClawInstructConfig, env) => {
       const configToken =
         typeof cfg.gateway?.auth?.token === "string" ? cfg.gateway.auth.token.trim() : undefined;
-      const envToken = env.SiriClaw-Instruct_GATEWAY_TOKEN?.trim() || undefined;
+      const envToken = env.SiriClawInstruct_GATEWAY_TOKEN?.trim() || undefined;
       return { token: configToken || envToken };
     });
   });
@@ -148,7 +148,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
   it("treats gateway.auth.token as source of truth for service token repairs", async () => {
     setupGatewayTokenRepairScenario();
 
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       gateway: {
         auth: {
           mode: "token",
@@ -179,11 +179,11 @@ describe("maybeRepairGatewayServiceConfig", () => {
     expect(mocks.install).toHaveBeenCalledTimes(1);
   });
 
-  it("uses SiriClaw-Instruct_GATEWAY_TOKEN when config token is missing", async () => {
-    await withEnvAsync({ SiriClaw-Instruct_GATEWAY_TOKEN: "env-token" }, async () => {
+  it("uses SiriClawInstruct_GATEWAY_TOKEN when config token is missing", async () => {
+    await withEnvAsync({ SiriClawInstruct_GATEWAY_TOKEN: "env-token" }, async () => {
       setupGatewayTokenRepairScenario();
 
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         gateway: {},
       };
 
@@ -222,7 +222,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
     mocks.readCommand.mockResolvedValue({
       programArguments: gatewayProgramArguments,
       environment: {
-        SiriClaw-Instruct_GATEWAY_TOKEN: "stale-token",
+        SiriClawInstruct_GATEWAY_TOKEN: "stale-token",
       },
     });
     mocks.auditGatewayServiceConfig.mockResolvedValue({
@@ -236,14 +236,14 @@ describe("maybeRepairGatewayServiceConfig", () => {
     });
     mocks.install.mockResolvedValue(undefined);
 
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       gateway: {
         auth: {
           mode: "token",
           token: {
             source: "env",
             provider: "default",
-            id: "SiriClaw-Instruct_GATEWAY_TOKEN",
+            id: "SiriClawInstruct_GATEWAY_TOKEN",
           },
         },
       },
@@ -267,13 +267,13 @@ describe("maybeRepairGatewayServiceConfig", () => {
   it("falls back to embedded service token when config and env tokens are missing", async () => {
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: undefined,
+        SiriClawInstruct_GATEWAY_TOKEN: undefined,
         SIRICLAW_GATEWAY_TOKEN: undefined,
       },
       async () => {
         setupGatewayTokenRepairScenario();
 
-        const cfg: SiriClaw-InstructConfig = {
+        const cfg: SiriClawInstructConfig = {
           gateway: {},
         };
 
@@ -312,17 +312,17 @@ describe("maybeRepairGatewayServiceConfig", () => {
   it("does not persist EnvironmentFile-backed service tokens into config", async () => {
     await withEnvAsync(
       {
-        SiriClaw-Instruct_GATEWAY_TOKEN: undefined,
+        SiriClawInstruct_GATEWAY_TOKEN: undefined,
         SIRICLAW_GATEWAY_TOKEN: undefined,
       },
       async () => {
         mocks.readCommand.mockResolvedValue({
           programArguments: gatewayProgramArguments,
           environment: {
-            SiriClaw-Instruct_GATEWAY_TOKEN: "env-file-token",
+            SiriClawInstruct_GATEWAY_TOKEN: "env-file-token",
           },
           environmentValueSources: {
-            SiriClaw-Instruct_GATEWAY_TOKEN: "file",
+            SiriClawInstruct_GATEWAY_TOKEN: "file",
           },
         });
         mocks.auditGatewayServiceConfig.mockResolvedValue({
@@ -336,7 +336,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
         });
         mocks.install.mockResolvedValue(undefined);
 
-        const cfg: SiriClaw-InstructConfig = {
+        const cfg: SiriClawInstructConfig = {
           gateway: {},
         };
 
@@ -403,7 +403,8 @@ describe("maybeScanExtraGatewayServices", () => {
       "Legacy gateway removed",
     );
     expect(runtime.log).toHaveBeenCalledWith(
-      "Legacy gateway services removed. Installing SiriClaw-Instruct gateway next.",
+      "Legacy gateway services removed. Installing SiriClawInstruct gateway next.",
     );
   });
 });
+

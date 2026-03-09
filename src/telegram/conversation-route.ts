@@ -1,5 +1,5 @@
 import { resolveConfiguredAcpRoute } from "../acp/persistent-bindings.route.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { logVerbose } from "../globals.js";
 import { getSessionBindingService } from "../infra/outbound/session-binding-service.js";
 import {
@@ -16,7 +16,7 @@ import {
 } from "./bot/helpers.js";
 
 export function resolveTelegramConversationRoute(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId: string;
   chatId: number | string;
   isGroup: boolean;
@@ -138,3 +138,4 @@ export function resolveTelegramConversationRoute(params: {
     configuredBindingSessionKey,
   };
 }
+

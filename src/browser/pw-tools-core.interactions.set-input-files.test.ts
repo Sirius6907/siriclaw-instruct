@@ -34,7 +34,7 @@ vi.mock("./pw-session.js", () => {
 
 vi.mock("./paths.js", () => {
   return {
-    DEFAULT_UPLOAD_DIR: "/tmp/SiriClaw-Instruct/uploads",
+    DEFAULT_UPLOAD_DIR: "/tmp/SiriClawInstruct/uploads",
     resolveStrictExistingPathsWithinRoot,
   };
 });
@@ -64,7 +64,7 @@ describe("setInputFilesViaPlaywright", () => {
     locator = null;
     resolveStrictExistingPathsWithinRoot.mockResolvedValue({
       ok: true,
-      paths: ["/private/tmp/SiriClaw-Instruct/uploads/ok.txt"],
+      paths: ["/private/tmp/SiriClawInstruct/uploads/ok.txt"],
     });
   });
 
@@ -75,16 +75,16 @@ describe("setInputFilesViaPlaywright", () => {
       cdpUrl: "http://127.0.0.1:18792",
       targetId: "T1",
       inputRef: "e7",
-      paths: ["/tmp/SiriClaw-Instruct/uploads/ok.txt"],
+      paths: ["/tmp/SiriClawInstruct/uploads/ok.txt"],
     });
 
     expect(resolveStrictExistingPathsWithinRoot).toHaveBeenCalledWith({
-      rootDir: "/tmp/SiriClaw-Instruct/uploads",
-      requestedPaths: ["/tmp/SiriClaw-Instruct/uploads/ok.txt"],
-      scopeLabel: "uploads directory (/tmp/SiriClaw-Instruct/uploads)",
+      rootDir: "/tmp/SiriClawInstruct/uploads",
+      requestedPaths: ["/tmp/SiriClawInstruct/uploads/ok.txt"],
+      scopeLabel: "uploads directory (/tmp/SiriClawInstruct/uploads)",
     });
     expect(refLocator).toHaveBeenCalledWith(page, "e7");
-    expect(setInputFiles).toHaveBeenCalledWith(["/private/tmp/SiriClaw-Instruct/uploads/ok.txt"]);
+    expect(setInputFiles).toHaveBeenCalledWith(["/private/tmp/SiriClawInstruct/uploads/ok.txt"]);
   });
 
   it("throws and skips setInputFiles when use-time validation fails", async () => {
@@ -100,10 +100,11 @@ describe("setInputFilesViaPlaywright", () => {
         cdpUrl: "http://127.0.0.1:18792",
         targetId: "T1",
         element: "input[type=file]",
-        paths: ["/tmp/SiriClaw-Instruct/uploads/missing.txt"],
+        paths: ["/tmp/SiriClawInstruct/uploads/missing.txt"],
       }),
     ).rejects.toThrow("Invalid path: must stay within uploads directory");
 
     expect(setInputFiles).not.toHaveBeenCalled();
   });
 });
+

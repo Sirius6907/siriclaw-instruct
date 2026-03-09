@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { withEnv } from "../test-utils/env.js";
 import { inspectTelegramAccount } from "./account-inspect.js";
 
 describe("inspectTelegramAccount SecretRef resolution", () => {
   it("resolves default env SecretRef templates in read-only status paths", () => {
     withEnv({ TG_STATUS_TOKEN: "123:token" }, () => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         channels: {
           telegram: {
             botToken: "${TG_STATUS_TOKEN}",
@@ -23,7 +23,7 @@ describe("inspectTelegramAccount SecretRef resolution", () => {
 
   it("respects env provider allowlists in read-only status paths", () => {
     withEnv({ TG_NOT_ALLOWED: "123:token" }, () => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         secrets: {
           defaults: {
             env: "secure-env",
@@ -51,7 +51,7 @@ describe("inspectTelegramAccount SecretRef resolution", () => {
 
   it("does not read env values for non-env providers", () => {
     withEnv({ TG_EXEC_PROVIDER: "123:token" }, () => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         secrets: {
           defaults: {
             env: "exec-provider",
@@ -77,3 +77,4 @@ describe("inspectTelegramAccount SecretRef resolution", () => {
     });
   });
 });
+

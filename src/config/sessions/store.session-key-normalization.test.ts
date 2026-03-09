@@ -30,7 +30,7 @@ describe("session store key normalization", () => {
   let storePath = "";
 
   beforeEach(async () => {
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-session-key-normalize-"));
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-session-key-normalize-"));
     storePath = path.join(tempDir, "sessions.json");
     await fs.writeFile(storePath, "{}", "utf-8");
   });
@@ -146,3 +146,4 @@ describe("session store key normalization", () => {
     expect(store[CANONICAL_KEY]?.origin?.provider).toBe("webchat");
   });
 });
+

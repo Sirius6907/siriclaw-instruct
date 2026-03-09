@@ -25,7 +25,7 @@ vi.mock("../banner.js", () => ({
 }));
 
 vi.mock("../cli-name.js", () => ({
-  resolveCliName: () => "SiriClaw-Instruct",
+  resolveCliName: () => "SiriClawInstruct",
 }));
 
 vi.mock("./config-guard.js", () => ({
@@ -51,9 +51,9 @@ beforeEach(() => {
   originalProcessArgv = [...process.argv];
   originalProcessTitle = process.title;
   originalNodeNoWarnings = process.env.NODE_NO_WARNINGS;
-  originalHideBanner = process.env.SiriClaw-Instruct_HIDE_BANNER;
+  originalHideBanner = process.env.SiriClawInstruct_HIDE_BANNER;
   delete process.env.NODE_NO_WARNINGS;
-  delete process.env.SiriClaw-Instruct_HIDE_BANNER;
+  delete process.env.SiriClawInstruct_HIDE_BANNER;
 });
 
 afterEach(() => {
@@ -65,9 +65,9 @@ afterEach(() => {
     process.env.NODE_NO_WARNINGS = originalNodeNoWarnings;
   }
   if (originalHideBanner === undefined) {
-    delete process.env.SiriClaw-Instruct_HIDE_BANNER;
+    delete process.env.SiriClawInstruct_HIDE_BANNER;
   } else {
-    process.env.SiriClaw-Instruct_HIDE_BANNER = originalHideBanner;
+    process.env.SiriClawInstruct_HIDE_BANNER = originalHideBanner;
   }
 });
 
@@ -78,7 +78,7 @@ describe("registerPreActionHooks", () => {
     | null = null;
 
   function buildProgram() {
-    const program = new Command().name("SiriClaw-Instruct");
+    const program = new Command().name("SiriClawInstruct");
     program.command("status").action(() => {});
     program.command("doctor").action(() => {});
     program.command("completion").action(() => {});
@@ -135,7 +135,7 @@ describe("registerPreActionHooks", () => {
   it("handles debug mode and plugin-required command preaction", async () => {
     await runPreAction({
       parseArgv: ["status"],
-      processArgv: ["node", "SiriClaw-Instruct", "status", "--debug"],
+      processArgv: ["node", "SiriClawInstruct", "status", "--debug"],
     });
 
     expect(emitCliBannerMock).toHaveBeenCalledWith("9.9.9-test");
@@ -145,12 +145,12 @@ describe("registerPreActionHooks", () => {
       commandPath: ["status"],
     });
     expect(ensurePluginRegistryLoadedMock).toHaveBeenCalledTimes(1);
-    expect(process.title).toBe("SiriClaw-Instruct-status");
+    expect(process.title).toBe("SiriClawInstruct-status");
 
     vi.clearAllMocks();
     await runPreAction({
       parseArgv: ["message", "send"],
-      processArgv: ["node", "SiriClaw-Instruct", "message", "send"],
+      processArgv: ["node", "SiriClawInstruct", "message", "send"],
     });
 
     expect(setVerboseMock).toHaveBeenCalledWith(false);
@@ -165,7 +165,7 @@ describe("registerPreActionHooks", () => {
   it("skips help/version preaction and respects banner opt-out", async () => {
     await runPreAction({
       parseArgv: ["status"],
-      processArgv: ["node", "SiriClaw-Instruct", "--version"],
+      processArgv: ["node", "SiriClawInstruct", "--version"],
     });
 
     expect(emitCliBannerMock).not.toHaveBeenCalled();
@@ -173,11 +173,11 @@ describe("registerPreActionHooks", () => {
     expect(ensureConfigReadyMock).not.toHaveBeenCalled();
 
     vi.clearAllMocks();
-    process.env.SiriClaw-Instruct_HIDE_BANNER = "1";
+    process.env.SiriClawInstruct_HIDE_BANNER = "1";
 
     await runPreAction({
       parseArgv: ["status"],
-      processArgv: ["node", "SiriClaw-Instruct", "status"],
+      processArgv: ["node", "SiriClawInstruct", "status"],
     });
 
     expect(emitCliBannerMock).not.toHaveBeenCalled();
@@ -187,7 +187,7 @@ describe("registerPreActionHooks", () => {
   it("applies --json stdout suppression only for explicit JSON output commands", async () => {
     await runPreAction({
       parseArgv: ["update", "status", "--json"],
-      processArgv: ["node", "SiriClaw-Instruct", "update", "status", "--json"],
+      processArgv: ["node", "SiriClawInstruct", "update", "status", "--json"],
     });
 
     expect(ensureConfigReadyMock).toHaveBeenCalledWith({
@@ -199,7 +199,7 @@ describe("registerPreActionHooks", () => {
     vi.clearAllMocks();
     await runPreAction({
       parseArgv: ["config", "set", "gateway.auth.mode", "{bad", "--json"],
-      processArgv: ["node", "SiriClaw-Instruct", "config", "set", "gateway.auth.mode", "{bad", "--json"],
+      processArgv: ["node", "SiriClawInstruct", "config", "set", "gateway.auth.mode", "{bad", "--json"],
     });
 
     expect(ensureConfigReadyMock).toHaveBeenCalledWith({
@@ -211,7 +211,7 @@ describe("registerPreActionHooks", () => {
   it("bypasses config guard for config validate", async () => {
     await runPreAction({
       parseArgv: ["config", "validate"],
-      processArgv: ["node", "SiriClaw-Instruct", "config", "validate"],
+      processArgv: ["node", "SiriClawInstruct", "config", "validate"],
     });
 
     expect(ensureConfigReadyMock).not.toHaveBeenCalled();
@@ -220,7 +220,7 @@ describe("registerPreActionHooks", () => {
   it("bypasses config guard for config validate when root option values are present", async () => {
     await runPreAction({
       parseArgv: ["config", "validate"],
-      processArgv: ["node", "SiriClaw-Instruct", "--profile", "work", "config", "validate"],
+      processArgv: ["node", "SiriClawInstruct", "--profile", "work", "config", "validate"],
     });
 
     expect(ensureConfigReadyMock).not.toHaveBeenCalled();
@@ -238,3 +238,4 @@ describe("registerPreActionHooks", () => {
     preActionHook = hooks?.[0] ?? null;
   });
 });
+

@@ -38,7 +38,7 @@ function mockSnapshot(params?: {
 }) {
   const token = params?.token ?? "abc123";
   mocks.readConfigFileSnapshot.mockResolvedValue({
-    path: "/tmp/SiriClaw-Instruct.json",
+    path: "/tmp/SiriClawInstruct.json",
     exists: true,
     raw: "{}",
     parsed: {},
@@ -114,3 +114,4 @@ describe("dashboardCommand bind selection", () => {
     });
   });
 });
+

@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   coerceSecretRef,
   hasConfiguredSecretInput,
@@ -61,7 +61,7 @@ function inspectTokenFile(pathValue: unknown): {
 }
 
 function canResolveEnvSecretRefInReadOnlyPath(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   provider: string;
   id: string;
 }): boolean {
@@ -76,7 +76,7 @@ function canResolveEnvSecretRefInReadOnlyPath(params: {
   return !allowlist || allowlist.includes(params.id);
 }
 
-function inspectTokenValue(params: { cfg: SiriClaw-InstructConfig; value: unknown }): {
+function inspectTokenValue(params: { cfg: SiriClawInstructConfig; value: unknown }): {
   token: string;
   tokenSource: "config" | "env" | "none";
   tokenStatus: TelegramCredentialStatus;
@@ -130,7 +130,7 @@ function inspectTokenValue(params: { cfg: SiriClaw-InstructConfig; value: unknow
 }
 
 function inspectTelegramAccountPrimary(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId: string;
   envToken?: string | null;
 }): InspectedTelegramAccount {
@@ -226,7 +226,7 @@ function inspectTelegramAccountPrimary(params: {
 }
 
 export function inspectTelegramAccount(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string | null;
   envToken?: string | null;
 }): InspectedTelegramAccount {
@@ -243,3 +243,4 @@ export function inspectTelegramAccount(params: {
     resolveDefaultAccountId: () => resolveDefaultTelegramAccountId(params.cfg),
   });
 }
+

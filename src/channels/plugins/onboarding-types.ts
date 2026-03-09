@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import type { DmPolicy } from "../../config/types.js";
 import type { RuntimeEnv } from "../../runtime.js";
 import type { WizardPrompter } from "../../wizard/prompts.js";
@@ -24,11 +24,11 @@ export type SetupChannelsOptions = {
 };
 
 export type PromptAccountIdParams = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: WizardPrompter;
   label: string;
   currentId?: string;
-  listAccountIds: (cfg: SiriClaw-InstructConfig) => string[];
+  listAccountIds: (cfg: SiriClawInstructConfig) => string[];
   defaultAccountId: string;
 };
 
@@ -43,13 +43,13 @@ export type ChannelOnboardingStatus = {
 };
 
 export type ChannelOnboardingStatusContext = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   options?: SetupChannelsOptions;
   accountOverrides: Partial<Record<ChannelId, string>>;
 };
 
 export type ChannelOnboardingConfigureContext = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   runtime: RuntimeEnv;
   prompter: WizardPrompter;
   options?: SetupChannelsOptions;
@@ -59,7 +59,7 @@ export type ChannelOnboardingConfigureContext = {
 };
 
 export type ChannelOnboardingResult = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   accountId?: string;
 };
 
@@ -75,13 +75,13 @@ export type ChannelOnboardingDmPolicy = {
   channel: ChannelId;
   policyKey: string;
   allowFromKey: string;
-  getCurrent: (cfg: SiriClaw-InstructConfig) => DmPolicy;
-  setPolicy: (cfg: SiriClaw-InstructConfig, policy: DmPolicy) => SiriClaw-InstructConfig;
+  getCurrent: (cfg: SiriClawInstructConfig) => DmPolicy;
+  setPolicy: (cfg: SiriClawInstructConfig, policy: DmPolicy) => SiriClawInstructConfig;
   promptAllowFrom?: (params: {
-    cfg: SiriClaw-InstructConfig;
+    cfg: SiriClawInstructConfig;
     prompter: WizardPrompter;
     accountId?: string;
-  }) => Promise<SiriClaw-InstructConfig>;
+  }) => Promise<SiriClawInstructConfig>;
 };
 
 export type ChannelOnboardingAdapter = {
@@ -96,5 +96,6 @@ export type ChannelOnboardingAdapter = {
   ) => Promise<ChannelOnboardingConfiguredResult>;
   dmPolicy?: ChannelOnboardingDmPolicy;
   onAccountRecorded?: (accountId: string, options?: SetupChannelsOptions) => void;
-  disable?: (cfg: SiriClaw-InstructConfig) => SiriClaw-InstructConfig;
+  disable?: (cfg: SiriClawInstructConfig) => SiriClawInstructConfig;
 };
+

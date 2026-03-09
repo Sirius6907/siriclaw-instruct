@@ -4,17 +4,17 @@ import {
   loadConfig,
   readConfigFileSnapshotForWrite,
   setRuntimeConfigSnapshot,
-  type SiriClaw-InstructConfig,
+  type SiriClawInstructConfig,
 } from "../../config/config.js";
 import type { RuntimeEnv } from "../../runtime.js";
 
 export type LoadedModelsConfig = {
-  sourceConfig: SiriClaw-InstructConfig;
-  resolvedConfig: SiriClaw-InstructConfig;
+  sourceConfig: SiriClawInstructConfig;
+  resolvedConfig: SiriClawInstructConfig;
   diagnostics: string[];
 };
 
-async function loadSourceConfigSnapshot(fallback: SiriClaw-InstructConfig): Promise<SiriClaw-InstructConfig> {
+async function loadSourceConfigSnapshot(fallback: SiriClawInstructConfig): Promise<SiriClawInstructConfig> {
   try {
     const { snapshot } = await readConfigFileSnapshotForWrite();
     if (snapshot.valid) {
@@ -53,6 +53,7 @@ export async function loadModelsConfigWithSource(params: {
 export async function loadModelsConfig(params: {
   commandName: string;
   runtime?: RuntimeEnv;
-}): Promise<SiriClaw-InstructConfig> {
+}): Promise<SiriClawInstructConfig> {
   return (await loadModelsConfigWithSource(params)).resolvedConfig;
 }
+

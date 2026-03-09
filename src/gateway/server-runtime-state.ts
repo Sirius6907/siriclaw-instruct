@@ -37,7 +37,7 @@ import type { GatewayTlsRuntime } from "./server/tls.js";
 import type { GatewayWsClient } from "./server/ws-types.js";
 
 export async function createGatewayRuntimeState(params: {
-  cfg: import("../config/config.js").SiriClaw-InstructConfig;
+  cfg: import("../config/config.js").SiriClawInstructConfig;
   bindHost: string;
   port: number;
   controlUiEnabled: boolean;
@@ -229,3 +229,4 @@ export async function createGatewayRuntimeState(params: {
     toolEventRecipients,
   };
 }
+

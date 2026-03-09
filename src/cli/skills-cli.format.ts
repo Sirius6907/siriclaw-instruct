@@ -89,7 +89,7 @@ export function formatSkillsList(report: SkillStatusReport, opts: SkillsListOpti
 
   if (skills.length === 0) {
     const message = opts.eligible
-      ? `No eligible skills found. Run \`${formatCliCommand("SiriClaw-Instruct skills list")}\` to see all skills.`
+      ? `No eligible skills found. Run \`${formatCliCommand("SiriClawInstruct skills list")}\` to see all skills.`
       : "No skills found.";
     return appendSiriHubHint(message, opts.json);
   }
@@ -144,7 +144,7 @@ export function formatSkillInfo(
       return JSON.stringify({ error: "not found", skill: skillName }, null, 2);
     }
     return appendSiriHubHint(
-      `Skill "${skillName}" not found. Run \`${formatCliCommand("SiriClaw-Instruct skills list")}\` to see available skills.`,
+      `Skill "${skillName}" not found. Run \`${formatCliCommand("SiriClawInstruct skills list")}\` to see available skills.`,
       opts.json,
     );
   }
@@ -299,3 +299,4 @@ export function formatSkillsCheck(report: SkillStatusReport, opts: SkillsCheckOp
 
   return appendSiriHubHint(lines.join("\n"), opts.json);
 }
+

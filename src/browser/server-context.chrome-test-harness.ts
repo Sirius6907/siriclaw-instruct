@@ -1,15 +1,16 @@
 import { vi } from "vitest";
 import { installChromeUserDataDirHooks } from "./chrome-user-data-dir.test-harness.js";
 
-const chromeUserDataDir = { dir: "/tmp/SiriClaw-Instruct" };
+const chromeUserDataDir = { dir: "/tmp/SiriClawInstruct" };
 installChromeUserDataDirHooks(chromeUserDataDir);
 
 vi.mock("./chrome.js", () => ({
   isChromeCdpReady: vi.fn(async () => true),
   isChromeReachable: vi.fn(async () => true),
-  launchSiriClaw-InstructChrome: vi.fn(async () => {
+  launchSiriClawInstructChrome: vi.fn(async () => {
     throw new Error("unexpected launch");
   }),
-  resolveSiriClaw-InstructUserDataDir: vi.fn(() => chromeUserDataDir.dir),
-  stopSiriClaw-InstructChrome: vi.fn(async () => {}),
+  resolveSiriClawInstructUserDataDir: vi.fn(() => chromeUserDataDir.dir),
+  stopSiriClawInstructChrome: vi.fn(async () => {}),
 }));
+

@@ -1,6 +1,6 @@
 import "./test-helpers.js";
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   monitorWebChannelWithCapture,
   sendWebDirectInboundAndCollectSessionKeys,
@@ -28,7 +28,7 @@ describe("broadcast groups", () => {
       broadcast: {
         "+1000": ["alfred", "missing"],
       },
-    } satisfies SiriClaw-InstructConfig);
+    } satisfies SiriClawInstructConfig);
 
     const { seen, resolver } = await sendWebDirectInboundAndCollectSessionKeys();
 
@@ -48,7 +48,7 @@ describe("broadcast groups", () => {
         strategy: "sequential",
         "+1000": ["alfred", "baerbel"],
       },
-    } satisfies SiriClaw-InstructConfig);
+    } satisfies SiriClawInstructConfig);
 
     const { seen, resolver } = await sendWebDirectInboundAndCollectSessionKeys();
 
@@ -69,7 +69,7 @@ describe("broadcast groups", () => {
         strategy: "sequential",
         "123@g.us": ["alfred", "baerbel"],
       },
-    } satisfies SiriClaw-InstructConfig);
+    } satisfies SiriClawInstructConfig);
 
     const resolver = vi.fn().mockResolvedValue({ text: "ok" });
 
@@ -149,7 +149,7 @@ describe("broadcast groups", () => {
         strategy: "parallel",
         "+1000": ["alfred", "baerbel"],
       },
-    } satisfies SiriClaw-InstructConfig);
+    } satisfies SiriClawInstructConfig);
 
     const sendMedia = vi.fn();
     const reply = vi.fn().mockResolvedValue(undefined);
@@ -192,3 +192,4 @@ describe("broadcast groups", () => {
     resetLoadConfigMock();
   });
 });
+

@@ -1,8 +1,8 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { STATE_DIR } from "../config/paths.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import type { PluginRegistry } from "./registry.js";
-import type { SiriClaw-InstructPluginServiceContext, PluginLogger } from "./types.js";
+import type { SiriClawInstructPluginServiceContext, PluginLogger } from "./types.js";
 
 const log = createSubsystemLogger("plugins");
 
@@ -16,9 +16,9 @@ function createPluginLogger(): PluginLogger {
 }
 
 function createServiceContext(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   workspaceDir?: string;
-}): SiriClaw-InstructPluginServiceContext {
+}): SiriClawInstructPluginServiceContext {
   return {
     config: params.config,
     workspaceDir: params.workspaceDir,
@@ -33,7 +33,7 @@ export type PluginServicesHandle = {
 
 export async function startPluginServices(params: {
   registry: PluginRegistry;
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   workspaceDir?: string;
 }): Promise<PluginServicesHandle> {
   const running: Array<{
@@ -73,3 +73,4 @@ export async function startPluginServices(params: {
     },
   };
 }
+

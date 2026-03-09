@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import "./test-helpers/fast-coding-tools.js";
-import { createSiriClaw-InstructCodingTools } from "./pi-tools.js";
+import { createSiriClawInstructCodingTools } from "./pi-tools.js";
 
-const defaultTools = createSiriClaw-InstructCodingTools({ senderIsOwner: true });
+const defaultTools = createSiriClawInstructCodingTools({ senderIsOwner: true });
 
-describe("createSiriClaw-InstructCodingTools", () => {
+describe("createSiriClawInstructCodingTools", () => {
   it("preserves action enums in normalized schemas", () => {
     const toolNames = ["browser", "canvas", "nodes", "cron", "gateway", "message"];
 
@@ -56,49 +56,49 @@ describe("createSiriClaw-InstructCodingTools", () => {
     expect(defaultTools.some((tool) => tool.name === "process")).toBe(true);
     expect(defaultTools.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const enabledConfig: SiriClaw-InstructConfig = {
+    const enabledConfig: SiriClawInstructConfig = {
       tools: {
         exec: {
           applyPatch: { enabled: true },
         },
       },
     };
-    const openAiTools = createSiriClaw-InstructCodingTools({
+    const openAiTools = createSiriClawInstructCodingTools({
       config: enabledConfig,
       modelProvider: "openai",
       modelId: "gpt-5.2",
     });
     expect(openAiTools.some((tool) => tool.name === "apply_patch")).toBe(true);
 
-    const anthropicTools = createSiriClaw-InstructCodingTools({
+    const anthropicTools = createSiriClawInstructCodingTools({
       config: enabledConfig,
       modelProvider: "anthropic",
       modelId: "claude-opus-4-5",
     });
     expect(anthropicTools.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const allowModelsConfig: SiriClaw-InstructConfig = {
+    const allowModelsConfig: SiriClawInstructConfig = {
       tools: {
         exec: {
           applyPatch: { enabled: true, allowModels: ["gpt-5.2"] },
         },
       },
     };
-    const allowed = createSiriClaw-InstructCodingTools({
+    const allowed = createSiriClawInstructCodingTools({
       config: allowModelsConfig,
       modelProvider: "openai",
       modelId: "gpt-5.2",
     });
     expect(allowed.some((tool) => tool.name === "apply_patch")).toBe(true);
 
-    const denied = createSiriClaw-InstructCodingTools({
+    const denied = createSiriClawInstructCodingTools({
       config: allowModelsConfig,
       modelProvider: "openai",
       modelId: "gpt-5-mini",
     });
     expect(denied.some((tool) => tool.name === "apply_patch")).toBe(false);
 
-    const oauthTools = createSiriClaw-InstructCodingTools({
+    const oauthTools = createSiriClawInstructCodingTools({
       modelProvider: "anthropic",
       modelAuthMode: "oauth",
     });
@@ -110,7 +110,7 @@ describe("createSiriClaw-InstructCodingTools", () => {
     expect(names.has("apply_patch")).toBe(false);
   });
   it("provides top-level object schemas for all tools", () => {
-    const tools = createSiriClaw-InstructCodingTools();
+    const tools = createSiriClawInstructCodingTools();
     const offenders = tools
       .map((tool) => {
         const schema =
@@ -128,3 +128,4 @@ describe("createSiriClaw-InstructCodingTools", () => {
     expect(offenders).toEqual([]);
   });
 });
+

@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { SiriClaw-InstructSchema } from "./zod-schema.js";
+import { SiriClawInstructSchema } from "./zod-schema.js";
 
 describe("telegram custom commands schema", () => {
   it("normalizes custom commands", () => {
-    const res = SiriClaw-InstructSchema.safeParse({
+    const res = SiriClawInstructSchema.safeParse({
       channels: {
         telegram: {
           customCommands: [{ command: "/Backup", description: "  Git backup  " }],
@@ -22,7 +22,7 @@ describe("telegram custom commands schema", () => {
   });
 
   it("normalizes hyphens in custom command names", () => {
-    const res = SiriClaw-InstructSchema.safeParse({
+    const res = SiriClawInstructSchema.safeParse({
       channels: {
         telegram: {
           customCommands: [{ command: "Bad-Name", description: "Override status" }],
@@ -40,3 +40,4 @@ describe("telegram custom commands schema", () => {
     ]);
   });
 });
+

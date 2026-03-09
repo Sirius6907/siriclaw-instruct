@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import SwiftUI
 import VisionKit
 
@@ -94,3 +94,4 @@ struct QRScannerView: UIViewControllerRepresentable {
         }
     }
 }
+

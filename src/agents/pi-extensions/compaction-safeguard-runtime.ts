@@ -23,3 +23,4 @@ const registry = createSessionManagerRuntimeRegistry<CompactionSafeguardRuntimeV
 export const setCompactionSafeguardRuntime = registry.set;
 
 export const getCompactionSafeguardRuntime = registry.get;
+

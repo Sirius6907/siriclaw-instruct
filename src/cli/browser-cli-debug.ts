@@ -209,7 +209,7 @@ export function registerBrowserDebugCommands(
     .description("Stop trace recording and write a .zip")
     .option(
       "--out <path>",
-      "Output path within SiriClaw-Instruct temp dir (e.g. trace.zip or /tmp/SiriClaw-Instruct/trace.zip)",
+      "Output path within SiriClawInstruct temp dir (e.g. trace.zip or /tmp/SiriClawInstruct/trace.zip)",
     )
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (opts, cmd) => {
@@ -230,3 +230,4 @@ export function registerBrowserDebugCommands(
       });
     });
 }
+

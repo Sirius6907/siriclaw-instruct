@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import SwiftUI
 
 struct ScreenTab: View {
@@ -25,3 +25,4 @@ struct ScreenTab: View {
 
     // Navigation is agent-driven; no local URL bar here.
 }
+

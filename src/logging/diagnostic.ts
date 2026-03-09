@@ -1,5 +1,5 @@
 import { loadConfig } from "../config/config.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { emitDiagnosticEvent } from "../infra/diagnostic-events.js";
 import {
   diagnosticSessionStates,
@@ -38,7 +38,7 @@ function markActivity() {
   lastActivityAt = Date.now();
 }
 
-export function resolveStuckSessionWarnMs(config?: SiriClaw-InstructConfig): number {
+export function resolveStuckSessionWarnMs(config?: SiriClawInstructConfig): number {
   const raw = config?.diagnostics?.stuckSessionWarnMs;
   if (typeof raw !== "number" || !Number.isFinite(raw)) {
     return DEFAULT_STUCK_SESSION_WARN_MS;
@@ -330,7 +330,7 @@ export function logActiveRuns() {
 
 let heartbeatInterval: NodeJS.Timeout | null = null;
 
-export function startDiagnosticHeartbeat(config?: SiriClaw-InstructConfig) {
+export function startDiagnosticHeartbeat(config?: SiriClawInstructConfig) {
   if (heartbeatInterval) {
     return;
   }
@@ -431,3 +431,4 @@ export function resetDiagnosticStateForTest(): void {
 }
 
 export { diag as diagnosticLogger };
+

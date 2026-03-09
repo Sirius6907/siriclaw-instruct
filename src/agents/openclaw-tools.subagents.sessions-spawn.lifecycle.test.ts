@@ -7,12 +7,12 @@ import {
   resetSessionsSpawnConfigOverride,
   setupSessionsSpawnGatewayMock,
   setSessionsSpawnConfigOverride,
-} from "./SiriClaw-Instruct-tools.subagents.sessions-spawn.test-harness.js";
+} from "./siriclaw-instruct-tools.subagents.sessions-spawn.test-harness.js";
 import { resetSubagentRegistryForTests } from "./subagent-registry.js";
 
 const fastModeEnv = vi.hoisted(() => {
-  const previous = process.env.SiriClaw-Instruct_TEST_FAST;
-  process.env.SiriClaw-Instruct_TEST_FAST = "1";
+  const previous = process.env.SiriClawInstruct_TEST_FAST;
+  process.env.SiriClawInstruct_TEST_FAST = "1";
   return { previous };
 });
 
@@ -102,7 +102,7 @@ async function emitLifecycleEndAndFlush(params: {
   }
 }
 
-describe("SiriClaw-Instruct-tools: subagents (sessions_spawn lifecycle)", () => {
+describe("SiriClawInstruct-tools: subagents (sessions_spawn lifecycle)", () => {
   beforeEach(() => {
     resetSessionsSpawnConfigOverride();
     setSessionsSpawnConfigOverride({
@@ -122,10 +122,10 @@ describe("SiriClaw-Instruct-tools: subagents (sessions_spawn lifecycle)", () => 
 
   afterAll(() => {
     if (fastModeEnv.previous === undefined) {
-      delete process.env.SiriClaw-Instruct_TEST_FAST;
+      delete process.env.SiriClawInstruct_TEST_FAST;
       return;
     }
-    process.env.SiriClaw-Instruct_TEST_FAST = fastModeEnv.previous;
+    process.env.SiriClawInstruct_TEST_FAST = fastModeEnv.previous;
   });
 
   it("sessions_spawn runs cleanup flow after subagent completion", async () => {
@@ -370,3 +370,4 @@ describe("SiriClaw-Instruct-tools: subagents (sessions_spawn lifecycle)", () => 
     expect(announceParams?.accountId).toBeUndefined();
   });
 });
+

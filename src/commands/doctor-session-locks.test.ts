@@ -18,9 +18,9 @@ describe("noteSessionLockHealth", () => {
 
   beforeEach(async () => {
     note.mockClear();
-    envSnapshot = captureEnv(["SiriClaw-Instruct_STATE_DIR"]);
-    root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-doctor-locks-"));
-    process.env.SiriClaw-Instruct_STATE_DIR = root;
+    envSnapshot = captureEnv(["SiriClawInstruct_STATE_DIR"]);
+    root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-doctor-locks-"));
+    process.env.SiriClawInstruct_STATE_DIR = root;
   });
 
   afterEach(async () => {
@@ -78,3 +78,4 @@ describe("noteSessionLockHealth", () => {
     await expect(fs.access(freshLock)).resolves.toBeUndefined();
   });
 });
+

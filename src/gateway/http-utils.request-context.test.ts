@@ -7,10 +7,10 @@ function createReq(headers: Record<string, string> = {}): IncomingMessage {
 }
 
 describe("resolveGatewayRequestContext", () => {
-  it("uses normalized x-SiriClaw-Instruct-message-channel when enabled", () => {
+  it("uses normalized x-SiriClawInstruct-message-channel when enabled", () => {
     const result = resolveGatewayRequestContext({
-      req: createReq({ "x-SiriClaw-Instruct-message-channel": " Custom-Channel " }),
-      model: "SiriClaw-Instruct",
+      req: createReq({ "x-SiriClawInstruct-message-channel": " Custom-Channel " }),
+      model: "SiriClawInstruct",
       sessionPrefix: "openai",
       defaultMessageChannel: "webchat",
       useMessageChannelHeader: true,
@@ -21,8 +21,8 @@ describe("resolveGatewayRequestContext", () => {
 
   it("uses default messageChannel when header support is disabled", () => {
     const result = resolveGatewayRequestContext({
-      req: createReq({ "x-SiriClaw-Instruct-message-channel": "custom-channel" }),
-      model: "SiriClaw-Instruct",
+      req: createReq({ "x-SiriClawInstruct-message-channel": "custom-channel" }),
+      model: "SiriClawInstruct",
       sessionPrefix: "openresponses",
       defaultMessageChannel: "webchat",
       useMessageChannelHeader: false,
@@ -34,7 +34,7 @@ describe("resolveGatewayRequestContext", () => {
   it("includes session prefix and user in generated session key", () => {
     const result = resolveGatewayRequestContext({
       req: createReq(),
-      model: "SiriClaw-Instruct",
+      model: "SiriClawInstruct",
       user: "alice",
       sessionPrefix: "openresponses",
       defaultMessageChannel: "webchat",
@@ -43,3 +43,4 @@ describe("resolveGatewayRequestContext", () => {
     expect(result.sessionKey).toContain("openresponses-user:alice");
   });
 });
+

@@ -5,7 +5,7 @@ import { finalizeInboundContext } from "../auto-reply/reply/inbound-context.js";
 import { formatLocationText, toLocationContext } from "../channels/location.js";
 import { resolveInboundSessionEnvelopeContext } from "../channels/session-envelope.js";
 import { recordInboundSession } from "../channels/session.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { logVerbose, shouldLogVerbose } from "../globals.js";
 import { recordChannelActivity } from "../infra/channel-activity.js";
 import { resolveAgentRoute } from "../routing/resolve-route.js";
@@ -22,7 +22,7 @@ interface MediaRef {
 interface BuildLineMessageContextParams {
   event: MessageEvent;
   allMedia: MediaRef[];
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   account: ResolvedLineAccount;
   commandAuthorized: boolean;
   groupHistories?: Map<string, HistoryEntry[]>;
@@ -68,7 +68,7 @@ function buildPeerId(source: EventSource): string {
 
 function resolveLineInboundRoute(params: {
   source: EventSource;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   account: ResolvedLineAccount;
 }): {
   userId?: string;
@@ -224,7 +224,7 @@ function resolveLineGroupSystemPrompt(
 }
 
 async function finalizeLineInboundContext(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   account: ResolvedLineAccount;
   event: MessageEvent | PostbackEvent;
   route: LineRouteInfo;
@@ -455,7 +455,7 @@ export async function buildLineMessageContext(params: BuildLineMessageContextPar
 
 export async function buildLinePostbackContext(params: {
   event: PostbackEvent;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   account: ResolvedLineAccount;
   commandAuthorized: boolean;
 }) {
@@ -517,3 +517,4 @@ export async function buildLinePostbackContext(params: {
 export type LineMessageContext = NonNullable<Awaited<ReturnType<typeof buildLineMessageContext>>>;
 export type LinePostbackContext = NonNullable<Awaited<ReturnType<typeof buildLinePostbackContext>>>;
 export type LineInboundContext = LineMessageContext | LinePostbackContext;
+

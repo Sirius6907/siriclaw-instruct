@@ -9,14 +9,14 @@ import { loadPluginManifestRegistry } from "./manifest-registry.js";
 const tempDirs: string[] = [];
 
 function makeTempDir() {
-  const dir = path.join(os.tmpdir(), `SiriClaw-Instruct-manifest-registry-${randomUUID()}`);
+  const dir = path.join(os.tmpdir(), `SiriClawInstruct-manifest-registry-${randomUUID()}`);
   fs.mkdirSync(dir, { recursive: true });
   tempDirs.push(dir);
   return dir;
 }
 
 function writeManifest(dir: string, manifest: Record<string, unknown>) {
-  fs.writeFileSync(path.join(dir, "SiriClaw-Instruct.plugin.json"), JSON.stringify(manifest), "utf-8");
+  fs.writeFileSync(path.join(dir, "SiriClawInstruct.plugin.json"), JSON.stringify(manifest), "utf-8");
 }
 
 function createPluginCandidate(params: {
@@ -53,8 +53,8 @@ function prepareLinkedManifestFixture(params: { id: string; mode: "symlink" | "h
 } {
   const rootDir = makeTempDir();
   const outsideDir = makeTempDir();
-  const outsideManifest = path.join(outsideDir, "SiriClaw-Instruct.plugin.json");
-  const linkedManifest = path.join(rootDir, "SiriClaw-Instruct.plugin.json");
+  const outsideManifest = path.join(outsideDir, "SiriClawInstruct.plugin.json");
+  const linkedManifest = path.join(rootDir, "SiriClawInstruct.plugin.json");
   fs.writeFileSync(path.join(rootDir, "index.ts"), "export default function () {}", "utf-8");
   fs.writeFileSync(
     outsideManifest,
@@ -265,3 +265,4 @@ describe("loadPluginManifestRegistry", () => {
     expect(hasUnsafeManifestDiagnostic(registry)).toBe(false);
   });
 });
+

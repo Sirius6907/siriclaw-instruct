@@ -70,19 +70,19 @@ export function registerDirectoryCli(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["SiriClaw-Instruct directory self --channel slack", "Show the connected account identity."],
+          ["SiriClawInstruct directory self --channel slack", "Show the connected account identity."],
           [
-            'SiriClaw-Instruct directory peers list --channel slack --query "alice"',
+            'SiriClawInstruct directory peers list --channel slack --query "alice"',
             "Search contact/user IDs by name.",
           ],
-          ["SiriClaw-Instruct directory groups list --channel discord", "List available groups/channels."],
+          ["SiriClawInstruct directory groups list --channel discord", "List available groups/channels."],
           [
-            "SiriClaw-Instruct directory groups members --channel discord --group-id <id>",
+            "SiriClawInstruct directory groups members --channel discord --group-id <id>",
             "List members for a specific group.",
           ],
         ])}\n\n${theme.muted("Docs:")} ${formatDocsLink(
           "/cli/directory",
-          "docs.SiriClaw-Instruct.ai/cli/directory",
+          "docs.SiriClawInstruct.ai/cli/directory",
         )}\n`,
     )
     .action(() => {
@@ -266,3 +266,4 @@ export function registerDirectoryCli(program: Command) {
       }
     });
 }
+

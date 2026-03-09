@@ -228,3 +228,4 @@ struct WatchNotifyMessage: Sendable {
         WKInterfaceDevice.current().play(self.mapHapticRisk(risk))
     }
 }
+

@@ -22,7 +22,7 @@ export type AcpStreamConfig = {
   maxSessionUpdateChars?: number;
   /**
    * Per-sessionUpdate visibility overrides.
-   * Keys not listed here fall back to SiriClaw-Instruct defaults.
+   * Keys not listed here fall back to SiriClawInstruct defaults.
    */
   tagVisibility?: Partial<Record<AcpSessionUpdateTag, boolean>>;
 };
@@ -46,3 +46,4 @@ export type AcpConfig = {
   stream?: AcpStreamConfig;
   runtime?: AcpRuntimeConfig;
 };
+

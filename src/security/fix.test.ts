@@ -26,8 +26,8 @@ describe("security fix", () => {
 
   const createFixEnv = (stateDir: string, configPath: string) => ({
     ...process.env,
-    SiriClaw-Instruct_STATE_DIR: stateDir,
-    SiriClaw-Instruct_CONFIG_PATH: configPath,
+    SiriClawInstruct_STATE_DIR: stateDir,
+    SiriClawInstruct_CONFIG_PATH: configPath,
   });
 
   const writeJsonConfig = async (configPath: string, config: Record<string, unknown>) => {
@@ -85,7 +85,7 @@ describe("security fix", () => {
   };
 
   beforeAll(async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-security-fix-suite-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-security-fix-suite-"));
   });
 
   afterAll(async () => {
@@ -98,7 +98,7 @@ describe("security fix", () => {
     const stateDir = await createStateDir("tightens");
     await fs.chmod(stateDir, 0o755);
 
-    const configPath = path.join(stateDir, "SiriClaw-Instruct.json");
+    const configPath = path.join(stateDir, "SiriClawInstruct.json");
     await writeJsonConfig(configPath, {
       channels: {
         telegram: { groupPolicy: "open" },
@@ -143,7 +143,7 @@ describe("security fix", () => {
 
   it("applies allowlist per-account and seeds WhatsApp groupAllowFrom from store", async () => {
     const stateDir = await createStateDir("per-account");
-    const configPath = path.join(stateDir, "SiriClaw-Instruct.json");
+    const configPath = path.join(stateDir, "SiriClawInstruct.json");
     const { res, channels } = await runWhatsAppFixScenario({
       stateDir,
       configPath,
@@ -165,7 +165,7 @@ describe("security fix", () => {
 
   it("does not seed WhatsApp groupAllowFrom if allowFrom is set", async () => {
     const stateDir = await createStateDir("no-seed");
-    const configPath = path.join(stateDir, "SiriClaw-Instruct.json");
+    const configPath = path.join(stateDir, "SiriClawInstruct.json");
     const { res, channels } = await runWhatsAppFixScenario({
       stateDir,
       configPath,
@@ -185,7 +185,7 @@ describe("security fix", () => {
     const stateDir = await createStateDir("invalid-config");
     await fs.chmod(stateDir, 0o755);
 
-    const configPath = path.join(stateDir, "SiriClaw-Instruct.json");
+    const configPath = path.join(stateDir, "SiriClawInstruct.json");
     await fs.writeFile(configPath, "{ this is not json }\n", "utf-8");
     await fs.chmod(configPath, 0o644);
 
@@ -206,7 +206,7 @@ describe("security fix", () => {
     await fs.writeFile(includePath, "{ logging: { redactSensitive: 'off' } }\n", "utf-8");
     await fs.chmod(includePath, 0o644);
 
-    const configPath = path.join(stateDir, "SiriClaw-Instruct.json");
+    const configPath = path.join(stateDir, "SiriClawInstruct.json");
     await fs.writeFile(
       configPath,
       `{ "$include": "./includes/extra.json5", channels: { whatsapp: { groupPolicy: "open" } } }\n`,
@@ -241,8 +241,8 @@ describe("security fix", () => {
 
     const env = {
       ...process.env,
-      SiriClaw-Instruct_STATE_DIR: stateDir,
-      SiriClaw-Instruct_CONFIG_PATH: configPath,
+      SiriClawInstruct_STATE_DIR: stateDir,
+      SiriClawInstruct_CONFIG_PATH: configPath,
     };
 
     const res = await fixSecurityFootguns({ env, stateDir, configPath });
@@ -256,3 +256,4 @@ describe("security fix", () => {
     expectPerms((await fs.stat(includePath)).mode & 0o777, 0o600);
   });
 });
+

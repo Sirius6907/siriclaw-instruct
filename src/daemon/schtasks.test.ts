@@ -12,7 +12,7 @@ import {
 describe("schtasks runtime parsing", () => {
   it.each(["Ready", "Running"])("parses %s status", (status) => {
     const output = [
-      "TaskName: \\SiriClaw-Instruct Gateway",
+      "TaskName: \\SiriClawInstruct Gateway",
       `Status: ${status}`,
       "Last Run Time: 1/8/2026 1:23:45 AM",
       "Last Run Result: 0x0",
@@ -112,28 +112,28 @@ describe("scheduled task runtime derivation", () => {
 describe("resolveTaskScriptPath", () => {
   it.each([
     {
-      name: "uses default path when SiriClaw-Instruct_PROFILE is unset",
+      name: "uses default path when SiriClawInstruct_PROFILE is unset",
       env: { USERPROFILE: "C:\\Users\\test" },
-      expected: path.join("C:\\Users\\test", ".SiriClaw-Instruct", "gateway.cmd"),
+      expected: path.join("C:\\Users\\test", ".SiriClawInstruct", "gateway.cmd"),
     },
     {
-      name: "uses profile-specific path when SiriClaw-Instruct_PROFILE is set to a custom value",
-      env: { USERPROFILE: "C:\\Users\\test", SiriClaw-Instruct_PROFILE: "jbphoenix" },
-      expected: path.join("C:\\Users\\test", ".SiriClaw-Instruct-jbphoenix", "gateway.cmd"),
+      name: "uses profile-specific path when SiriClawInstruct_PROFILE is set to a custom value",
+      env: { USERPROFILE: "C:\\Users\\test", SiriClawInstruct_PROFILE: "jbphoenix" },
+      expected: path.join("C:\\Users\\test", ".SiriClawInstruct-jbphoenix", "gateway.cmd"),
     },
     {
-      name: "prefers SiriClaw-Instruct_STATE_DIR over profile-derived defaults",
+      name: "prefers SiriClawInstruct_STATE_DIR over profile-derived defaults",
       env: {
         USERPROFILE: "C:\\Users\\test",
-        SiriClaw-Instruct_PROFILE: "rescue",
-        SiriClaw-Instruct_STATE_DIR: "C:\\State\\SiriClaw-Instruct",
+        SiriClawInstruct_PROFILE: "rescue",
+        SiriClawInstruct_STATE_DIR: "C:\\State\\SiriClawInstruct",
       },
-      expected: path.join("C:\\State\\SiriClaw-Instruct", "gateway.cmd"),
+      expected: path.join("C:\\State\\SiriClawInstruct", "gateway.cmd"),
     },
     {
       name: "falls back to HOME when USERPROFILE is not set",
-      env: { HOME: "/home/test", SiriClaw-Instruct_PROFILE: "default" },
-      expected: path.join("/home/test", ".SiriClaw-Instruct", "gateway.cmd"),
+      env: { HOME: "/home/test", SiriClawInstruct_PROFILE: "default" },
+      expected: path.join("/home/test", ".SiriClawInstruct", "gateway.cmd"),
     },
   ])("$name", ({ env, expected }) => {
     expect(resolveTaskScriptPath(env)).toBe(expected);
@@ -150,12 +150,12 @@ describe("readScheduledTaskCommand", () => {
     },
     run: (env: Record<string, string | undefined>) => Promise<void>,
   ) {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-schtasks-test-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-schtasks-test-"));
     try {
       const extraEnv = typeof options.env === "function" ? options.env(tmpDir) : options.env;
       const env = {
         USERPROFILE: tmpDir,
-        SiriClaw-Instruct_PROFILE: "default",
+        SiriClawInstruct_PROFILE: "default",
         ...extraEnv,
       };
       if (options.scriptLines) {
@@ -206,10 +206,10 @@ describe("readScheduledTaskCommand", () => {
       {
         scriptLines: [
           "@echo off",
-          "rem SiriClaw-Instruct Gateway",
-          "cd /d C:\\Projects\\SiriClaw-Instruct",
+          "rem SiriClawInstruct Gateway",
+          "cd /d C:\\Projects\\SiriClawInstruct",
           "set NODE_ENV=production",
-          "set SiriClaw-Instruct_PORT=18789",
+          "set SiriClawInstruct_PORT=18789",
           "node gateway.js --verbose",
         ],
       },
@@ -217,10 +217,10 @@ describe("readScheduledTaskCommand", () => {
         const result = await readScheduledTaskCommand(env);
         expect(result).toEqual({
           programArguments: ["node", "gateway.js", "--verbose"],
-          workingDirectory: "C:\\Projects\\SiriClaw-Instruct",
+          workingDirectory: "C:\\Projects\\SiriClawInstruct",
           environment: {
             NODE_ENV: "production",
-            SiriClaw-Instruct_PORT: "18789",
+            SiriClawInstruct_PORT: "18789",
           },
         });
       },
@@ -232,7 +232,7 @@ describe("readScheduledTaskCommand", () => {
       {
         scriptLines: [
           "@echo off",
-          '"C:\\Program Files\\nodejs\\node.exe" C:\\Users\\test\\AppData\\Roaming\\npm\\node_modules\\SiriClaw-Instruct\\dist\\index.js gateway --port 18789',
+          '"C:\\Program Files\\nodejs\\node.exe" C:\\Users\\test\\AppData\\Roaming\\npm\\node_modules\\SiriClawInstruct\\dist\\index.js gateway --port 18789',
         ],
       },
       async (env) => {
@@ -240,7 +240,7 @@ describe("readScheduledTaskCommand", () => {
         expect(result).toEqual({
           programArguments: [
             "C:\\Program Files\\nodejs\\node.exe",
-            "C:\\Users\\test\\AppData\\Roaming\\npm\\node_modules\\SiriClaw-Instruct\\dist\\index.js",
+            "C:\\Users\\test\\AppData\\Roaming\\npm\\node_modules\\SiriClawInstruct\\dist\\index.js",
             "gateway",
             "--port",
             "18789",
@@ -255,15 +255,15 @@ describe("readScheduledTaskCommand", () => {
       {
         scriptLines: [
           "@echo off",
-          '"\\\\fileserver\\SiriClaw-Instruct Share\\node.exe" "\\\\fileserver\\SiriClaw-Instruct Share\\dist\\index.js" gateway --port 18789',
+          '"\\\\fileserver\\SiriClawInstruct Share\\node.exe" "\\\\fileserver\\SiriClawInstruct Share\\dist\\index.js" gateway --port 18789',
         ],
       },
       async (env) => {
         const result = await readScheduledTaskCommand(env);
         expect(result).toEqual({
           programArguments: [
-            "\\\\fileserver\\SiriClaw-Instruct Share\\node.exe",
-            "\\\\fileserver\\SiriClaw-Instruct Share\\dist\\index.js",
+            "\\\\fileserver\\SiriClawInstruct Share\\node.exe",
+            "\\\\fileserver\\SiriClawInstruct Share\\dist\\index.js",
             "gateway",
             "--port",
             "18789",
@@ -273,10 +273,10 @@ describe("readScheduledTaskCommand", () => {
     );
   });
 
-  it("reads script from SiriClaw-Instruct_STATE_DIR override", async () => {
+  it("reads script from SiriClawInstruct_STATE_DIR override", async () => {
     await withScheduledTaskScript(
       {
-        env: (tmpDir) => ({ SiriClaw-Instruct_STATE_DIR: path.join(tmpDir, "custom-state") }),
+        env: (tmpDir) => ({ SiriClawInstruct_STATE_DIR: path.join(tmpDir, "custom-state") }),
         scriptLines: ["@echo off", "node gateway.js --from-state-dir"],
       },
       async (env) => {
@@ -316,3 +316,4 @@ describe("readScheduledTaskCommand", () => {
     );
   });
 });
+

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 function createManagerStatus(params: {
   backend: "qmd" | "builtin";
@@ -97,7 +97,7 @@ const createQmdManagerMock = vi.mocked(QmdMemoryManager.create);
 type SearchManagerResult = Awaited<ReturnType<typeof getMemorySearchManager>>;
 type SearchManager = NonNullable<SearchManagerResult["manager"]>;
 
-function createQmdCfg(agentId: string): SiriClaw-InstructConfig {
+function createQmdCfg(agentId: string): SiriClawInstructConfig {
   return {
     memory: { backend: "qmd", qmd: {} },
     agents: { list: [{ id: agentId, default: true, workspace: "/tmp/workspace" }] },
@@ -244,3 +244,4 @@ describe("getMemorySearchManager caching", () => {
     await expect(firstManager.search("hello")).rejects.toThrow("qmd query failed");
   });
 });
+

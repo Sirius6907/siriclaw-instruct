@@ -15,3 +15,4 @@ describe("resolveRequestUrl", () => {
     expect(resolveRequestUrl(requestLike)).toBe("https://example.com/c");
   });
 });
+

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { createOllamaEmbeddingProvider } from "./embeddings-ollama.js";
 
 describe("embeddings-ollama", () => {
@@ -14,7 +14,7 @@ describe("embeddings-ollama", () => {
     globalThis.fetch = fetchMock as unknown as typeof fetch;
 
     const { provider } = await createOllamaEmbeddingProvider({
-      config: {} as SiriClaw-InstructConfig,
+      config: {} as SiriClawInstructConfig,
       provider: "ollama",
       model: "nomic-embed-text",
       fallback: "none",
@@ -51,7 +51,7 @@ describe("embeddings-ollama", () => {
             },
           },
         },
-      } as unknown as SiriClaw-InstructConfig,
+      } as unknown as SiriClawInstructConfig,
       provider: "ollama",
       model: "",
       fallback: "none",
@@ -75,7 +75,7 @@ describe("embeddings-ollama", () => {
   it("fails fast when memory-search remote apiKey is an unresolved SecretRef", async () => {
     await expect(
       createOllamaEmbeddingProvider({
-        config: {} as SiriClaw-InstructConfig,
+        config: {} as SiriClawInstructConfig,
         provider: "ollama",
         model: "nomic-embed-text",
         fallback: "none",
@@ -109,7 +109,7 @@ describe("embeddings-ollama", () => {
             },
           },
         },
-      } as unknown as SiriClaw-InstructConfig,
+      } as unknown as SiriClawInstructConfig,
       provider: "ollama",
       model: "nomic-embed-text",
       fallback: "none",
@@ -127,3 +127,4 @@ describe("embeddings-ollama", () => {
     );
   });
 });
+

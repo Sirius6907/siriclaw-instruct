@@ -1,4 +1,4 @@
-export type SiriClaw-InstructVersion = {
+export type SiriClawInstructVersion = {
   major: number;
   minor: number;
   patch: number;
@@ -7,7 +7,7 @@ export type SiriClaw-InstructVersion = {
 
 const VERSION_RE = /^v?(\d+)\.(\d+)\.(\d+)(?:-(\d+))?/;
 
-export function parseSiriClaw-InstructVersion(raw: string | null | undefined): SiriClaw-InstructVersion | null {
+export function parseSiriClawInstructVersion(raw: string | null | undefined): SiriClawInstructVersion | null {
   if (!raw) {
     return null;
   }
@@ -24,12 +24,12 @@ export function parseSiriClaw-InstructVersion(raw: string | null | undefined): S
   };
 }
 
-export function compareSiriClaw-InstructVersions(
+export function compareSiriClawInstructVersions(
   a: string | null | undefined,
   b: string | null | undefined,
 ): number | null {
-  const parsedA = parseSiriClaw-InstructVersion(a);
-  const parsedB = parseSiriClaw-InstructVersion(b);
+  const parsedA = parseSiriClawInstructVersion(a);
+  const parsedB = parseSiriClawInstructVersion(b);
   if (!parsedA || !parsedB) {
     return null;
   }
@@ -47,3 +47,4 @@ export function compareSiriClaw-InstructVersions(
   }
   return 0;
 }
+

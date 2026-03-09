@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/types.js";
+import type { SiriClawInstructConfig } from "../config/types.js";
 import {
   resolveConfiguredSecretInputWithFallback,
   resolveRequiredConfiguredSecretRefInputString,
 } from "./resolve-configured-secret-input-string.js";
 
-function createConfig(value: unknown): SiriClaw-InstructConfig {
+function createConfig(value: unknown): SiriClawInstructConfig {
   return {
     gateway: {
       auth: {
@@ -17,7 +17,7 @@ function createConfig(value: unknown): SiriClaw-InstructConfig {
         default: { source: "env" },
       },
     },
-  } as SiriClaw-InstructConfig;
+  } as SiriClawInstructConfig;
 }
 
 describe("resolveConfiguredSecretInputWithFallback", () => {
@@ -135,3 +135,4 @@ describe("resolveRequiredConfiguredSecretRefInputString", () => {
     ).rejects.toThrow(/MISSING_GATEWAY_TOKEN/i);
   });
 });
+

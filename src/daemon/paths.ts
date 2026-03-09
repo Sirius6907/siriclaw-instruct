@@ -31,12 +31,13 @@ export function resolveUserPathWithHome(input: string, home?: string): string {
 }
 
 export function resolveGatewayStateDir(env: Record<string, string | undefined>): string {
-  const override = env.SiriClaw-Instruct_STATE_DIR?.trim();
+  const override = env.SiriClawInstruct_STATE_DIR?.trim();
   if (override) {
     const home = override.startsWith("~") ? resolveHomeDir(env) : undefined;
     return resolveUserPathWithHome(override, home);
   }
   const home = resolveHomeDir(env);
-  const suffix = resolveGatewayProfileSuffix(env.SiriClaw-Instruct_PROFILE);
-  return path.join(home, `.SiriClaw-Instruct${suffix}`);
+  const suffix = resolveGatewayProfileSuffix(env.SiriClawInstruct_PROFILE);
+  return path.join(home, `.SiriClawInstruct${suffix}`);
 }
+

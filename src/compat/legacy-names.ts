@@ -1,4 +1,4 @@
-export const PROJECT_NAME = "SiriClaw-Instruct" as const;
+export const PROJECT_NAME = "SiriClawInstruct" as const;
 
 export const LEGACY_PROJECT_NAMES = [] as const;
 
@@ -10,6 +10,7 @@ export const LEGACY_PLUGIN_MANIFEST_FILENAMES = [] as const;
 
 export const LEGACY_CANVAS_HANDLER_NAMES = [] as const;
 
-export const MACOS_APP_SOURCES_DIR = "apps/macos/Sources/SiriClaw-Instruct" as const;
+export const MACOS_APP_SOURCES_DIR = "apps/macos/Sources/SiriClawInstruct" as const;
 
 export const LEGACY_MACOS_APP_SOURCES_DIRS = [] as const;
+

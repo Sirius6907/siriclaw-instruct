@@ -15,7 +15,7 @@ import {
   resolveNativeCommandsEnabled,
   resolveNativeSkillsEnabled,
 } from "../config/commands.js";
-import type { SiriClaw-InstructConfig, ReplyToMode } from "../config/config.js";
+import type { SiriClawInstructConfig, ReplyToMode } from "../config/config.js";
 import { loadConfig } from "../config/config.js";
 import {
   resolveChannelGroupPolicy,
@@ -53,7 +53,7 @@ export type TelegramBotOptions = {
   mediaMaxMb?: number;
   replyToMode?: ReplyToMode;
   proxyFetch?: typeof fetch;
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   updateOffset?: {
     lastUpdateId?: number | null;
     onUpdateId?: (updateId: number) => void | Promise<void>;
@@ -414,3 +414,4 @@ export function createTelegramBot(opts: TelegramBotOptions) {
 
   return bot;
 }
+

@@ -3,10 +3,10 @@ import { expect } from "vitest";
 
 export const IS_WINDOWS = process.platform === "win32";
 
-export function resolveConfigPathFromTempState(fileName = "SiriClaw-Instruct.json"): string {
-  const stateDir = process.env.SiriClaw-Instruct_STATE_DIR?.trim();
+export function resolveConfigPathFromTempState(fileName = "SiriClawInstruct.json"): string {
+  const stateDir = process.env.SiriClawInstruct_STATE_DIR?.trim();
   if (!stateDir) {
-    throw new Error("Expected SiriClaw-Instruct_STATE_DIR to be set by withTempHome");
+    throw new Error("Expected SiriClawInstruct_STATE_DIR to be set by withTempHome");
   }
   return path.join(stateDir, fileName);
 }
@@ -17,3 +17,4 @@ export function expectPosixMode(statMode: number, expectedMode: number): void {
   }
   expect(statMode & 0o777).toBe(expectedMode);
 }
+

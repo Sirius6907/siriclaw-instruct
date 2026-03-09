@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveMemorySearchConfig } from "./memory-search.js";
 
-const asConfig = (cfg: SiriClaw-InstructConfig): SiriClaw-InstructConfig => cfg;
+const asConfig = (cfg: SiriClawInstructConfig): SiriClawInstructConfig => cfg;
 
 describe("memory search config", () => {
   function configWithDefaultProvider(
     provider: "openai" | "local" | "gemini" | "mistral" | "ollama",
-  ): SiriClaw-InstructConfig {
+  ): SiriClawInstructConfig {
     return asConfig({
       agents: {
         defaults: {
@@ -303,3 +303,4 @@ describe("memory search config", () => {
     expect(resolved?.sources).toContain("sessions");
   });
 });
+

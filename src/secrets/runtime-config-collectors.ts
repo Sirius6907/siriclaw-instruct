@@ -1,10 +1,10 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { collectChannelConfigAssignments } from "./runtime-config-collectors-channels.js";
 import { collectCoreConfigAssignments } from "./runtime-config-collectors-core.js";
 import type { ResolverContext } from "./runtime-shared.js";
 
 export function collectConfigAssignments(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   context: ResolverContext;
 }): void {
   const defaults = params.context.sourceConfig.secrets?.defaults;
@@ -21,3 +21,4 @@ export function collectConfigAssignments(params: {
     context: params.context,
   });
 }
+

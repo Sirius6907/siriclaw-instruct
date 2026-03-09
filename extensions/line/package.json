@@ -1,10 +1,10 @@
 {
-  "name": "@SiriClaw-Instruct/line",
+  "name": "@siriclaw-instruct/line",
   "version": "2026.3.8",
   "private": true,
-  "description": "SiriClaw-Instruct LINE channel plugin",
+  "description": "siriclaw-instruct LINE channel plugin",
   "type": "module",
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ],
@@ -19,9 +19,13 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@SiriClaw-Instruct/line",
+      "npmSpec": "@siriclaw-instruct/line",
       "localPath": "extensions/line",
       "defaultChoice": "npm"
     }
   }
 }
+
+
+
+

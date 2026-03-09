@@ -24,23 +24,23 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-function localSiriClaw-InstructProfile(): Parameters<typeof createProfileResetOps>[0]["profile"] {
+function localSiriClawInstructProfile(): Parameters<typeof createProfileResetOps>[0]["profile"] {
   return {
-    name: "SiriClaw-Instruct",
+    name: "SiriClawInstruct",
     cdpUrl: "http://127.0.0.1:18800",
     cdpHost: "127.0.0.1",
     cdpIsLoopback: true,
     cdpPort: 18800,
     color: "#f60",
-    driver: "SiriClaw-Instruct",
+    driver: "SiriClawInstruct",
     attachOnly: false,
   };
 }
 
-function createLocalSiriClaw-InstructResetOps(
+function createLocalSiriClawInstructResetOps(
   params: Omit<Parameters<typeof createProfileResetOps>[0], "profile">,
 ) {
-  return createProfileResetOps({ profile: localSiriClaw-InstructProfile(), ...params });
+  return createProfileResetOps({ profile: localSiriClawInstructProfile(), ...params });
 }
 
 function createStatelessResetOps(profile: Parameters<typeof createProfileResetOps>[0]["profile"]) {
@@ -49,14 +49,14 @@ function createStatelessResetOps(profile: Parameters<typeof createProfileResetOp
     getProfileState: () => ({ profile: {} as never, running: null }),
     stopRunningBrowser: vi.fn(async () => ({ stopped: false })),
     isHttpReachable: vi.fn(async () => false),
-    resolveSiriClaw-InstructUserDataDir: (name: string) => `/tmp/${name}`,
+    resolveSiriClawInstructUserDataDir: (name: string) => `/tmp/${name}`,
   });
 }
 
 describe("createProfileResetOps", () => {
   it("stops extension relay for extension profiles", async () => {
     const ops = createStatelessResetOps({
-      ...localSiriClaw-InstructProfile(),
+      ...localSiriClawInstructProfile(),
       name: "chrome",
       driver: "extension",
     });
@@ -73,7 +73,7 @@ describe("createProfileResetOps", () => {
 
   it("rejects remote non-extension profiles", async () => {
     const ops = createStatelessResetOps({
-      ...localSiriClaw-InstructProfile(),
+      ...localSiriClawInstructProfile(),
       name: "remote",
       cdpUrl: "https://browserless.example/chrome",
       cdpHost: "browserless.example",
@@ -86,8 +86,8 @@ describe("createProfileResetOps", () => {
   });
 
   it("stops local browser, closes playwright connection, and trashes profile dir", async () => {
-    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-reset-"));
-    const profileDir = path.join(tempRoot, "SiriClaw-Instruct");
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-reset-"));
+    const profileDir = path.join(tempRoot, "SiriClawInstruct");
     fs.mkdirSync(profileDir, { recursive: true });
 
     const stopRunningBrowser = vi.fn(async () => ({ stopped: true }));
@@ -97,11 +97,11 @@ describe("createProfileResetOps", () => {
       running: { pid: 1 } as never,
     }));
 
-    const ops = createLocalSiriClaw-InstructResetOps({
+    const ops = createLocalSiriClawInstructResetOps({
       getProfileState,
       stopRunningBrowser,
       isHttpReachable,
-      resolveSiriClaw-InstructUserDataDir: () => profileDir,
+      resolveSiriClawInstructUserDataDir: () => profileDir,
     });
 
     const result = await ops.resetProfile();
@@ -117,16 +117,16 @@ describe("createProfileResetOps", () => {
   });
 
   it("forces playwright disconnect when loopback cdp is occupied by non-owned process", async () => {
-    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-reset-no-own-"));
-    const profileDir = path.join(tempRoot, "SiriClaw-Instruct");
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-reset-no-own-"));
+    const profileDir = path.join(tempRoot, "SiriClawInstruct");
     fs.mkdirSync(profileDir, { recursive: true });
 
     const stopRunningBrowser = vi.fn(async () => ({ stopped: false }));
-    const ops = createLocalSiriClaw-InstructResetOps({
+    const ops = createLocalSiriClawInstructResetOps({
       getProfileState: () => ({ profile: {} as never, running: null }),
       stopRunningBrowser,
       isHttpReachable: vi.fn(async () => true),
-      resolveSiriClaw-InstructUserDataDir: () => profileDir,
+      resolveSiriClawInstructUserDataDir: () => profileDir,
     });
 
     await ops.resetProfile();
@@ -134,3 +134,4 @@ describe("createProfileResetOps", () => {
     expect(pwAiMocks.closePlaywrightBrowserConnection).toHaveBeenCalledTimes(2);
   });
 });
+

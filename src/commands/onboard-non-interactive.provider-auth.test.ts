@@ -76,23 +76,23 @@ async function withOnboardEnv(
   run: (ctx: OnboardEnv) => Promise<void>,
 ): Promise<void> {
   const tempHome = await makeTempWorkspace(prefix);
-  const configPath = path.join(tempHome, "SiriClaw-Instruct.json");
+  const configPath = path.join(tempHome, "SiriClawInstruct.json");
   const runtime = createThrowingRuntime();
 
   try {
     await withEnvAsync(
       {
         HOME: tempHome,
-        SiriClaw-Instruct_STATE_DIR: tempHome,
-        SiriClaw-Instruct_CONFIG_PATH: configPath,
-        SiriClaw-Instruct_SKIP_CHANNELS: "1",
-        SiriClaw-Instruct_SKIP_GMAIL_WATCHER: "1",
-        SiriClaw-Instruct_SKIP_CRON: "1",
-        SiriClaw-Instruct_SKIP_CANVAS_HOST: "1",
-        SiriClaw-Instruct_GATEWAY_TOKEN: undefined,
-        SiriClaw-Instruct_GATEWAY_PASSWORD: undefined,
+        SiriClawInstruct_STATE_DIR: tempHome,
+        SiriClawInstruct_CONFIG_PATH: configPath,
+        SiriClawInstruct_SKIP_CHANNELS: "1",
+        SiriClawInstruct_SKIP_GMAIL_WATCHER: "1",
+        SiriClawInstruct_SKIP_CRON: "1",
+        SiriClawInstruct_SKIP_CANVAS_HOST: "1",
+        SiriClawInstruct_GATEWAY_TOKEN: undefined,
+        SiriClawInstruct_GATEWAY_PASSWORD: undefined,
         CUSTOM_API_KEY: undefined,
-        SiriClaw-Instruct_DISABLE_CONFIG_CACHE: "1",
+        SiriClawInstruct_DISABLE_CONFIG_CACHE: "1",
       },
       async () => {
         await run({ configPath, runtime });
@@ -181,7 +181,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("stores MiniMax API key and uses global baseUrl by default", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-minimax-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-minimax-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         authChoice: "minimax-api",
         minimaxApiKey: "sk-minimax-test", // pragma: allowlist secret
@@ -200,7 +200,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("supports MiniMax CN API endpoint auth choice", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-minimax-cn-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-minimax-cn-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         authChoice: "minimax-api-key-cn",
         minimaxApiKey: "sk-minimax-test", // pragma: allowlist secret
@@ -219,7 +219,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("stores Z.AI API key and uses global baseUrl by default", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-zai-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-zai-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         authChoice: "zai-api-key",
         zaiApiKey: "zai-test-key", // pragma: allowlist secret
@@ -234,7 +234,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("supports Z.AI CN coding endpoint auth choice", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-zai-cn-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-zai-cn-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         authChoice: "zai-coding-cn",
         zaiApiKey: "zai-test-key", // pragma: allowlist secret
@@ -247,7 +247,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("stores xAI API key and sets default model", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-xai-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-xai-", async (env) => {
       const rawKey = "xai-test-\r\nkey";
       const cfg = await runOnboardingAndReadConfig(env, {
         authChoice: "xai-api-key",
@@ -262,7 +262,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("infers Mistral auth choice from --mistral-api-key and sets default model", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-mistral-infer-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-mistral-infer-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         mistralApiKey: "mistral-test-key", // pragma: allowlist secret
       });
@@ -279,7 +279,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("stores Volcano Engine API key and sets default model", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-volcengine-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-volcengine-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         authChoice: "volcengine-api-key",
         volcengineApiKey: "volcengine-test-key", // pragma: allowlist secret
@@ -290,7 +290,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("infers BytePlus auth choice from --byteplus-api-key and sets default model", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-byteplus-infer-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-byteplus-infer-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         byteplusApiKey: "byteplus-test-key", // pragma: allowlist secret
       });
@@ -300,7 +300,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("stores Vercel AI Gateway API key and sets default model", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-ai-gateway-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-ai-gateway-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         authChoice: "ai-gateway-api-key",
         aiGatewayApiKey: "gateway-test-key", // pragma: allowlist secret
@@ -320,7 +320,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("stores token auth profile", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-token-", async ({ configPath, runtime }) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-token-", async ({ configPath, runtime }) => {
       const cleanToken = `sk-ant-oat01-${"a".repeat(80)}`;
       const token = `${cleanToken.slice(0, 30)}\r${cleanToken.slice(30)}`;
 
@@ -347,7 +347,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("stores OpenAI API key and sets OpenAI default model", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-openai-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-openai-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         authChoice: "openai-api-key",
         openaiApiKey: "sk-openai-test", // pragma: allowlist secret
@@ -360,7 +360,7 @@ describe("onboard (non-interactive): provider auth", () => {
   it.each([
     {
       name: "anthropic",
-      prefix: "SiriClaw-Instruct-onboard-ref-flag-anthropic-",
+      prefix: "SiriClawInstruct-onboard-ref-flag-anthropic-",
       authChoice: "apiKey",
       optionKey: "anthropicApiKey",
       flagName: "--anthropic-api-key",
@@ -368,7 +368,7 @@ describe("onboard (non-interactive): provider auth", () => {
     },
     {
       name: "openai",
-      prefix: "SiriClaw-Instruct-onboard-ref-flag-openai-",
+      prefix: "SiriClawInstruct-onboard-ref-flag-openai-",
       authChoice: "openai-api-key",
       optionKey: "openaiApiKey",
       flagName: "--openai-api-key",
@@ -376,7 +376,7 @@ describe("onboard (non-interactive): provider auth", () => {
     },
     {
       name: "openrouter",
-      prefix: "SiriClaw-Instruct-onboard-ref-flag-openrouter-",
+      prefix: "SiriClawInstruct-onboard-ref-flag-openrouter-",
       authChoice: "openrouter-api-key",
       optionKey: "openrouterApiKey",
       flagName: "--openrouter-api-key",
@@ -384,7 +384,7 @@ describe("onboard (non-interactive): provider auth", () => {
     },
     {
       name: "xai",
-      prefix: "SiriClaw-Instruct-onboard-ref-flag-xai-",
+      prefix: "SiriClawInstruct-onboard-ref-flag-xai-",
       authChoice: "xai-api-key",
       optionKey: "xaiApiKey",
       flagName: "--xai-api-key",
@@ -392,7 +392,7 @@ describe("onboard (non-interactive): provider auth", () => {
     },
     {
       name: "volcengine",
-      prefix: "SiriClaw-Instruct-onboard-ref-flag-volcengine-",
+      prefix: "SiriClawInstruct-onboard-ref-flag-volcengine-",
       authChoice: "volcengine-api-key",
       optionKey: "volcengineApiKey",
       flagName: "--volcengine-api-key",
@@ -400,7 +400,7 @@ describe("onboard (non-interactive): provider auth", () => {
     },
     {
       name: "byteplus",
-      prefix: "SiriClaw-Instruct-onboard-ref-flag-byteplus-",
+      prefix: "SiriClawInstruct-onboard-ref-flag-byteplus-",
       authChoice: "byteplus-api-key",
       optionKey: "byteplusApiKey",
       flagName: "--byteplus-api-key",
@@ -443,7 +443,7 @@ describe("onboard (non-interactive): provider auth", () => {
   );
 
   it("stores the detected env alias as keyRef for opencode ref mode", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-ref-opencode-alias-", async ({ runtime }) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-ref-opencode-alias-", async ({ runtime }) => {
       await withEnvAsync(
         {
           OPENCODE_API_KEY: undefined,
@@ -473,7 +473,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("rejects vLLM auth choice in non-interactive mode", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-vllm-non-interactive-", async ({ runtime }) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-vllm-non-interactive-", async ({ runtime }) => {
       await expect(
         runNonInteractiveOnboardingWithDefaults(runtime, {
           authChoice: "vllm",
@@ -484,7 +484,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("stores LiteLLM API key and sets default model", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-litellm-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-litellm-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         authChoice: "litellm-api-key",
         litellmApiKey: "litellm-test-key", // pragma: allowlist secret
@@ -504,14 +504,14 @@ describe("onboard (non-interactive): provider auth", () => {
   it.each([
     {
       name: "stores Cloudflare AI Gateway API key and metadata",
-      prefix: "SiriClaw-Instruct-onboard-cf-gateway-",
+      prefix: "SiriClawInstruct-onboard-cf-gateway-",
       options: {
         authChoice: "cloudflare-ai-gateway-api-key",
       },
     },
     {
       name: "infers Cloudflare auth choice from API key flags",
-      prefix: "SiriClaw-Instruct-onboard-cf-gateway-infer-",
+      prefix: "SiriClawInstruct-onboard-cf-gateway-infer-",
       options: {},
     },
   ])("$name", async ({ prefix, options }) => {
@@ -541,7 +541,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("infers Together auth choice from --together-api-key and sets default model", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-together-infer-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-together-infer-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         togetherApiKey: "together-test-key", // pragma: allowlist secret
       });
@@ -558,7 +558,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("infers QIANFAN auth choice from --qianfan-api-key and sets default model", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-qianfan-infer-", async (env) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-qianfan-infer-", async (env) => {
       const cfg = await runOnboardingAndReadConfig(env, {
         qianfanApiKey: "qianfan-test-key", // pragma: allowlist secret
       });
@@ -575,7 +575,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("configures a custom provider from non-interactive flags", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-custom-provider-", async ({ configPath, runtime }) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-custom-provider-", async ({ configPath, runtime }) => {
       await runNonInteractiveOnboardingWithDefaults(runtime, {
         authChoice: "custom-api-key",
         customBaseUrl: "https://llm.example.com/v1",
@@ -598,7 +598,7 @@ describe("onboard (non-interactive): provider auth", () => {
 
   it("infers custom provider auth choice from custom flags", async () => {
     await withOnboardEnv(
-      "SiriClaw-Instruct-onboard-custom-provider-infer-",
+      "SiriClawInstruct-onboard-custom-provider-infer-",
       async ({ configPath, runtime }) => {
         await runNonInteractiveOnboardingWithDefaults(runtime, {
           customBaseUrl: "https://models.custom.local/v1",
@@ -622,7 +622,7 @@ describe("onboard (non-interactive): provider auth", () => {
 
   it("uses CUSTOM_API_KEY env fallback for non-interactive custom provider auth", async () => {
     await withOnboardEnv(
-      "SiriClaw-Instruct-onboard-custom-provider-env-fallback-",
+      "SiriClawInstruct-onboard-custom-provider-env-fallback-",
       async ({ configPath, runtime }) => {
         process.env.CUSTOM_API_KEY = "custom-env-key"; // pragma: allowlist secret
         await runCustomLocalNonInteractive(runtime);
@@ -633,7 +633,7 @@ describe("onboard (non-interactive): provider auth", () => {
 
   it("stores CUSTOM_API_KEY env ref for non-interactive custom provider auth in ref mode", async () => {
     await withOnboardEnv(
-      "SiriClaw-Instruct-onboard-custom-provider-env-ref-",
+      "SiriClawInstruct-onboard-custom-provider-env-ref-",
       async ({ configPath, runtime }) => {
         process.env.CUSTOM_API_KEY = "custom-env-key"; // pragma: allowlist secret
         await runCustomLocalNonInteractive(runtime, {
@@ -649,7 +649,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("fails fast for custom provider ref mode when --custom-api-key is set but CUSTOM_API_KEY env is missing", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-custom-provider-ref-flag-", async ({ runtime }) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-custom-provider-ref-flag-", async ({ runtime }) => {
       const providedSecret = "custom-inline-key-should-not-leak"; // pragma: allowlist secret
       await withEnvAsync({ CUSTOM_API_KEY: undefined }, async () => {
         let thrown: Error | undefined;
@@ -676,7 +676,7 @@ describe("onboard (non-interactive): provider auth", () => {
 
   it("uses matching profile fallback for non-interactive custom provider auth", async () => {
     await withOnboardEnv(
-      "SiriClaw-Instruct-onboard-custom-provider-profile-fallback-",
+      "SiriClawInstruct-onboard-custom-provider-profile-fallback-",
       async ({ configPath, runtime }) => {
         upsertAuthProfile({
           profileId: `${CUSTOM_LOCAL_PROVIDER_ID}:default`,
@@ -694,7 +694,7 @@ describe("onboard (non-interactive): provider auth", () => {
 
   it("fails custom provider auth when compatibility is invalid", async () => {
     await withOnboardEnv(
-      "SiriClaw-Instruct-onboard-custom-provider-invalid-compat-",
+      "SiriClawInstruct-onboard-custom-provider-invalid-compat-",
       async ({ runtime }) => {
         await expect(
           runNonInteractiveOnboardingWithDefaults(runtime, {
@@ -710,7 +710,7 @@ describe("onboard (non-interactive): provider auth", () => {
   });
 
   it("fails custom provider auth when explicit provider id is invalid", async () => {
-    await withOnboardEnv("SiriClaw-Instruct-onboard-custom-provider-invalid-id-", async ({ runtime }) => {
+    await withOnboardEnv("SiriClawInstruct-onboard-custom-provider-invalid-id-", async ({ runtime }) => {
       await expect(
         runNonInteractiveOnboardingWithDefaults(runtime, {
           authChoice: "custom-api-key",
@@ -727,7 +727,7 @@ describe("onboard (non-interactive): provider auth", () => {
 
   it("fails inferred custom auth when required flags are incomplete", async () => {
     await withOnboardEnv(
-      "SiriClaw-Instruct-onboard-custom-provider-missing-required-",
+      "SiriClawInstruct-onboard-custom-provider-missing-required-",
       async ({ runtime }) => {
         await expect(
           runNonInteractiveOnboardingWithDefaults(runtime, {
@@ -739,3 +739,4 @@ describe("onboard (non-interactive): provider auth", () => {
     );
   });
 });
+

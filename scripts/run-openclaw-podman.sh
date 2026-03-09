@@ -14,7 +14,7 @@
 
 set -euo pipefail
 
-SiriClaw-Instruct_USER="${SiriClaw-Instruct_PODMAN_USER:-SiriClaw-Instruct}"
+SIRICLAW_USER="${SIRICLAW_PODMAN_USER:-SiriClaw-Instruct}"
 
 resolve_user_home() {
   local user="$1"
@@ -31,9 +31,9 @@ resolve_user_home() {
   printf '%s' "$home"
 }
 
-SiriClaw-Instruct_HOME="$(resolve_user_home "$SiriClaw-Instruct_USER")"
-SiriClaw-Instruct_UID="$(id -u "$SiriClaw-Instruct_USER" 2>/dev/null || true)"
-LAUNCH_SCRIPT="$SiriClaw-Instruct_HOME/run-SiriClaw-Instruct-podman.sh"
+SIRICLAW_HOME="$(resolve_user_home "$SIRICLAW_USER")"
+SIRICLAW_UID="$(id -u "$SIRICLAW_USER" 2>/dev/null || true)"
+LAUNCH_SCRIPT="$SIRICLAW_HOME/run-SiriClaw-Instruct-podman.sh"
 
 # Legacy: setup-host → run setup-podman.sh
 if [[ "${1:-}" == "setup-host" ]]; then
@@ -50,9 +50,9 @@ fi
 # --- Step 2: launch (from repo: re-exec as SiriClaw-Instruct in safe cwd; from SiriClaw-Instruct home: run container) ---
 if [[ "${1:-}" == "launch" ]]; then
   shift
-  if [[ -n "${SiriClaw-Instruct_UID:-}" && "$(id -u)" -ne "$SiriClaw-Instruct_UID" ]]; then
+  if [[ -n "${SIRICLAW_UID:-}" && "$(id -u)" -ne "$SIRICLAW_UID" ]]; then
     # Exec as SiriClaw-Instruct with cwd=/tmp so a nologin user never inherits an invalid cwd.
-    exec sudo -u "$SiriClaw-Instruct_USER" env HOME="$SiriClaw-Instruct_HOME" PATH="$PATH" TERM="${TERM:-}" \
+    exec sudo -u "$SIRICLAW_USER" env HOME="$SIRICLAW_HOME" PATH="$PATH" TERM="${TERM:-}" \
       bash -c 'cd /tmp && exec '"$LAUNCH_SCRIPT"' "$@"' _ "$@"
   fi
   # Already SiriClaw-Instruct; fall through to container run (with remaining args, e.g. "setup")
@@ -60,21 +60,21 @@ fi
 
 # --- Container run (script in SiriClaw-Instruct home, run as SiriClaw-Instruct) ---
 EFFECTIVE_HOME="${HOME:-}"
-if [[ -n "${SiriClaw-Instruct_UID:-}" && "$(id -u)" -eq "$SiriClaw-Instruct_UID" ]]; then
-  EFFECTIVE_HOME="$SiriClaw-Instruct_HOME"
-  export HOME="$SiriClaw-Instruct_HOME"
+if [[ -n "${SIRICLAW_UID:-}" && "$(id -u)" -eq "$SIRICLAW_UID" ]]; then
+  EFFECTIVE_HOME="$SIRICLAW_HOME"
+  export HOME="$SIRICLAW_HOME"
 fi
 if [[ -z "${EFFECTIVE_HOME:-}" ]]; then
-  EFFECTIVE_HOME="${SiriClaw-Instruct_HOME:-/tmp}"
+  EFFECTIVE_HOME="${SIRICLAW_HOME:-/tmp}"
 fi
-CONFIG_DIR="${SiriClaw-Instruct_CONFIG_DIR:-$EFFECTIVE_HOME/.SiriClaw-Instruct}"
-ENV_FILE="${SiriClaw-Instruct_PODMAN_ENV:-$CONFIG_DIR/.env}"
-WORKSPACE_DIR="${SiriClaw-Instruct_WORKSPACE_DIR:-$CONFIG_DIR/workspace}"
-CONTAINER_NAME="${SiriClaw-Instruct_PODMAN_CONTAINER:-SiriClaw-Instruct}"
-SiriClaw-Instruct_IMAGE="${SiriClaw-Instruct_PODMAN_IMAGE:-SiriClaw-Instruct:local}"
-PODMAN_PULL="${SiriClaw-Instruct_PODMAN_PULL:-never}"
-HOST_GATEWAY_PORT="${SiriClaw-Instruct_PODMAN_GATEWAY_HOST_PORT:-${SiriClaw-Instruct_GATEWAY_PORT:-18789}}"
-HOST_BRIDGE_PORT="${SiriClaw-Instruct_PODMAN_BRIDGE_HOST_PORT:-${SiriClaw-Instruct_BRIDGE_PORT:-18790}}"
+CONFIG_DIR="${SIRICLAW_CONFIG_DIR:-$EFFECTIVE_HOME/.SiriClaw-Instruct}"
+ENV_FILE="${SIRICLAW_PODMAN_ENV:-$CONFIG_DIR/.env}"
+WORKSPACE_DIR="${SIRICLAW_WORKSPACE_DIR:-$CONFIG_DIR/workspace}"
+CONTAINER_NAME="${SIRICLAW_PODMAN_CONTAINER:-SiriClaw-Instruct}"
+SIRICLAW_IMAGE="${SIRICLAW_PODMAN_IMAGE:-SiriClaw-Instruct:local}"
+PODMAN_PULL="${SIRICLAW_PODMAN_PULL:-never}"
+HOST_GATEWAY_PORT="${SIRICLAW_PODMAN_GATEWAY_HOST_PORT:-${SIRICLAW_GATEWAY_PORT:-18789}}"
+HOST_BRIDGE_PORT="${SIRICLAW_PODMAN_BRIDGE_HOST_PORT:-${SIRICLAW_BRIDGE_PORT:-18790}}"
 
 # Safe cwd for podman (SiriClaw-Instruct is nologin; avoid inherited cwd from sudo)
 cd "$EFFECTIVE_HOME" 2>/dev/null || cd /tmp 2>/dev/null || true
@@ -99,8 +99,8 @@ fi
 
 # Keep Podman default local-only unless explicitly overridden.
 # Non-loopback binds require gateway.controlUi.allowedOrigins (security hardening).
-# NOTE: must be evaluated after sourcing ENV_FILE so SiriClaw-Instruct_GATEWAY_BIND set in .env takes effect.
-GATEWAY_BIND="${SiriClaw-Instruct_GATEWAY_BIND:-loopback}"
+# NOTE: must be evaluated after sourcing ENV_FILE so SIRICLAW_GATEWAY_BIND set in .env takes effect.
+GATEWAY_BIND="${SIRICLAW_GATEWAY_BIND:-loopback}"
 
 upsert_env_var() {
   local file="$1"
@@ -138,15 +138,15 @@ PY
     od -An -N32 -tx1 /dev/urandom | tr -d " \n"
     return 0
   fi
-  echo "Missing dependency: need openssl or python3 (or od) to generate SiriClaw-Instruct_GATEWAY_TOKEN." >&2
+  echo "Missing dependency: need openssl or python3 (or od) to generate SIRICLAW_GATEWAY_TOKEN." >&2
   exit 1
 }
 
-if [[ -z "${SiriClaw-Instruct_GATEWAY_TOKEN:-}" ]]; then
-  export SiriClaw-Instruct_GATEWAY_TOKEN="$(generate_token_hex_32)"
+if [[ -z "${SIRICLAW_GATEWAY_TOKEN:-}" ]]; then
+  export SIRICLAW_GATEWAY_TOKEN="$(generate_token_hex_32)"
   mkdir -p "$(dirname "$ENV_FILE")"
-  upsert_env_var "$ENV_FILE" "SiriClaw-Instruct_GATEWAY_TOKEN" "$SiriClaw-Instruct_GATEWAY_TOKEN"
-  echo "Generated SiriClaw-Instruct_GATEWAY_TOKEN and wrote it to $ENV_FILE." >&2
+  upsert_env_var "$ENV_FILE" "SIRICLAW_GATEWAY_TOKEN" "$SIRICLAW_GATEWAY_TOKEN"
+  echo "Generated SIRICLAW_GATEWAY_TOKEN and wrote it to $ENV_FILE." >&2
 fi
 
 # The gateway refuses to start unless gateway.mode=local is set in config.
@@ -158,7 +158,7 @@ if [[ ! -f "$CONFIG_JSON" ]]; then
   echo "Created $CONFIG_JSON (minimal gateway.mode=local)." >&2
 fi
 
-PODMAN_USERNS="${SiriClaw-Instruct_PODMAN_USERNS:-keep-id}"
+PODMAN_USERNS="${SIRICLAW_PODMAN_USERNS:-keep-id}"
 USERNS_ARGS=()
 RUN_USER_ARGS=()
 case "$PODMAN_USERNS" in
@@ -166,7 +166,7 @@ case "$PODMAN_USERNS" in
   keep-id) USERNS_ARGS=(--userns=keep-id) ;;
   host) USERNS_ARGS=(--userns=host) ;;
   *)
-    echo "Unsupported SiriClaw-Instruct_PODMAN_USERNS=$PODMAN_USERNS (expected: keep-id, auto, host)." >&2
+    echo "Unsupported SIRICLAW_PODMAN_USERNS=$PODMAN_USERNS (expected: keep-id, auto, host)." >&2
     exit 2
     ;;
 esac
@@ -177,7 +177,7 @@ if [[ "$PODMAN_USERNS" == "keep-id" ]]; then
   RUN_USER_ARGS=(--user "${RUN_UID}:${RUN_GID}")
   echo "Starting container as uid=${RUN_UID} gid=${RUN_GID} (must match owner of $CONFIG_DIR)" >&2
 else
-  echo "Starting container without --user (SiriClaw-Instruct_PODMAN_USERNS=$PODMAN_USERNS), mounts may require ownership fixes." >&2
+  echo "Starting container without --user (SIRICLAW_PODMAN_USERNS=$PODMAN_USERNS), mounts may require ownership fixes." >&2
 fi
 
 ENV_FILE_ARGS=()
@@ -188,11 +188,11 @@ if [[ "$RUN_SETUP" == true ]]; then
     --init \
     "${USERNS_ARGS[@]}" "${RUN_USER_ARGS[@]}" \
     -e HOME=/home/node -e TERM=xterm-256color -e BROWSER=echo \
-    -e SiriClaw-Instruct_GATEWAY_TOKEN="$SiriClaw-Instruct_GATEWAY_TOKEN" \
+    -e SIRICLAW_GATEWAY_TOKEN="$SIRICLAW_GATEWAY_TOKEN" \
     -v "$CONFIG_DIR:/home/node/.SiriClaw-Instruct:rw" \
     -v "$WORKSPACE_DIR:/home/node/.SiriClaw-Instruct/workspace:rw" \
     "${ENV_FILE_ARGS[@]}" \
-    "$SiriClaw-Instruct_IMAGE" \
+    "$SIRICLAW_IMAGE" \
     node dist/index.js onboard "$@"
 fi
 
@@ -201,13 +201,13 @@ podman run --pull="$PODMAN_PULL" -d --replace \
   --init \
   "${USERNS_ARGS[@]}" "${RUN_USER_ARGS[@]}" \
   -e HOME=/home/node -e TERM=xterm-256color \
-  -e SiriClaw-Instruct_GATEWAY_TOKEN="$SiriClaw-Instruct_GATEWAY_TOKEN" \
+  -e SIRICLAW_GATEWAY_TOKEN="$SIRICLAW_GATEWAY_TOKEN" \
   "${ENV_FILE_ARGS[@]}" \
   -v "$CONFIG_DIR:/home/node/.SiriClaw-Instruct:rw" \
   -v "$WORKSPACE_DIR:/home/node/.SiriClaw-Instruct/workspace:rw" \
   -p "${HOST_GATEWAY_PORT}:18789" \
   -p "${HOST_BRIDGE_PORT}:18790" \
-  "$SiriClaw-Instruct_IMAGE" \
+  "$SIRICLAW_IMAGE" \
   node dist/index.js gateway --bind "$GATEWAY_BIND" --port 18789
 
 echo "Container $CONTAINER_NAME started. Dashboard: http://127.0.0.1:${HOST_GATEWAY_PORT}/"

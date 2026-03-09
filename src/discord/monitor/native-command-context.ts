@@ -91,3 +91,4 @@ export function buildDiscordNativeCommandContext(params: BuildDiscordNativeComma
     ThreadParentId: params.isThreadChannel ? params.threadParentId : undefined,
   });
 }
+

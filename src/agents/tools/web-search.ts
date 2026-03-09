@@ -1,6 +1,6 @@
 import { Type } from "@sinclair/typebox";
 import { formatCliCommand } from "../../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { normalizeResolvedSecretInputString } from "../../config/types.secrets.js";
 import { logVerbose } from "../../globals.js";
 import { wrapWebContent } from "../../security/external-content.js";
@@ -229,7 +229,7 @@ function createWebSearchSchema(provider: (typeof SEARCH_PROVIDERS)[number]) {
   return Type.Object(baseSchema);
 }
 
-type WebSearchConfig = NonNullable<SiriClaw-InstructConfig["tools"]>["web"] extends infer Web
+type WebSearchConfig = NonNullable<SiriClawInstructConfig["tools"]>["web"] extends infer Web
   ? Web extends { search?: infer Search }
     ? Search
     : undefined
@@ -423,7 +423,7 @@ type GeminiGroundingResponse = {
 const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
 const GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta";
 
-function resolveSearchConfig(cfg?: SiriClaw-InstructConfig): WebSearchConfig {
+function resolveSearchConfig(cfg?: SiriClawInstructConfig): WebSearchConfig {
   const search = cfg?.tools?.web?.search;
   if (!search || typeof search !== "object") {
     return undefined;
@@ -460,7 +460,7 @@ function missingSearchKeyPayload(provider: (typeof SEARCH_PROVIDERS)[number]) {
       error: "missing_perplexity_api_key",
       message:
         "web_search (perplexity) needs an API key. Set PERPLEXITY_API_KEY in the Gateway environment, or configure tools.web.search.perplexity.apiKey.",
-      docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+      docs: "https://docs.SiriClawInstruct.ai/tools/web",
     };
   }
   if (provider === "grok") {
@@ -468,7 +468,7 @@ function missingSearchKeyPayload(provider: (typeof SEARCH_PROVIDERS)[number]) {
       error: "missing_xai_api_key",
       message:
         "web_search (grok) needs an xAI API key. Set XAI_API_KEY in the Gateway environment, or configure tools.web.search.grok.apiKey.",
-      docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+      docs: "https://docs.SiriClawInstruct.ai/tools/web",
     };
   }
   if (provider === "gemini") {
@@ -476,7 +476,7 @@ function missingSearchKeyPayload(provider: (typeof SEARCH_PROVIDERS)[number]) {
       error: "missing_gemini_api_key",
       message:
         "web_search (gemini) needs an API key. Set GEMINI_API_KEY in the Gateway environment, or configure tools.web.search.gemini.apiKey.",
-      docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+      docs: "https://docs.SiriClawInstruct.ai/tools/web",
     };
   }
   if (provider === "kimi") {
@@ -484,13 +484,13 @@ function missingSearchKeyPayload(provider: (typeof SEARCH_PROVIDERS)[number]) {
       error: "missing_kimi_api_key",
       message:
         "web_search (kimi) needs a Moonshot API key. Set KIMI_API_KEY or MOONSHOT_API_KEY in the Gateway environment, or configure tools.web.search.kimi.apiKey.",
-      docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+      docs: "https://docs.SiriClawInstruct.ai/tools/web",
     };
   }
   return {
     error: "missing_brave_api_key",
-    message: `web_search needs a Brave Search API key. Run \`${formatCliCommand("SiriClaw-Instruct configure --section web")}\` to store it, or set BRAVE_API_KEY in the Gateway environment.`,
-    docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+    message: `web_search needs a Brave Search API key. Run \`${formatCliCommand("SiriClawInstruct configure --section web")}\` to store it, or set BRAVE_API_KEY in the Gateway environment.`,
+    docs: "https://docs.SiriClawInstruct.ai/tools/web",
   };
 }
 
@@ -1002,8 +1002,8 @@ async function runPerplexitySearchApi(params: {
           "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: `Bearer ${params.apiKey}`,
-          "HTTP-Referer": "https://SiriClaw-Instruct.ai",
-          "X-Title": "SiriClaw-Instruct Web Search",
+          "HTTP-Referer": "https://SiriClawInstruct.ai",
+          "X-Title": "SiriClawInstruct Web Search",
         },
         body: JSON.stringify(body),
       },
@@ -1580,7 +1580,7 @@ async function runWebSearch(params: {
 }
 
 export function createWebSearchTool(options?: {
-  config?: SiriClaw-InstructConfig;
+  config?: SiriClawInstructConfig;
   sandboxed?: boolean;
 }): AnyAgentTool | null {
   const search = resolveSearchConfig(options?.config);
@@ -1640,7 +1640,7 @@ export function createWebSearchTool(options?: {
         return jsonResult({
           error: "unsupported_country",
           message: `country filtering is not supported by the ${provider} provider. Only Brave and Perplexity support country filtering.`,
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       const language = readStringParam(params, "language");
@@ -1648,14 +1648,14 @@ export function createWebSearchTool(options?: {
         return jsonResult({
           error: "unsupported_language",
           message: `language filtering is not supported by the ${provider} provider. Only Brave and Perplexity support language filtering.`,
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       if (language && provider === "perplexity" && !/^[a-z]{2}$/i.test(language)) {
         return jsonResult({
           error: "invalid_language",
           message: "language must be a 2-letter ISO 639-1 code like 'en', 'de', or 'fr'.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       const search_lang = readStringParam(params, "search_lang");
@@ -1670,14 +1670,14 @@ export function createWebSearchTool(options?: {
           error: "invalid_search_lang",
           message:
             "search_lang must be a Brave-supported language code like 'en', 'en-gb', 'zh-hans', or 'zh-hant'.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       if (normalizedBraveLanguageParams.invalidField === "ui_lang") {
         return jsonResult({
           error: "invalid_ui_lang",
           message: "ui_lang must be a language-region locale like 'en-US'.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       const resolvedSearchLang = normalizedBraveLanguageParams.search_lang;
@@ -1687,7 +1687,7 @@ export function createWebSearchTool(options?: {
           error: "unsupported_ui_lang",
           message:
             "ui_lang is not supported by Brave llm-context mode. Remove ui_lang or use Brave web mode for locale-based UI hints.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       const rawFreshness = readStringParam(params, "freshness");
@@ -1695,7 +1695,7 @@ export function createWebSearchTool(options?: {
         return jsonResult({
           error: "unsupported_freshness",
           message: `freshness filtering is not supported by the ${provider} provider. Only Brave and Perplexity support freshness.`,
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       if (rawFreshness && provider === "brave" && braveMode === "llm-context") {
@@ -1703,7 +1703,7 @@ export function createWebSearchTool(options?: {
           error: "unsupported_freshness",
           message:
             "freshness filtering is not supported by Brave llm-context mode. Remove freshness or use Brave web mode.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       const freshness = rawFreshness ? normalizeFreshness(rawFreshness, provider) : undefined;
@@ -1711,7 +1711,7 @@ export function createWebSearchTool(options?: {
         return jsonResult({
           error: "invalid_freshness",
           message: "freshness must be day, week, month, or year.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       const rawDateAfter = readStringParam(params, "date_after");
@@ -1721,14 +1721,14 @@ export function createWebSearchTool(options?: {
           error: "conflicting_time_filters",
           message:
             "freshness and date_after/date_before cannot be used together. Use either freshness (day/week/month/year) or a date range (date_after/date_before), not both.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       if ((rawDateAfter || rawDateBefore) && provider !== "brave" && provider !== "perplexity") {
         return jsonResult({
           error: "unsupported_date_filter",
           message: `date_after/date_before filtering is not supported by the ${provider} provider. Only Brave and Perplexity support date filtering.`,
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       if ((rawDateAfter || rawDateBefore) && provider === "brave" && braveMode === "llm-context") {
@@ -1736,7 +1736,7 @@ export function createWebSearchTool(options?: {
           error: "unsupported_date_filter",
           message:
             "date_after/date_before filtering is not supported by Brave llm-context mode. Use Brave web mode for date filters.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       const dateAfter = rawDateAfter ? normalizeToIsoDate(rawDateAfter) : undefined;
@@ -1744,7 +1744,7 @@ export function createWebSearchTool(options?: {
         return jsonResult({
           error: "invalid_date",
           message: "date_after must be YYYY-MM-DD format.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       const dateBefore = rawDateBefore ? normalizeToIsoDate(rawDateBefore) : undefined;
@@ -1752,14 +1752,14 @@ export function createWebSearchTool(options?: {
         return jsonResult({
           error: "invalid_date",
           message: "date_before must be YYYY-MM-DD format.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       if (dateAfter && dateBefore && dateAfter > dateBefore) {
         return jsonResult({
           error: "invalid_date_range",
           message: "date_after must be before date_before.",
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
       const domainFilter = readStringArrayParam(params, "domain_filter");
@@ -1767,7 +1767,7 @@ export function createWebSearchTool(options?: {
         return jsonResult({
           error: "unsupported_domain_filter",
           message: `domain_filter is not supported by the ${provider} provider. Only Perplexity supports domain filtering.`,
-          docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+          docs: "https://docs.SiriClawInstruct.ai/tools/web",
         });
       }
 
@@ -1779,14 +1779,14 @@ export function createWebSearchTool(options?: {
             error: "invalid_domain_filter",
             message:
               "domain_filter cannot mix allowlist and denylist entries. Use either all positive entries (allowlist) or all entries prefixed with '-' (denylist).",
-            docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+            docs: "https://docs.SiriClawInstruct.ai/tools/web",
           });
         }
         if (domainFilter.length > 20) {
           return jsonResult({
             error: "invalid_domain_filter",
             message: "domain_filter supports a maximum of 20 domains.",
-            docs: "https://docs.SiriClaw-Instruct.ai/tools/web",
+            docs: "https://docs.SiriClawInstruct.ai/tools/web",
           });
         }
       }
@@ -1843,3 +1843,4 @@ export const __testing = {
   resolveRedirectUrl: resolveCitationRedirectUrl,
   resolveBraveMode,
 } as const;
+

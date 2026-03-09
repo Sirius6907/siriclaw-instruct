@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 const callGateway = vi.fn();
 
@@ -10,12 +10,12 @@ vi.mock("../gateway/call.js", () => ({
 const { resolveCommandSecretRefsViaGateway } = await import("./command-secret-gateway.js");
 
 describe("resolveCommandSecretRefsViaGateway", () => {
-  function makeTalkApiKeySecretRefConfig(envKey: string): SiriClaw-InstructConfig {
+  function makeTalkApiKeySecretRefConfig(envKey: string): SiriClawInstructConfig {
     return {
       talk: {
         apiKey: { source: "env", provider: "default", id: envKey },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
   }
 
   async function withEnvValue(
@@ -69,7 +69,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
       talk: {
         apiKey: "plain", // pragma: allowlist secret
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const result = await resolveCommandSecretRefsViaGateway({
       config,
       commandName: "memory status",
@@ -94,7 +94,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           },
         ],
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     const result = await resolveCommandSecretRefsViaGateway({
       config,
@@ -124,7 +124,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
       talk: {
         apiKey: { source: "env", provider: "default", id: "TALK_API_KEY" },
       },
-    } as SiriClaw-InstructConfig;
+    } as SiriClawInstructConfig;
     const result = await resolveCommandSecretRefsViaGateway({
       config,
       commandName: "memory status",
@@ -156,7 +156,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
             talk: {
               apiKey: { source: "env", provider: "default", id: envKey },
             },
-          } as SiriClaw-InstructConfig,
+          } as SiriClawInstructConfig,
           commandName: "memory status",
           targetIds: new Set(["talk.apiKey"]),
         }),
@@ -185,7 +185,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
               default: { source: "env" },
             },
           },
-        } as SiriClaw-InstructConfig,
+        } as SiriClawInstructConfig,
         commandName: "memory status",
         targetIds: new Set(["talk.apiKey"]),
       });
@@ -241,7 +241,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           talk: {
             apiKey: { source: "env", provider: "default", id: "TALK_API_KEY" },
           },
-        } as SiriClaw-InstructConfig,
+        } as SiriClawInstructConfig,
         commandName: "memory status",
         targetIds: new Set(["talk.apiKey"]),
       }),
@@ -265,7 +265,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           talk: {
             apiKey: { source: "env", provider: "default", id: "TALK_API_KEY" },
           },
-        } as SiriClaw-InstructConfig,
+        } as SiriClawInstructConfig,
         commandName: "memory status",
         targetIds: new Set(["talk.apiKey"]),
       }),
@@ -284,7 +284,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           talk: {
             apiKey: { source: "env", provider: "default", id: "TALK_API_KEY" },
           },
-        } as SiriClaw-InstructConfig,
+        } as SiriClawInstructConfig,
         commandName: "memory status",
         targetIds: new Set(["talk.apiKey"]),
       }),
@@ -340,7 +340,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           },
         ],
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     const result = await resolveCommandSecretRefsViaGateway({
       config,
@@ -433,7 +433,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
               },
             },
           },
-        } as SiriClaw-InstructConfig,
+        } as SiriClawInstructConfig,
         commandName: "message send",
         targetIds: new Set(["talk.apiKey", "talk.providers.*.apiKey"]),
       });
@@ -477,7 +477,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
               password: { source: "env", provider: "default", id: gatewayEnvKey },
             },
           },
-        } as SiriClaw-InstructConfig,
+        } as SiriClawInstructConfig,
         commandName: "status",
         targetIds: new Set(["talk.apiKey"]),
         mode: "summary",
@@ -512,7 +512,7 @@ describe("resolveCommandSecretRefsViaGateway", () => {
           talk: {
             apiKey: { source: "env", provider: "default", id: envKey },
           },
-        } as SiriClaw-InstructConfig,
+        } as SiriClawInstructConfig,
         commandName: "channels resolve",
         targetIds: new Set(["talk.apiKey"]),
         mode: "operational_readonly",
@@ -535,3 +535,4 @@ describe("resolveCommandSecretRefsViaGateway", () => {
     }
   });
 });
+

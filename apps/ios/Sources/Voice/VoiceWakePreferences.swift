@@ -42,3 +42,4 @@ enum VoiceWakePreferences {
         return sanitized.joined(separator: ", ")
     }
 }
+

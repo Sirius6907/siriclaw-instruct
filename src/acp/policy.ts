@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { normalizeAgentId } from "../routing/session-key.js";
 import { AcpRuntimeError } from "./runtime/errors.js";
 
@@ -8,11 +8,11 @@ const ACP_DISPATCH_DISABLED_MESSAGE =
 
 export type AcpDispatchPolicyState = "enabled" | "acp_disabled" | "dispatch_disabled";
 
-export function isAcpEnabledByPolicy(cfg: SiriClaw-InstructConfig): boolean {
+export function isAcpEnabledByPolicy(cfg: SiriClawInstructConfig): boolean {
   return cfg.acp?.enabled !== false;
 }
 
-export function resolveAcpDispatchPolicyState(cfg: SiriClaw-InstructConfig): AcpDispatchPolicyState {
+export function resolveAcpDispatchPolicyState(cfg: SiriClawInstructConfig): AcpDispatchPolicyState {
   if (!isAcpEnabledByPolicy(cfg)) {
     return "acp_disabled";
   }
@@ -23,11 +23,11 @@ export function resolveAcpDispatchPolicyState(cfg: SiriClaw-InstructConfig): Acp
   return "enabled";
 }
 
-export function isAcpDispatchEnabledByPolicy(cfg: SiriClaw-InstructConfig): boolean {
+export function isAcpDispatchEnabledByPolicy(cfg: SiriClawInstructConfig): boolean {
   return resolveAcpDispatchPolicyState(cfg) === "enabled";
 }
 
-export function resolveAcpDispatchPolicyMessage(cfg: SiriClaw-InstructConfig): string | null {
+export function resolveAcpDispatchPolicyMessage(cfg: SiriClawInstructConfig): string | null {
   const state = resolveAcpDispatchPolicyState(cfg);
   if (state === "acp_disabled") {
     return ACP_DISABLED_MESSAGE;
@@ -38,7 +38,7 @@ export function resolveAcpDispatchPolicyMessage(cfg: SiriClaw-InstructConfig): s
   return null;
 }
 
-export function resolveAcpDispatchPolicyError(cfg: SiriClaw-InstructConfig): AcpRuntimeError | null {
+export function resolveAcpDispatchPolicyError(cfg: SiriClawInstructConfig): AcpRuntimeError | null {
   const message = resolveAcpDispatchPolicyMessage(cfg);
   if (!message) {
     return null;
@@ -46,7 +46,7 @@ export function resolveAcpDispatchPolicyError(cfg: SiriClaw-InstructConfig): Acp
   return new AcpRuntimeError("ACP_DISPATCH_DISABLED", message);
 }
 
-export function isAcpAgentAllowedByPolicy(cfg: SiriClaw-InstructConfig, agentId: string): boolean {
+export function isAcpAgentAllowedByPolicy(cfg: SiriClawInstructConfig, agentId: string): boolean {
   const allowed = (cfg.acp?.allowedAgents ?? [])
     .map((entry) => normalizeAgentId(entry))
     .filter(Boolean);
@@ -57,7 +57,7 @@ export function isAcpAgentAllowedByPolicy(cfg: SiriClaw-InstructConfig, agentId:
 }
 
 export function resolveAcpAgentPolicyError(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   agentId: string,
 ): AcpRuntimeError | null {
   if (isAcpAgentAllowedByPolicy(cfg, agentId)) {
@@ -68,3 +68,4 @@ export function resolveAcpAgentPolicyError(
     `ACP agent "${normalizeAgentId(agentId)}" is not allowed by policy.`,
   );
 }
+

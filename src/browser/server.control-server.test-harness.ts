@@ -39,10 +39,10 @@ export function getBrowserControlServerBaseUrl(): string {
 
 export function restoreGatewayPortEnv(prevGatewayPort: string | undefined): void {
   if (prevGatewayPort === undefined) {
-    delete process.env.SiriClaw-Instruct_GATEWAY_PORT;
+    delete process.env.SiriClawInstruct_GATEWAY_PORT;
     return;
   }
-  process.env.SiriClaw-Instruct_GATEWAY_PORT = prevGatewayPort;
+  process.env.SiriClawInstruct_GATEWAY_PORT = prevGatewayPort;
 }
 
 export function setBrowserControlServerCreateTargetId(targetId: string | null): void {
@@ -121,7 +121,7 @@ export function getPwMocks(): Record<string, MockFn> {
   return pwMocks as unknown as Record<string, MockFn>;
 }
 
-const chromeUserDataDir = vi.hoisted(() => ({ dir: "/tmp/SiriClaw-Instruct" }));
+const chromeUserDataDir = vi.hoisted(() => ({ dir: "/tmp/SiriClawInstruct" }));
 installChromeUserDataDirHooks(chromeUserDataDir);
 
 function makeProc(pid = 123) {
@@ -158,9 +158,9 @@ vi.mock("../config/config.js", async (importOriginal) => {
         color: "#FF4500",
         attachOnly: state.cfgAttachOnly,
         headless: true,
-        defaultProfile: "SiriClaw-Instruct",
+        defaultProfile: "SiriClawInstruct",
         profiles: {
-          SiriClaw-Instruct: { cdpPort: state.testPort + 1, color: "#FF4500" },
+          SiriClawInstruct: { cdpPort: state.testPort + 1, color: "#FF4500" },
         },
       },
     }),
@@ -177,7 +177,7 @@ export function getLaunchCalls() {
 vi.mock("./chrome.js", () => ({
   isChromeCdpReady: vi.fn(async () => state.reachable),
   isChromeReachable: vi.fn(async () => state.reachable),
-  launchSiriClaw-InstructChrome: vi.fn(async (_resolved: unknown, profile: { cdpPort: number }) => {
+  launchSiriClawInstructChrome: vi.fn(async (_resolved: unknown, profile: { cdpPort: number }) => {
     launchCalls.push({ port: profile.cdpPort });
     state.reachable = true;
     return {
@@ -189,8 +189,8 @@ vi.mock("./chrome.js", () => ({
       proc,
     };
   }),
-  resolveSiriClaw-InstructUserDataDir: vi.fn(() => chromeUserDataDir.dir),
-  stopSiriClaw-InstructChrome: vi.fn(async () => {
+  resolveSiriClawInstructUserDataDir: vi.fn(() => chromeUserDataDir.dir),
+  stopSiriClawInstructChrome: vi.fn(async () => {
     state.reachable = false;
   }),
 }));
@@ -258,14 +258,14 @@ export async function resetBrowserControlServerTestContext(): Promise<void> {
 
   state.testPort = await getFreePort();
   state.cdpBaseUrl = `http://127.0.0.1:${state.testPort + 1}`;
-  state.prevGatewayPort = process.env.SiriClaw-Instruct_GATEWAY_PORT;
-  process.env.SiriClaw-Instruct_GATEWAY_PORT = String(state.testPort - 2);
+  state.prevGatewayPort = process.env.SiriClawInstruct_GATEWAY_PORT;
+  process.env.SiriClawInstruct_GATEWAY_PORT = String(state.testPort - 2);
   // Avoid flaky auth coupling: some suites temporarily set gateway env auth
   // which would make the browser control server require auth.
-  state.prevGatewayToken = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-  state.prevGatewayPassword = process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
-  delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-  delete process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+  state.prevGatewayToken = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+  state.prevGatewayPassword = process.env.SiriClawInstruct_GATEWAY_PASSWORD;
+  delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
+  delete process.env.SiriClawInstruct_GATEWAY_PASSWORD;
 }
 
 export function restoreGatewayAuthEnv(
@@ -273,14 +273,14 @@ export function restoreGatewayAuthEnv(
   prevGatewayPassword: string | undefined,
 ): void {
   if (prevGatewayToken === undefined) {
-    delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+    delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
   } else {
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = prevGatewayToken;
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = prevGatewayToken;
   }
   if (prevGatewayPassword === undefined) {
-    delete process.env.SiriClaw-Instruct_GATEWAY_PASSWORD;
+    delete process.env.SiriClawInstruct_GATEWAY_PASSWORD;
   } else {
-    process.env.SiriClaw-Instruct_GATEWAY_PASSWORD = prevGatewayPassword;
+    process.env.SiriClawInstruct_GATEWAY_PASSWORD = prevGatewayPassword;
   }
 }
 
@@ -360,3 +360,4 @@ export function installBrowserControlServerHooks() {
     await cleanupBrowserControlServerTestContext();
   });
 }
+

@@ -112,15 +112,15 @@ describe("resolveGatewayRuntimeConfig", () => {
     let originalToken: string | undefined;
 
     beforeEach(() => {
-      originalToken = process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
-      delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+      originalToken = process.env.SiriClawInstruct_GATEWAY_TOKEN;
+      delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
     });
 
     afterEach(() => {
       if (originalToken !== undefined) {
-        process.env.SiriClaw-Instruct_GATEWAY_TOKEN = originalToken;
+        process.env.SiriClawInstruct_GATEWAY_TOKEN = originalToken;
       } else {
-        delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+        delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
       }
     });
 
@@ -154,7 +154,7 @@ describe("resolveGatewayRuntimeConfig", () => {
         name: "token mode without token",
         cfg: { gateway: { bind: "lan" as const, auth: { mode: "token" as const } } },
         expectedMessage:
-          "gateway auth mode is token, but no token was configured (set gateway.auth.token or SiriClaw-Instruct_GATEWAY_TOKEN)",
+          "gateway auth mode is token, but no token was configured (set gateway.auth.token or SiriClawInstruct_GATEWAY_TOKEN)",
       },
       {
         name: "lan binding with explicit none auth",
@@ -272,3 +272,4 @@ describe("resolveGatewayRuntimeConfig", () => {
     });
   });
 });
+

@@ -149,7 +149,7 @@ _clawdock_read_env_token() {
     return 1
   fi
   local raw
-  raw=$(sed -n 's/^SiriClaw-Instruct_GATEWAY_TOKEN=//p' "${CLAWDOCK_DIR}/.env" | head -n 1)
+  raw=$(sed -n 's/^SIRICLAW_GATEWAY_TOKEN=//p' "${CLAWDOCK_DIR}/.env" | head -n 1)
   if [[ -z "$raw" ]]; then
     return 1
   fi
@@ -224,7 +224,7 @@ clawdock-health() {
     echo "   Check: ${CLAWDOCK_DIR}/.env"
     return 1
   fi
-  _clawdock_compose exec -e "SiriClaw-Instruct_GATEWAY_TOKEN=$token" SiriClaw-Instruct-gateway \
+  _clawdock_compose exec -e "SIRICLAW_GATEWAY_TOKEN=$token" SiriClaw-Instruct-gateway \
     node dist/index.js health
 }
 

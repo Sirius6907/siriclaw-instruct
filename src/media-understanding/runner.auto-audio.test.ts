@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { buildProviderRegistry, runCapability } from "./runner.js";
 import { withAudioFixture } from "./runner.test-utils.js";
 
@@ -15,7 +15,7 @@ function createOpenAiAudioProvider(
   });
 }
 
-function createOpenAiAudioCfg(extra?: Partial<SiriClaw-InstructConfig>): SiriClaw-InstructConfig {
+function createOpenAiAudioCfg(extra?: Partial<SiriClawInstructConfig>): SiriClawInstructConfig {
   return {
     models: {
       providers: {
@@ -26,15 +26,15 @@ function createOpenAiAudioCfg(extra?: Partial<SiriClaw-InstructConfig>): SiriCla
       },
     },
     ...extra,
-  } as unknown as SiriClaw-InstructConfig;
+  } as unknown as SiriClawInstructConfig;
 }
 
 async function runAutoAudioCase(params: {
   transcribeAudio: (req: { model?: string }) => Promise<{ text: string; model: string }>;
-  cfgExtra?: Partial<SiriClaw-InstructConfig>;
+  cfgExtra?: Partial<SiriClawInstructConfig>;
 }) {
   let runResult: Awaited<ReturnType<typeof runCapability>> | undefined;
-  await withAudioFixture("SiriClaw-Instruct-auto-audio", async ({ ctx, media, cache }) => {
+  await withAudioFixture("SiriClawInstruct-auto-audio", async ({ ctx, media, cache }) => {
     const providerRegistry = createOpenAiAudioProvider(params.transcribeAudio);
     const cfg = createOpenAiAudioCfg(params.cfgExtra);
     runResult = await runCapability({
@@ -123,7 +123,7 @@ describe("runCapability auto audio entries", () => {
     process.env.MISTRAL_API_KEY = "mistral-test-key"; // pragma: allowlist secret
     let runResult: Awaited<ReturnType<typeof runCapability>> | undefined;
     try {
-      await withAudioFixture("SiriClaw-Instruct-auto-audio-mistral", async ({ ctx, media, cache }) => {
+      await withAudioFixture("SiriClawInstruct-auto-audio-mistral", async ({ ctx, media, cache }) => {
         const providerRegistry = buildProviderRegistry({
           openai: {
             id: "openai",
@@ -152,7 +152,7 @@ describe("runCapability auto audio entries", () => {
               },
             },
           },
-        } as unknown as SiriClaw-InstructConfig;
+        } as unknown as SiriClawInstructConfig;
 
         runResult = await runCapability({
           capability: "audio",
@@ -181,3 +181,4 @@ describe("runCapability auto audio entries", () => {
     expect(runResult.outputs[0]?.text).toBe("mistral");
   });
 });
+

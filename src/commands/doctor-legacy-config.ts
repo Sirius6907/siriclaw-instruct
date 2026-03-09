@@ -1,5 +1,5 @@
 import { shouldMoveSingleAccountChannelKey } from "../channels/plugins/setup-helpers.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   formatSlackStreamingBooleanMigrationMessage,
   formatSlackStreamModeMigrationMessage,
@@ -10,12 +10,12 @@ import {
 } from "../config/discord-preview-streaming.js";
 import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.js";
 
-export function normalizeCompatibilityConfigValues(cfg: SiriClaw-InstructConfig): {
-  config: SiriClaw-InstructConfig;
+export function normalizeCompatibilityConfigValues(cfg: SiriClawInstructConfig): {
+  config: SiriClawInstructConfig;
   changes: string[];
 } {
   const changes: string[] = [];
-  let next: SiriClaw-InstructConfig = cfg;
+  let next: SiriClawInstructConfig = cfg;
 
   const isRecord = (value: unknown): value is Record<string, unknown> =>
     Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -357,7 +357,7 @@ export function normalizeCompatibilityConfigValues(cfg: SiriClaw-InstructConfig)
     }
     next = {
       ...next,
-      channels: nextChannels as SiriClaw-InstructConfig["channels"],
+      channels: nextChannels as SiriClawInstructConfig["channels"],
     };
   };
 
@@ -402,7 +402,7 @@ export function normalizeCompatibilityConfigValues(cfg: SiriClaw-InstructConfig)
 
     next = {
       ...next,
-      browser: migratedBrowser as SiriClaw-InstructConfig["browser"],
+      browser: migratedBrowser as SiriClawInstructConfig["browser"],
     };
     changes.push(
       `Moved browser.ssrfPolicy.allowPrivateNetwork → browser.ssrfPolicy.dangerouslyAllowPrivateNetwork (${String(resolvedDangerousAllowPrivateNetwork)}).`,
@@ -450,3 +450,4 @@ export function normalizeCompatibilityConfigValues(cfg: SiriClaw-InstructConfig)
 
   return { config: next, changes };
 }
+

@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
   callGatewayMock,
   setSubagentsConfigOverride,
-} from "./SiriClaw-Instruct-tools.subagents.test-harness.js";
+} from "./siriclaw-instruct-tools.subagents.test-harness.js";
 import {
   addSubagentRunForTests,
   listSubagentRunsForRequester,
@@ -14,13 +14,13 @@ import {
 import "./test-helpers/fast-core-tools.js";
 import { createSubagentsTool } from "./tools/subagents-tool.js";
 
-describe("SiriClaw-Instruct-tools: subagents steer failure", () => {
+describe("SiriClawInstruct-tools: subagents steer failure", () => {
   beforeEach(() => {
     resetSubagentRegistryForTests();
     callGatewayMock.mockClear();
     const storePath = path.join(
       os.tmpdir(),
-      `SiriClaw-Instruct-subagents-steer-${Date.now()}-${Math.random().toString(16).slice(2)}.json`,
+      `SiriClawInstruct-subagents-steer-${Date.now()}-${Math.random().toString(16).slice(2)}.json`,
     );
     setSubagentsConfigOverride({
       session: {
@@ -78,3 +78,4 @@ describe("SiriClaw-Instruct-tools: subagents steer failure", () => {
     expect(runs[0].suppressAnnounceReason).toBeUndefined();
   });
 });
+

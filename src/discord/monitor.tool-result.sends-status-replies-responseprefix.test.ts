@@ -30,10 +30,10 @@ const BASE_CFG: Config = {
   agents: {
     defaults: {
       model: { primary: "anthropic/claude-opus-4-5" },
-      workspace: "/tmp/SiriClaw-Instruct",
+      workspace: "/tmp/SiriClawInstruct",
     },
   },
-  session: { store: "/tmp/SiriClaw-Instruct-sessions.json" },
+  session: { store: "/tmp/SiriClawInstruct-sessions.json" },
 };
 
 const CATEGORY_GUILD_CFG = {
@@ -225,3 +225,4 @@ describe("discord tool result dispatch", () => {
     expect(String(sendMock.mock.calls[0]?.[1] ?? "")).toContain("Pairing code: PAIRCODE");
   }, 10000);
 });
+

@@ -1,12 +1,16 @@
 {
-  "name": "@SiriClaw-Instruct/slack",
+  "name": "@siriclaw-instruct/slack",
   "version": "2026.3.8",
   "private": true,
-  "description": "SiriClaw-Instruct Slack channel plugin",
+  "description": "siriclaw-instruct Slack channel plugin",
   "type": "module",
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ]
   }
 }
+
+
+
+

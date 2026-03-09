@@ -21,13 +21,13 @@ describe("session tab registry", () => {
       sessionKey: "Agent:Main:Main",
       targetId: "tab-a",
       baseUrl: "http://127.0.0.1:9222",
-      profile: "SiriClaw-Instruct",
+      profile: "SiriClawInstruct",
     });
     trackSessionBrowserTab({
       sessionKey: "agent:main:main",
       targetId: "tab-b",
       baseUrl: "http://127.0.0.1:9222",
-      profile: "SiriClaw-Instruct",
+      profile: "SiriClawInstruct",
     });
     expect(__countTrackedSessionBrowserTabsForTests("agent:main:main")).toBe(2);
 
@@ -42,12 +42,12 @@ describe("session tab registry", () => {
     expect(closeTab).toHaveBeenNthCalledWith(1, {
       targetId: "tab-a",
       baseUrl: "http://127.0.0.1:9222",
-      profile: "SiriClaw-Instruct",
+      profile: "SiriClawInstruct",
     });
     expect(closeTab).toHaveBeenNthCalledWith(2, {
       targetId: "tab-b",
       baseUrl: "http://127.0.0.1:9222",
-      profile: "SiriClaw-Instruct",
+      profile: "SiriClawInstruct",
     });
     expect(__countTrackedSessionBrowserTabsForTests()).toBe(0);
   });
@@ -112,3 +112,4 @@ describe("session tab registry", () => {
     expect(__countTrackedSessionBrowserTabsForTests()).toBe(0);
   });
 });
+

@@ -1,17 +1,17 @@
 import { parseFrontmatterBlock } from "../markdown/frontmatter.js";
 import {
-  applySiriClaw-InstructManifestInstallCommonFields,
+  applySiriClawInstructManifestInstallCommonFields,
   getFrontmatterString,
   normalizeStringList,
-  parseSiriClaw-InstructManifestInstallBase,
+  parseSiriClawInstructManifestInstallBase,
   parseFrontmatterBool,
-  resolveSiriClaw-InstructManifestBlock,
-  resolveSiriClaw-InstructManifestInstall,
-  resolveSiriClaw-InstructManifestOs,
-  resolveSiriClaw-InstructManifestRequires,
+  resolveSiriClawInstructManifestBlock,
+  resolveSiriClawInstructManifestInstall,
+  resolveSiriClawInstructManifestOs,
+  resolveSiriClawInstructManifestRequires,
 } from "../shared/frontmatter.js";
 import type {
-  SiriClaw-InstructHookMetadata,
+  SiriClawInstructHookMetadata,
   HookEntry,
   HookInstallSpec,
   HookInvocationPolicy,
@@ -23,12 +23,12 @@ export function parseFrontmatter(content: string): ParsedHookFrontmatter {
 }
 
 function parseInstallSpec(input: unknown): HookInstallSpec | undefined {
-  const parsed = parseSiriClaw-InstructManifestInstallBase(input, ["bundled", "npm", "git"]);
+  const parsed = parseSiriClawInstructManifestInstallBase(input, ["bundled", "npm", "git"]);
   if (!parsed) {
     return undefined;
   }
   const { raw } = parsed;
-  const spec = applySiriClaw-InstructManifestInstallCommonFields<HookInstallSpec>(
+  const spec = applySiriClawInstructManifestInstallCommonFields<HookInstallSpec>(
     {
       kind: parsed.kind as HookInstallSpec["kind"],
     },
@@ -44,16 +44,16 @@ function parseInstallSpec(input: unknown): HookInstallSpec | undefined {
   return spec;
 }
 
-export function resolveSiriClaw-InstructMetadata(
+export function resolveSiriClawInstructMetadata(
   frontmatter: ParsedHookFrontmatter,
-): SiriClaw-InstructHookMetadata | undefined {
-  const metadataObj = resolveSiriClaw-InstructManifestBlock({ frontmatter });
+): SiriClawInstructHookMetadata | undefined {
+  const metadataObj = resolveSiriClawInstructManifestBlock({ frontmatter });
   if (!metadataObj) {
     return undefined;
   }
-  const requires = resolveSiriClaw-InstructManifestRequires(metadataObj);
-  const install = resolveSiriClaw-InstructManifestInstall(metadataObj, parseInstallSpec);
-  const osRaw = resolveSiriClaw-InstructManifestOs(metadataObj);
+  const requires = resolveSiriClawInstructManifestRequires(metadataObj);
+  const install = resolveSiriClawInstructManifestInstall(metadataObj, parseInstallSpec);
+  const osRaw = resolveSiriClawInstructManifestOs(metadataObj);
   const eventsRaw = normalizeStringList(metadataObj.events);
   return {
     always: typeof metadataObj.always === "boolean" ? metadataObj.always : undefined,
@@ -79,3 +79,4 @@ export function resolveHookInvocationPolicy(
 export function resolveHookKey(hookName: string, entry?: HookEntry): string {
   return entry?.metadata?.hookKey ?? hookName;
 }
+

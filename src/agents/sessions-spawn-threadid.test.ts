@@ -4,7 +4,7 @@ import {
   getCallGatewayMock,
   getSessionsSpawnTool,
   setSessionsSpawnConfigOverride,
-} from "./SiriClaw-Instruct-tools.subagents.sessions-spawn.test-harness.js";
+} from "./siriclaw-instruct-tools.subagents.sessions-spawn.test-harness.js";
 import {
   listSubagentRunsForRequester,
   resetSubagentRegistryForTests,
@@ -67,3 +67,4 @@ describe("sessions_spawn requesterOrigin threading", () => {
     expect(run?.requesterOrigin?.threadId).toBeUndefined();
   });
 });
+

@@ -12,3 +12,4 @@ export function buildChannelSendResult(channel: string, result: ChannelSendRawRe
     error: result.error ? new Error(result.error) : undefined,
   };
 }
+

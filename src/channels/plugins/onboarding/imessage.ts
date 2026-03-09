@@ -1,5 +1,5 @@
 import { detectBinary } from "../../../commands/onboard-helpers.js";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import {
   listIMessageAccountIds,
   resolveDefaultIMessageAccountId,
@@ -50,10 +50,10 @@ export function parseIMessageAllowFromEntries(raw: string): { entries: string[];
 }
 
 async function promptIMessageAllowFrom(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<SiriClaw-InstructConfig> {
+}): Promise<SiriClawInstructConfig> {
   return promptParsedAllowFromForScopedChannel({
     cfg: params.cfg,
     channel: "imessage",
@@ -165,7 +165,7 @@ export const imessageOnboardingAdapter: ChannelOnboardingAdapter = {
     await prompter.note(
       [
         "This is still a work in progress.",
-        "Ensure SiriClaw-Instruct has Full Disk Access to Messages DB.",
+        "Ensure SiriClawInstruct has Full Disk Access to Messages DB.",
         "Grant Automation permission for Messages when prompted.",
         "List chats with: imsg chats --limit 20",
         `Docs: ${formatDocsLink("/imessage", "imessage")}`,
@@ -178,3 +178,4 @@ export const imessageOnboardingAdapter: ChannelOnboardingAdapter = {
   dmPolicy,
   disable: (cfg) => setOnboardingChannelEnabled(cfg, channel, false),
 };
+

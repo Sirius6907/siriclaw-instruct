@@ -57,10 +57,10 @@ export async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise
     },
     {
       env: {
-        SiriClaw-Instruct_AGENT_DIR: (home) => path.join(home, ".SiriClaw-Instruct", "agent"),
-        PI_CODING_AGENT_DIR: (home) => path.join(home, ".SiriClaw-Instruct", "agent"),
+        SiriClawInstruct_AGENT_DIR: (home) => path.join(home, ".SiriClawInstruct", "agent"),
+        PI_CODING_AGENT_DIR: (home) => path.join(home, ".SiriClawInstruct", "agent"),
       },
-      prefix: "SiriClaw-Instruct-reply-",
+      prefix: "SiriClawInstruct-reply-",
     },
   );
 }
@@ -77,7 +77,7 @@ export function makeWhatsAppDirectiveConfig(
   return {
     agents: {
       defaults: {
-        workspace: path.join(home, "SiriClaw-Instruct"),
+        workspace: path.join(home, "SiriClawInstruct"),
         ...defaults,
       },
     },
@@ -148,7 +148,7 @@ export function makeRestrictedElevatedDisabledConfig(home: string) {
     agents: {
       defaults: {
         model: "anthropic/claude-opus-4-5",
-        workspace: path.join(home, "SiriClaw-Instruct"),
+        workspace: path.join(home, "SiriClawInstruct"),
       },
       list: [
         {
@@ -168,3 +168,4 @@ export function makeRestrictedElevatedDisabledConfig(home: string) {
     session: { store: path.join(home, "sessions.json") },
   } as const;
 }
+

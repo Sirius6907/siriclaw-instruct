@@ -1,7 +1,7 @@
 import fsPromises from "node:fs/promises";
 import nodePath from "node:path";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { readConfigFileSnapshot, resolveGatewayPort, writeConfigFile } from "../config/config.js";
 import { logConfigUpdated } from "../config/logging.js";
 import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
@@ -49,7 +49,7 @@ import { setupSkills } from "./onboard-skills.js";
 type ConfigureSectionChoice = WizardSection | "__continue";
 
 async function resolveGatewaySecretInputForWizard(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   value: unknown;
   path: string;
 }): Promise<string | undefined> {
@@ -66,7 +66,7 @@ async function resolveGatewaySecretInputForWizard(params: {
 }
 
 async function runGatewayHealthCheck(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   runtime: RuntimeEnv;
   port: number;
 }): Promise<void> {
@@ -89,9 +89,9 @@ async function runGatewayHealthCheck(params: {
     path: "gateway.auth.password",
   });
   const token =
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN ?? process.env.SIRICLAW_GATEWAY_TOKEN ?? configuredToken;
+    process.env.SiriClawInstruct_GATEWAY_TOKEN ?? process.env.SIRICLAW_GATEWAY_TOKEN ?? configuredToken;
   const password =
-    process.env.SiriClaw-Instruct_GATEWAY_PASSWORD ??
+    process.env.SiriClawInstruct_GATEWAY_PASSWORD ??
     process.env.SIRICLAW_GATEWAY_PASSWORD ??
     configuredPassword;
 
@@ -109,8 +109,8 @@ async function runGatewayHealthCheck(params: {
     note(
       [
         "Docs:",
-        "https://docs.SiriClaw-Instruct.ai/gateway/health",
-        "https://docs.SiriClaw-Instruct.ai/gateway/troubleshooting",
+        "https://docs.SiriClawInstruct.ai/gateway/health",
+        "https://docs.SiriClawInstruct.ai/gateway/troubleshooting",
       ].join("\n"),
       "Health check help",
     );
@@ -151,7 +151,7 @@ async function promptChannelMode(runtime: RuntimeEnv): Promise<ChannelsWizardMod
         {
           value: "remove",
           label: "Remove channel config",
-          hint: "Delete channel tokens/settings from SiriClaw-Instruct.json",
+          hint: "Delete channel tokens/settings from SiriClawInstruct.json",
         },
       ],
       initialValue: "configure",
@@ -161,9 +161,9 @@ async function promptChannelMode(runtime: RuntimeEnv): Promise<ChannelsWizardMod
 }
 
 async function promptWebToolsConfig(
-  nextConfig: SiriClaw-InstructConfig,
+  nextConfig: SiriClawInstructConfig,
   runtime: RuntimeEnv,
-): Promise<SiriClaw-InstructConfig> {
+): Promise<SiriClawInstructConfig> {
   const existingSearch = nextConfig.tools?.web?.search;
   const existingFetch = nextConfig.tools?.web?.fetch;
   const {
@@ -195,7 +195,7 @@ async function promptWebToolsConfig(
     [
       "Web search lets your agent look things up online using the `web_search` tool.",
       "Choose a provider and paste your API key.",
-      "Docs: https://docs.SiriClaw-Instruct.ai/tools/web",
+      "Docs: https://docs.SiriClawInstruct.ai/tools/web",
     ].join("\n"),
     "Web search",
   );
@@ -267,7 +267,7 @@ async function promptWebToolsConfig(
           "No key stored yet — web_search won't work until a key is available.",
           `Store a key here or set ${envVarNames} in the Gateway environment.`,
           `Get your API key at: ${entry.signupUrl}`,
-          "Docs: https://docs.SiriClaw-Instruct.ai/tools/web",
+          "Docs: https://docs.SiriClawInstruct.ai/tools/web",
         ].join("\n"),
         "Web search",
       );
@@ -306,11 +306,11 @@ export async function runConfigureWizard(
 ) {
   try {
     printWizardHeader(runtime);
-    intro(opts.command === "update" ? "SiriClaw-Instruct update wizard" : "SiriClaw-Instruct configure");
+    intro(opts.command === "update" ? "SiriClawInstruct update wizard" : "SiriClawInstruct configure");
     const prompter = createClackPrompter();
 
     const snapshot = await readConfigFileSnapshot();
-    const baseConfig: SiriClaw-InstructConfig = snapshot.valid ? snapshot.config : {};
+    const baseConfig: SiriClawInstructConfig = snapshot.valid ? snapshot.config : {};
 
     if (snapshot.exists) {
       const title = snapshot.valid ? "Existing config detected" : "Invalid config";
@@ -320,14 +320,14 @@ export async function runConfigureWizard(
           [
             ...snapshot.issues.map((iss) => `- ${iss.path}: ${iss.message}`),
             "",
-            "Docs: https://docs.SiriClaw-Instruct.ai/gateway/configuration",
+            "Docs: https://docs.SiriClawInstruct.ai/gateway/configuration",
           ].join("\n"),
           "Config issues",
         );
       }
       if (!snapshot.valid) {
         outro(
-          `Config invalid. Run \`${formatCliCommand("SiriClaw-Instruct doctor")}\` to repair it, then re-run configure.`,
+          `Config invalid. Run \`${formatCliCommand("SiriClawInstruct doctor")}\` to repair it, then re-run configure.`,
         );
         runtime.exit(1);
         return;
@@ -348,11 +348,11 @@ export async function runConfigureWizard(
     const localProbe = await probeGatewayReachable({
       url: localUrl,
       token:
-        process.env.SiriClaw-Instruct_GATEWAY_TOKEN ??
+        process.env.SiriClawInstruct_GATEWAY_TOKEN ??
         process.env.SIRICLAW_GATEWAY_TOKEN ??
         baseLocalProbeToken,
       password:
-        process.env.SiriClaw-Instruct_GATEWAY_PASSWORD ??
+        process.env.SiriClawInstruct_GATEWAY_PASSWORD ??
         process.env.SIRICLAW_GATEWAY_PASSWORD ??
         baseLocalProbePassword,
     });
@@ -640,7 +640,7 @@ export async function runConfigureWizard(
     });
     // Try both new and old passwords since gateway may still have old config.
     const newPassword =
-      process.env.SiriClaw-Instruct_GATEWAY_PASSWORD ??
+      process.env.SiriClawInstruct_GATEWAY_PASSWORD ??
       process.env.SIRICLAW_GATEWAY_PASSWORD ??
       (await resolveGatewaySecretInputForWizard({
         cfg: nextConfig,
@@ -648,7 +648,7 @@ export async function runConfigureWizard(
         path: "gateway.auth.password",
       }));
     const oldPassword =
-      process.env.SiriClaw-Instruct_GATEWAY_PASSWORD ??
+      process.env.SiriClawInstruct_GATEWAY_PASSWORD ??
       process.env.SIRICLAW_GATEWAY_PASSWORD ??
       (await resolveGatewaySecretInputForWizard({
         cfg: baseConfig,
@@ -656,7 +656,7 @@ export async function runConfigureWizard(
         path: "gateway.auth.password",
       }));
     const token =
-      process.env.SiriClaw-Instruct_GATEWAY_TOKEN ??
+      process.env.SiriClawInstruct_GATEWAY_TOKEN ??
       process.env.SIRICLAW_GATEWAY_TOKEN ??
       (await resolveGatewaySecretInputForWizard({
         cfg: nextConfig,
@@ -686,7 +686,7 @@ export async function runConfigureWizard(
         `Web UI: ${links.httpUrl}`,
         `Gateway WS: ${links.wsUrl}`,
         gatewayStatusLine,
-        "Docs: https://docs.SiriClaw-Instruct.ai/web/control-ui",
+        "Docs: https://docs.SiriClawInstruct.ai/web/control-ui",
       ].join("\n"),
       "Control UI",
     );
@@ -700,3 +700,4 @@ export async function runConfigureWizard(
     throw err;
   }
 }
+

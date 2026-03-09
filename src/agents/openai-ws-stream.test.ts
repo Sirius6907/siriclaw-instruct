@@ -1285,3 +1285,4 @@ describe("releaseWsSession / hasWsSession", () => {
     expect(() => releaseWsSession("nonexistent-session")).not.toThrow();
   });
 });
+

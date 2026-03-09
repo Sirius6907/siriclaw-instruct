@@ -43,7 +43,7 @@ let cronSuiteCaseId = 0;
 
 async function getCronSuiteTempRoot(): Promise<string> {
   if (!cronSuiteTempRootPromise) {
-    cronSuiteTempRootPromise = fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-gw-cron-suite-"));
+    cronSuiteTempRootPromise = fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-gw-cron-suite-"));
   }
   return await cronSuiteTempRootPromise;
 }
@@ -106,10 +106,10 @@ async function cleanupCronTestRun(params: {
   }
   testState.cronEnabled = undefined;
   if (params.prevSkipCron === undefined) {
-    delete process.env.SiriClaw-Instruct_SKIP_CRON;
+    delete process.env.SiriClawInstruct_SKIP_CRON;
     return;
   }
-  process.env.SiriClaw-Instruct_SKIP_CRON = params.prevSkipCron;
+  process.env.SiriClawInstruct_SKIP_CRON = params.prevSkipCron;
 }
 
 async function setupCronTestRun(params: {
@@ -118,8 +118,8 @@ async function setupCronTestRun(params: {
   sessionConfig?: { mainKey: string };
   jobs?: unknown[];
 }): Promise<{ prevSkipCron: string | undefined; dir: string }> {
-  const prevSkipCron = process.env.SiriClaw-Instruct_SKIP_CRON;
-  process.env.SiriClaw-Instruct_SKIP_CRON = "0";
+  const prevSkipCron = process.env.SiriClawInstruct_SKIP_CRON;
+  process.env.SiriClawInstruct_SKIP_CRON = "0";
   const { dir, storePath } = await createCronCasePaths(params.tempPrefix);
   testState.cronStorePath = storePath;
   testState.sessionConfig = params.sessionConfig;
@@ -214,7 +214,7 @@ describe("gateway server cron", () => {
 
   test("handles cron CRUD, normalization, and patch semantics", { timeout: 20_000 }, async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "SiriClaw-Instruct-gw-cron-",
+      tempPrefix: "SiriClawInstruct-gw-cron-",
       sessionConfig: { mainKey: "primary" },
       cronEnabled: false,
     });
@@ -442,7 +442,7 @@ describe("gateway server cron", () => {
 
   test("writes cron run history and auto-runs due jobs", async () => {
     const { prevSkipCron, dir } = await setupCronTestRun({
-      tempPrefix: "SiriClaw-Instruct-gw-cron-log-",
+      tempPrefix: "SiriClawInstruct-gw-cron-log-",
     });
 
     const { server, ws } = await startServerWithClient();
@@ -563,12 +563,12 @@ describe("gateway server cron", () => {
       state: {},
     };
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "SiriClaw-Instruct-gw-cron-webhook-",
+      tempPrefix: "SiriClawInstruct-gw-cron-webhook-",
       cronEnabled: false,
       jobs: [legacyNotifyJob],
     });
 
-    const configPath = process.env.SiriClaw-Instruct_CONFIG_PATH;
+    const configPath = process.env.SiriClawInstruct_CONFIG_PATH;
     expect(typeof configPath).toBe("string");
     await fs.mkdir(path.dirname(configPath as string), { recursive: true });
     await fs.writeFile(
@@ -707,11 +707,11 @@ describe("gateway server cron", () => {
 
   test("ignores non-string cron.webhookToken values without crashing webhook delivery", async () => {
     const { prevSkipCron } = await setupCronTestRun({
-      tempPrefix: "SiriClaw-Instruct-gw-cron-webhook-secretinput-",
+      tempPrefix: "SiriClawInstruct-gw-cron-webhook-secretinput-",
       cronEnabled: false,
     });
 
-    const configPath = process.env.SiriClaw-Instruct_CONFIG_PATH;
+    const configPath = process.env.SiriClawInstruct_CONFIG_PATH;
     expect(typeof configPath).toBe("string");
     await fs.mkdir(path.dirname(configPath as string), { recursive: true });
     await fs.writeFile(
@@ -765,3 +765,4 @@ describe("gateway server cron", () => {
     }
   }, 45_000);
 });
+

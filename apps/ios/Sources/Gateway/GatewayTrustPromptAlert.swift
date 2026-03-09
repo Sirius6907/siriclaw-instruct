@@ -39,3 +39,4 @@ extension View {
         self.modifier(GatewayTrustPromptAlert())
     }
 }
+

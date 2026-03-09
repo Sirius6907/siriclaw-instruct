@@ -4,7 +4,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-APP_BUNDLE="${SiriClaw-Instruct_APP_BUNDLE:-}"
+APP_BUNDLE="${SIRICLAW_APP_BUNDLE:-}"
 APP_PROCESS_PATTERN="SiriClaw-Instruct.app/Contents/MacOS/SiriClaw-Instruct"
 DEBUG_PROCESS_PATTERN="${ROOT_DIR}/apps/macos/.build/debug/SiriClaw-Instruct"
 LOCAL_PROCESS_PATTERN="${ROOT_DIR}/apps/macos/.build-local/debug/SiriClaw-Instruct"
@@ -14,11 +14,11 @@ LOCK_KEY="$(printf '%s' "${ROOT_DIR}" | shasum -a 256 | cut -c1-8)"
 LOCK_DIR="${TMPDIR:-/tmp}/SiriClaw-Instruct-restart-${LOCK_KEY}"
 LOCK_PID_FILE="${LOCK_DIR}/pid"
 WAIT_FOR_LOCK=0
-LOG_PATH="${SiriClaw-Instruct_RESTART_LOG:-/tmp/SiriClaw-Instruct-restart.log}"
+LOG_PATH="${SIRICLAW_RESTART_LOG:-/tmp/SiriClaw-Instruct-restart.log}"
 NO_SIGN=0
 SIGN=0
 AUTO_DETECT_SIGNING=1
-GATEWAY_WAIT_SECONDS="${SiriClaw-Instruct_GATEWAY_WAIT_SECONDS:-0}"
+GATEWAY_WAIT_SECONDS="${SIRICLAW_GATEWAY_WAIT_SECONDS:-0}"
 LAUNCHAGENT_DISABLE_MARKER="${HOME}/.SiriClaw-Instruct/disable-launchagent"
 ATTACH_ONLY=1
 
@@ -93,7 +93,7 @@ for arg in "$@"; do
       log "  --no-attach-only Launch app without attach-only override"
       log ""
       log "Env:"
-      log "  SiriClaw-Instruct_GATEWAY_WAIT_SECONDS=0  Wait time before gateway port check (unsigned only)"
+      log "  SIRICLAW_GATEWAY_WAIT_SECONDS=0  Wait time before gateway port check (unsigned only)"
       log ""
       log "Unsigned recovery:"
       log "  node SiriClaw-Instruct.mjs daemon install --force --runtime node"
@@ -204,7 +204,7 @@ choose_app_bundle() {
     return 0
   fi
 
-  fail "App bundle not found. Set SiriClaw-Instruct_APP_BUNDLE to your installed SiriClaw-Instruct.app"
+  fail "App bundle not found. Set SIRICLAW_APP_BUNDLE to your installed SiriClaw-Instruct.app"
 }
 
 choose_app_bundle

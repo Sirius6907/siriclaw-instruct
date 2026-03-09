@@ -10,7 +10,8 @@ export function registerClawbotCli(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/clawbot", "docs.SiriClaw-Instruct.ai/cli/clawbot")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/clawbot", "docs.SiriClawInstruct.ai/cli/clawbot")}\n`,
     );
   registerQrCli(clawbot);
 }
+

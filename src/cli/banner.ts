@@ -61,7 +61,7 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
   const commitLabel = commit ?? "unknown";
   const tagline = pickTagline({ ...options, mode: resolveTaglineMode(options) });
   const rich = options.richTty ?? isRich();
-  const title = "🦞 SiriClaw-Instruct";
+  const title = "🦞 SiriClawInstruct";
   const prefix = "🦞 ";
   const columns = options.columns ?? process.stdout.columns ?? 120;
   const plainBaseLine = `${title} ${version} (${commitLabel})`;
@@ -102,7 +102,7 @@ const LOBSTER_ASCII = [
   "██░███░██░▀▀░██░▄▄▄██░█░█░██░█████░████░▀▀░██░█░█░██",
   "██░▀▀▀░██░█████░▀▀▀██░██▄░██░▀▀▄██░▀▀░█░██░██▄▀▄▀▄██",
   "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
-  "                  🦞 SiriClaw-Instruct 🦞                    ",
+  "                  🦞 SiriClawInstruct 🦞                    ",
   " ",
 ];
 
@@ -126,11 +126,11 @@ export function formatCliBannerArt(options: BannerOptions = {}): string {
   };
 
   const colored = LOBSTER_ASCII.map((line) => {
-    if (line.includes("SiriClaw-Instruct")) {
+    if (line.includes("SiriClawInstruct")) {
       return (
         theme.muted("              ") +
         theme.accent("🦞") +
-        theme.info(" SiriClaw-Instruct ") +
+        theme.info(" SiriClawInstruct ") +
         theme.accent("🦞")
       );
     }
@@ -162,3 +162,4 @@ export function emitCliBanner(version: string, options: BannerOptions = {}) {
 export function hasEmittedCliBanner(): boolean {
   return bannerEmitted;
 }
+

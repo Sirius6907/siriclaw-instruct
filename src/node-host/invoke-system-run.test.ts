@@ -159,17 +159,17 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     approvals: Parameters<typeof saveExecApprovals>[0];
     run: (ctx: { tempHome: string }) => Promise<T>;
   }): Promise<T> {
-    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-exec-approvals-"));
-    const previousSiriClaw-InstructHome = process.env.SiriClaw-Instruct_HOME;
-    process.env.SiriClaw-Instruct_HOME = tempHome;
+    const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-exec-approvals-"));
+    const previousSiriClawInstructHome = process.env.SiriClawInstruct_HOME;
+    process.env.SiriClawInstruct_HOME = tempHome;
     saveExecApprovals(params.approvals);
     try {
       return await params.run({ tempHome });
     } finally {
-      if (previousSiriClaw-InstructHome === undefined) {
-        delete process.env.SiriClaw-Instruct_HOME;
+      if (previousSiriClawInstructHome === undefined) {
+        delete process.env.SiriClawInstruct_HOME;
       } else {
-        process.env.SiriClaw-Instruct_HOME = previousSiriClaw-InstructHome;
+        process.env.SiriClawInstruct_HOME = previousSiriClawInstructHome;
       }
       fs.rmSync(tempHome, { recursive: true, force: true });
     }
@@ -407,7 +407,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
 
   for (const testCase of approvedEnvShellWrapperCases) {
     it.runIf(process.platform !== "win32")(testCase.name, async () => {
-      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-approved-wrapper-"));
+      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-approved-wrapper-"));
       const marker = path.join(tmp, "marker");
       const attackerScript = path.join(tmp, "sh");
       fs.writeFileSync(attackerScript, "#!/bin/sh\necho exploited > marker\n");
@@ -502,7 +502,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     "pins PATH-token executable to canonical path for approval-based runs",
     async () => {
       await withPathTokenCommand({
-        tmpPrefix: "SiriClaw-Instruct-approval-path-pin-",
+        tmpPrefix: "SiriClawInstruct-approval-path-pin-",
         run: async ({ expected }) => {
           const { runCommand, sendInvokeResult } = await runSystemInvoke({
             preferMacAppExecHost: false,
@@ -526,7 +526,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     "accepts prepared plans after PATH-token hardening rewrites argv",
     async () => {
       await withPathTokenCommand({
-        tmpPrefix: "SiriClaw-Instruct-prepare-run-path-pin-",
+        tmpPrefix: "SiriClawInstruct-prepare-run-path-pin-",
         run: async ({ expected }) => {
           const prepared = buildSystemRunApprovalPlan({
             command: ["poccmd", "hello"],
@@ -563,7 +563,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
       }));
       const sendInvokeResult = vi.fn(async () => {});
       await withPathTokenCommand({
-        tmpPrefix: "SiriClaw-Instruct-allowlist-path-pin-",
+        tmpPrefix: "SiriClawInstruct-allowlist-path-pin-",
         run: async ({ link, expected }) => {
           await withTempApprovalsHome({
             approvals: {
@@ -604,7 +604,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   it.runIf(process.platform !== "win32")(
     "denies approval-based execution when cwd is a symlink",
     async () => {
-      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-approval-cwd-link-"));
+      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-approval-cwd-link-"));
       const safeDir = path.join(tmp, "safe");
       const linkDir = path.join(tmp, "cwd-link");
       const script = path.join(safeDir, "run.sh");
@@ -632,7 +632,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   it.runIf(process.platform !== "win32")(
     "denies approval-based execution when cwd contains a symlink parent component",
     async () => {
-      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-approval-cwd-parent-link-"));
+      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-approval-cwd-parent-link-"));
       const safeRoot = path.join(tmp, "safe-root");
       const safeSub = path.join(safeRoot, "sub");
       const linkRoot = path.join(tmp, "approved-link");
@@ -656,7 +656,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   );
 
   it("uses canonical executable path for approval-based relative command execution", async () => {
-    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-approval-cwd-real-"));
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-approval-cwd-real-"));
     const script = path.join(tmp, "run.sh");
     fs.writeFileSync(script, "#!/bin/sh\necho SAFE\n");
     fs.chmodSync(script, 0o755);
@@ -682,8 +682,8 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   });
 
   it("denies approval-based execution when cwd identity drifts before execution", async () => {
-    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-approval-cwd-drift-"));
-    const fallback = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-approval-cwd-drift-alt-"));
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-approval-cwd-drift-"));
+    const fallback = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-approval-cwd-drift-alt-"));
     const script = path.join(tmp, "run.sh");
     fs.writeFileSync(script, "#!/bin/sh\necho SAFE\n");
     fs.chmodSync(script, 0o755);
@@ -715,7 +715,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   });
 
   it("denies approval-based execution when a script operand changes after approval", async () => {
-    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-approval-script-drift-"));
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-approval-script-drift-"));
     const fixture = createMutableScriptOperandFixture(tmp);
     fs.writeFileSync(fixture.scriptPath, fixture.initialBody);
     if (process.platform !== "win32") {
@@ -754,7 +754,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   });
 
   it("keeps approved shell script execution working when the script is unchanged", async () => {
-    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-approval-script-stable-"));
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-approval-script-stable-"));
     const fixture = createMutableScriptOperandFixture(tmp);
     fs.writeFileSync(fixture.scriptPath, fixture.initialBody);
     if (process.platform !== "win32") {
@@ -789,7 +789,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   });
 
   it("denies ./sh wrapper spoof in allowlist on-miss mode before execution", async () => {
-    const marker = path.join(os.tmpdir(), `SiriClaw-Instruct-wrapper-spoof-${process.pid}-${Date.now()}`);
+    const marker = path.join(os.tmpdir(), `SiriClawInstruct-wrapper-spoof-${process.pid}-${Date.now()}`);
     const runCommand = vi.fn(async () => {
       fs.writeFileSync(marker, "executed");
       return createLocalRunResult();
@@ -855,7 +855,7 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
   });
 
   it("denies semicolon-chained shell payloads in allowlist mode without explicit approval", async () => {
-    const payloads = ["SiriClaw-Instruct status; id", "SiriClaw-Instruct status; cat /etc/passwd"];
+    const payloads = ["SiriClawInstruct status; id", "SiriClawInstruct status; cat /etc/passwd"];
     for (const payload of payloads) {
       const command =
         process.platform === "win32"
@@ -949,3 +949,4 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     });
   });
 });
+

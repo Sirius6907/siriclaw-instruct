@@ -3,7 +3,7 @@ import "./reply.directive.directive-behavior.e2e-mocks.js";
 import { describe, expect, it, vi } from "vitest";
 import { withTempHome as withTempHomeBase } from "../../test/helpers/temp-home.js";
 import { runEmbeddedPiAgent } from "../agents/pi-embedded.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { getReplyFromConfig } from "./reply.js";
 
 function makeResult(text: string) {
@@ -24,9 +24,9 @@ async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
     },
     {
       env: {
-        SiriClaw-Instruct_BUNDLED_SKILLS_DIR: (home) => path.join(home, "bundled-skills"),
+        SiriClawInstruct_BUNDLED_SKILLS_DIR: (home) => path.join(home, "bundled-skills"),
       },
-      prefix: "SiriClaw-Instruct-media-note-",
+      prefix: "SiriClawInstruct-media-note-",
     },
   );
 }
@@ -36,12 +36,12 @@ function makeCfg(home: string) {
     agents: {
       defaults: {
         model: "anthropic/claude-opus-4-5",
-        workspace: path.join(home, "SiriClaw-Instruct"),
+        workspace: path.join(home, "SiriClawInstruct"),
       },
     },
     channels: { whatsapp: { allowFrom: ["*"] } },
     session: { store: path.join(home, "sessions.json") },
-  } as unknown as SiriClaw-InstructConfig;
+  } as unknown as SiriClawInstructConfig;
 }
 
 describe("getReplyFromConfig media note plumbing", () => {
@@ -80,3 +80,4 @@ describe("getReplyFromConfig media note plumbing", () => {
     });
   });
 });
+

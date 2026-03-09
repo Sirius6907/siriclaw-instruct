@@ -1,6 +1,6 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
-export function buildModelAliasLines(cfg?: SiriClaw-InstructConfig) {
+export function buildModelAliasLines(cfg?: SiriClawInstructConfig) {
   const models = cfg?.agents?.defaults?.models ?? {};
   const entries: Array<{ alias: string; model: string }> = [];
   for (const [keyRaw, entryRaw] of Object.entries(models)) {
@@ -18,3 +18,4 @@ export function buildModelAliasLines(cfg?: SiriClaw-InstructConfig) {
     .toSorted((a, b) => a.alias.localeCompare(b.alias))
     .map((entry) => `- ${entry.alias}: ${entry.model}`);
 }
+

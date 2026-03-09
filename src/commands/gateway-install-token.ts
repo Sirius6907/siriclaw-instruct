@@ -1,5 +1,5 @@
 import { formatCliCommand } from "../cli/command-format.js";
-import { readConfigFileSnapshot, writeConfigFile, type SiriClaw-InstructConfig } from "../config/config.js";
+import { readConfigFileSnapshot, writeConfigFile, type SiriClawInstructConfig } from "../config/config.js";
 import { resolveSecretInputRef } from "../config/types.secrets.js";
 import { shouldRequireGatewayTokenForInstall } from "../gateway/auth-install-policy.js";
 import { hasAmbiguousGatewayAuthModeConfig } from "../gateway/auth-mode-policy.js";
@@ -10,7 +10,7 @@ import { resolveSecretRefValues } from "../secrets/resolve.js";
 import { randomToken } from "./onboard-helpers.js";
 
 type GatewayInstallTokenOptions = {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   env: NodeJS.ProcessEnv;
   explicitToken?: string;
   autoGenerateWhenMissing?: boolean;
@@ -27,7 +27,7 @@ export type GatewayInstallTokenResolution = {
 function formatAmbiguousGatewayAuthModeReason(): string {
   return [
     "gateway.auth.token and gateway.auth.password are both configured while gateway.auth.mode is unset.",
-    `Set ${formatCliCommand("SiriClaw-Instruct config set gateway.auth.mode token")} or ${formatCliCommand("SiriClaw-Instruct config set gateway.auth.mode password")}.`,
+    `Set ${formatCliCommand("SiriClawInstruct config set gateway.auth.mode token")} or ${formatCliCommand("SiriClawInstruct config set gateway.auth.mode password")}.`,
   ].join(" ");
 }
 
@@ -145,3 +145,4 @@ export async function resolveGatewayInstallToken(
     warnings,
   };
 }
+

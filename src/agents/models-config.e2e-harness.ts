@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, vi } from "vitest";
 import { withTempHome as withTempHomeBase } from "../../test/helpers/temp-home.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { MockFn } from "../test-utils/vitest-mock-fn.js";
 
 export async function withModelsTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
-  return withTempHomeBase(fn, { prefix: "SiriClaw-Instruct-models-" });
+  return withTempHomeBase(fn, { prefix: "SiriClawInstruct-models-" });
 }
 
 export function installModelsConfigTestHooks(opts?: { restoreFetch?: boolean }) {
@@ -95,7 +95,7 @@ export const MODELS_CONFIG_IMPLICIT_ENV_VARS = [
   "MOONSHOT_API_KEY",
   "NVIDIA_API_KEY",
   "OLLAMA_API_KEY",
-  "SiriClaw-Instruct_AGENT_DIR",
+  "SiriClawInstruct_AGENT_DIR",
   "OPENAI_API_KEY",
   "OPENROUTER_API_KEY",
   "PI_CODING_AGENT_DIR",
@@ -123,7 +123,7 @@ export const MODELS_CONFIG_IMPLICIT_ENV_VARS = [
   "AWS_SHARED_CREDENTIALS_FILE",
 ];
 
-export const CUSTOM_PROXY_MODELS_CONFIG: SiriClaw-InstructConfig = {
+export const CUSTOM_PROXY_MODELS_CONFIG: SiriClawInstructConfig = {
   models: {
     providers: {
       "custom-proxy": {
@@ -146,3 +146,4 @@ export const CUSTOM_PROXY_MODELS_CONFIG: SiriClaw-InstructConfig = {
     },
   },
 };
+

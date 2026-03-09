@@ -1,11 +1,11 @@
 import type { App } from "@slack/bolt";
-import type { SiriClaw-InstructConfig } from "../../../config/config.js";
+import type { SiriClawInstructConfig } from "../../../config/config.js";
 import type { RuntimeEnv } from "../../../runtime.js";
 import type { ResolvedSlackAccount } from "../../accounts.js";
 import { createSlackMonitorContext } from "../context.js";
 
 export function createInboundSlackTestContext(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   appClient?: App["client"];
   defaultRequireMention?: boolean;
   replyToMode?: "off" | "all" | "first";
@@ -40,7 +40,7 @@ export function createInboundSlackTestContext(params: {
     threadInheritParent: false,
     slashCommand: {
       enabled: false,
-      name: "SiriClaw-Instruct",
+      name: "SiriClawInstruct",
       sessionPrefix: "slack:slash",
       ephemeral: true,
     },
@@ -67,3 +67,4 @@ export function createSlackTestAccount(
     dm: config.dm,
   };
 }
+

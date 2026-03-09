@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from "node:util";
 import chokidar from "chokidar";
-import type { SiriClaw-InstructConfig, ConfigFileSnapshot, GatewayReloadMode } from "../config/config.js";
+import type { SiriClawInstructConfig, ConfigFileSnapshot, GatewayReloadMode } from "../config/config.js";
 import { formatConfigIssueLines } from "../config/issue-format.js";
 import { isPlainObject } from "../utils.js";
 import { buildGatewayReloadPlan, type GatewayReloadPlan } from "./config-reload-plan.js";
@@ -51,7 +51,7 @@ export function diffConfigPaths(prev: unknown, next: unknown, prefix = ""): stri
   return [prefix || "<root>"];
 }
 
-export function resolveGatewayReloadSettings(cfg: SiriClaw-InstructConfig): GatewayReloadSettings {
+export function resolveGatewayReloadSettings(cfg: SiriClawInstructConfig): GatewayReloadSettings {
   const rawMode = cfg.gateway?.reload?.mode;
   const mode =
     rawMode === "off" || rawMode === "restart" || rawMode === "hot" || rawMode === "hybrid"
@@ -70,10 +70,10 @@ export type GatewayConfigReloader = {
 };
 
 export function startGatewayConfigReloader(opts: {
-  initialConfig: SiriClaw-InstructConfig;
+  initialConfig: SiriClawInstructConfig;
   readSnapshot: () => Promise<ConfigFileSnapshot>;
-  onHotReload: (plan: GatewayReloadPlan, nextConfig: SiriClaw-InstructConfig) => Promise<void>;
-  onRestart: (plan: GatewayReloadPlan, nextConfig: SiriClaw-InstructConfig) => void | Promise<void>;
+  onHotReload: (plan: GatewayReloadPlan, nextConfig: SiriClawInstructConfig) => Promise<void>;
+  onRestart: (plan: GatewayReloadPlan, nextConfig: SiriClawInstructConfig) => void | Promise<void>;
   log: {
     info: (msg: string) => void;
     warn: (msg: string) => void;
@@ -104,7 +104,7 @@ export function startGatewayConfigReloader(opts: {
   const schedule = () => {
     scheduleAfter(settings.debounceMs);
   };
-  const queueRestart = (plan: GatewayReloadPlan, nextConfig: SiriClaw-InstructConfig) => {
+  const queueRestart = (plan: GatewayReloadPlan, nextConfig: SiriClawInstructConfig) => {
     if (restartQueued) {
       return;
     }
@@ -147,7 +147,7 @@ export function startGatewayConfigReloader(opts: {
     return true;
   };
 
-  const applySnapshot = async (nextConfig: SiriClaw-InstructConfig) => {
+  const applySnapshot = async (nextConfig: SiriClawInstructConfig) => {
     const changedPaths = diffConfigPaths(currentConfig, nextConfig);
     currentConfig = nextConfig;
     settings = resolveGatewayReloadSettings(nextConfig);
@@ -245,3 +245,4 @@ export function startGatewayConfigReloader(opts: {
     },
   };
 }
+

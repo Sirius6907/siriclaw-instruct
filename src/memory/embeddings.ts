@@ -1,6 +1,6 @@
 import fsSync from "node:fs";
 import type { Llama, LlamaEmbeddingContext, LlamaModel } from "node-llama-cpp";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { SecretInput } from "../config/types.secrets.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { resolveUserPath } from "../utils.js";
@@ -60,7 +60,7 @@ export type EmbeddingProviderResult = {
 };
 
 export type EmbeddingProviderOptions = {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   agentDir?: string;
   provider: EmbeddingProviderRequest;
   remote?: {
@@ -310,7 +310,7 @@ function formatLocalSetupError(err: unknown): string {
     "To enable local embeddings:",
     "1) Use Node 22 LTS (recommended for installs/updates)",
     missing
-      ? "2) Reinstall SiriClaw-Instruct (this should install node-llama-cpp): npm i -g SiriClaw-Instruct@latest"
+      ? "2) Reinstall SiriClawInstruct (this should install node-llama-cpp): npm i -g SiriClawInstruct@latest"
       : null,
     "3) If you use pnpm: pnpm approve-builds (select node-llama-cpp), then pnpm rebuild node-llama-cpp",
     ...REMOTE_EMBEDDING_PROVIDER_IDS.map(
@@ -320,3 +320,4 @@ function formatLocalSetupError(err: unknown): string {
     .filter(Boolean)
     .join("\n");
 }
+

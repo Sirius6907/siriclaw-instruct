@@ -8,7 +8,7 @@ const HOME_ENV_KEYS = [
   "USERPROFILE",
   "HOMEDRIVE",
   "HOMEPATH",
-  "SiriClaw-Instruct_STATE_DIR",
+  "SiriClawInstruct_STATE_DIR",
 ] as const;
 
 export type TempHomeEnv = {
@@ -18,12 +18,12 @@ export type TempHomeEnv = {
 
 export async function createTempHomeEnv(prefix: string): Promise<TempHomeEnv> {
   const home = await fs.mkdtemp(path.join(os.tmpdir(), prefix));
-  await fs.mkdir(path.join(home, ".SiriClaw-Instruct"), { recursive: true });
+  await fs.mkdir(path.join(home, ".SiriClawInstruct"), { recursive: true });
 
   const snapshot = captureEnv([...HOME_ENV_KEYS]);
   process.env.HOME = home;
   process.env.USERPROFILE = home;
-  process.env.SiriClaw-Instruct_STATE_DIR = path.join(home, ".SiriClaw-Instruct");
+  process.env.SiriClawInstruct_STATE_DIR = path.join(home, ".SiriClawInstruct");
 
   if (process.platform === "win32") {
     const match = home.match(/^([A-Za-z]:)(.*)$/);
@@ -41,3 +41,4 @@ export async function createTempHomeEnv(prefix: string): Promise<TempHomeEnv> {
     },
   };
 }
+

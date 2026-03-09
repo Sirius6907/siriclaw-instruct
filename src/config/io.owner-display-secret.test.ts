@@ -21,8 +21,8 @@ async function waitForPersistedSecret(configPath: string, expectedSecret: string
 
 describe("config io owner display secret autofill", () => {
   it("auto-generates and persists commands.ownerDisplaySecret in hash mode", async () => {
-    await withTempHome("SiriClaw-Instruct-owner-display-secret-", async (home) => {
-      const configPath = path.join(home, ".SiriClaw-Instruct", "SiriClaw-Instruct.json");
+    await withTempHome("SiriClawInstruct-owner-display-secret-", async (home) => {
+      const configPath = path.join(home, ".SiriClawInstruct", "SiriClawInstruct.json");
       await fs.mkdir(path.dirname(configPath), { recursive: true });
       await fs.writeFile(
         configPath,
@@ -46,3 +46,4 @@ describe("config io owner display secret autofill", () => {
     });
   });
 });
+

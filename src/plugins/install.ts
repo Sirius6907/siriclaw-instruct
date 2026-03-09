@@ -46,12 +46,12 @@ type PackageManifest = PluginPackageManifest & {
 };
 
 const MISSING_EXTENSIONS_ERROR =
-  'package.json missing SiriClaw-Instruct.extensions; update the plugin package to include SiriClaw-Instruct.extensions (for example ["./dist/index.js"]). See https://docs.SiriClaw-Instruct.ai/help/troubleshooting#plugin-install-fails-with-missing-SiriClaw-Instruct-extensions';
+  'package.json missing SiriClawInstruct.extensions; update the plugin package to include SiriClawInstruct.extensions (for example ["./dist/index.js"]). See https://docs.SiriClawInstruct.ai/help/troubleshooting#plugin-install-fails-with-missing-SiriClawInstruct-extensions';
 
 export const PLUGIN_INSTALL_ERROR_CODE = {
   INVALID_NPM_SPEC: "invalid_npm_spec",
-  MISSING_SiriClaw-Instruct_EXTENSIONS: "missing_SiriClaw-Instruct_extensions",
-  EMPTY_SiriClaw-Instruct_EXTENSIONS: "empty_SiriClaw-Instruct_extensions",
+  MISSING_SiriClawInstruct_EXTENSIONS: "missing_SiriClawInstruct_extensions",
+  EMPTY_SiriClawInstruct_EXTENSIONS: "empty_SiriClawInstruct_extensions",
   NPM_PACKAGE_NOT_FOUND: "npm_package_not_found",
   PLUGIN_ID_MISMATCH: "plugin_id_mismatch",
 } as const;
@@ -97,7 +97,7 @@ function validatePluginId(pluginId: string): string | null {
   return null;
 }
 
-function ensureSiriClaw-InstructExtensions(params: { manifest: PackageManifest }):
+function ensureSiriClawInstructExtensions(params: { manifest: PackageManifest }):
   | {
       ok: true;
       entries: string[];
@@ -112,14 +112,14 @@ function ensureSiriClaw-InstructExtensions(params: { manifest: PackageManifest }
     return {
       ok: false,
       error: MISSING_EXTENSIONS_ERROR,
-      code: PLUGIN_INSTALL_ERROR_CODE.MISSING_SiriClaw-Instruct_EXTENSIONS,
+      code: PLUGIN_INSTALL_ERROR_CODE.MISSING_SiriClawInstruct_EXTENSIONS,
     };
   }
   if (resolved.status === "empty") {
     return {
       ok: false,
-      error: "package.json SiriClaw-Instruct.extensions is empty",
-      code: PLUGIN_INSTALL_ERROR_CODE.EMPTY_SiriClaw-Instruct_EXTENSIONS,
+      error: "package.json SiriClawInstruct.extensions is empty",
+      code: PLUGIN_INSTALL_ERROR_CODE.EMPTY_SiriClawInstruct_EXTENSIONS,
     };
   }
   return {
@@ -221,7 +221,7 @@ async function installPluginFromPackageDir(
     return { ok: false, error: `invalid package.json: ${String(err)}` };
   }
 
-  const extensionsResult = ensureSiriClaw-InstructExtensions({
+  const extensionsResult = ensureSiriClawInstructExtensions({
     manifest,
   });
   if (!extensionsResult.ok) {
@@ -236,9 +236,9 @@ async function installPluginFromPackageDir(
   const pkgName = typeof manifest.name === "string" ? manifest.name : "";
   const npmPluginId = pkgName ? unscopedPackageName(pkgName) : "plugin";
 
-  // Prefer the canonical `id` from SiriClaw-Instruct.plugin.json over the npm package name.
+  // Prefer the canonical `id` from SiriClawInstruct.plugin.json over the npm package name.
   // This avoids a latent key-mismatch bug: if the manifest id (e.g. "memory-cognee")
-  // differs from the npm package name (e.g. "cognee-SiriClaw-Instruct"), the plugin registry
+  // differs from the npm package name (e.g. "cognee-SiriClawInstruct"), the plugin registry
   // uses the manifest id as the authoritative key, so the config entry must match it.
   const ocManifestResult = loadPluginManifest(params.packageDir);
   const manifestPluginId =
@@ -296,12 +296,12 @@ async function installPluginFromPackageDir(
       );
     } else if (scanSummary.warn > 0) {
       logger.warn?.(
-        `Plugin "${pluginId}" has ${scanSummary.warn} suspicious code pattern(s). Run "SiriClaw-Instruct security audit --deep" for details.`,
+        `Plugin "${pluginId}" has ${scanSummary.warn} suspicious code pattern(s). Run "SiriClawInstruct security audit --deep" for details.`,
       );
     }
   } catch (err) {
     logger.warn?.(
-      `Plugin "${pluginId}" code safety scan failed (${String(err)}). Installation continues; run "SiriClaw-Instruct security audit --deep" after install.`,
+      `Plugin "${pluginId}" code safety scan failed (${String(err)}). Installation continues; run "SiriClawInstruct security audit --deep" after install.`,
     );
   }
 
@@ -392,7 +392,7 @@ export async function installPluginFromArchive(
 
   return await withExtractedArchiveRoot({
     archivePath,
-    tempDirPrefix: "SiriClaw-Instruct-plugin-",
+    tempDirPrefix: "SiriClawInstruct-plugin-",
     timeoutMs,
     logger,
     onExtracted: async (packageDir) =>
@@ -509,7 +509,7 @@ export async function installPluginFromNpmSpec(params: {
 
   logger.info?.(`Downloading ${spec}…`);
   const flowResult = await installFromNpmSpecArchiveWithInstaller({
-    tempDirPrefix: "SiriClaw-Instruct-npm-pack-",
+    tempDirPrefix: "SiriClawInstruct-npm-pack-",
     spec,
     timeoutMs,
     expectedIntegrity: params.expectedIntegrity,
@@ -570,3 +570,4 @@ export async function installPluginFromPath(
     ...pickFileInstallCommonParams(params),
   });
 }
+

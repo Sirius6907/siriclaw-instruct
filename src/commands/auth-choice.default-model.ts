@@ -1,17 +1,17 @@
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
 import { ensureModelAllowlistEntry } from "./model-allowlist.js";
 
 export async function applyDefaultModelChoice(params: {
-  config: SiriClaw-InstructConfig;
+  config: SiriClawInstructConfig;
   setDefaultModel: boolean;
   defaultModel: string;
-  applyDefaultConfig: (config: SiriClaw-InstructConfig) => SiriClaw-InstructConfig;
-  applyProviderConfig: (config: SiriClaw-InstructConfig) => SiriClaw-InstructConfig;
+  applyDefaultConfig: (config: SiriClawInstructConfig) => SiriClawInstructConfig;
+  applyProviderConfig: (config: SiriClawInstructConfig) => SiriClawInstructConfig;
   noteDefault?: string;
   noteAgentModel: (model: string) => Promise<void>;
   prompter: WizardPrompter;
-}): Promise<{ config: SiriClaw-InstructConfig; agentModelOverride?: string }> {
+}): Promise<{ config: SiriClawInstructConfig; agentModelOverride?: string }> {
   if (params.setDefaultModel) {
     const next = params.applyDefaultConfig(params.config);
     if (params.noteDefault) {
@@ -28,3 +28,4 @@ export async function applyDefaultModelChoice(params: {
   await params.noteAgentModel(params.defaultModel);
   return { config: nextWithModel, agentModelOverride: params.defaultModel };
 }
+

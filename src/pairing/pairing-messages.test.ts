@@ -6,8 +6,8 @@ describe("buildPairingReply", () => {
   let envSnapshot: ReturnType<typeof captureEnv>;
 
   beforeEach(() => {
-    envSnapshot = captureEnv(["SiriClaw-Instruct_PROFILE"]);
-    process.env.SiriClaw-Instruct_PROFILE = "isolated";
+    envSnapshot = captureEnv(["SiriClawInstruct_PROFILE"]);
+    process.env.SiriClawInstruct_PROFILE = "isolated";
   });
 
   afterEach(() => {
@@ -52,11 +52,12 @@ describe("buildPairingReply", () => {
       const text = buildPairingReply(testCase);
       expect(text).toContain(testCase.idLine);
       expect(text).toContain(`Pairing code: ${testCase.code}`);
-      // CLI commands should respect SiriClaw-Instruct_PROFILE when set (most tests run with isolated profile)
+      // CLI commands should respect SiriClawInstruct_PROFILE when set (most tests run with isolated profile)
       const commandRe = new RegExp(
-        `(?:SiriClaw-Instruct|SiriClaw-Instruct) --profile isolated pairing approve ${testCase.channel} ${testCase.code}`,
+        `(?:SiriClawInstruct|SiriClawInstruct) --profile isolated pairing approve ${testCase.channel} ${testCase.code}`,
       );
       expect(text).toMatch(commandRe);
     });
   }
 });
+

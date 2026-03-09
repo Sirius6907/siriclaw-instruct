@@ -3,5 +3,6 @@
 
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 export { buildOauthProviderAuthResult } from "./provider-auth-result.js";
-export type { SiriClaw-InstructPluginApi, ProviderAuthContext } from "../plugins/types.js";
+export type { SiriClawInstructPluginApi, ProviderAuthContext } from "../plugins/types.js";
 export { generatePkceVerifierChallenge, toFormUrlEncoded } from "./oauth-utils.js";
+

@@ -46,3 +46,4 @@ export function resolveSessionKey(scope: SessionScope, ctx: MsgContext, mainKey?
   }
   return `agent:${DEFAULT_AGENT_ID}:${raw}`;
 }
+

@@ -51,3 +51,4 @@ describe("isNonRecoverableAuthError", () => {
     expect(isNonRecoverableAuthError(makeError("SOME_FUTURE_CODE"))).toBe(false);
   });
 });
+

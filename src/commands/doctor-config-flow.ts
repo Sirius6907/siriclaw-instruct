@@ -11,13 +11,13 @@ import { formatCliCommand } from "../cli/command-format.js";
 import { resolveCommandSecretRefsViaGateway } from "../cli/command-secret-gateway.js";
 import { getChannelsCommandSecretTargetIds } from "../cli/command-secret-targets.js";
 import { listRouteBindings } from "../config/bindings.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { CONFIG_PATH, migrateLegacyConfig, readConfigFileSnapshot } from "../config/config.js";
 import { collectProviderDangerousNameMatchingScopes } from "../config/dangerous-name-matching.js";
 import { formatConfigIssueLines } from "../config/issue-format.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
 import { parseToolsBySenderTypedKey } from "../config/types.tools.js";
-import { SiriClaw-InstructSchema } from "../config/zod-schema.js";
+import { SiriClawInstructSchema } from "../config/zod-schema.js";
 import { resolveCommandResolutionFromArgv } from "../infra/exec-command-resolution.js";
 import {
   listInterpreterLikeSafeBins,
@@ -108,11 +108,11 @@ function resolvePathTarget(root: unknown, path: Array<string | number>): unknown
   return current;
 }
 
-function stripUnknownConfigKeys(config: SiriClaw-InstructConfig): {
-  config: SiriClaw-InstructConfig;
+function stripUnknownConfigKeys(config: SiriClawInstructConfig): {
+  config: SiriClawInstructConfig;
   removed: string[];
 } {
-  const parsed = SiriClaw-InstructSchema.safeParse(config);
+  const parsed = SiriClawInstructSchema.safeParse(config);
   if (parsed.success) {
     return { config, removed: [] };
   }
@@ -144,7 +144,7 @@ function stripUnknownConfigKeys(config: SiriClaw-InstructConfig): {
   return { config: next, removed };
 }
 
-function noteOpencodeProviderOverrides(cfg: SiriClaw-InstructConfig) {
+function noteOpencodeProviderOverrides(cfg: SiriClawInstructConfig) {
   const providers = cfg.models?.providers;
   if (!providers) {
     return;
@@ -235,7 +235,7 @@ type ChannelMissingDefaultAccountContext = {
 };
 
 function collectChannelsMissingDefaultAccount(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
 ): ChannelMissingDefaultAccountContext[] {
   const channels = asObjectRecord(cfg.channels);
   if (!channels) {
@@ -268,7 +268,7 @@ function collectChannelsMissingDefaultAccount(
   return contexts;
 }
 
-export function collectMissingDefaultAccountBindingWarnings(cfg: SiriClaw-InstructConfig): string[] {
+export function collectMissingDefaultAccountBindingWarnings(cfg: SiriClawInstructConfig): string[] {
   const bindings = listRouteBindings(cfg);
   const warnings: string[] = [];
 
@@ -333,7 +333,7 @@ export function collectMissingDefaultAccountBindingWarnings(cfg: SiriClaw-Instru
   return warnings;
 }
 
-export function collectMissingExplicitDefaultAccountWarnings(cfg: SiriClaw-InstructConfig): string[] {
+export function collectMissingExplicitDefaultAccountWarnings(cfg: SiriClawInstructConfig): string[] {
   const warnings: string[] = [];
   for (const { channelKey, channel, normalizedAccountIds } of collectChannelsMissingDefaultAccount(
     cfg,
@@ -364,7 +364,7 @@ export function collectMissingExplicitDefaultAccountWarnings(cfg: SiriClaw-Instr
 }
 
 function collectTelegramAccountScopes(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
 ): Array<{ prefix: string; account: Record<string, unknown> }> {
   const scopes: Array<{ prefix: string; account: Record<string, unknown> }> = [];
   const telegram = asObjectRecord(cfg.channels?.telegram);
@@ -430,7 +430,7 @@ function collectTelegramAllowFromLists(
   return refs;
 }
 
-function scanTelegramAllowFromUsernameEntries(cfg: SiriClaw-InstructConfig): TelegramAllowFromUsernameHit[] {
+function scanTelegramAllowFromUsernameEntries(cfg: SiriClawInstructConfig): TelegramAllowFromUsernameHit[] {
   const hits: TelegramAllowFromUsernameHit[] = [];
 
   const scanList = (pathLabel: string, list: unknown) => {
@@ -458,8 +458,8 @@ function scanTelegramAllowFromUsernameEntries(cfg: SiriClaw-InstructConfig): Tel
   return hits;
 }
 
-async function maybeRepairTelegramAllowFromUsernames(cfg: SiriClaw-InstructConfig): Promise<{
-  config: SiriClaw-InstructConfig;
+async function maybeRepairTelegramAllowFromUsernames(cfg: SiriClawInstructConfig): Promise<{
+  config: SiriClawInstructConfig;
   changes: string[];
 }> {
   const hits = scanTelegramAllowFromUsernameEntries(cfg);
@@ -612,7 +612,7 @@ type DiscordIdListRef = {
 };
 
 function collectDiscordAccountScopes(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
 ): Array<{ prefix: string; account: Record<string, unknown> }> {
   const scopes: Array<{ prefix: string; account: Record<string, unknown> }> = [];
   const discord = asObjectRecord(cfg.channels?.discord);
@@ -692,7 +692,7 @@ function collectDiscordIdLists(
   return refs;
 }
 
-function scanDiscordNumericIdEntries(cfg: SiriClaw-InstructConfig): DiscordNumericIdHit[] {
+function scanDiscordNumericIdEntries(cfg: SiriClawInstructConfig): DiscordNumericIdHit[] {
   const hits: DiscordNumericIdHit[] = [];
   const scanList = (pathLabel: string, list: unknown) => {
     if (!Array.isArray(list)) {
@@ -715,8 +715,8 @@ function scanDiscordNumericIdEntries(cfg: SiriClaw-InstructConfig): DiscordNumer
   return hits;
 }
 
-function maybeRepairDiscordNumericIds(cfg: SiriClaw-InstructConfig): {
-  config: SiriClaw-InstructConfig;
+function maybeRepairDiscordNumericIds(cfg: SiriClawInstructConfig): {
+  config: SiriClawInstructConfig;
   changes: string[];
 } {
   const hits = scanDiscordNumericIdEntries(cfg);
@@ -796,7 +796,7 @@ function addMutableAllowlistHits(params: {
   }
 }
 
-function scanMutableAllowlistEntries(cfg: SiriClaw-InstructConfig): MutableAllowlistHit[] {
+function scanMutableAllowlistEntries(cfg: SiriClawInstructConfig): MutableAllowlistHit[] {
   const hits: MutableAllowlistHit[] = [];
 
   for (const scope of collectProviderDangerousNameMatchingScopes(cfg, "discord")) {
@@ -1039,8 +1039,8 @@ function scanMutableAllowlistEntries(cfg: SiriClaw-InstructConfig): MutableAllow
  * users (or integrations) set dmPolicy to "open" without realising that an explicit
  * allowFrom wildcard is also required.
  */
-function maybeRepairOpenPolicyAllowFrom(cfg: SiriClaw-InstructConfig): {
-  config: SiriClaw-InstructConfig;
+function maybeRepairOpenPolicyAllowFrom(cfg: SiriClawInstructConfig): {
+  config: SiriClawInstructConfig;
   changes: string[];
 } {
   const channels = cfg.channels;
@@ -1168,8 +1168,8 @@ function hasAllowFromEntries(list?: Array<string | number>) {
   return Array.isArray(list) && list.map((v) => String(v).trim()).filter(Boolean).length > 0;
 }
 
-async function maybeRepairAllowlistPolicyAllowFrom(cfg: SiriClaw-InstructConfig): Promise<{
-  config: SiriClaw-InstructConfig;
+async function maybeRepairAllowlistPolicyAllowFrom(cfg: SiriClawInstructConfig): Promise<{
+  config: SiriClawInstructConfig;
   changes: string[];
 }> {
   const channels = cfg.channels;
@@ -1327,7 +1327,7 @@ async function maybeRepairAllowlistPolicyAllowFrom(cfg: SiriClaw-InstructConfig)
  * allowlist. Common after upgrades that remove external allowlist
  * file support.
  */
-function detectEmptyAllowlistPolicy(cfg: SiriClaw-InstructConfig): string[] {
+function detectEmptyAllowlistPolicy(cfg: SiriClawInstructConfig): string[] {
   const channels = cfg.channels;
   if (!channels || typeof channels !== "object") {
     return [];
@@ -1390,7 +1390,7 @@ function detectEmptyAllowlistPolicy(cfg: SiriClaw-InstructConfig): string[] {
 
     if (dmPolicy === "allowlist" && !hasAllowFromEntries(effectiveAllowFrom)) {
       warnings.push(
-        `- ${prefix}.dmPolicy is "allowlist" but allowFrom is empty — all DMs will be blocked. Add sender IDs to ${prefix}.allowFrom, or run "${formatCliCommand("SiriClaw-Instruct doctor --fix")}" to auto-migrate from pairing store when entries exist.`,
+        `- ${prefix}.dmPolicy is "allowlist" but allowFrom is empty — all DMs will be blocked. Add sender IDs to ${prefix}.allowFrom, or run "${formatCliCommand("SiriClawInstruct doctor --fix")}" to auto-migrate from pairing store when entries exist.`,
       );
     }
 
@@ -1495,7 +1495,7 @@ function normalizeConfiguredTrustedSafeBinDirs(entries: unknown): string[] {
   );
 }
 
-function collectExecSafeBinScopes(cfg: SiriClaw-InstructConfig): ExecSafeBinScopeRef[] {
+function collectExecSafeBinScopes(cfg: SiriClawInstructConfig): ExecSafeBinScopeRef[] {
   const scopes: ExecSafeBinScopeRef[] = [];
   const globalExec = asObjectRecord(cfg.tools?.exec);
   const globalTrustedDirs = normalizeConfiguredTrustedSafeBinDirs(globalExec?.safeBinTrustedDirs);
@@ -1549,7 +1549,7 @@ function collectExecSafeBinScopes(cfg: SiriClaw-InstructConfig): ExecSafeBinScop
   return scopes;
 }
 
-function scanExecSafeBinCoverage(cfg: SiriClaw-InstructConfig): ExecSafeBinCoverageHit[] {
+function scanExecSafeBinCoverage(cfg: SiriClawInstructConfig): ExecSafeBinCoverageHit[] {
   const hits: ExecSafeBinCoverageHit[] = [];
   for (const scope of collectExecSafeBinScopes(cfg)) {
     const interpreterBins = new Set(listInterpreterLikeSafeBins(scope.safeBins));
@@ -1567,7 +1567,7 @@ function scanExecSafeBinCoverage(cfg: SiriClaw-InstructConfig): ExecSafeBinCover
   return hits;
 }
 
-function scanExecSafeBinTrustedDirHints(cfg: SiriClaw-InstructConfig): ExecSafeBinTrustedDirHintHit[] {
+function scanExecSafeBinTrustedDirHints(cfg: SiriClawInstructConfig): ExecSafeBinTrustedDirHintHit[] {
   const hits: ExecSafeBinTrustedDirHintHit[] = [];
   for (const scope of collectExecSafeBinScopes(cfg)) {
     for (const bin of scope.safeBins) {
@@ -1593,8 +1593,8 @@ function scanExecSafeBinTrustedDirHints(cfg: SiriClaw-InstructConfig): ExecSafeB
   return hits;
 }
 
-function maybeRepairExecSafeBinProfiles(cfg: SiriClaw-InstructConfig): {
-  config: SiriClaw-InstructConfig;
+function maybeRepairExecSafeBinProfiles(cfg: SiriClawInstructConfig): {
+  config: SiriClawInstructConfig;
   changes: string[];
   warnings: string[];
 } {
@@ -1682,14 +1682,14 @@ function collectLegacyToolsBySenderKeyHits(
   }
 }
 
-function scanLegacyToolsBySenderKeys(cfg: SiriClaw-InstructConfig): LegacyToolsBySenderKeyHit[] {
+function scanLegacyToolsBySenderKeys(cfg: SiriClawInstructConfig): LegacyToolsBySenderKeyHit[] {
   const hits: LegacyToolsBySenderKeyHit[] = [];
   collectLegacyToolsBySenderKeyHits(cfg, [], hits);
   return hits;
 }
 
-function maybeRepairLegacyToolsBySenderKeys(cfg: SiriClaw-InstructConfig): {
-  config: SiriClaw-InstructConfig;
+function maybeRepairLegacyToolsBySenderKeys(cfg: SiriClawInstructConfig): {
+  config: SiriClawInstructConfig;
   changes: string[];
 } {
   const next = structuredClone(cfg);
@@ -1754,8 +1754,8 @@ async function maybeMigrateLegacyConfig(): Promise<string[]> {
     return changes;
   }
 
-  const targetDir = path.join(home, ".SiriClaw-Instruct");
-  const targetPath = path.join(targetDir, "SiriClaw-Instruct.json");
+  const targetDir = path.join(home, ".SiriClawInstruct");
+  const targetPath = path.join(targetDir, "SiriClawInstruct.json");
   try {
     await fs.access(targetPath);
     return changes;
@@ -1814,7 +1814,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
 
   let snapshot = await readConfigFileSnapshot();
   const baseCfg = snapshot.config ?? {};
-  let cfg: SiriClaw-InstructConfig = baseCfg;
+  let cfg: SiriClawInstructConfig = baseCfg;
   let candidate = structuredClone(baseCfg);
   let pendingChanges = false;
   let shouldWriteConfig = false;
@@ -1849,7 +1849,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
       }
     } else {
       fixHints.push(
-        `Run "${formatCliCommand("SiriClaw-Instruct doctor --fix")}" to apply compatibility migrations.`,
+        `Run "${formatCliCommand("SiriClawInstruct doctor --fix")}" to apply compatibility migrations.`,
       );
     }
   }
@@ -1862,7 +1862,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
     if (shouldRepair) {
       cfg = normalized.config;
     } else {
-      fixHints.push(`Run "${formatCliCommand("SiriClaw-Instruct doctor --fix")}" to apply these changes.`);
+      fixHints.push(`Run "${formatCliCommand("SiriClawInstruct doctor --fix")}" to apply these changes.`);
     }
   }
 
@@ -1874,7 +1874,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
     if (shouldRepair) {
       cfg = autoEnable.config;
     } else {
-      fixHints.push(`Run "${formatCliCommand("SiriClaw-Instruct doctor --fix")}" to apply these changes.`);
+      fixHints.push(`Run "${formatCliCommand("SiriClawInstruct doctor --fix")}" to apply these changes.`);
     }
   }
 
@@ -1950,7 +1950,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
       note(
         [
           `- Telegram allowFrom contains ${hits.length} non-numeric entries (e.g. ${hits[0]?.entry ?? "@"}); Telegram authorization requires numeric sender IDs.`,
-          `- Run "${formatCliCommand("SiriClaw-Instruct doctor --fix")}" to auto-resolve @username entries to numeric IDs (requires a Telegram bot token).`,
+          `- Run "${formatCliCommand("SiriClawInstruct doctor --fix")}" to auto-resolve @username entries to numeric IDs (requires a Telegram bot token).`,
         ].join("\n"),
         "Doctor warnings",
       );
@@ -1961,7 +1961,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
       note(
         [
           `- Discord allowlists contain ${discordHits.length} numeric entries (e.g. ${discordHits[0]?.path}=${discordHits[0]?.entry}).`,
-          `- Discord IDs must be strings; run "${formatCliCommand("SiriClaw-Instruct doctor --fix")}" to convert numeric IDs to quoted strings.`,
+          `- Discord IDs must be strings; run "${formatCliCommand("SiriClawInstruct doctor --fix")}" to convert numeric IDs to quoted strings.`,
         ].join("\n"),
         "Doctor warnings",
       );
@@ -1972,7 +1972,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
       note(
         [
           ...allowFromScan.changes,
-          `- Run "${formatCliCommand("SiriClaw-Instruct doctor --fix")}" to add missing allowFrom wildcards.`,
+          `- Run "${formatCliCommand("SiriClawInstruct doctor --fix")}" to add missing allowFrom wildcards.`,
         ].join("\n"),
         "Doctor warnings",
       );
@@ -1991,7 +1991,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
         [
           `- Found ${toolsBySenderHits.length} legacy untyped toolsBySender key${toolsBySenderHits.length === 1 ? "" : "s"} (for example ${sampleLabel}).`,
           "- Untyped sender keys are deprecated; use explicit prefixes (id:, e164:, username:, name:).",
-          `- Run "${formatCliCommand("SiriClaw-Instruct doctor --fix")}" to migrate legacy keys to typed id: entries.`,
+          `- Run "${formatCliCommand("SiriClawInstruct doctor --fix")}" to migrate legacy keys to typed id: entries.`,
         ].join("\n"),
         "Doctor warnings",
       );
@@ -2027,7 +2027,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
         }
       }
       lines.push(
-        `- Run "${formatCliCommand("SiriClaw-Instruct doctor --fix")}" to scaffold missing custom safeBinProfiles entries.`,
+        `- Run "${formatCliCommand("SiriClawInstruct doctor --fix")}" to scaffold missing custom safeBinProfiles entries.`,
       );
       note(lines.join("\n"), "Doctor warnings");
     }
@@ -2090,7 +2090,7 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
       note(lines, "Doctor changes");
     } else {
       note(lines, "Unknown config keys");
-      fixHints.push('Run "SiriClaw-Instruct doctor --fix" to remove these keys.');
+      fixHints.push('Run "SiriClawInstruct doctor --fix" to remove these keys.');
     }
   }
 
@@ -2120,3 +2120,4 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
     sourceConfigValid: snapshot.valid,
   };
 }
+

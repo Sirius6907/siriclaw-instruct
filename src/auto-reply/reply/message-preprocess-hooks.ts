@@ -1,4 +1,4 @@
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { fireAndForgetHook } from "../../hooks/fire-and-forget.js";
 import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.js";
 import {
@@ -10,7 +10,7 @@ import type { FinalizedMsgContext } from "../templating.js";
 
 export function emitPreAgentMessageHooks(params: {
   ctx: FinalizedMsgContext;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   isFastTestEnv: boolean;
 }): void {
   if (params.isFastTestEnv) {
@@ -48,3 +48,4 @@ export function emitPreAgentMessageHooks(params: {
     "get-reply: message:preprocessed internal hook failed",
   );
 }
+

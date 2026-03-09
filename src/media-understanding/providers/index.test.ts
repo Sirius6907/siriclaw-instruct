@@ -33,3 +33,4 @@ describe("media-understanding provider registry", () => {
     expect(provider?.capabilities).toEqual(["image"]);
   });
 });
+

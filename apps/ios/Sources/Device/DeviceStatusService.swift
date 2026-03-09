@@ -1,5 +1,5 @@
 import Foundation
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import UIKit
 
 @MainActor
@@ -81,3 +81,4 @@ final class DeviceStatusService: DeviceStatusServicing {
         build.isEmpty ? "0" : build
     }
 }
+

@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { resolveImageSanitizationLimits } from "./image-sanitization.js";
 
 describe("image sanitization config", () => {
   it("defaults when no config value exists", () => {
     expect(resolveImageSanitizationLimits(undefined)).toEqual({});
     expect(
-      resolveImageSanitizationLimits({ agents: { defaults: {} } } as unknown as SiriClaw-InstructConfig),
+      resolveImageSanitizationLimits({ agents: { defaults: {} } } as unknown as SiriClawInstructConfig),
     ).toEqual({});
   });
 
@@ -14,7 +14,8 @@ describe("image sanitization config", () => {
     expect(
       resolveImageSanitizationLimits({
         agents: { defaults: { imageMaxDimensionPx: 1600.9 } },
-      } as unknown as SiriClaw-InstructConfig),
+      } as unknown as SiriClawInstructConfig),
     ).toEqual({ maxDimensionPx: 1600 });
   });
 });
+

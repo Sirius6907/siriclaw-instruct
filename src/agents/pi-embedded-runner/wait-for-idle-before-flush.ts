@@ -56,3 +56,4 @@ export async function flushPendingToolResultsAfterIdle(opts: {
   }
   opts.sessionManager?.flushPendingToolResults?.();
 }
+

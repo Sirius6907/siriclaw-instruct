@@ -76,16 +76,16 @@ export function registerChannelsCli(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["SiriClaw-Instruct channels list", "List configured channels and auth profiles."],
-          ["SiriClaw-Instruct channels status --probe", "Run channel status checks and probes."],
+          ["SiriClawInstruct channels list", "List configured channels and auth profiles."],
+          ["SiriClawInstruct channels status --probe", "Run channel status checks and probes."],
           [
-            "SiriClaw-Instruct channels add --channel telegram --token <token>",
+            "SiriClawInstruct channels add --channel telegram --token <token>",
             "Add or update a channel account non-interactively.",
           ],
-          ["SiriClaw-Instruct channels login --channel whatsapp", "Link a WhatsApp Web account."],
+          ["SiriClawInstruct channels login --channel whatsapp", "Link a WhatsApp Web account."],
         ])}\n\n${theme.muted("Docs:")} ${formatDocsLink(
           "/cli/channels",
-          "docs.SiriClaw-Instruct.ai/cli/channels",
+          "docs.SiriClawInstruct.ai/cli/channels",
         )}\n`,
     );
 
@@ -254,3 +254,4 @@ export function registerChannelsCli(program: Command) {
       }, "Channel logout failed");
     });
 }
+

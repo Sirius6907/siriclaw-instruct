@@ -86,7 +86,7 @@ describe("profile CRUD endpoints", () => {
     const createDuplicate = await realFetch(`${base}/profiles/create`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: "SiriClaw-Instruct" }),
+      body: JSON.stringify({ name: "SiriClawInstruct" }),
     });
     expect(createDuplicate.status).toBe(409);
     const createDuplicateBody = (await createDuplicate.json()) as { error: string };
@@ -123,7 +123,7 @@ describe("profile CRUD endpoints", () => {
     const deleteMissingBody = (await deleteMissing.json()) as { error: string };
     expect(deleteMissingBody.error).toContain("not found");
 
-    const deleteDefault = await realFetch(`${base}/profiles/SiriClaw-Instruct`, {
+    const deleteDefault = await realFetch(`${base}/profiles/SiriClawInstruct`, {
       method: "DELETE",
     });
     expect(deleteDefault.status).toBe(400);
@@ -138,3 +138,4 @@ describe("profile CRUD endpoints", () => {
     expect(deleteInvalidBody.error).toContain("invalid profile name");
   });
 });
+

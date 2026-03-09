@@ -1,6 +1,6 @@
 import path from "node:path";
 import { describe, expect, it, test, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { RuntimeEnv } from "../runtime.js";
 import {
   buildCleanupPlan,
@@ -14,23 +14,23 @@ describe("buildCleanupPlan", () => {
     const tmpRoot = path.join(path.parse(process.cwd()).root, "tmp");
     const cfg = {
       agents: {
-        defaults: { workspace: path.join(tmpRoot, "SiriClaw-Instruct-workspace-1") },
-        list: [{ workspace: path.join(tmpRoot, "SiriClaw-Instruct-workspace-2") }],
+        defaults: { workspace: path.join(tmpRoot, "SiriClawInstruct-workspace-1") },
+        list: [{ workspace: path.join(tmpRoot, "SiriClawInstruct-workspace-2") }],
       },
     };
     const plan = buildCleanupPlan({
-      cfg: cfg as unknown as SiriClaw-InstructConfig,
-      stateDir: path.join(tmpRoot, "SiriClaw-Instruct-state"),
-      configPath: path.join(tmpRoot, "SiriClaw-Instruct-state", "SiriClaw-Instruct.json"),
-      oauthDir: path.join(tmpRoot, "SiriClaw-Instruct-oauth"),
+      cfg: cfg as unknown as SiriClawInstructConfig,
+      stateDir: path.join(tmpRoot, "SiriClawInstruct-state"),
+      configPath: path.join(tmpRoot, "SiriClawInstruct-state", "SiriClawInstruct.json"),
+      oauthDir: path.join(tmpRoot, "SiriClawInstruct-oauth"),
     });
 
     expect(plan.configInsideState).toBe(true);
     expect(plan.oauthInsideState).toBe(false);
     expect(new Set(plan.workspaceDirs)).toEqual(
       new Set([
-        path.join(tmpRoot, "SiriClaw-Instruct-workspace-1"),
-        path.join(tmpRoot, "SiriClaw-Instruct-workspace-2"),
+        path.join(tmpRoot, "SiriClawInstruct-workspace-1"),
+        path.join(tmpRoot, "SiriClawInstruct-workspace-2"),
       ]),
     );
   });
@@ -38,14 +38,14 @@ describe("buildCleanupPlan", () => {
 
 describe("applyAgentDefaultPrimaryModel", () => {
   it("does not mutate when already set", () => {
-    const cfg = { agents: { defaults: { model: { primary: "a/b" } } } } as SiriClaw-InstructConfig;
+    const cfg = { agents: { defaults: { model: { primary: "a/b" } } } } as SiriClawInstructConfig;
     const result = applyAgentDefaultPrimaryModel({ cfg, model: "a/b" });
     expect(result.changed).toBe(false);
     expect(result.next).toBe(cfg);
   });
 
   it("normalizes legacy models", () => {
-    const cfg = { agents: { defaults: { model: { primary: "legacy" } } } } as SiriClaw-InstructConfig;
+    const cfg = { agents: { defaults: { model: { primary: "legacy" } } } } as SiriClawInstructConfig;
     const result = applyAgentDefaultPrimaryModel({
       cfg,
       model: "a/b",
@@ -69,11 +69,11 @@ describe("cleanup path removals", () => {
 
   it("removes state and only linked paths outside state", async () => {
     const runtime = createRuntimeMock();
-    const tmpRoot = path.join(path.parse(process.cwd()).root, "tmp", "SiriClaw-Instruct-cleanup");
+    const tmpRoot = path.join(path.parse(process.cwd()).root, "tmp", "SiriClawInstruct-cleanup");
     await removeStateAndLinkedPaths(
       {
         stateDir: path.join(tmpRoot, "state"),
-        configPath: path.join(tmpRoot, "state", "SiriClaw-Instruct.json"),
+        configPath: path.join(tmpRoot, "state", "SiriClawInstruct.json"),
         oauthDir: path.join(tmpRoot, "oauth"),
         configInsideState: true,
         oauthInsideState: false,
@@ -85,19 +85,20 @@ describe("cleanup path removals", () => {
     const joinedLogs = runtime.log.mock.calls
       .map(([line]) => line.replaceAll("\\", "/"))
       .join("\n");
-    expect(joinedLogs).toContain("/tmp/SiriClaw-Instruct-cleanup/state");
-    expect(joinedLogs).toContain("/tmp/SiriClaw-Instruct-cleanup/oauth");
-    expect(joinedLogs).not.toContain("SiriClaw-Instruct.json");
+    expect(joinedLogs).toContain("/tmp/SiriClawInstruct-cleanup/state");
+    expect(joinedLogs).toContain("/tmp/SiriClawInstruct-cleanup/oauth");
+    expect(joinedLogs).not.toContain("SiriClawInstruct.json");
   });
 
   it("removes every workspace directory", async () => {
     const runtime = createRuntimeMock();
-    const workspaces = ["/tmp/SiriClaw-Instruct-workspace-1", "/tmp/SiriClaw-Instruct-workspace-2"];
+    const workspaces = ["/tmp/SiriClawInstruct-workspace-1", "/tmp/SiriClawInstruct-workspace-2"];
 
     await removeWorkspaceDirs(workspaces, runtime, { dryRun: true });
 
     const logs = runtime.log.mock.calls.map(([line]) => line);
-    expect(logs).toContain("[dry-run] remove /tmp/SiriClaw-Instruct-workspace-1");
-    expect(logs).toContain("[dry-run] remove /tmp/SiriClaw-Instruct-workspace-2");
+    expect(logs).toContain("[dry-run] remove /tmp/SiriClawInstruct-workspace-1");
+    expect(logs).toContain("[dry-run] remove /tmp/SiriClawInstruct-workspace-2");
   });
 });
+

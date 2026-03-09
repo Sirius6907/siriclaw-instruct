@@ -72,7 +72,7 @@ async function runBrowserToggle(
   if (printJsonResult(parent, status)) {
     return;
   }
-  const name = status.profile ?? "SiriClaw-Instruct";
+  const name = status.profile ?? "SiriClawInstruct";
   defaultRuntime.log(info(`🦞 browser [${name}] running: ${status.running}`));
 }
 
@@ -117,7 +117,7 @@ export function registerBrowserManageCommands(
         const detectedDisplay = detectedPath ? shortenHomePath(detectedPath) : "auto";
         defaultRuntime.log(
           [
-            `profile: ${status.profile ?? "SiriClaw-Instruct"}`,
+            `profile: ${status.profile ?? "SiriClawInstruct"}`,
             `enabled: ${status.enabled}`,
             `running: ${status.running}`,
             `cdpPort: ${status.cdpPort}`,
@@ -420,7 +420,7 @@ export function registerBrowserManageCommands(
     .requiredOption("--name <name>", "Profile name (lowercase, numbers, hyphens)")
     .option("--color <hex>", "Profile color (hex format, e.g. #0066CC)")
     .option("--cdp-url <url>", "CDP URL for remote Chrome (http/https)")
-    .option("--driver <driver>", "Profile driver (SiriClaw-Instruct|extension). Default: SiriClaw-Instruct")
+    .option("--driver <driver>", "Profile driver (SiriClawInstruct|extension). Default: SiriClawInstruct")
     .action(
       async (opts: { name: string; color?: string; cdpUrl?: string; driver?: string }, cmd) => {
         const parent = parentOpts(cmd);
@@ -479,3 +479,4 @@ export function registerBrowserManageCommands(
       });
     });
 }
+

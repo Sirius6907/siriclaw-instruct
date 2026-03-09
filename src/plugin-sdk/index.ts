@@ -96,10 +96,10 @@ export { ACP_ERROR_CODES, AcpRuntimeError } from "../acp/runtime/errors.js";
 export type { AcpRuntimeErrorCode } from "../acp/runtime/errors.js";
 export type {
   AnyAgentTool,
-  SiriClaw-InstructPluginConfigSchema,
-  SiriClaw-InstructPluginApi,
-  SiriClaw-InstructPluginService,
-  SiriClaw-InstructPluginServiceContext,
+  SiriClawInstructPluginConfigSchema,
+  SiriClawInstructPluginApi,
+  SiriClawInstructPluginService,
+  SiriClawInstructPluginServiceContext,
   PluginLogger,
   ProviderAuthContext,
   ProviderAuthResult,
@@ -125,9 +125,9 @@ export type {
 export { normalizePluginHttpPath } from "../plugins/http-path.js";
 export { registerPluginHttpRoute } from "../plugins/http-registry.js";
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
-export type { SiriClaw-InstructConfig } from "../config/config.js";
-/** @deprecated Use SiriClaw-InstructConfig instead */
-export type { SiriClaw-InstructConfig as ClawdbotConfig } from "../config/config.js";
+export type { SiriClawInstructConfig } from "../config/config.js";
+/** @deprecated Use SiriClawInstructConfig instead */
+export type { SiriClawInstructConfig as ClawdbotConfig } from "../config/config.js";
 export { isDangerousNameMatchingEnabled } from "../config/dangerous-name-matching.js";
 
 export type { FileLockHandle, FileLockOptions } from "./file-lock.js";
@@ -358,7 +358,7 @@ export type {
   WindowsSpawnProgram,
   WindowsSpawnResolution,
 } from "./windows-spawn.js";
-export { resolvePreferredSiriClaw-InstructTmpDir } from "../infra/tmp-SiriClaw-Instruct-dir.js";
+export { resolvePreferredSiriClawInstructTmpDir } from "../infra/tmp-siriclaw-instruct-dir.js";
 export {
   runPluginCommandWithTimeout,
   type PluginCommandRunOptions,

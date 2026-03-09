@@ -13,8 +13,8 @@ async function withTempConfig(
   configContent: string,
   run: (configPath: string) => Promise<void>,
 ): Promise<void> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-env-io-"));
-  const configPath = path.join(dir, "SiriClaw-Instruct.json");
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-env-io-"));
+  const configPath = path.join(dir, "SiriClawInstruct.json");
   await fs.writeFile(configPath, configContent);
   try {
     await run(configPath);
@@ -26,8 +26,8 @@ async function withTempConfig(
 async function withWrapperEnvContext(configPath: string, run: () => Promise<void>): Promise<void> {
   await withEnvAsync(
     {
-      SiriClaw-Instruct_CONFIG_PATH: configPath,
-      SiriClaw-Instruct_DISABLE_CONFIG_CACHE: "1",
+      SiriClawInstruct_CONFIG_PATH: configPath,
+      SiriClawInstruct_DISABLE_CONFIG_CACHE: "1",
       MY_API_KEY: "original-key-123",
     },
     run,
@@ -147,3 +147,4 @@ describe("env snapshot TOCTOU via wrapper APIs", () => {
     });
   });
 });
+

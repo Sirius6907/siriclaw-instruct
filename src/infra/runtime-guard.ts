@@ -88,12 +88,13 @@ export function assertSupportedRuntime(
 
   runtime.error(
     [
-      "SiriClaw-Instruct requires Node >=22.12.0.",
+      "SiriClawInstruct requires Node >=22.12.0.",
       `Detected: ${runtimeLabel} (exec: ${execLabel}).`,
       `PATH searched: ${details.pathEnv}`,
       "Install Node: https://nodejs.org/en/download",
-      "Upgrade Node and re-run SiriClaw-Instruct.",
+      "Upgrade Node and re-run SiriClawInstruct.",
     ].join("\n"),
   );
   runtime.exit(1);
 }
+

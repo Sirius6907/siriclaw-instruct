@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_CONTEXT_TOKENS } from "../agents/defaults.js";
 import { applyModelDefaults } from "./defaults.js";
-import type { SiriClaw-InstructConfig } from "./types.js";
+import type { SiriClawInstructConfig } from "./types.js";
 
 describe("applyModelDefaults", () => {
   function buildProxyProviderConfig(overrides?: { contextWindow?: number; maxTokens?: number }) {
@@ -26,7 +26,7 @@ describe("applyModelDefaults", () => {
           },
         },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
   }
 
   it("adds default aliases when models are present", () => {
@@ -39,7 +39,7 @@ describe("applyModelDefaults", () => {
           },
         },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
     const next = applyModelDefaults(cfg);
 
     expect(next.agents?.defaults?.models?.["anthropic/claude-opus-4-6"]?.alias).toBe("opus");
@@ -55,7 +55,7 @@ describe("applyModelDefaults", () => {
           },
         },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const next = applyModelDefaults(cfg);
 
@@ -73,7 +73,7 @@ describe("applyModelDefaults", () => {
           },
         },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const next = applyModelDefaults(cfg);
 
@@ -130,7 +130,7 @@ describe("applyModelDefaults", () => {
           },
         },
       },
-    } satisfies SiriClaw-InstructConfig;
+    } satisfies SiriClawInstructConfig;
 
     const next = applyModelDefaults(cfg);
     const provider = next.models?.providers?.anthropic;
@@ -148,3 +148,4 @@ describe("applyModelDefaults", () => {
     expect(model?.api).toBe("openai-completions");
   });
 });
+

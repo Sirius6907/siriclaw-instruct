@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
 
@@ -39,7 +39,7 @@ describe("maybeRepairSandboxImages", () => {
     vi.clearAllMocks();
   });
 
-  function createSandboxConfig(mode: "off" | "all" | "non-main"): SiriClaw-InstructConfig {
+  function createSandboxConfig(mode: "off" | "all" | "non-main"): SiriClawInstructConfig {
     return {
       agents: {
         defaults: {
@@ -106,3 +106,4 @@ describe("maybeRepairSandboxImages", () => {
     expect(dockerUnavailableWarning).toBeUndefined();
   });
 });
+

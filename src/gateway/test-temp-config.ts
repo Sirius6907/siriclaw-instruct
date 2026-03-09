@@ -7,29 +7,30 @@ export async function withTempConfig(params: {
   run: () => Promise<void>;
   prefix?: string;
 }): Promise<void> {
-  const prevConfigPath = process.env.SiriClaw-Instruct_CONFIG_PATH;
-  const prevDisableCache = process.env.SiriClaw-Instruct_DISABLE_CONFIG_CACHE;
+  const prevConfigPath = process.env.SiriClawInstruct_CONFIG_PATH;
+  const prevDisableCache = process.env.SiriClawInstruct_DISABLE_CONFIG_CACHE;
 
-  const dir = await mkdtemp(path.join(os.tmpdir(), params.prefix ?? "SiriClaw-Instruct-test-config-"));
-  const configPath = path.join(dir, "SiriClaw-Instruct.json");
+  const dir = await mkdtemp(path.join(os.tmpdir(), params.prefix ?? "SiriClawInstruct-test-config-"));
+  const configPath = path.join(dir, "SiriClawInstruct.json");
 
-  process.env.SiriClaw-Instruct_CONFIG_PATH = configPath;
-  process.env.SiriClaw-Instruct_DISABLE_CONFIG_CACHE = "1";
+  process.env.SiriClawInstruct_CONFIG_PATH = configPath;
+  process.env.SiriClawInstruct_DISABLE_CONFIG_CACHE = "1";
 
   try {
     await writeFile(configPath, JSON.stringify(params.cfg, null, 2), "utf-8");
     await params.run();
   } finally {
     if (prevConfigPath === undefined) {
-      delete process.env.SiriClaw-Instruct_CONFIG_PATH;
+      delete process.env.SiriClawInstruct_CONFIG_PATH;
     } else {
-      process.env.SiriClaw-Instruct_CONFIG_PATH = prevConfigPath;
+      process.env.SiriClawInstruct_CONFIG_PATH = prevConfigPath;
     }
     if (prevDisableCache === undefined) {
-      delete process.env.SiriClaw-Instruct_DISABLE_CONFIG_CACHE;
+      delete process.env.SiriClawInstruct_DISABLE_CONFIG_CACHE;
     } else {
-      process.env.SiriClaw-Instruct_DISABLE_CONFIG_CACHE = prevDisableCache;
+      process.env.SiriClawInstruct_DISABLE_CONFIG_CACHE = prevDisableCache;
     }
     await rm(dir, { recursive: true, force: true });
   }
 }
+

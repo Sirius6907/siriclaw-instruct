@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { buildSecretRefCredentialMatrix } from "./credential-matrix.js";
 import { discoverConfigSecretTargetsByIds } from "./target-registry.js";
 
@@ -88,7 +88,7 @@ describe("secret target registry", () => {
             token: { source: "env", provider: "default", id: "REMOTE_TOKEN" },
           },
         },
-      } as unknown as SiriClaw-InstructConfig,
+      } as unknown as SiriClawInstructConfig,
       new Set(["talk.apiKey"]),
     );
 
@@ -97,3 +97,4 @@ describe("secret target registry", () => {
     expect(targets[0]?.path).toBe("talk.apiKey");
   });
 });
+

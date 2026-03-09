@@ -8,7 +8,7 @@ import {
   modelSupportsVision,
 } from "../agents/model-catalog.js";
 import { resolveDefaultModelForAgent } from "../agents/model-selection.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { STATE_DIR } from "../config/paths.js";
 import { logVerbose } from "../globals.js";
 import { loadJsonFile, saveJsonFile } from "../infra/json-file.js";
@@ -154,7 +154,7 @@ function loadImageRuntime() {
 
 export interface DescribeStickerParams {
   imagePath: string;
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   agentDir?: string;
   agentId?: string;
 }
@@ -265,3 +265,4 @@ export async function describeStickerImage(params: DescribeStickerParams): Promi
     return null;
   }
 }
+

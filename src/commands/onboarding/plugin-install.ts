@@ -2,12 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
 import type { ChannelPluginCatalogEntry } from "../../channels/plugins/catalog.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { enablePluginInConfig } from "../../plugins/enable.js";
 import { installPluginFromNpmSpec } from "../../plugins/install.js";
 import { buildNpmResolutionInstallFields, recordPluginInstall } from "../../plugins/installs.js";
-import { loadSiriClaw-InstructPlugins } from "../../plugins/loader.js";
+import { loadSiriClawInstructPlugins } from "../../plugins/loader.js";
 import { createPluginLoaderLogger } from "../../plugins/logger.js";
 import type { RuntimeEnv } from "../../runtime.js";
 import type { WizardPrompter } from "../../wizard/prompts.js";
@@ -15,7 +15,7 @@ import type { WizardPrompter } from "../../wizard/prompts.js";
 type InstallChoice = "npm" | "local" | "skip";
 
 type InstallResult = {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   installed: boolean;
 };
 
@@ -58,7 +58,7 @@ function resolveLocalPath(
   return null;
 }
 
-function addPluginLoadPath(cfg: SiriClaw-InstructConfig, pluginPath: string): SiriClaw-InstructConfig {
+function addPluginLoadPath(cfg: SiriClawInstructConfig, pluginPath: string): SiriClawInstructConfig {
   const existing = cfg.plugins?.load?.paths ?? [];
   const merged = Array.from(new Set([...existing, pluginPath]));
   return {
@@ -104,7 +104,7 @@ async function promptInstallChoice(params: {
 }
 
 function resolveInstallDefaultChoice(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   entry: ChannelPluginCatalogEntry;
   localPath?: string | null;
 }): InstallChoice {
@@ -127,7 +127,7 @@ function resolveInstallDefaultChoice(params: {
 }
 
 export async function ensureOnboardingPluginInstalled(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   entry: ChannelPluginCatalogEntry;
   prompter: WizardPrompter;
   runtime: RuntimeEnv;
@@ -202,17 +202,18 @@ export async function ensureOnboardingPluginInstalled(params: {
 }
 
 export function reloadOnboardingPluginRegistry(params: {
-  cfg: SiriClaw-InstructConfig;
+  cfg: SiriClawInstructConfig;
   runtime: RuntimeEnv;
   workspaceDir?: string;
 }): void {
   const workspaceDir =
     params.workspaceDir ?? resolveAgentWorkspaceDir(params.cfg, resolveDefaultAgentId(params.cfg));
   const log = createSubsystemLogger("plugins");
-  loadSiriClaw-InstructPlugins({
+  loadSiriClawInstructPlugins({
     config: params.cfg,
     workspaceDir,
     cache: false,
     logger: createPluginLoaderLogger(log),
   });
 }
+

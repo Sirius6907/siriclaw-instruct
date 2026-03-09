@@ -45,3 +45,4 @@ Or set `APP_STORE_CONNECT_API_KEY_PATH`.
   - `last_name.txt`
   - `email_address.txt`
   - `phone_number.txt` (E.164-ish, e.g. `+1 415 555 0100`)
+

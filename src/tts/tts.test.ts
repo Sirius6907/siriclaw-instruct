@@ -3,7 +3,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { ensureCustomApiRegistered } from "../agents/custom-api-registry.js";
 import { getApiKeyForModel } from "../agents/model-auth.js";
 import { resolveModel } from "../agents/pi-embedded-runner/model.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { withEnv } from "../test-utils/env.js";
 import * as tts from "./tts.js";
 
@@ -217,7 +217,7 @@ describe("tts", () => {
   });
 
   describe("resolveEdgeOutputFormat", () => {
-    const baseCfg: SiriClaw-InstructConfig = {
+    const baseCfg: SiriClawInstructConfig = {
       agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
       messages: { tts: {} },
     };
@@ -238,7 +238,7 @@ describe("tts", () => {
                 edge: { outputFormat: "audio-24khz-96kbitrate-mono-mp3" },
               },
             },
-          } as SiriClaw-InstructConfig,
+          } as SiriClawInstructConfig,
           expected: "audio-24khz-96kbitrate-mono-mp3",
         },
       ] as const;
@@ -316,7 +316,7 @@ describe("tts", () => {
   });
 
   describe("summarizeText", () => {
-    const baseCfg: SiriClaw-InstructConfig = {
+    const baseCfg: SiriClawInstructConfig = {
       agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
       messages: { tts: {} },
     };
@@ -361,7 +361,7 @@ describe("tts", () => {
     });
 
     it("uses summaryModel override when configured", async () => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         agents: { defaults: { model: { primary: "anthropic/claude-opus-4-5" } } },
         messages: { tts: { summaryModel: "openai/gpt-4.1-mini" } },
       };
@@ -456,7 +456,7 @@ describe("tts", () => {
   });
 
   describe("getTtsProvider", () => {
-    const baseCfg: SiriClaw-InstructConfig = {
+    const baseCfg: SiriClawInstructConfig = {
       agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
       messages: { tts: {} },
     };
@@ -503,7 +503,7 @@ describe("tts", () => {
   });
 
   describe("resolveTtsConfig – openai.baseUrl", () => {
-    const baseCfg: SiriClaw-InstructConfig = {
+    const baseCfg: SiriClawInstructConfig = {
       agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
       messages: { tts: {} },
     };
@@ -523,7 +523,7 @@ describe("tts", () => {
     });
 
     it("config baseUrl takes precedence over env var", () => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         ...baseCfg,
         messages: {
           tts: { openai: { baseUrl: "http://my-server:9000/v1" } },
@@ -536,7 +536,7 @@ describe("tts", () => {
     });
 
     it("strips trailing slashes from the resolved baseUrl", () => {
-      const cfg: SiriClaw-InstructConfig = {
+      const cfg: SiriClawInstructConfig = {
         ...baseCfg,
         messages: {
           tts: { openai: { baseUrl: "http://my-server:9000/v1///" } },
@@ -555,7 +555,7 @@ describe("tts", () => {
   });
 
   describe("maybeApplyTtsToPayload", () => {
-    const baseCfg: SiriClaw-InstructConfig = {
+    const baseCfg: SiriClawInstructConfig = {
       agents: { defaults: { model: { primary: "openai/gpt-4o-mini" } } },
       messages: {
         tts: {
@@ -569,8 +569,8 @@ describe("tts", () => {
     const withMockedAutoTtsFetch = async (
       run: (fetchMock: ReturnType<typeof vi.fn>) => Promise<void>,
     ) => {
-      const prevPrefs = process.env.SiriClaw-Instruct_TTS_PREFS;
-      process.env.SiriClaw-Instruct_TTS_PREFS = `/tmp/tts-test-${Date.now()}.json`;
+      const prevPrefs = process.env.SiriClawInstruct_TTS_PREFS;
+      process.env.SiriClawInstruct_TTS_PREFS = `/tmp/tts-test-${Date.now()}.json`;
       const originalFetch = globalThis.fetch;
       const fetchMock = vi.fn(async () => ({
         ok: true,
@@ -581,11 +581,11 @@ describe("tts", () => {
         await run(fetchMock);
       } finally {
         globalThis.fetch = originalFetch;
-        process.env.SiriClaw-Instruct_TTS_PREFS = prevPrefs;
+        process.env.SiriClawInstruct_TTS_PREFS = prevPrefs;
       }
     };
 
-    const taggedCfg: SiriClaw-InstructConfig = {
+    const taggedCfg: SiriClawInstructConfig = {
       ...baseCfg,
       messages: {
         ...baseCfg.messages!,
@@ -664,3 +664,4 @@ describe("tts", () => {
     });
   });
 });
+

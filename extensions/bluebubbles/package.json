@@ -1,12 +1,12 @@
 {
-  "name": "@SiriClaw-Instruct/bluebubbles",
+  "name": "@siriclaw-instruct/bluebubbles",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct BlueBubbles channel plugin",
+  "description": "siriclaw-instruct BlueBubbles channel plugin",
   "type": "module",
   "dependencies": {
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ],
@@ -28,9 +28,13 @@
       "order": 75
     },
     "install": {
-      "npmSpec": "@SiriClaw-Instruct/bluebubbles",
+      "npmSpec": "@siriclaw-instruct/bluebubbles",
       "localPath": "extensions/bluebubbles",
       "defaultChoice": "npm"
     }
   }
 }
+
+
+
+

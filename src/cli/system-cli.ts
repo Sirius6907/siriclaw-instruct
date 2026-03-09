@@ -45,7 +45,7 @@ export function registerSystemCli(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/system", "docs.SiriClaw-Instruct.ai/cli/system")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/system", "docs.SiriClawInstruct.ai/cli/system")}\n`,
     );
 
   addGatewayClientOptions(
@@ -130,3 +130,4 @@ export function registerSystemCli(program: Command) {
     });
   });
 }
+

@@ -24,8 +24,8 @@ describe("classifyControlUiRequest", () => {
 
   it("falls through basePath non-read methods for plugin webhooks", () => {
     const classified = classifyControlUiRequest({
-      basePath: "/SiriClaw-Instruct",
-      pathname: "/SiriClaw-Instruct",
+      basePath: "/SiriClawInstruct",
+      pathname: "/SiriClawInstruct",
       search: "",
       method: "POST",
     });
@@ -35,8 +35,8 @@ describe("classifyControlUiRequest", () => {
   it("falls through PUT/DELETE/PATCH/OPTIONS under basePath for plugin handlers", () => {
     for (const method of ["PUT", "DELETE", "PATCH", "OPTIONS"]) {
       const classified = classifyControlUiRequest({
-        basePath: "/SiriClaw-Instruct",
-        pathname: "/SiriClaw-Instruct/webhook",
+        basePath: "/SiriClawInstruct",
+        pathname: "/SiriClawInstruct/webhook",
         search: "",
         method,
       });
@@ -46,21 +46,22 @@ describe("classifyControlUiRequest", () => {
 
   it("returns redirect for basePath entrypoint GET", () => {
     const classified = classifyControlUiRequest({
-      basePath: "/SiriClaw-Instruct",
-      pathname: "/SiriClaw-Instruct",
+      basePath: "/SiriClawInstruct",
+      pathname: "/SiriClawInstruct",
       search: "?foo=1",
       method: "GET",
     });
-    expect(classified).toEqual({ kind: "redirect", location: "/SiriClaw-Instruct/?foo=1" });
+    expect(classified).toEqual({ kind: "redirect", location: "/SiriClawInstruct/?foo=1" });
   });
 
   it("classifies basePath subroutes as control ui", () => {
     const classified = classifyControlUiRequest({
-      basePath: "/SiriClaw-Instruct",
-      pathname: "/SiriClaw-Instruct/chat",
+      basePath: "/SiriClawInstruct",
+      pathname: "/SiriClawInstruct/chat",
       search: "",
       method: "HEAD",
     });
     expect(classified).toEqual({ kind: "serve" });
   });
 });
+

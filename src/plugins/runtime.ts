@@ -1,6 +1,6 @@
 import { createEmptyPluginRegistry, type PluginRegistry } from "./registry.js";
 
-const REGISTRY_STATE = Symbol.for("SiriClaw-Instruct.pluginRegistryState");
+const REGISTRY_STATE = Symbol.for("SiriClawInstruct.pluginRegistryState");
 
 type RegistryState = {
   registry: PluginRegistry | null;
@@ -47,3 +47,4 @@ export function getActivePluginRegistryKey(): string | null {
 export function getActivePluginRegistryVersion(): number {
   return state.version;
 }
+

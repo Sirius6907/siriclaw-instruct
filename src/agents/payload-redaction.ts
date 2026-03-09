@@ -62,3 +62,4 @@ export function redactImageDataForDiagnostics(value: unknown): unknown {
 
   return visit(value);
 }
+

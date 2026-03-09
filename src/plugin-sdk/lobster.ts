@@ -8,7 +8,8 @@ export {
 } from "./windows-spawn.js";
 export type {
   AnyAgentTool,
-  SiriClaw-InstructPluginApi,
-  SiriClaw-InstructPluginToolContext,
-  SiriClaw-InstructPluginToolFactory,
+  SiriClawInstructPluginApi,
+  SiriClawInstructPluginToolContext,
+  SiriClawInstructPluginToolFactory,
 } from "../plugins/types.js";
+

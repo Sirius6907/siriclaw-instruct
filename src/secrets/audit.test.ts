@@ -38,9 +38,9 @@ function hasFinding(
 }
 
 async function createAuditFixture(): Promise<AuditFixture> {
-  const rootDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-secrets-audit-"));
-  const stateDir = path.join(rootDir, ".SiriClaw-Instruct");
-  const configPath = path.join(stateDir, "SiriClaw-Instruct.json");
+  const rootDir = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-secrets-audit-"));
+  const stateDir = path.join(rootDir, ".SiriClawInstruct");
+  const configPath = path.join(stateDir, "SiriClawInstruct.json");
   const authStorePath = path.join(stateDir, "agents", "main", "agent", "auth-profiles.json");
   const authJsonPath = path.join(stateDir, "agents", "main", "agent", "auth.json");
   const modelsPath = path.join(stateDir, "agents", "main", "agent", "models.json");
@@ -58,8 +58,8 @@ async function createAuditFixture(): Promise<AuditFixture> {
     modelsPath,
     envPath,
     env: {
-      SiriClaw-Instruct_STATE_DIR: stateDir,
-      SiriClaw-Instruct_CONFIG_PATH: configPath,
+      SiriClawInstruct_STATE_DIR: stateDir,
+      SiriClawInstruct_CONFIG_PATH: configPath,
       OPENAI_API_KEY: "env-openai-key", // pragma: allowlist secret
       PATH: resolveRuntimePathEnv(),
     },
@@ -482,7 +482,7 @@ describe("secrets audit", () => {
     ).toBe(true);
   });
 
-  it("does not flag non-sensitive routing headers in SiriClaw-Instruct config", async () => {
+  it("does not flag non-sensitive routing headers in SiriClawInstruct config", async () => {
     await writeJsonFile(fixture.configPath, {
       models: {
         providers: {
@@ -516,3 +516,4 @@ describe("secrets audit", () => {
     ).toBe(false);
   });
 });
+

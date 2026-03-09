@@ -30,9 +30,9 @@ const NOW = Date.now();
 
 function createContainer(overrides: Partial<SandboxContainerInfo> = {}): SandboxContainerInfo {
   return {
-    containerName: "SiriClaw-Instruct-sandbox-test",
+    containerName: "SiriClawInstruct-sandbox-test",
     sessionKey: "test-session",
-    image: "SiriClaw-Instruct/sandbox:latest",
+    image: "SiriClawInstruct/sandbox:latest",
     imageMatch: true,
     running: true,
     createdAtMs: NOW - 3600000,
@@ -43,9 +43,9 @@ function createContainer(overrides: Partial<SandboxContainerInfo> = {}): Sandbox
 
 function createBrowser(overrides: Partial<SandboxBrowserInfo> = {}): SandboxBrowserInfo {
   return {
-    containerName: "SiriClaw-Instruct-browser-test",
+    containerName: "SiriClawInstruct-browser-test",
     sessionKey: "test-session",
-    image: "SiriClaw-Instruct/browser:latest",
+    image: "SiriClawInstruct/browser:latest",
     imageMatch: true,
     running: true,
     createdAtMs: NOW - 3600000,
@@ -326,3 +326,4 @@ describe("sandboxRecreateCommand", () => {
     });
   });
 });
+

@@ -1,5 +1,5 @@
 import SiriClaw-InstructChatUI
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import SiriClaw-InstructProtocol
 import Foundation
 import OSLog
@@ -140,3 +140,4 @@ struct IOSGatewayChatTransport: SiriClaw-InstructChatTransport, Sendable {
         }
     }
 }
+

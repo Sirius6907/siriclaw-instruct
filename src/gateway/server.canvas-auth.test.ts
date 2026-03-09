@@ -276,7 +276,7 @@ describe("gateway canvas host auth", () => {
           await expectWsRejected(`ws://${host}:${listener.port}${activeWsPath}`, {});
         },
       });
-    }, "SiriClaw-Instruct-canvas-auth-test-");
+    }, "SiriClawInstruct-canvas-auth-test-");
   }, 60_000);
 
   test("denies canvas auth when trusted proxy omits forwarded client headers", async () => {
@@ -384,3 +384,4 @@ describe("gateway canvas host auth", () => {
     });
   }, 60_000);
 });
+

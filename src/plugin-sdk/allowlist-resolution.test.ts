@@ -16,3 +16,4 @@ describe("mapAllowlistResolutionInputs", () => {
     expect(result).toEqual(["ONE", "TWO", "THREE"]);
   });
 });
+

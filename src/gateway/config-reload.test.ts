@@ -276,7 +276,7 @@ function createWatcherMock() {
 
 function makeSnapshot(partial: Partial<ConfigFileSnapshot> = {}): ConfigFileSnapshot {
   return {
-    path: "/tmp/SiriClaw-Instruct.json",
+    path: "/tmp/SiriClawInstruct.json",
     exists: true,
     raw: "{}",
     parsed: {},
@@ -306,7 +306,7 @@ function createReloaderHarness(readSnapshot: () => Promise<ConfigFileSnapshot>) 
     onHotReload,
     onRestart,
     log,
-    watchPath: "/tmp/SiriClaw-Instruct.json",
+    watchPath: "/tmp/SiriClawInstruct.json",
   });
   return { watcher, onHotReload, onRestart, log, reloader };
 }
@@ -416,3 +416,4 @@ describe("startGatewayConfigReloader", () => {
     }
   });
 });
+

@@ -1,9 +1,9 @@
 import { createActionGate } from "../agents/tools/common.js";
 import type { ChannelMessageActionName, ChannelToolSend } from "../channels/plugins/types.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { listEnabledSlackAccounts } from "./accounts.js";
 
-export function listSlackMessageActions(cfg: SiriClaw-InstructConfig): ChannelMessageActionName[] {
+export function listSlackMessageActions(cfg: SiriClawInstructConfig): ChannelMessageActionName[] {
   const accounts = listEnabledSlackAccounts(cfg).filter(
     (account) => account.botTokenSource !== "none",
   );
@@ -60,3 +60,4 @@ export function extractSlackToolSend(args: Record<string, unknown>): ChannelTool
   const accountId = typeof args.accountId === "string" ? args.accountId.trim() : undefined;
   return { to, accountId };
 }
+

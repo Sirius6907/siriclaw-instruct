@@ -14,5 +14,6 @@ export {
   requestBodyErrorToText,
 } from "../infra/http-body.js";
 export { fetchWithSsrFGuard } from "../infra/net/fetch-guard.js";
-export type { SiriClaw-InstructPluginApi } from "../plugins/types.js";
+export type { SiriClawInstructPluginApi } from "../plugins/types.js";
 export { sleep } from "../utils.js";
+

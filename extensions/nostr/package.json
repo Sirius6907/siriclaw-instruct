@@ -1,13 +1,13 @@
 {
-  "name": "@SiriClaw-Instruct/nostr",
+  "name": "@siriclaw-instruct/nostr",
   "version": "2026.3.8",
-  "description": "SiriClaw-Instruct Nostr channel plugin for NIP-04 encrypted DMs",
+  "description": "siriclaw-instruct Nostr channel plugin for NIP-04 encrypted DMs",
   "type": "module",
   "dependencies": {
     "nostr-tools": "^2.23.3",
     "zod": "^4.3.6"
   },
-  "SiriClaw-Instruct": {
+  "siriclaw-instruct": {
     "extensions": [
       "./index.ts"
     ],
@@ -22,9 +22,13 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@SiriClaw-Instruct/nostr",
+      "npmSpec": "@siriclaw-instruct/nostr",
       "localPath": "extensions/nostr",
       "defaultChoice": "npm"
     }
   }
 }
+
+
+
+

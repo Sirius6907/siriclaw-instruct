@@ -117,3 +117,4 @@ export function resolveGatewayService(): GatewayService {
   }
   throw new Error(`Gateway service install not supported on ${process.platform}`);
 }
+

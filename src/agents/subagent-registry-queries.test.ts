@@ -385,3 +385,4 @@ describe("subagent registry query regressions", () => {
     expect(shouldIgnorePostCompletionAnnounceForSessionFromRuns(runs, childSessionKey)).toBe(false);
   });
 });
+

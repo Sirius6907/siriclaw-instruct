@@ -19,18 +19,18 @@ function createService(overrides: Partial<GatewayService>): GatewayService {
 }
 
 describe("readServiceStatusSummary", () => {
-  it("marks SiriClaw-Instruct-managed services as installed", async () => {
+  it("marks SiriClawInstruct-managed services as installed", async () => {
     const summary = await readServiceStatusSummary(
       createService({
         isLoaded: vi.fn(async () => true),
-        readCommand: vi.fn(async () => ({ programArguments: ["SiriClaw-Instruct", "gateway", "run"] })),
+        readCommand: vi.fn(async () => ({ programArguments: ["SiriClawInstruct", "gateway", "run"] })),
         readRuntime: vi.fn(async () => ({ status: "running" })),
       }),
       "Daemon",
     );
 
     expect(summary.installed).toBe(true);
-    expect(summary.managedBySiriClaw-Instruct).toBe(true);
+    expect(summary.managedBySiriClawInstruct).toBe(true);
     expect(summary.externallyManaged).toBe(false);
     expect(summary.loadedText).toBe("enabled");
   });
@@ -44,7 +44,7 @@ describe("readServiceStatusSummary", () => {
     );
 
     expect(summary.installed).toBe(true);
-    expect(summary.managedBySiriClaw-Instruct).toBe(false);
+    expect(summary.managedBySiriClawInstruct).toBe(false);
     expect(summary.externallyManaged).toBe(true);
     expect(summary.loadedText).toBe("running (externally managed)");
   });
@@ -53,8 +53,9 @@ describe("readServiceStatusSummary", () => {
     const summary = await readServiceStatusSummary(createService({}), "Daemon");
 
     expect(summary.installed).toBe(false);
-    expect(summary.managedBySiriClaw-Instruct).toBe(false);
+    expect(summary.managedBySiriClawInstruct).toBe(false);
     expect(summary.externallyManaged).toBe(false);
     expect(summary.loadedText).toBe("disabled");
   });
 });
+

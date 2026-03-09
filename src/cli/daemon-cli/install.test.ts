@@ -22,7 +22,7 @@ const resolveSecretRefValuesMock = vi.hoisted(() => vi.fn());
 const randomTokenMock = vi.hoisted(() => vi.fn(() => "generated-token"));
 const buildGatewayInstallPlanMock = vi.hoisted(() =>
   vi.fn(async () => ({
-    programArguments: ["SiriClaw-Instruct", "gateway", "run"],
+    programArguments: ["SiriClawInstruct", "gateway", "run"],
     workingDirectory: "/tmp",
     environment: {},
   })),
@@ -164,7 +164,7 @@ describe("runDaemonInstall", () => {
     resolveSecretRefValuesMock.mockResolvedValue(new Map());
     randomTokenMock.mockReturnValue("generated-token");
     buildGatewayInstallPlanMock.mockResolvedValue({
-      programArguments: ["SiriClaw-Instruct", "gateway", "run"],
+      programArguments: ["SiriClawInstruct", "gateway", "run"],
       workingDirectory: "/tmp",
       environment: {},
     });
@@ -172,7 +172,7 @@ describe("runDaemonInstall", () => {
     isGatewayDaemonRuntimeMock.mockReturnValue(true);
     installDaemonServiceAndEmitMock.mockResolvedValue(undefined);
     service.isLoaded.mockResolvedValue(false);
-    delete process.env.SiriClaw-Instruct_GATEWAY_TOKEN;
+    delete process.env.SiriClawInstruct_GATEWAY_TOKEN;
     delete process.env.SIRICLAW_GATEWAY_TOKEN;
   });
 
@@ -182,7 +182,7 @@ describe("runDaemonInstall", () => {
 
   it("fails install when token auth requires an unresolved token SecretRef", async () => {
     resolveSecretInputRefMock.mockReturnValue({
-      ref: { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_TOKEN" },
+      ref: { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_TOKEN" },
     });
     resolveSecretRefValuesMock.mockRejectedValue(new Error("secret unavailable"));
 
@@ -196,10 +196,10 @@ describe("runDaemonInstall", () => {
 
   it("validates token SecretRef but does not serialize resolved token into service env", async () => {
     resolveSecretInputRefMock.mockReturnValue({
-      ref: { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_TOKEN" },
+      ref: { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_TOKEN" },
     });
     resolveSecretRefValuesMock.mockResolvedValue(
-      new Map([["env:default:SiriClaw-Instruct_GATEWAY_TOKEN", "resolved-from-secretref"]]),
+      new Map([["env:default:SiriClawInstruct_GATEWAY_TOKEN", "resolved-from-secretref"]]),
     );
 
     await runDaemonInstall({ json: true });
@@ -217,13 +217,13 @@ describe("runDaemonInstall", () => {
 
   it("does not treat env-template gateway.auth.token as plaintext during install", async () => {
     loadConfigMock.mockReturnValue({
-      gateway: { auth: { mode: "token", token: "${SiriClaw-Instruct_GATEWAY_TOKEN}" } },
+      gateway: { auth: { mode: "token", token: "${SiriClawInstruct_GATEWAY_TOKEN}" } },
     });
     resolveSecretInputRefMock.mockReturnValue({
-      ref: { source: "env", provider: "default", id: "SiriClaw-Instruct_GATEWAY_TOKEN" },
+      ref: { source: "env", provider: "default", id: "SiriClawInstruct_GATEWAY_TOKEN" },
     });
     resolveSecretRefValuesMock.mockResolvedValue(
-      new Map([["env:default:SiriClaw-Instruct_GATEWAY_TOKEN", "resolved-from-secretref"]]),
+      new Map([["env:default:SiriClawInstruct_GATEWAY_TOKEN", "resolved-from-secretref"]]),
     );
 
     await runDaemonInstall({ json: true });
@@ -281,3 +281,4 @@ describe("runDaemonInstall", () => {
     expect(installDaemonServiceAndEmitMock).not.toHaveBeenCalled();
   });
 });
+

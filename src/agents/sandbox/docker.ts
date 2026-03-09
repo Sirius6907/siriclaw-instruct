@@ -342,11 +342,11 @@ export function buildSandboxCreateArgs(params: {
 
   const createdAtMs = params.createdAtMs ?? Date.now();
   const args = ["create", "--name", params.name];
-  args.push("--label", "SiriClaw-Instruct.sandbox=1");
-  args.push("--label", `SiriClaw-Instruct.sessionKey=${params.scopeKey}`);
-  args.push("--label", `SiriClaw-Instruct.createdAtMs=${createdAtMs}`);
+  args.push("--label", "SiriClawInstruct.sandbox=1");
+  args.push("--label", `SiriClawInstruct.sessionKey=${params.scopeKey}`);
+  args.push("--label", `SiriClawInstruct.createdAtMs=${createdAtMs}`);
   if (params.configHash) {
-    args.push("--label", `SiriClaw-Instruct.configHash=${params.configHash}`);
+    args.push("--label", `SiriClawInstruct.configHash=${params.configHash}`);
   }
   for (const [key, value] of Object.entries(params.labels ?? {})) {
     if (key && value) {
@@ -472,18 +472,18 @@ async function createSandboxContainer(params: {
 }
 
 async function readContainerConfigHash(containerName: string): Promise<string | null> {
-  return await readDockerContainerLabel(containerName, "SiriClaw-Instruct.configHash");
+  return await readDockerContainerLabel(containerName, "SiriClawInstruct.configHash");
 }
 
 function formatSandboxRecreateHint(params: { scope: SandboxConfig["scope"]; sessionKey: string }) {
   if (params.scope === "session") {
-    return formatCliCommand(`SiriClaw-Instruct sandbox recreate --session ${params.sessionKey}`);
+    return formatCliCommand(`SiriClawInstruct sandbox recreate --session ${params.sessionKey}`);
   }
   if (params.scope === "agent") {
     const agentId = resolveSandboxAgentId(params.sessionKey) ?? "main";
-    return formatCliCommand(`SiriClaw-Instruct sandbox recreate --agent ${agentId}`);
+    return formatCliCommand(`SiriClawInstruct sandbox recreate --agent ${agentId}`);
   }
-  return formatCliCommand("SiriClaw-Instruct sandbox recreate --all");
+  return formatCliCommand("SiriClawInstruct sandbox recreate --all");
 }
 
 export async function ensureSandboxContainer(params: {
@@ -562,3 +562,4 @@ export async function ensureSandboxContainer(params: {
   });
   return containerName;
 }
+

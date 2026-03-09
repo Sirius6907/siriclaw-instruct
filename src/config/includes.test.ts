@@ -13,17 +13,17 @@ import {
 
 const ROOT_DIR = path.parse(process.cwd()).root;
 const CONFIG_DIR = path.join(ROOT_DIR, "config");
-const ETC_SiriClaw-Instruct_DIR = path.join(ROOT_DIR, "etc", "SiriClaw-Instruct");
+const ETC_SiriClawInstruct_DIR = path.join(ROOT_DIR, "etc", "SiriClawInstruct");
 const SHARED_DIR = path.join(ROOT_DIR, "shared");
 
-const DEFAULT_BASE_PATH = path.join(CONFIG_DIR, "SiriClaw-Instruct.json");
+const DEFAULT_BASE_PATH = path.join(CONFIG_DIR, "SiriClawInstruct.json");
 
 function configPath(...parts: string[]) {
   return path.join(CONFIG_DIR, ...parts);
 }
 
-function etcSiriClaw-InstructPath(...parts: string[]) {
-  return path.join(ETC_SiriClaw-Instruct_DIR, ...parts);
+function etcSiriClawInstructPath(...parts: string[]) {
+  return path.join(ETC_SiriClawInstruct_DIR, ...parts);
 }
 
 function sharedPath(...parts: string[]) {
@@ -83,7 +83,7 @@ describe("resolveConfigIncludes", () => {
   });
 
   it("rejects absolute path outside config directory (CWE-22)", () => {
-    const absolute = etcSiriClaw-InstructPath("agents.json");
+    const absolute = etcSiriClawInstructPath("agents.json");
     const files = { [absolute]: { list: [{ id: "main" }] } };
     const obj = { agents: { $include: absolute } };
     expectResolveIncludeError(() => resolve(obj, files), /escapes config directory/);
@@ -322,7 +322,7 @@ describe("resolveConfigIncludes", () => {
         resolve(
           { $include: "../../shared/common.json" },
           { [sharedPath("common.json")]: { shared: true } },
-          configPath("sub", "SiriClaw-Instruct.json"),
+          configPath("sub", "SiriClawInstruct.json"),
         ),
       /escapes config directory/,
     );
@@ -620,7 +620,7 @@ describe("security: path traversal protection (CWE-22)", () => {
     });
 
     it("allows include files when the config root path is a symlink", async () => {
-      const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-includes-symlink-"));
+      const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-includes-symlink-"));
       try {
         const realRoot = path.join(tempRoot, "real");
         const linkRoot = path.join(tempRoot, "link");
@@ -634,7 +634,7 @@ describe("security: path traversal protection (CWE-22)", () => {
 
         const result = resolveConfigIncludes(
           { $include: "./includes/extra.json5" },
-          path.join(linkRoot, "SiriClaw-Instruct.json"),
+          path.join(linkRoot, "SiriClawInstruct.json"),
         );
         expect(result).toEqual({ logging: { redactSensitive: "tools" } });
       } finally {
@@ -646,7 +646,7 @@ describe("security: path traversal protection (CWE-22)", () => {
       if (process.platform === "win32") {
         return;
       }
-      const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-includes-hardlink-"));
+      const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-includes-hardlink-"));
       try {
         const configDir = path.join(tempRoot, "config");
         const outsideDir = path.join(tempRoot, "outside");
@@ -667,7 +667,7 @@ describe("security: path traversal protection (CWE-22)", () => {
         expect(() =>
           resolveConfigIncludes(
             { $include: "./extra.json5" },
-            path.join(configDir, "SiriClaw-Instruct.json"),
+            path.join(configDir, "SiriClawInstruct.json"),
           ),
         ).toThrow(/security checks|hardlink/i);
       } finally {
@@ -676,7 +676,7 @@ describe("security: path traversal protection (CWE-22)", () => {
     });
 
     it("rejects oversized include files", async () => {
-      const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-includes-big-"));
+      const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-includes-big-"));
       try {
         const configDir = path.join(tempRoot, "config");
         await fs.mkdir(configDir, { recursive: true });
@@ -685,7 +685,7 @@ describe("security: path traversal protection (CWE-22)", () => {
         await fs.writeFile(includePath, `{"blob":"${payload}"}`, "utf-8");
 
         expect(() =>
-          resolveConfigIncludes({ $include: "./big.json5" }, path.join(configDir, "SiriClaw-Instruct.json")),
+          resolveConfigIncludes({ $include: "./big.json5" }, path.join(configDir, "SiriClawInstruct.json")),
         ).toThrow(/security checks|max/i);
       } finally {
         await fs.rm(tempRoot, { recursive: true, force: true });
@@ -693,3 +693,4 @@ describe("security: path traversal protection (CWE-22)", () => {
     });
   });
 });
+

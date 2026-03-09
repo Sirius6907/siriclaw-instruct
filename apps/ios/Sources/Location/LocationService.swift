@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import CoreLocation
 import Foundation
 
@@ -176,3 +176,4 @@ final class LocationService: NSObject, CLLocationManagerDelegate, LocationServic
         }
     }
 }
+

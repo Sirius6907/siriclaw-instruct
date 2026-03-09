@@ -11,7 +11,7 @@ vi.mock("./agent.js", () => ({
   agentCommand: vi.fn(),
 }));
 
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import * as configModule from "../config/config.js";
 import { callGateway } from "../gateway/call.js";
 import type { RuntimeEnv } from "../runtime.js";
@@ -26,7 +26,7 @@ const runtime: RuntimeEnv = {
 
 const configSpy = vi.spyOn(configModule, "loadConfig");
 
-function mockConfig(storePath: string, overrides?: Partial<SiriClaw-InstructConfig>) {
+function mockConfig(storePath: string, overrides?: Partial<SiriClawInstructConfig>) {
   configSpy.mockReturnValue({
     agents: {
       defaults: {
@@ -45,9 +45,9 @@ function mockConfig(storePath: string, overrides?: Partial<SiriClaw-InstructConf
 
 async function withTempStore(
   fn: (ctx: { dir: string; store: string }) => Promise<void>,
-  overrides?: Partial<SiriClaw-InstructConfig>,
+  overrides?: Partial<SiriClawInstructConfig>,
 ) {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClaw-Instruct-agent-cli-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "SiriClawInstruct-agent-cli-"));
   const store = path.join(dir, "sessions.json");
   mockConfig(store, overrides);
   try {
@@ -139,3 +139,4 @@ describe("agentCliCommand", () => {
     });
   });
 });
+

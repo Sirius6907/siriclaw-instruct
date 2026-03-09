@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import {
   estimateUsageCost,
   formatTokenCount,
@@ -37,7 +37,7 @@ describe("usage-format", () => {
           },
         },
       },
-    } as unknown as SiriClaw-InstructConfig;
+    } as unknown as SiriClawInstructConfig;
 
     const cost = resolveModelCostConfig({
       provider: "test",
@@ -60,3 +60,4 @@ describe("usage-format", () => {
     expect(total).toBeCloseTo(0.003);
   });
 });
+

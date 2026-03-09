@@ -1,4 +1,4 @@
-import SiriClaw-InstructKit
+import siriclaw-instruct-kit
 import Foundation
 import Testing
 
@@ -49,3 +49,4 @@ import Testing
         #expect(ShareToAgentSettings.loadDefaultInstruction() == value)
     }
 }
+

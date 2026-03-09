@@ -23,15 +23,15 @@ describe("config irc", () => {
       channels: {
         irc: {
           host: "irc.libera.chat",
-          nick: "SiriClaw-Instruct-bot",
-          channels: ["#SiriClaw-Instruct"],
+          nick: "SiriClawInstruct-bot",
+          channels: ["#SiriClawInstruct"],
         },
       },
     });
 
     const config = expectValidConfig(res);
     expect(config.channels?.irc?.host).toBe("irc.libera.chat");
-    expect(config.channels?.irc?.nick).toBe("SiriClaw-Instruct-bot");
+    expect(config.channels?.irc?.nick).toBe("SiriClawInstruct-bot");
   });
 
   it('rejects irc.dmPolicy="open" without allowFrom "*"', () => {
@@ -131,3 +131,4 @@ describe("config irc", () => {
     expectValidConfig(res);
   });
 });
+

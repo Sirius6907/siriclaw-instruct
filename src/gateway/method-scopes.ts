@@ -210,3 +210,4 @@ export function isGatewayMethodClassified(method: string): boolean {
   }
   return resolveRequiredOperatorScopeForMethod(method) !== undefined;
 }
+

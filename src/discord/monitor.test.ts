@@ -198,14 +198,14 @@ describe("DiscordMessageListener", () => {
 
 describe("discord allowlist helpers", () => {
   it("normalizes slugs", () => {
-    expect(normalizeDiscordSlug("Friends of SiriClaw-Instruct")).toBe("friends-of-SiriClaw-Instruct");
+    expect(normalizeDiscordSlug("Friends of SiriClawInstruct")).toBe("friends-of-SiriClawInstruct");
     expect(normalizeDiscordSlug("#General")).toBe("general");
     expect(normalizeDiscordSlug("Dev__Chat")).toBe("dev-chat");
   });
 
   it("matches ids by default and names only when enabled", () => {
     const allow = normalizeDiscordAllowList(
-      ["123", "steipete", "Friends of SiriClaw-Instruct"],
+      ["123", "steipete", "Friends of SiriClawInstruct"],
       ["discord:", "user:", "guild:", "channel:"],
     );
     expect(allow).not.toBeNull();
@@ -214,10 +214,10 @@ describe("discord allowlist helpers", () => {
     }
     expect(allowListMatches(allow, { id: "123" })).toBe(true);
     expect(allowListMatches(allow, { name: "steipete" })).toBe(false);
-    expect(allowListMatches(allow, { name: "friends-of-SiriClaw-Instruct" })).toBe(false);
+    expect(allowListMatches(allow, { name: "friends-of-SiriClawInstruct" })).toBe(false);
     expect(allowListMatches(allow, { name: "steipete" }, { allowNameMatching: true })).toBe(true);
     expect(
-      allowListMatches(allow, { name: "friends-of-SiriClaw-Instruct" }, { allowNameMatching: true }),
+      allowListMatches(allow, { name: "friends-of-SiriClawInstruct" }, { allowNameMatching: true }),
     ).toBe(true);
     expect(allowListMatches(allow, { name: "other" })).toBe(false);
   });
@@ -236,26 +236,26 @@ describe("discord allowlist helpers", () => {
 describe("discord guild/channel resolution", () => {
   it("resolves guild entry by id", () => {
     const guildEntries = makeEntries({
-      "123": { slug: "friends-of-SiriClaw-Instruct" },
+      "123": { slug: "friends-of-SiriClawInstruct" },
     });
     const resolved = resolveDiscordGuildEntry({
-      guild: fakeGuild("123", "Friends of SiriClaw-Instruct"),
+      guild: fakeGuild("123", "Friends of SiriClawInstruct"),
       guildEntries,
     });
     expect(resolved?.id).toBe("123");
-    expect(resolved?.slug).toBe("friends-of-SiriClaw-Instruct");
+    expect(resolved?.slug).toBe("friends-of-SiriClawInstruct");
   });
 
   it("resolves guild entry by slug key", () => {
     const guildEntries = makeEntries({
-      "friends-of-SiriClaw-Instruct": { slug: "friends-of-SiriClaw-Instruct" },
+      "friends-of-SiriClawInstruct": { slug: "friends-of-SiriClawInstruct" },
     });
     const resolved = resolveDiscordGuildEntry({
-      guild: fakeGuild("123", "Friends of SiriClaw-Instruct"),
+      guild: fakeGuild("123", "Friends of SiriClawInstruct"),
       guildEntries,
     });
     expect(resolved?.id).toBe("123");
-    expect(resolved?.slug).toBe("friends-of-SiriClaw-Instruct");
+    expect(resolved?.slug).toBe("friends-of-SiriClawInstruct");
   });
 
   it("falls back to wildcard guild entry", () => {
@@ -263,7 +263,7 @@ describe("discord guild/channel resolution", () => {
       "*": { requireMention: false },
     });
     const resolved = resolveDiscordGuildEntry({
-      guild: fakeGuild("123", "Friends of SiriClaw-Instruct"),
+      guild: fakeGuild("123", "Friends of SiriClawInstruct"),
       guildEntries,
     });
     expect(resolved?.id).toBe("123");
@@ -611,15 +611,15 @@ describe("discord group DM gating", () => {
   it("matches group DM allowlist", () => {
     expect(
       resolveGroupDmAllow({
-        channels: ["SiriClaw-Instruct-dm"],
+        channels: ["SiriClawInstruct-dm"],
         channelId: "1",
-        channelName: "SiriClaw-Instruct DM",
-        channelSlug: "SiriClaw-Instruct-dm",
+        channelName: "SiriClawInstruct DM",
+        channelSlug: "SiriClawInstruct-dm",
       }),
     ).toBe(true);
     expect(
       resolveGroupDmAllow({
-        channels: ["SiriClaw-Instruct-dm"],
+        channels: ["SiriClawInstruct-dm"],
         channelId: "1",
         channelName: "Other",
         channelSlug: "other",
@@ -1237,3 +1237,4 @@ describe("discord reaction notification modes", () => {
     }
   });
 });
+

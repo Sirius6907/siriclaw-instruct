@@ -22,3 +22,4 @@ export function resolveGatewayProbeAuth(cfg: ReturnType<typeof loadConfig>): {
 } {
   return resolveGatewayProbeAuthResolution(cfg).auth;
 }
+

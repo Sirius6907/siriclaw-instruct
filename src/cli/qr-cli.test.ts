@@ -133,9 +133,9 @@ describe("registerQrCli", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.stubEnv("SiriClaw-Instruct_GATEWAY_TOKEN", "");
+    vi.stubEnv("SiriClawInstruct_GATEWAY_TOKEN", "");
     vi.stubEnv("SIRICLAW_GATEWAY_TOKEN", "");
-    vi.stubEnv("SiriClaw-Instruct_GATEWAY_PASSWORD", "");
+    vi.stubEnv("SiriClawInstruct_GATEWAY_PASSWORD", "");
     vi.stubEnv("SIRICLAW_GATEWAY_PASSWORD", "");
   });
 
@@ -179,7 +179,7 @@ describe("registerQrCli", () => {
     expect(output).toContain("Pairing QR");
     expect(output).toContain("ASCII-QR");
     expect(output).toContain("Gateway:");
-    expect(output).toContain("SiriClaw-Instruct devices approve <requestId>");
+    expect(output).toContain("SiriClawInstruct devices approve <requestId>");
   });
 
   it("accepts --token override when config has no auth", async () => {
@@ -233,8 +233,8 @@ describe("registerQrCli", () => {
     expect(resolveCommandSecretRefsViaGateway).not.toHaveBeenCalled();
   });
 
-  it("uses SiriClaw-Instruct_GATEWAY_PASSWORD without resolving local password SecretRef", async () => {
-    vi.stubEnv("SiriClaw-Instruct_GATEWAY_PASSWORD", "password-from-env");
+  it("uses SiriClawInstruct_GATEWAY_PASSWORD without resolving local password SecretRef", async () => {
+    vi.stubEnv("SiriClawInstruct_GATEWAY_PASSWORD", "password-from-env");
     loadConfig.mockReturnValue(
       createLocalGatewayConfigWithAuth(
         createLocalGatewayPasswordRefAuth("MISSING_LOCAL_GATEWAY_PASSWORD"),
@@ -462,3 +462,4 @@ describe("registerQrCli", () => {
     expect(payload.urlSource).toBe("gateway.tailscale.mode=serve");
   });
 });
+

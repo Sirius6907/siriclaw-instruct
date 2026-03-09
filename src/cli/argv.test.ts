@@ -20,47 +20,47 @@ describe("argv helpers", () => {
   it.each([
     {
       name: "help flag",
-      argv: ["node", "SiriClaw-Instruct", "--help"],
+      argv: ["node", "SiriClawInstruct", "--help"],
       expected: true,
     },
     {
       name: "version flag",
-      argv: ["node", "SiriClaw-Instruct", "-V"],
+      argv: ["node", "SiriClawInstruct", "-V"],
       expected: true,
     },
     {
       name: "normal command",
-      argv: ["node", "SiriClaw-Instruct", "status"],
+      argv: ["node", "SiriClawInstruct", "status"],
       expected: false,
     },
     {
       name: "root -v alias",
-      argv: ["node", "SiriClaw-Instruct", "-v"],
+      argv: ["node", "SiriClawInstruct", "-v"],
       expected: true,
     },
     {
       name: "root -v alias with profile",
-      argv: ["node", "SiriClaw-Instruct", "--profile", "work", "-v"],
+      argv: ["node", "SiriClawInstruct", "--profile", "work", "-v"],
       expected: true,
     },
     {
       name: "root -v alias with log-level",
-      argv: ["node", "SiriClaw-Instruct", "--log-level", "debug", "-v"],
+      argv: ["node", "SiriClawInstruct", "--log-level", "debug", "-v"],
       expected: true,
     },
     {
       name: "subcommand -v should not be treated as version",
-      argv: ["node", "SiriClaw-Instruct", "acp", "-v"],
+      argv: ["node", "SiriClawInstruct", "acp", "-v"],
       expected: false,
     },
     {
       name: "root -v alias with equals profile",
-      argv: ["node", "SiriClaw-Instruct", "--profile=work", "-v"],
+      argv: ["node", "SiriClawInstruct", "--profile=work", "-v"],
       expected: true,
     },
     {
       name: "subcommand path after global root flags should not be treated as version",
-      argv: ["node", "SiriClaw-Instruct", "--dev", "skills", "list", "-v"],
+      argv: ["node", "SiriClawInstruct", "--dev", "skills", "list", "-v"],
       expected: false,
     },
   ])("detects help/version flags: $name", ({ argv, expected }) => {
@@ -70,27 +70,27 @@ describe("argv helpers", () => {
   it.each([
     {
       name: "root --version",
-      argv: ["node", "SiriClaw-Instruct", "--version"],
+      argv: ["node", "SiriClawInstruct", "--version"],
       expected: true,
     },
     {
       name: "root -V",
-      argv: ["node", "SiriClaw-Instruct", "-V"],
+      argv: ["node", "SiriClawInstruct", "-V"],
       expected: true,
     },
     {
       name: "root -v alias with profile",
-      argv: ["node", "SiriClaw-Instruct", "--profile", "work", "-v"],
+      argv: ["node", "SiriClawInstruct", "--profile", "work", "-v"],
       expected: true,
     },
     {
       name: "subcommand version flag",
-      argv: ["node", "SiriClaw-Instruct", "status", "--version"],
+      argv: ["node", "SiriClawInstruct", "status", "--version"],
       expected: false,
     },
     {
       name: "unknown root flag with version",
-      argv: ["node", "SiriClaw-Instruct", "--unknown", "--version"],
+      argv: ["node", "SiriClawInstruct", "--unknown", "--version"],
       expected: false,
     },
   ])("detects root-only version invocations: $name", ({ argv, expected }) => {
@@ -100,42 +100,42 @@ describe("argv helpers", () => {
   it.each([
     {
       name: "root --help",
-      argv: ["node", "SiriClaw-Instruct", "--help"],
+      argv: ["node", "SiriClawInstruct", "--help"],
       expected: true,
     },
     {
       name: "root -h",
-      argv: ["node", "SiriClaw-Instruct", "-h"],
+      argv: ["node", "SiriClawInstruct", "-h"],
       expected: true,
     },
     {
       name: "root --help with profile",
-      argv: ["node", "SiriClaw-Instruct", "--profile", "work", "--help"],
+      argv: ["node", "SiriClawInstruct", "--profile", "work", "--help"],
       expected: true,
     },
     {
       name: "subcommand --help",
-      argv: ["node", "SiriClaw-Instruct", "status", "--help"],
+      argv: ["node", "SiriClawInstruct", "status", "--help"],
       expected: false,
     },
     {
       name: "help before subcommand token",
-      argv: ["node", "SiriClaw-Instruct", "--help", "status"],
+      argv: ["node", "SiriClawInstruct", "--help", "status"],
       expected: false,
     },
     {
       name: "help after -- terminator",
-      argv: ["node", "SiriClaw-Instruct", "nodes", "run", "--", "git", "--help"],
+      argv: ["node", "SiriClawInstruct", "nodes", "run", "--", "git", "--help"],
       expected: false,
     },
     {
       name: "unknown root flag before help",
-      argv: ["node", "SiriClaw-Instruct", "--unknown", "--help"],
+      argv: ["node", "SiriClawInstruct", "--unknown", "--help"],
       expected: false,
     },
     {
       name: "unknown root flag after help",
-      argv: ["node", "SiriClaw-Instruct", "--help", "--unknown"],
+      argv: ["node", "SiriClawInstruct", "--help", "--unknown"],
       expected: false,
     },
   ])("detects root-only help invocations: $name", ({ argv, expected }) => {
@@ -145,17 +145,17 @@ describe("argv helpers", () => {
   it.each([
     {
       name: "single command with trailing flag",
-      argv: ["node", "SiriClaw-Instruct", "status", "--json"],
+      argv: ["node", "SiriClawInstruct", "status", "--json"],
       expected: ["status"],
     },
     {
       name: "two-part command",
-      argv: ["node", "SiriClaw-Instruct", "agents", "list"],
+      argv: ["node", "SiriClawInstruct", "agents", "list"],
       expected: ["agents", "list"],
     },
     {
       name: "terminator cuts parsing",
-      argv: ["node", "SiriClaw-Instruct", "status", "--", "ignored"],
+      argv: ["node", "SiriClawInstruct", "status", "--", "ignored"],
       expected: ["status"],
     },
   ])("extracts command path: $name", ({ argv, expected }) => {
@@ -165,7 +165,7 @@ describe("argv helpers", () => {
   it("extracts command path while skipping known root option values", () => {
     expect(
       getCommandPathWithRootOptions(
-        ["node", "SiriClaw-Instruct", "--profile", "work", "--no-color", "config", "validate"],
+        ["node", "SiriClawInstruct", "--profile", "work", "--no-color", "config", "validate"],
         2,
       ),
     ).toEqual(["config", "validate"]);
@@ -174,7 +174,7 @@ describe("argv helpers", () => {
   it("extracts routed config get positionals with interleaved root options", () => {
     expect(
       getCommandPositionalsWithRootOptions(
-        ["node", "SiriClaw-Instruct", "config", "get", "--log-level", "debug", "update.channel", "--json"],
+        ["node", "SiriClawInstruct", "config", "get", "--log-level", "debug", "update.channel", "--json"],
         {
           commandPath: ["config", "get"],
           booleanFlags: ["--json"],
@@ -186,7 +186,7 @@ describe("argv helpers", () => {
   it("extracts routed config unset positionals with interleaved root options", () => {
     expect(
       getCommandPositionalsWithRootOptions(
-        ["node", "SiriClaw-Instruct", "config", "unset", "--profile", "work", "update.channel"],
+        ["node", "SiriClawInstruct", "config", "unset", "--profile", "work", "update.channel"],
         {
           commandPath: ["config", "unset"],
         },
@@ -197,7 +197,7 @@ describe("argv helpers", () => {
   it("returns null when routed command sees unknown options", () => {
     expect(
       getCommandPositionalsWithRootOptions(
-        ["node", "SiriClaw-Instruct", "config", "get", "--mystery", "value", "update.channel"],
+        ["node", "SiriClawInstruct", "config", "get", "--mystery", "value", "update.channel"],
         {
           commandPath: ["config", "get"],
           booleanFlags: ["--json"],
@@ -209,17 +209,17 @@ describe("argv helpers", () => {
   it.each([
     {
       name: "returns first command token",
-      argv: ["node", "SiriClaw-Instruct", "agents", "list"],
+      argv: ["node", "SiriClawInstruct", "agents", "list"],
       expected: "agents",
     },
     {
       name: "returns null when no command exists",
-      argv: ["node", "SiriClaw-Instruct"],
+      argv: ["node", "SiriClawInstruct"],
       expected: null,
     },
     {
       name: "skips known root option values",
-      argv: ["node", "SiriClaw-Instruct", "--log-level", "debug", "status"],
+      argv: ["node", "SiriClawInstruct", "--log-level", "debug", "status"],
       expected: "status",
     },
   ])("returns primary command: $name", ({ argv, expected }) => {
@@ -229,13 +229,13 @@ describe("argv helpers", () => {
   it.each([
     {
       name: "detects flag before terminator",
-      argv: ["node", "SiriClaw-Instruct", "status", "--json"],
+      argv: ["node", "SiriClawInstruct", "status", "--json"],
       flag: "--json",
       expected: true,
     },
     {
       name: "ignores flag after terminator",
-      argv: ["node", "SiriClaw-Instruct", "--", "--json"],
+      argv: ["node", "SiriClawInstruct", "--", "--json"],
       flag: "--json",
       expected: false,
     },
@@ -246,27 +246,27 @@ describe("argv helpers", () => {
   it.each([
     {
       name: "value in next token",
-      argv: ["node", "SiriClaw-Instruct", "status", "--timeout", "5000"],
+      argv: ["node", "SiriClawInstruct", "status", "--timeout", "5000"],
       expected: "5000",
     },
     {
       name: "value in equals form",
-      argv: ["node", "SiriClaw-Instruct", "status", "--timeout=2500"],
+      argv: ["node", "SiriClawInstruct", "status", "--timeout=2500"],
       expected: "2500",
     },
     {
       name: "missing value",
-      argv: ["node", "SiriClaw-Instruct", "status", "--timeout"],
+      argv: ["node", "SiriClawInstruct", "status", "--timeout"],
       expected: null,
     },
     {
       name: "next token is another flag",
-      argv: ["node", "SiriClaw-Instruct", "status", "--timeout", "--json"],
+      argv: ["node", "SiriClawInstruct", "status", "--timeout", "--json"],
       expected: null,
     },
     {
       name: "flag appears after terminator",
-      argv: ["node", "SiriClaw-Instruct", "--", "--timeout=99"],
+      argv: ["node", "SiriClawInstruct", "--", "--timeout=99"],
       expected: undefined,
     },
   ])("extracts flag values: $name", ({ argv, expected }) => {
@@ -274,9 +274,9 @@ describe("argv helpers", () => {
   });
 
   it("parses verbose flags", () => {
-    expect(getVerboseFlag(["node", "SiriClaw-Instruct", "status", "--verbose"])).toBe(true);
-    expect(getVerboseFlag(["node", "SiriClaw-Instruct", "status", "--debug"])).toBe(false);
-    expect(getVerboseFlag(["node", "SiriClaw-Instruct", "status", "--debug"], { includeDebug: true })).toBe(
+    expect(getVerboseFlag(["node", "SiriClawInstruct", "status", "--verbose"])).toBe(true);
+    expect(getVerboseFlag(["node", "SiriClawInstruct", "status", "--debug"])).toBe(false);
+    expect(getVerboseFlag(["node", "SiriClawInstruct", "status", "--debug"], { includeDebug: true })).toBe(
       true,
     );
   });
@@ -284,22 +284,22 @@ describe("argv helpers", () => {
   it.each([
     {
       name: "missing flag",
-      argv: ["node", "SiriClaw-Instruct", "status"],
+      argv: ["node", "SiriClawInstruct", "status"],
       expected: undefined,
     },
     {
       name: "missing value",
-      argv: ["node", "SiriClaw-Instruct", "status", "--timeout"],
+      argv: ["node", "SiriClawInstruct", "status", "--timeout"],
       expected: null,
     },
     {
       name: "valid positive integer",
-      argv: ["node", "SiriClaw-Instruct", "status", "--timeout", "5000"],
+      argv: ["node", "SiriClawInstruct", "status", "--timeout", "5000"],
       expected: 5000,
     },
     {
       name: "invalid integer",
-      argv: ["node", "SiriClaw-Instruct", "status", "--timeout", "nope"],
+      argv: ["node", "SiriClawInstruct", "status", "--timeout", "nope"],
       expected: undefined,
     },
   ])("parses positive integer flag values: $name", ({ argv, expected }) => {
@@ -309,52 +309,52 @@ describe("argv helpers", () => {
   it("builds parse argv from raw args", () => {
     const cases = [
       {
-        rawArgs: ["node", "SiriClaw-Instruct", "status"],
-        expected: ["node", "SiriClaw-Instruct", "status"],
+        rawArgs: ["node", "SiriClawInstruct", "status"],
+        expected: ["node", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["node-22", "SiriClaw-Instruct", "status"],
-        expected: ["node-22", "SiriClaw-Instruct", "status"],
+        rawArgs: ["node-22", "SiriClawInstruct", "status"],
+        expected: ["node-22", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["node-22.2.0.exe", "SiriClaw-Instruct", "status"],
-        expected: ["node-22.2.0.exe", "SiriClaw-Instruct", "status"],
+        rawArgs: ["node-22.2.0.exe", "SiriClawInstruct", "status"],
+        expected: ["node-22.2.0.exe", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["node-22.2", "SiriClaw-Instruct", "status"],
-        expected: ["node-22.2", "SiriClaw-Instruct", "status"],
+        rawArgs: ["node-22.2", "SiriClawInstruct", "status"],
+        expected: ["node-22.2", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["node-22.2.exe", "SiriClaw-Instruct", "status"],
-        expected: ["node-22.2.exe", "SiriClaw-Instruct", "status"],
+        rawArgs: ["node-22.2.exe", "SiriClawInstruct", "status"],
+        expected: ["node-22.2.exe", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["/usr/bin/node-22.2.0", "SiriClaw-Instruct", "status"],
-        expected: ["/usr/bin/node-22.2.0", "SiriClaw-Instruct", "status"],
+        rawArgs: ["/usr/bin/node-22.2.0", "SiriClawInstruct", "status"],
+        expected: ["/usr/bin/node-22.2.0", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["node24", "SiriClaw-Instruct", "status"],
-        expected: ["node24", "SiriClaw-Instruct", "status"],
+        rawArgs: ["node24", "SiriClawInstruct", "status"],
+        expected: ["node24", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["/usr/bin/node24", "SiriClaw-Instruct", "status"],
-        expected: ["/usr/bin/node24", "SiriClaw-Instruct", "status"],
+        rawArgs: ["/usr/bin/node24", "SiriClawInstruct", "status"],
+        expected: ["/usr/bin/node24", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["node24.exe", "SiriClaw-Instruct", "status"],
-        expected: ["node24.exe", "SiriClaw-Instruct", "status"],
+        rawArgs: ["node24.exe", "SiriClawInstruct", "status"],
+        expected: ["node24.exe", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["nodejs", "SiriClaw-Instruct", "status"],
-        expected: ["nodejs", "SiriClaw-Instruct", "status"],
+        rawArgs: ["nodejs", "SiriClawInstruct", "status"],
+        expected: ["nodejs", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["node-dev", "SiriClaw-Instruct", "status"],
-        expected: ["node", "SiriClaw-Instruct", "node-dev", "SiriClaw-Instruct", "status"],
+        rawArgs: ["node-dev", "SiriClawInstruct", "status"],
+        expected: ["node", "SiriClawInstruct", "node-dev", "SiriClawInstruct", "status"],
       },
       {
-        rawArgs: ["SiriClaw-Instruct", "status"],
-        expected: ["node", "SiriClaw-Instruct", "status"],
+        rawArgs: ["SiriClawInstruct", "status"],
+        expected: ["node", "SiriClawInstruct", "status"],
       },
       {
         rawArgs: ["bun", "src/entry.ts", "status"],
@@ -364,7 +364,7 @@ describe("argv helpers", () => {
 
     for (const testCase of cases) {
       const parsed = buildParseArgv({
-        programName: "SiriClaw-Instruct",
+        programName: "SiriClawInstruct",
         rawArgs: [...testCase.rawArgs],
       });
       expect(parsed).toEqual([...testCase.expected]);
@@ -373,27 +373,27 @@ describe("argv helpers", () => {
 
   it("builds parse argv from fallback args", () => {
     const fallbackArgv = buildParseArgv({
-      programName: "SiriClaw-Instruct",
+      programName: "SiriClawInstruct",
       fallbackArgv: ["status"],
     });
-    expect(fallbackArgv).toEqual(["node", "SiriClaw-Instruct", "status"]);
+    expect(fallbackArgv).toEqual(["node", "SiriClawInstruct", "status"]);
   });
 
   it("decides when to migrate state", () => {
     const nonMutatingArgv = [
-      ["node", "SiriClaw-Instruct", "status"],
-      ["node", "SiriClaw-Instruct", "health"],
-      ["node", "SiriClaw-Instruct", "sessions"],
-      ["node", "SiriClaw-Instruct", "config", "get", "update"],
-      ["node", "SiriClaw-Instruct", "config", "unset", "update"],
-      ["node", "SiriClaw-Instruct", "models", "list"],
-      ["node", "SiriClaw-Instruct", "models", "status"],
-      ["node", "SiriClaw-Instruct", "memory", "status"],
-      ["node", "SiriClaw-Instruct", "agent", "--message", "hi"],
+      ["node", "SiriClawInstruct", "status"],
+      ["node", "SiriClawInstruct", "health"],
+      ["node", "SiriClawInstruct", "sessions"],
+      ["node", "SiriClawInstruct", "config", "get", "update"],
+      ["node", "SiriClawInstruct", "config", "unset", "update"],
+      ["node", "SiriClawInstruct", "models", "list"],
+      ["node", "SiriClawInstruct", "models", "status"],
+      ["node", "SiriClawInstruct", "memory", "status"],
+      ["node", "SiriClawInstruct", "agent", "--message", "hi"],
     ] as const;
     const mutatingArgv = [
-      ["node", "SiriClaw-Instruct", "agents", "list"],
-      ["node", "SiriClaw-Instruct", "message", "send"],
+      ["node", "SiriClawInstruct", "agents", "list"],
+      ["node", "SiriClawInstruct", "message", "send"],
     ] as const;
 
     for (const argv of nonMutatingArgv) {
@@ -413,3 +413,4 @@ describe("argv helpers", () => {
     expect(shouldMigrateStateFromPath(path)).toBe(expected);
   });
 });
+

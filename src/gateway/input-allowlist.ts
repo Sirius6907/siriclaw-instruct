@@ -7,3 +7,4 @@ export function normalizeInputHostnameAllowlist(
   const normalized = values.map((value) => value.trim()).filter((value) => value.length > 0);
   return normalized.length > 0 ? normalized : undefined;
 }
+

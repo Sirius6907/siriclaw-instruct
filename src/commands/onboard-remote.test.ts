@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { GatewayBonjourBeacon } from "../infra/bonjour-discovery.js";
 import { captureEnv } from "../test-utils/env.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -40,14 +40,14 @@ function createSelectPrompter(
 }
 
 describe("promptRemoteGatewayConfig", () => {
-  const envSnapshot = captureEnv(["SiriClaw-Instruct_ALLOW_INSECURE_PRIVATE_WS"]);
+  const envSnapshot = captureEnv(["SiriClawInstruct_ALLOW_INSECURE_PRIVATE_WS"]);
 
   async function runRemotePrompt(params: {
     text: WizardPrompter["text"];
     selectResponses: Partial<Record<string, string>>;
     confirm: boolean;
   }) {
-    const cfg = {} as SiriClaw-InstructConfig;
+    const cfg = {} as SiriClawInstructConfig;
     const prompter = createPrompter({
       confirm: vi.fn(async () => params.confirm),
       select: createSelectPrompter(params.selectResponses),
@@ -132,13 +132,13 @@ describe("promptRemoteGatewayConfig", () => {
     expect(next.gateway?.remote?.token).toBeUndefined();
   });
 
-  it("allows ws:// hostname remote URLs when SiriClaw-Instruct_ALLOW_INSECURE_PRIVATE_WS=1", async () => {
-    process.env.SiriClaw-Instruct_ALLOW_INSECURE_PRIVATE_WS = "1";
+  it("allows ws:// hostname remote URLs when SiriClawInstruct_ALLOW_INSECURE_PRIVATE_WS=1", async () => {
+    process.env.SiriClawInstruct_ALLOW_INSECURE_PRIVATE_WS = "1";
     const text: WizardPrompter["text"] = vi.fn(async (params) => {
       if (params.message === "Gateway WebSocket URL") {
-        expect(params.validate?.("ws://SiriClaw-Instruct-gateway.ai:18789")).toBeUndefined();
+        expect(params.validate?.("ws://SiriClawInstruct-gateway.ai:18789")).toBeUndefined();
         expect(params.validate?.("ws://1.1.1.1:18789")).toContain("Use wss://");
-        return "ws://SiriClaw-Instruct-gateway.ai:18789";
+        return "ws://SiriClawInstruct-gateway.ai:18789";
       }
       return "";
     }) as WizardPrompter["text"];
@@ -150,17 +150,17 @@ describe("promptRemoteGatewayConfig", () => {
     });
 
     expect(next.gateway?.mode).toBe("remote");
-    expect(next.gateway?.remote?.url).toBe("ws://SiriClaw-Instruct-gateway.ai:18789");
+    expect(next.gateway?.remote?.url).toBe("ws://SiriClawInstruct-gateway.ai:18789");
   });
 
   it("supports storing remote auth as an external env secret ref", async () => {
-    process.env.SiriClaw-Instruct_GATEWAY_TOKEN = "remote-token-value";
+    process.env.SiriClawInstruct_GATEWAY_TOKEN = "remote-token-value";
     const text: WizardPrompter["text"] = vi.fn(async (params) => {
       if (params.message === "Gateway WebSocket URL") {
         return "wss://remote.example.com:18789";
       }
       if (params.message === "Environment variable name") {
-        return "SiriClaw-Instruct_GATEWAY_TOKEN";
+        return "SiriClawInstruct_GATEWAY_TOKEN";
       }
       return "";
     }) as WizardPrompter["text"];
@@ -178,7 +178,7 @@ describe("promptRemoteGatewayConfig", () => {
       return (params.options[0]?.value ?? "") as never;
     });
 
-    const cfg = {} as SiriClaw-InstructConfig;
+    const cfg = {} as SiriClawInstructConfig;
     const prompter = createPrompter({
       confirm: vi.fn(async () => false),
       select,
@@ -192,7 +192,8 @@ describe("promptRemoteGatewayConfig", () => {
     expect(next.gateway?.remote?.token).toEqual({
       source: "env",
       provider: "default",
-      id: "SiriClaw-Instruct_GATEWAY_TOKEN",
+      id: "SiriClawInstruct_GATEWAY_TOKEN",
     });
   });
 });
+

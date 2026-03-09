@@ -4,11 +4,11 @@ import { VERSION } from "../version.js";
 import type { ConfigUiHint, ConfigUiHints } from "./schema.hints.js";
 import { applySensitiveHints, buildBaseHints, mapSensitivePaths } from "./schema.hints.js";
 import { applyDerivedTags } from "./schema.tags.js";
-import { SiriClaw-InstructSchema } from "./zod-schema.js";
+import { SiriClawInstructSchema } from "./zod-schema.js";
 
 export type { ConfigUiHint, ConfigUiHints } from "./schema.hints.js";
 
-export type ConfigSchema = ReturnType<typeof SiriClaw-InstructSchema.toJSONSchema>;
+export type ConfigSchema = ReturnType<typeof SiriClawInstructSchema.toJSONSchema>;
 
 type JsonSchemaNode = Record<string, unknown>;
 
@@ -430,12 +430,12 @@ function buildBaseConfigSchema(): ConfigSchemaResponse {
   if (cachedBase) {
     return cachedBase;
   }
-  const schema = SiriClaw-InstructSchema.toJSONSchema({
+  const schema = SiriClawInstructSchema.toJSONSchema({
     target: "draft-07",
     unrepresentable: "any",
   });
-  schema.title = "SiriClaw-InstructConfig";
-  const hints = applyDerivedTags(mapSensitivePaths(SiriClaw-InstructSchema, "", buildBaseHints()));
+  schema.title = "SiriClawInstructConfig";
+  const hints = applyDerivedTags(mapSensitivePaths(SiriClawInstructSchema, "", buildBaseHints()));
   const next = {
     schema: stripChannelSchema(schema),
     uiHints: hints,
@@ -709,3 +709,4 @@ export function lookupConfigSchema(
     children: buildLookupChildren(current, normalizedPath, response.uiHints),
   };
 }
+

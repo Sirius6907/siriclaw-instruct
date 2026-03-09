@@ -10,8 +10,8 @@ import {
 
 describe("avatar policy", () => {
   it("accepts workspace-relative avatar paths and rejects URI schemes", () => {
-    expect(isWorkspaceRelativeAvatarPath("avatars/SiriClaw-Instruct.png")).toBe(true);
-    expect(isWorkspaceRelativeAvatarPath("C:\\\\avatars\\\\SiriClaw-Instruct.png")).toBe(true);
+    expect(isWorkspaceRelativeAvatarPath("avatars/SiriClawInstruct.png")).toBe(true);
+    expect(isWorkspaceRelativeAvatarPath("C:\\\\avatars\\\\SiriClawInstruct.png")).toBe(true);
     expect(isWorkspaceRelativeAvatarPath("https://example.com/avatar.png")).toBe(false);
     expect(isWorkspaceRelativeAvatarPath("data:image/png;base64,AAAA")).toBe(false);
     expect(isWorkspaceRelativeAvatarPath("~/avatar.png")).toBe(false);
@@ -24,8 +24,8 @@ describe("avatar policy", () => {
   });
 
   it("detects avatar-like path strings", () => {
-    expect(looksLikeAvatarPath("avatars/SiriClaw-Instruct.svg")).toBe(true);
-    expect(looksLikeAvatarPath("SiriClaw-Instruct.webp")).toBe(true);
+    expect(looksLikeAvatarPath("avatars/SiriClawInstruct.svg")).toBe(true);
+    expect(looksLikeAvatarPath("SiriClawInstruct.webp")).toBe(true);
     expect(looksLikeAvatarPath("A")).toBe(false);
   });
 
@@ -41,3 +41,4 @@ describe("avatar policy", () => {
     expect(resolveAvatarMime("a.bin")).toBe("application/octet-stream");
   });
 });
+

@@ -7,7 +7,7 @@ import { Mock, vi } from "vitest";
 import type { MsgContext } from "../auto-reply/templating.js";
 import type { GetReplyOptions, ReplyPayload } from "../auto-reply/types.js";
 import type { ChannelPlugin, ChannelOutboundAdapter } from "../channels/plugins/types.js";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
 import type { AgentBinding } from "../config/types.agents.js";
 import type { HooksConfig } from "../config/types.hooks.js";
@@ -25,7 +25,7 @@ type StubChannelOptions = {
 type GetReplyFromConfigFn = (
   ctx: MsgContext,
   opts?: GetReplyOptions,
-  configOverride?: SiriClaw-InstructConfig,
+  configOverride?: SiriClawInstructConfig,
 ) => Promise<ReplyPayload | ReplyPayload[] | undefined>;
 
 const createStubOutboundAdapter = (channelId: ChannelPlugin["id"]): ChannelOutboundAdapter => ({
@@ -197,12 +197,12 @@ export const resetTestPluginRegistry = () => {
 };
 
 const testConfigRoot = {
-  value: path.join(os.tmpdir(), `SiriClaw-Instruct-gateway-test-${process.pid}-${crypto.randomUUID()}`),
+  value: path.join(os.tmpdir(), `SiriClawInstruct-gateway-test-${process.pid}-${crypto.randomUUID()}`),
 };
 
 export const setTestConfigRoot = (root: string) => {
   testConfigRoot.value = root;
-  process.env.SiriClaw-Instruct_CONFIG_PATH = path.join(root, "SiriClaw-Instruct.json");
+  process.env.SiriClawInstruct_CONFIG_PATH = path.join(root, "SiriClawInstruct.json");
 };
 
 export const testTailnetIPv4 = hoisted.testTailnetIPv4;
@@ -295,7 +295,7 @@ vi.mock("../config/sessions.js", async () => {
 
 vi.mock("../config/config.js", async () => {
   const actual = await vi.importActual<typeof import("../config/config.js")>("../config/config.js");
-  const resolveConfigPath = () => path.join(testConfigRoot.value, "SiriClaw-Instruct.json");
+  const resolveConfigPath = () => path.join(testConfigRoot.value, "SiriClawInstruct.json");
   const hashConfigRaw = (raw: string | null) =>
     crypto
       .createHash("sha256")
@@ -413,7 +413,7 @@ vi.mock("../config/config.js", async () => {
           : {};
       const defaults = {
         model: { primary: "anthropic/claude-opus-4-6" },
-        workspace: path.join(os.tmpdir(), "SiriClaw-Instruct-gateway-test"),
+        workspace: path.join(os.tmpdir(), "SiriClawInstruct-gateway-test"),
         ...fileDefaults,
         ...testState.agentConfig,
       };
@@ -604,11 +604,12 @@ vi.mock("../plugins/loader.js", async () => {
     await vi.importActual<typeof import("../plugins/loader.js")>("../plugins/loader.js");
   return {
     ...actual,
-    loadSiriClaw-InstructPlugins: () => pluginRegistryState.registry,
+    loadSiriClawInstructPlugins: () => pluginRegistryState.registry,
   };
 });
 
-process.env.SiriClaw-Instruct_SKIP_CHANNELS = "1";
-process.env.SiriClaw-Instruct_SKIP_CRON = "1";
-process.env.SiriClaw-Instruct_SKIP_CHANNELS = "1";
-process.env.SiriClaw-Instruct_SKIP_CRON = "1";
+process.env.SiriClawInstruct_SKIP_CHANNELS = "1";
+process.env.SiriClawInstruct_SKIP_CRON = "1";
+process.env.SiriClawInstruct_SKIP_CHANNELS = "1";
+process.env.SiriClawInstruct_SKIP_CRON = "1";
+

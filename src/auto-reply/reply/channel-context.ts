@@ -43,3 +43,4 @@ export function resolveChannelAccountId(params: DiscordAccountParams): string {
   const accountId = typeof params.ctx.AccountId === "string" ? params.ctx.AccountId.trim() : "";
   return accountId || "default";
 }
+

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 import type { GroupKeyResolution } from "../config/sessions.js";
 import { createInboundDebouncer } from "./inbound-debounce.js";
 import { resolveGroupRequireMention } from "./reply/groups.js";
@@ -326,9 +326,9 @@ describe("createInboundDebouncer", () => {
 
 describe("initSessionState BodyStripped", () => {
   it("prefers BodyForAgent over Body for group chats", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-sender-meta-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-sender-meta-"));
     const storePath = path.join(root, "sessions.json");
-    const cfg = { session: { store: storePath } } as SiriClaw-InstructConfig;
+    const cfg = { session: { store: storePath } } as SiriClawInstructConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -348,9 +348,9 @@ describe("initSessionState BodyStripped", () => {
   });
 
   it("prefers BodyForAgent over Body for direct chats", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClaw-Instruct-sender-meta-direct-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "SiriClawInstruct-sender-meta-direct-"));
     const storePath = path.join(root, "sessions.json");
-    const cfg = { session: { store: storePath } } as SiriClaw-InstructConfig;
+    const cfg = { session: { store: storePath } } as SiriClawInstructConfig;
 
     const result = await initSessionState({
       ctx: {
@@ -373,22 +373,22 @@ describe("mention helpers", () => {
   it("builds regexes and skips invalid patterns", () => {
     const regexes = buildMentionRegexes({
       messages: {
-        groupChat: { mentionPatterns: ["\\bSiriClaw-Instruct\\b", "(invalid"] },
+        groupChat: { mentionPatterns: ["\\bSiriClawInstruct\\b", "(invalid"] },
       },
     });
     expect(regexes).toHaveLength(1);
-    expect(regexes[0]?.test("SiriClaw-Instruct")).toBe(true);
+    expect(regexes[0]?.test("SiriClawInstruct")).toBe(true);
   });
 
   it("normalizes zero-width characters", () => {
-    expect(normalizeMentionText("open\u200bclaw")).toBe("SiriClaw-Instruct");
+    expect(normalizeMentionText("open\u200bclaw")).toBe("SiriClawInstruct");
   });
 
   it("matches patterns case-insensitively", () => {
     const regexes = buildMentionRegexes({
-      messages: { groupChat: { mentionPatterns: ["\\bSiriClaw-Instruct\\b"] } },
+      messages: { groupChat: { mentionPatterns: ["\\bSiriClawInstruct\\b"] } },
     });
-    expect(matchesMentionPatterns("SiriClaw-Instruct: hi", regexes)).toBe(true);
+    expect(matchesMentionPatterns("SiriClawInstruct: hi", regexes)).toBe(true);
   });
 
   it("uses per-agent mention patterns when configured", () => {
@@ -415,7 +415,7 @@ describe("mention helpers", () => {
 
 describe("resolveGroupRequireMention", () => {
   it("respects Discord guild/channel requireMention settings", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       channels: {
         discord: {
           guilds: {
@@ -446,7 +446,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("respects Slack channel requireMention settings", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       channels: {
         slack: {
           channels: {
@@ -471,7 +471,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("respects LINE prefixed group keys in reply-stage requireMention resolution", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       channels: {
         line: {
           groups: {
@@ -495,7 +495,7 @@ describe("resolveGroupRequireMention", () => {
   });
 
   it("preserves plugin-backed channel requireMention resolution", () => {
-    const cfg: SiriClaw-InstructConfig = {
+    const cfg: SiriClawInstructConfig = {
       channels: {
         bluebubbles: {
           groups: {
@@ -518,3 +518,4 @@ describe("resolveGroupRequireMention", () => {
     expect(resolveGroupRequireMention({ cfg, ctx, groupResolution })).toBe(false);
   });
 });
+

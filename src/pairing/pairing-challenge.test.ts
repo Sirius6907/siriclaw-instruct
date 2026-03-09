@@ -88,3 +88,4 @@ describe("issuePairingChallenge", () => {
     expect(onReplyError).toHaveBeenCalledTimes(1);
   });
 });
+

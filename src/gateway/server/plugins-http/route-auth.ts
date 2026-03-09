@@ -28,3 +28,4 @@ export function shouldEnforceGatewayAuthForPluginPath(
   }
   return matchedPluginRoutesRequireGatewayAuth(findMatchingPluginHttpRoutes(registry, pathContext));
 }
+

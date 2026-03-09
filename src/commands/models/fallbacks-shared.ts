@@ -1,5 +1,5 @@
 import { buildModelAliasIndex, resolveModelRefFromString } from "../../agents/model-selection.js";
-import type { SiriClaw-InstructConfig } from "../../config/config.js";
+import type { SiriClawInstructConfig } from "../../config/config.js";
 import { logConfigUpdated } from "../../config/logging.js";
 import { resolveAgentModelFallbackValues, toAgentModelListLike } from "../../config/model-input.js";
 import type { RuntimeEnv } from "../../runtime.js";
@@ -16,14 +16,14 @@ import {
 
 type DefaultsFallbackKey = "model" | "imageModel";
 
-function getFallbacks(cfg: SiriClaw-InstructConfig, key: DefaultsFallbackKey): string[] {
+function getFallbacks(cfg: SiriClawInstructConfig, key: DefaultsFallbackKey): string[] {
   return resolveAgentModelFallbackValues(cfg.agents?.defaults?.[key]);
 }
 
 function patchDefaultsFallbacks(
-  cfg: SiriClaw-InstructConfig,
+  cfg: SiriClawInstructConfig,
   params: { key: DefaultsFallbackKey; fallbacks: string[]; models?: Record<string, unknown> },
-): SiriClaw-InstructConfig {
+): SiriClawInstructConfig {
   const existing = toAgentModelListLike(cfg.agents?.defaults?.[params.key]);
   return {
     ...cfg,
@@ -153,3 +153,4 @@ export async function clearFallbacksCommand(
   logConfigUpdated(runtime);
   runtime.log(params.clearedMessage);
 }
+

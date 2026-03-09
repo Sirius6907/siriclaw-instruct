@@ -20,9 +20,9 @@ const NONCE_REFUSAL_MARKERS = [
   "can't comply",
   "can’t comply",
   "cannot comply",
-  "isn't a real SiriClaw-Instruct probe",
-  "is not a real SiriClaw-Instruct probe",
-  "not a real SiriClaw-Instruct probe",
+  "isn't a real SiriClawInstruct probe",
+  "is not a real SiriClawInstruct probe",
+  "not a real SiriClawInstruct probe",
   "no part of the system asks me",
 ];
 
@@ -104,3 +104,4 @@ export function shouldRetryExecReadProbe(params: {
   }
   return hasMalformedToolOutput(params.text);
 }
+

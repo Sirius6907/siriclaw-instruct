@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SiriClaw-InstructConfig } from "../config/config.js";
+import type { SiriClawInstructConfig } from "../config/config.js";
 
 const note = vi.hoisted(() => vi.fn());
 
@@ -9,7 +9,7 @@ vi.mock("../terminal/note.js", () => ({
 
 import { noteOpenAIOAuthTlsPrerequisites } from "./oauth-tls-preflight.js";
 
-function buildOpenAICodexOAuthConfig(): SiriClaw-InstructConfig {
+function buildOpenAICodexOAuthConfig(): SiriClawInstructConfig {
   return {
     auth: {
       profiles: {
@@ -93,3 +93,4 @@ describe("noteOpenAIOAuthTlsPrerequisites", () => {
     expect(note).not.toHaveBeenCalled();
   });
 });
+

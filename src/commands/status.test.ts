@@ -5,8 +5,8 @@ import { captureEnv } from "../test-utils/env.js";
 let envSnapshot: ReturnType<typeof captureEnv>;
 
 beforeAll(() => {
-  envSnapshot = captureEnv(["SiriClaw-Instruct_PROFILE"]);
-  process.env.SiriClaw-Instruct_PROFILE = "isolated";
+  envSnapshot = captureEnv(["SiriClawInstruct_PROFILE"]);
+  process.env.SiriClawInstruct_PROFILE = "isolated";
 });
 
 afterAll(() => {
@@ -215,7 +215,7 @@ vi.mock("../memory/manager.js", () => ({
         files: 2,
         chunks: 3,
         dirty: false,
-        workspaceDir: "/tmp/SiriClaw-Instruct",
+        workspaceDir: "/tmp/SiriClawInstruct",
         dbPath: "/tmp/memory.sqlite",
         provider: "openai",
         model: "text-embedding-3-small",
@@ -306,8 +306,8 @@ vi.mock("../gateway/session-utils.js", async (importOriginal) => {
     listAgentsForGateway: mocks.listAgentsForGateway,
   };
 });
-vi.mock("../infra/SiriClaw-Instruct-root.js", () => ({
-  resolveSiriClaw-InstructPackageRoot: vi.fn().mockResolvedValue("/tmp/SiriClaw-Instruct"),
+vi.mock("../infra/SiriClawInstruct-root.js", () => ({
+  resolveSiriClawInstructPackageRoot: vi.fn().mockResolvedValue("/tmp/SiriClawInstruct"),
 }));
 vi.mock("../infra/os-summary.js", () => ({
   resolveOsSummary: () => ({
@@ -319,11 +319,11 @@ vi.mock("../infra/os-summary.js", () => ({
 }));
 vi.mock("../infra/update-check.js", () => ({
   checkUpdateStatus: vi.fn().mockResolvedValue({
-    root: "/tmp/SiriClaw-Instruct",
+    root: "/tmp/SiriClawInstruct",
     installKind: "git",
     packageManager: "pnpm",
     git: {
-      root: "/tmp/SiriClaw-Instruct",
+      root: "/tmp/SiriClawInstruct",
       branch: "main",
       upstream: "origin/main",
       dirty: false,
@@ -334,8 +334,8 @@ vi.mock("../infra/update-check.js", () => ({
     deps: {
       manager: "pnpm",
       status: "ok",
-      lockfilePath: "/tmp/SiriClaw-Instruct/pnpm-lock.yaml",
-      markerPath: "/tmp/SiriClaw-Instruct/node_modules/.modules.yaml",
+      lockfilePath: "/tmp/SiriClawInstruct/pnpm-lock.yaml",
+      markerPath: "/tmp/SiriClawInstruct/node_modules/.modules.yaml",
     },
     registry: { latestVersion: "0.0.0" },
   }),
@@ -358,7 +358,7 @@ vi.mock("../daemon/service.js", () => ({
     readRuntime: async () => ({ status: "running", pid: 1234 }),
     readCommand: async () => ({
       programArguments: ["node", "dist/entry.js", "gateway"],
-      sourcePath: "/tmp/Library/LaunchAgents/ai.SiriClaw-Instruct.gateway.plist",
+      sourcePath: "/tmp/Library/LaunchAgents/ai.SiriClawInstruct.gateway.plist",
     }),
   }),
 }));
@@ -371,7 +371,7 @@ vi.mock("../daemon/node-service.js", () => ({
     readRuntime: async () => ({ status: "running", pid: 4321 }),
     readCommand: async () => ({
       programArguments: ["node", "dist/entry.js", "node-host"],
-      sourcePath: "/tmp/Library/LaunchAgents/ai.SiriClaw-Instruct.node.plist",
+      sourcePath: "/tmp/Library/LaunchAgents/ai.SiriClawInstruct.node.plist",
     }),
   }),
 }));
@@ -441,7 +441,7 @@ describe("statusCommand", () => {
   it("prints formatted lines otherwise", async () => {
     const logs = await runStatusAndGetLogs();
     for (const token of [
-      "SiriClaw-Instruct status",
+      "SiriClawInstruct status",
       "Overview",
       "Security audit",
       "Summary:",
@@ -466,14 +466,14 @@ describe("statusCommand", () => {
     expect(
       logs.some(
         (line) =>
-          line.includes("SiriClaw-Instruct status --all") ||
-          line.includes("SiriClaw-Instruct --profile isolated status --all"),
+          line.includes("SiriClawInstruct status --all") ||
+          line.includes("SiriClawInstruct --profile isolated status --all"),
       ),
     ).toBe(true);
   });
 
   it("shows gateway auth when reachable", async () => {
-    await withEnvVar("SiriClaw-Instruct_GATEWAY_TOKEN", "abcd1234", async () => {
+    await withEnvVar("SiriClawInstruct_GATEWAY_TOKEN", "abcd1234", async () => {
       mockProbeGatewayResult({
         ok: true,
         connectLatencyMs: 123,
@@ -650,3 +650,4 @@ describe("statusCommand", () => {
     }
   });
 });
+

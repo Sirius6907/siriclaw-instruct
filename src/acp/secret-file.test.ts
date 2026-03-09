@@ -5,7 +5,7 @@ import { createTrackedTempDirs } from "../test-utils/tracked-temp-dirs.js";
 import { MAX_SECRET_FILE_BYTES, readSecretFromFile } from "./secret-file.js";
 
 const tempDirs = createTrackedTempDirs();
-const createTempDir = () => tempDirs.make("SiriClaw-Instruct-secret-file-test-");
+const createTempDir = () => tempDirs.make("SiriClawInstruct-secret-file-test-");
 
 afterEach(async () => {
   await tempDirs.cleanup();
@@ -52,3 +52,4 @@ describe("readSecretFromFile", () => {
     );
   });
 });
+

@@ -102,3 +102,4 @@ describe("phase hooks merger", () => {
     expect(result?.appendSystemContext).toBe("append A\n\nappend B");
   });
 });
+

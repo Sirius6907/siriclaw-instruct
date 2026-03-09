@@ -11,8 +11,8 @@ settings:
     ENABLE_APP_INTENTS_METADATA_GENERATION: NO
 
 packages:
-  SiriClaw-InstructKit:
-    path: ../shared/SiriClaw-InstructKit
+  siriclaw-instruct-kit:
+    path: ../shared/siriclaw-instruct-kit
   Swabble:
     path: ../../Swabble
 
@@ -41,10 +41,10 @@ targets:
       - target: SiriClaw-InstructActivityWidget
         embed: true
       - target: SiriClaw-InstructWatchApp
-      - package: SiriClaw-InstructKit
-      - package: SiriClaw-InstructKit
+      - package: siriclaw-instruct-kit
+      - package: siriclaw-instruct-kit
         product: SiriClaw-InstructChatUI
-      - package: SiriClaw-InstructKit
+      - package: siriclaw-instruct-kit
         product: SiriClaw-InstructProtocol
       - package: Swabble
         product: SwabbleKit
@@ -139,7 +139,7 @@ targets:
     sources:
       - path: ShareExtension
     dependencies:
-      - package: SiriClaw-InstructKit
+      - package: siriclaw-instruct-kit
       - sdk: AppIntents.framework
     settings:
       base:
@@ -281,3 +281,5 @@ targets:
         CFBundleDisplayName: SiriClaw-InstructTests
         CFBundleShortVersionString: "2026.3.8"
         CFBundleVersion: "20260308"
+
+
