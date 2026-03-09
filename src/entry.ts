@@ -13,8 +13,8 @@ import { installProcessWarningFilter } from "./infra/warning-filter.js";
 import { attachChildProcessBridge } from "./process/child-process-bridge.js";
 
 const ENTRY_WRAPPER_PAIRS = [
-  { wrapperBasename: "SiriClawInstruct.mjs", entryBasename: "entry.js" },
-  { wrapperBasename: "SiriClawInstruct.js", entryBasename: "entry.js" },
+  { wrapperBasename: "siriclaw-instruct.mjs", entryBasename: "entry.js" },
+  { wrapperBasename: "siriclaw-instruct.js", entryBasename: "entry.js" },
 ] as const;
 
 function shouldForceReadOnlyAuthStore(argv: string[]): boolean {
@@ -188,4 +188,3 @@ if (
     }
   }
 }
-
