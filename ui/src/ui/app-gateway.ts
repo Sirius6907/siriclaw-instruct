@@ -200,7 +200,7 @@ export function connectGateway(host: GatewayHost) {
     url: host.settings.gatewayUrl,
     token: host.settings.token.trim() ? host.settings.token : undefined,
     password: host.password.trim() ? host.password : undefined,
-    clientName: "SiriClaw-Instruct-control-ui",
+    clientName: "siriclaw-instruct-control-ui",
     clientVersion,
     mode: "webchat",
     instanceId: host.clientInstanceId,

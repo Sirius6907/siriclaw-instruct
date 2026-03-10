@@ -1,16 +1,16 @@
 export const GATEWAY_CLIENT_IDS = {
   WEBCHAT_UI: "webchat-ui",
-  CONTROL_UI: "SiriClawInstruct-control-ui",
+  CONTROL_UI: "siriclaw-instruct-control-ui",
   WEBCHAT: "webchat",
   CLI: "cli",
   GATEWAY_CLIENT: "gateway-client",
-  MACOS_APP: "SiriClawInstruct-macos",
-  IOS_APP: "SiriClawInstruct-ios",
-  ANDROID_APP: "SiriClawInstruct-android",
+  MACOS_APP: "siriclaw-instruct-macos",
+  IOS_APP: "siriclaw-instruct-ios",
+  ANDROID_APP: "siriclaw-instruct-android",
   NODE_HOST: "node-host",
   TEST: "test",
   FINGERPRINT: "fingerprint",
-  PROBE: "SiriClawInstruct-probe",
+  PROBE: "siriclaw-instruct-probe",
 } as const;
 
 export type GatewayClientId = (typeof GATEWAY_CLIENT_IDS)[keyof typeof GATEWAY_CLIENT_IDS];
@@ -84,4 +84,3 @@ export function hasGatewayClientCap(
   }
   return caps.includes(cap);
 }
-
