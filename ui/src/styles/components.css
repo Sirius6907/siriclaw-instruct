@@ -36,9 +36,11 @@
 .card {
   border: 1px solid var(--border);
   background: var(--card);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
   border-radius: var(--radius-lg);
   padding: 20px;
-  animation: rise 0.35s var(--ease-out) backwards;
+  animation: rise 0.45s var(--ease-spring) backwards;
   transition:
     border-color var(--duration-normal) var(--ease-out),
     box-shadow var(--duration-normal) var(--ease-out),
@@ -75,12 +77,15 @@
 
 .stat {
   background: var(--card);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
   border-radius: var(--radius-md);
-  padding: 14px 16px;
+  padding: 18px 20px;
   border: 1px solid var(--border);
   transition:
     border-color var(--duration-normal) var(--ease-out),
-    box-shadow var(--duration-normal) var(--ease-out);
+    box-shadow var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out);
   box-shadow: inset 0 1px 0 var(--card-highlight);
 }
 
@@ -162,9 +167,11 @@
 .account-card {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 12px;
-  background: var(--bg-elevated);
-  transition: border-color var(--duration-fast) ease;
+  padding: 16px;
+  background: var(--card);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
 }
 
 .account-card:hover {
@@ -265,8 +272,7 @@
   width: var(--theme-item);
   height: var(--theme-item);
   border-radius: var(--radius-full);
-  transform: translateY(-50%)
-    translateX(calc(var(--theme-index, 0) * (var(--theme-item) + var(--theme-gap))));
+  transform: translateY(-50%) translateX(calc(var(--theme-index, 0) * (var(--theme-item) + var(--theme-gap))));
   background: var(--accent);
   transition: transform var(--duration-normal) var(--ease-out);
   z-index: 0;
@@ -383,18 +389,19 @@
 }
 
 .btn.primary {
-  border-color: var(--accent);
-  background: var(--accent);
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent) 0%, #0088ff 100%);
   color: var(--primary-foreground);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 14px var(--accent-glow);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
 .btn.primary:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
+  background: linear-gradient(135deg, var(--accent-hover) 0%, #33aaff 100%);
+  border-color: transparent;
   box-shadow:
     var(--shadow-md),
-    0 0 20px var(--accent-glow);
+    0 0 24px var(--accent-glow);
 }
 
 /* Keyboard shortcut badge (shadcn style) */
@@ -489,7 +496,8 @@
 .field textarea:focus,
 .field select:focus {
   border-color: var(--ring);
-  box-shadow: var(--focus-ring);
+  box-shadow: var(--focus-glow);
+  outline: none;
 }
 
 .field select {
@@ -839,11 +847,11 @@
   position: relative;
 }
 
-.cron-filter-dropdown__details > summary {
+.cron-filter-dropdown__details>summary {
   list-style: none;
 }
 
-.cron-filter-dropdown__details > summary::-webkit-details-marker {
+.cron-filter-dropdown__details>summary::-webkit-details-marker {
   display: none;
 }
 
@@ -1768,10 +1776,12 @@
 }
 
 @keyframes chatStreamPulse {
+
   0%,
   100% {
     border-color: var(--border);
   }
+
   50% {
     border-color: var(--accent);
   }
@@ -1801,7 +1811,7 @@
   height: 12px;
 }
 
-.chat-reading-indicator__dots > span {
+.chat-reading-indicator__dots>span {
   display: inline-block;
   width: 6px;
   height: 6px;
@@ -1813,21 +1823,23 @@
   will-change: transform, opacity;
 }
 
-.chat-reading-indicator__dots > span:nth-child(2) {
+.chat-reading-indicator__dots>span:nth-child(2) {
   animation-delay: 0.15s;
 }
 
-.chat-reading-indicator__dots > span:nth-child(3) {
+.chat-reading-indicator__dots>span:nth-child(3) {
   animation-delay: 0.3s;
 }
 
 @keyframes chatReadingDot {
+
   0%,
   80%,
   100% {
     opacity: 0.4;
     transform: translateY(0);
   }
+
   40% {
     opacity: 1;
     transform: translateY(-3px);
@@ -1835,7 +1847,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chat-reading-indicator__dots > span {
+  .chat-reading-indicator__dots>span {
     animation: none;
     opacity: 0.6;
   }
@@ -2363,7 +2375,7 @@
   min-width: 0;
 }
 
-.agent-kv > div {
+.agent-kv>div {
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -2543,7 +2555,7 @@
   gap: 8px;
 }
 
-.agent-skills-header > span:last-child {
+.agent-skills-header>span:last-child {
   margin-left: auto;
 }
 
