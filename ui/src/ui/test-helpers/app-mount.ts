@@ -4,7 +4,7 @@ import type { SiriClawInstructApp } from "../app.ts";
 
 export function mountApp(pathname: string) {
   window.history.replaceState({}, "", pathname);
-  const app = document.createElement("SiriClaw-Instruct-app") as SiriClawInstructApp;
+  const app = document.createElement("siriclaw-instruct-app") as SiriClawInstructApp;
   app.connect = () => {
     // no-op: avoid real gateway WS connections in browser tests
   };
