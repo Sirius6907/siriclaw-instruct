@@ -10,8 +10,8 @@ services:
       CLAUDE_WEB_SESSION_KEY: ${CLAUDE_WEB_SESSION_KEY:-}
       CLAUDE_WEB_COOKIE: ${CLAUDE_WEB_COOKIE:-}
     volumes:
-      - ${SIRICLAW_CONFIG_DIR}:/home/node/.SiriClaw-Instruct
-      - ${SIRICLAW_WORKSPACE_DIR}:/home/node/.SiriClaw-Instruct/workspace
+      - ${SIRICLAW_CONFIG_DIR}:/home/node/.SiriClawInstruct
+      - ${SIRICLAW_WORKSPACE_DIR}:/home/node/.SiriClawInstruct/workspace
       ## Uncomment the lines below to enable sandbox isolation
       ## (agents.defaults.sandbox). Requires Docker CLI in the image
       ## (build with --build-arg SIRICLAW_INSTALL_DOCKER_CLI=1) or use
@@ -67,12 +67,11 @@ services:
       CLAUDE_WEB_SESSION_KEY: ${CLAUDE_WEB_SESSION_KEY:-}
       CLAUDE_WEB_COOKIE: ${CLAUDE_WEB_COOKIE:-}
     volumes:
-      - ${SIRICLAW_CONFIG_DIR}:/home/node/.SiriClaw-Instruct
-      - ${SIRICLAW_WORKSPACE_DIR}:/home/node/.SiriClaw-Instruct/workspace
+      - ${SIRICLAW_CONFIG_DIR}:/home/node/.SiriClawInstruct
+      - ${SIRICLAW_WORKSPACE_DIR}:/home/node/.SiriClawInstruct/workspace
     stdin_open: true
     tty: true
     init: true
     entrypoint: ["node", "siriclaw-instruct.mjs"]
     depends_on:
       - siriclaw-instruct-gateway
-
